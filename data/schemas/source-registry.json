@@ -1,0 +1,138 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/source-registry.json",
+  "title": "Source Registry Entry",
+  "description": "Registry of verified information sources with tier assignment, domain mappings, and metadata. Extended per Research Taxonomy v2.0.",
+  "type": "object",
+  "required": [
+    "id",
+    "tier",
+    "type",
+    "url",
+    "tags",
+    "lang",
+    "addedDate",
+    "lastVerified",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique kebab-case identifier"
+    },
+    "tier": {
+      "type": "integer",
+      "enum": [1, 2, 3],
+      "description": "Trust tier per contract §3.1"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "rss",
+        "github",
+        "arxiv",
+        "conference",
+        "security",
+        "api-docs",
+        "blog",
+        "benchmark-repo"
+      ],
+      "description": "Source type / discovery mechanism"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Primary source URL"
+    },
+    "repo": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$",
+      "description": "GitHub repo (owner/name) for github type"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Topic tags for routing"
+    },
+    "lang": {
+      "type": "string",
+      "enum": ["en", "nl"],
+      "description": "Primary language of source"
+    },
+    "addedDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When source was added to registry"
+    },
+    "lastVerified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last verification timestamp"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "stale", "deprecated", "blocked"],
+      "description": "Current operational status"
+    },
+    "trustWeight": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Override trust weight (default by tier)"
+    },
+    "maxAgeMonths": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Override max age for temporal eligibility"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Editorial notes"
+    },
+    "researchDomains": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "agentic-ai-software-engineering",
+          "models-inference-scientific",
+          "architecture-security-governance",
+          "enterprise-adoption-organizational",
+          "economics-business-impact",
+          "independent-research-advisory"
+        ]
+      },
+      "description": "Research domains this source covers (per Research Taxonomy v2.0). Sources may belong to multiple domains.",
+      "minItems": 1
+    },
+    "subdomainCoverage": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^DOM-\\d{2}-SD\\d{2}$"
+      },
+      "description": "Specific subdomain IDs covered (e.g., DOM-01-SD03 for Autonomous Coding Agents). References Research Taxonomy v2.0 stable identifiers."
+    },
+    "sourceFamily": {
+      "type": "string",
+      "description": "Source family identifier for cross-referencing with Research Taxonomy source_family_domain_map (e.g., 'github-releases-agent-frameworks', 'major-ai-lab-blogs')"
+    },
+    "ringAffinity": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "enum": [1, 2, 3]
+      },
+      "description": "Discovery ring(s) this source primarily feeds (1=Official, 2=Research, 3=Community). May span multiple rings.",
+      "minItems": 1,
+      "maxItems": 3
+    },
+    "crossDomainSignals": {
+      "type": "boolean",
+      "description": "Whether this source regularly produces content spanning multiple research domains (interdisciplinary signal)"
+    }
+  },
+  "additionalProperties": false
+}

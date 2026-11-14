@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/publication-history.json",
+  "title": "Publication History Entry",
+  "description": "Immutable record of every published item with all metadata for traceability",
+  "type": "object",
+  "required": [
+    "id",
+    "dossierId",
+    "slug",
+    "type",
+    "locale",
+    "publishedAt",
+    "authors",
+    "tags",
+    "evidenceLevel",
+    "contentHash",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^pub_[a-z0-9]{16}$",
+      "description": "Unique publication ID"
+    },
+    "dossierId": {
+      "type": "string",
+      "description": "Source fact dossier"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "URL slug"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "architectural-essay",
+        "pattern-catalog",
+        "adr",
+        "model-evaluation",
+        "tooling-deep-dive",
+        "daily-brief"
+      ],
+      "description": "Publication format"
+    },
+    "locale": {
+      "type": "string",
+      "enum": ["en", "nl"],
+      "description": "Language locale"
+    },
+    "title": {
+      "type": "string",
+      "description": "Published title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Published description"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Actual publication timestamp"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp"
+    },
+    "authors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Author identifiers"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Topic tags"
+    },
+    "evidenceLevel": {
+      "type": "string",
+      "enum": ["L1", "L2", "L3"],
+      "description": "Minimum verification level at publication"
+    },
+    "readingTime": {
+      "type": "integer",
+      "description": "Estimated reading time in minutes"
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "SHA-256 of published content for integrity"
+    },
+    "dossierHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "Dossier hash at time of publication"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["published", "updated", "retracted", "superseded"],
+      "description": "Current publication status"
+    },
+    "retractionReason": {
+      "type": "string",
+      "description": "If retracted, reason"
+    },
+    "supersededBy": {
+      "type": "string",
+      "description": "If superseded, new publication ID"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical publication URL"
+    },
+    "rssGuid": {
+      "type": "string",
+      "description": "RSS feed GUID for syndication"
+    }
+  },
+  "additionalProperties": false
+}

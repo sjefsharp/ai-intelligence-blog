@@ -23,11 +23,22 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+# Playwright output
+test-results/
+playwright-report/
+
 # Hermes agent state
 .hermes/
 
 # Impeccable design tool state
 .impeccable/
 
-# Generated pipeline runtime data (regenerate via pnpm run:* scripts)
-data/
+# Generated pipeline runtime data (regenerate via pnpm run:* scripts).
+# Re-include the versioned contracts and source registries the tests read.
+data/*
+!data/schemas/
+!data/schemas/**
+!data/research-taxonomy.yml
+!data/sources.yml
+!data/fact-dossiers/
+!data/fact-dossiers/**

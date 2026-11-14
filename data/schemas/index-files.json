@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/index-files.json",
+  "title": "Index Files",
+  "description": "Cross-reference indices for fast lookup without database",
+  "type": "object",
+  "properties": {
+    "sourceIndex": {
+      "type": "object",
+      "description": "Map sourceId -> { tier, type, status, tags, lastVerified }",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "tier": { "type": "integer" },
+          "type": { "type": "string" },
+          "status": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "lastVerified": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "discoveryIndex": {
+      "type": "object",
+      "description": "Map discoveryId -> { sourceId, status, candidateId, discoveredAt }",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "sourceId": { "type": "string" },
+          "status": { "type": "string" },
+          "candidateId": { "type": "string" },
+          "discoveredAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "candidateIndex": {
+      "type": "object",
+      "description": "Map candidateId -> { status, proposedType, tier, deadline, assignedAuthor }",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string" },
+          "proposedType": { "type": "string" },
+          "tier": { "type": "integer" },
+          "deadline": { "type": "string", "format": "date-time" },
+          "assignedAuthor": { "type": "string" }
+        }
+      }
+    },
+    "claimIndex": {
+      "type": "object",
+      "description": "Map claimId -> { candidateId, sourceId, verification, status }",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "candidateId": { "type": "string" },
+          "sourceId": { "type": "string" },
+          "verification": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      }
+    },
+    "dossierIndex": {
+      "type": "object",
+      "description": "Map dossierId -> { candidateId, slug, type, locale, status, contentHash }",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "candidateId": { "type": "string" },
+          "slug": { "type": "string" },
+          "type": { "type": "string" },
+          "locale": { "type": "string" },
+          "status": { "type": "string" },
+          "contentHash": { "type": "string" }
+        }
+      }
+    },
+    "publicationIndex": {
+      "type": "object",
+      "description": "Map publicationId -> { dossierId, slug, type, locale, publishedAt, status }",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "dossierId": { "type": "string" },
+          "slug": { "type": "string" },
+          "type": { "type": "string" },
+          "locale": { "type": "string" },
+          "publishedAt": { "type": "string", "format": "date-time" },
+          "status": { "type": "string" }
+        }
+      }
+    },
+    "tagIndex": {
+      "type": "object",
+      "description": "Map tag -> [publicationIds]",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "authorIndex": {
+      "type": "object",
+      "description": "Map authorId -> [publicationIds]",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": false
+}

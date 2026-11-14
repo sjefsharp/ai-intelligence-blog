@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/edition-identity.json",
+  "title": "Edition Identity",
+  "description": "Edition identity and reporting window. Fixed by edition date (Europe/Amsterdam), never by execution time.",
+  "type": "object",
+  "properties": {
+    "editionId": {
+      "type": "string",
+      "pattern": "^edition_\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "editionDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "editionWindow": {
+      "type": "object",
+      "properties": {
+        "editionDate": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "start": {
+          "type": "string",
+          "minLength": 1
+        },
+        "end": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timezone": {
+          "type": "string",
+          "const": "Europe/Amsterdam"
+        },
+        "durationHours": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 25
+        }
+      },
+      "required": ["editionDate", "start", "end", "timezone", "durationHours"],
+      "additionalProperties": false
+    },
+    "reportingWindow": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string",
+          "minLength": 1
+        },
+        "end": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timezone": {
+          "type": "string",
+          "const": "Europe/Amsterdam"
+        }
+      },
+      "required": ["start", "end", "timezone"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["editionId", "editionDate", "editionWindow", "reportingWindow"],
+  "additionalProperties": false
+}

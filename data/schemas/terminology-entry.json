@@ -1,0 +1,701 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/terminology-entry.json",
+  "title": "Terminology Entry",
+  "description": "Authoritative terminology entry with bilingual definitions, relationships, evidence, and lifecycle tracking.",
+  "type": "object",
+  "properties": {
+    "entryId": {
+      "type": "string",
+      "pattern": "^thes_[a-z0-9]{16}$"
+    },
+    "canonicalTerm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "originalLanguage": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "en"
+        },
+        {
+          "type": "string",
+          "const": "nl"
+        }
+      ]
+    },
+    "preferredTerm": {
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nl": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["en", "nl"],
+      "additionalProperties": false
+    },
+    "acronyms": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "acronym": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expansion": {
+            "type": "object",
+            "properties": {
+              "en": {
+                "type": "string",
+                "minLength": 1
+              },
+              "nl": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": ["en", "nl"],
+            "additionalProperties": false
+          },
+          "context": {
+            "type": "string"
+          },
+          "authority": {
+            "type": "string"
+          }
+        },
+        "required": ["acronym", "expansion"],
+        "additionalProperties": false
+      }
+    },
+    "aliases": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nl": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "definition": {
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nl": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["en", "nl"],
+      "additionalProperties": false
+    },
+    "researchDomains": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "domainId": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "subdomainIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^DOM-\\d{2}-SD\\d{2}$"
+            }
+          },
+          "primary": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "required": ["domainId", "primary"],
+        "additionalProperties": false
+      }
+    },
+    "relationships": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "pattern": "^thes_[a-z0-9]{16}$"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "synonym-of",
+              "alias-of",
+              "broader-than",
+              "narrower-than",
+              "related-to",
+              "part-of",
+              "extends",
+              "contrasts-with",
+              "supersedes",
+              "conflicts-with"
+            ]
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sourceId": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9-]+$"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "tier": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "const": 1
+                    },
+                    {
+                      "type": "number",
+                      "const": 2
+                    },
+                    {
+                      "type": "number",
+                      "const": 3
+                    }
+                  ]
+                },
+                "section": {
+                  "type": "string"
+                },
+                "accessedAt": {
+                  "type": "string"
+                },
+                "retrievalStatus": {
+                  "type": "string",
+                  "enum": [
+                    "CHECKED_FOUND",
+                    "CHECKED_NONE",
+                    "INACCESSIBLE",
+                    "NOT_CHECKED",
+                    "ERROR"
+                  ]
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              },
+              "required": [
+                "sourceId",
+                "url",
+                "title",
+                "tier",
+                "accessedAt",
+                "retrievalStatus",
+                "confidence"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "confidence": {
+            "default": 1,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "establishedAt": {
+            "type": "string"
+          },
+          "establishedBy": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "targetId",
+          "type",
+          "rationale",
+          "confidence",
+          "establishedAt",
+          "establishedBy"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "sources": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tier": {
+            "anyOf": [
+              {
+                "type": "number",
+                "const": 1
+              },
+              {
+                "type": "number",
+                "const": 2
+              },
+              {
+                "type": "number",
+                "const": 3
+              }
+            ]
+          },
+          "section": {
+            "type": "string"
+          },
+          "accessedAt": {
+            "type": "string"
+          },
+          "retrievalStatus": {
+            "type": "string",
+            "enum": [
+              "CHECKED_FOUND",
+              "CHECKED_NONE",
+              "INACCESSIBLE",
+              "NOT_CHECKED",
+              "ERROR"
+            ]
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "sourceId",
+          "url",
+          "title",
+          "tier",
+          "accessedAt",
+          "retrievalStatus",
+          "confidence"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "evidenceClassification": {
+      "type": "string",
+      "enum": [
+        "VERIFIED_FACT",
+        "VENDOR_CLAIM",
+        "RESEARCH_FINDING",
+        "ORIGINAL_REPORTING",
+        "EXPERT_INTERPRETATION",
+        "INFERENCE",
+        "SPECULATION",
+        "UNVERIFIED"
+      ]
+    },
+    "verificationStatus": {
+      "type": "string",
+      "enum": [
+        "verified",
+        "partially-verified",
+        "unverified",
+        "contradicted",
+        "insufficient-evidence",
+        "downgraded",
+        "retracted",
+        "superseded"
+      ]
+    },
+    "verificationConfidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "standards": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "versionApplicability": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "applicable": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": ["version", "applicable"],
+        "additionalProperties": false
+      }
+    },
+    "forbidden": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nl": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "lifecycleStatus": {
+      "type": "string",
+      "enum": [
+        "CANDIDATE",
+        "VERIFIED",
+        "ESTABLISHED",
+        "REVISED",
+        "DEPRECATED",
+        "SUPERSEDED"
+      ]
+    },
+    "firstObservedAt": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "firstVerifiedAt": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "lastReviewedAt": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "establishedAt": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "deprecatedAt": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "supersededBy": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^thes_[a-z0-9]{16}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "revisionHistory": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "revisionId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "changeType": {
+            "type": "string",
+            "enum": [
+              "ADD",
+              "CONFIRM",
+              "REFINE",
+              "MERGE",
+              "DEPRECATE",
+              "SUPERSEDE",
+              "NONE"
+            ]
+          },
+          "revisedAt": {
+            "type": "string"
+          },
+          "revisedBy": {
+            "type": "string",
+            "minLength": 1
+          },
+          "previousLifecycleStatus": {
+            "type": "string",
+            "enum": [
+              "CANDIDATE",
+              "VERIFIED",
+              "ESTABLISHED",
+              "REVISED",
+              "DEPRECATED",
+              "SUPERSEDED"
+            ]
+          },
+          "newLifecycleStatus": {
+            "type": "string",
+            "enum": [
+              "CANDIDATE",
+              "VERIFIED",
+              "ESTABLISHED",
+              "REVISED",
+              "DEPRECATED",
+              "SUPERSEDED"
+            ]
+          },
+          "fieldChanged": {
+            "type": "string"
+          },
+          "previousValue": {
+            "type": "string"
+          },
+          "newValue": {
+            "type": "string"
+          },
+          "justification": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sourceId": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9-]+$"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "tier": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "const": 1
+                    },
+                    {
+                      "type": "number",
+                      "const": 2
+                    },
+                    {
+                      "type": "number",
+                      "const": 3
+                    }
+                  ]
+                },
+                "section": {
+                  "type": "string"
+                },
+                "accessedAt": {
+                  "type": "string"
+                },
+                "retrievalStatus": {
+                  "type": "string",
+                  "enum": [
+                    "CHECKED_FOUND",
+                    "CHECKED_NONE",
+                    "INACCESSIBLE",
+                    "NOT_CHECKED",
+                    "ERROR"
+                  ]
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              },
+              "required": [
+                "sourceId",
+                "url",
+                "title",
+                "tier",
+                "accessedAt",
+                "retrievalStatus",
+                "confidence"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "relatedEntryIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^thes_[a-z0-9]{16}$"
+            }
+          }
+        },
+        "required": [
+          "revisionId",
+          "changeType",
+          "revisedAt",
+          "revisedBy",
+          "justification"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "historicalObservations": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "sourceId": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "context": {
+            "type": "string",
+            "minLength": 1
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "isFirstObserved": {
+            "default": false,
+            "type": "boolean"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "date",
+          "sourceId",
+          "sourceUrl",
+          "context",
+          "confidence",
+          "isFirstObserved"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "updatedAt": {
+      "type": "string"
+    },
+    "createdBy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tags": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "entryId",
+    "canonicalTerm",
+    "originalLanguage",
+    "preferredTerm",
+    "acronyms",
+    "aliases",
+    "definition",
+    "researchDomains",
+    "relationships",
+    "sources",
+    "evidenceClassification",
+    "verificationStatus",
+    "verificationConfidence",
+    "standards",
+    "versionApplicability",
+    "forbidden",
+    "lifecycleStatus",
+    "firstVerifiedAt",
+    "lastReviewedAt",
+    "revisionHistory",
+    "historicalObservations",
+    "schemaVersion",
+    "createdAt",
+    "updatedAt",
+    "createdBy",
+    "tags"
+  ],
+  "additionalProperties": false
+}

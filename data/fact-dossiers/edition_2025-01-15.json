@@ -1,0 +1,4249 @@
+{
+  "candidates": [
+    {
+      "audit": {
+        "claimsVerifiedAt": "2025-01-15T06:00:00Z",
+        "consolidatedAt": "2026-11-11T22:03:52.662Z",
+        "consolidatedBy": "build-fact-dossier-script",
+        "discoveredAt": "2025-01-15T06:15:00Z",
+        "noveltyClassifiedAt": "2026-11-11T22:03:52.662Z",
+        "retrievedAt": "2025-01-15T06:15:00Z",
+        "revision": 1
+      },
+      "candidateId": "cand_0000000000000001",
+      "claims": [
+        {
+          "candidateId": "cand_0000000000000001",
+          "claimId": "claim_0000000000000001",
+          "claimStatement": "GitHub Copilot coding agent now delegates tasks to background agents with checkpointing.",
+          "claimType": "vendor-announcement",
+          "confidence": 0.5,
+          "contradictoryEvidence": [],
+          "evidenceClassification": "VENDOR_CLAIM",
+          "inclusionNote": "Included as a vendor assertion; NOT independently verified. Inclusion does not imply verification.",
+          "independentCorroboration": {
+            "established": false,
+            "note": "No independent corroboration established in the verification pipeline.",
+            "sourceIds": [],
+            "urls": []
+          },
+          "limitingEvidence": [],
+          "sourceProvenance": {
+            "firstDisclosureTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+            "publicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+            "retrievedAt": "2025-01-15T06:00:00Z",
+            "sourceId": "github-copilot-vscode",
+            "title": "GitHub Copilot coding agent adds background delegation",
+            "url": "https://github.blog/changelog/copilot-coding-agent-background-delegation",
+            "verificationTimestamp": "2025-01-15T06:00:00Z",
+            "verifiedBy": "synthetic-verifier"
+          },
+          "supportingEvidenceUrls": [
+            "https://github.blog/changelog/copilot-coding-agent-background-delegation"
+          ],
+          "technicalContext": {
+            "agenticImplications": [
+              "Enables asynchronous multi-step coding workflows."
+            ],
+            "capabilities": ["background task delegation", "checkpointing"],
+            "implementationStatus": "preview",
+            "mechanism": "Background agent delegation with checkpointed sessions.",
+            "productVersion": "unknown",
+            "releaseMaturity": "preview"
+          },
+          "uncertainty": {
+            "assumptions": [],
+            "falsificationCriteria": [],
+            "unresolved": []
+          },
+          "verificationLevel": "L0",
+          "verificationMethods": ["primary-source-inspection"],
+          "verificationRationale": "Evidence classification: VENDOR_CLAIM. Verification status: unverified at level L0. Confidence: 0.50. Methods: primary-source-inspection.",
+          "verificationStatus": "unverified"
+        }
+      ],
+      "discoveryRings": [3],
+      "editionDate": "2025-01-15",
+      "editionId": "edition_2025-01-15",
+      "editorialReadiness": {
+        "availabilityMaturity": {
+          "evidence": [
+            "Implementation status: preview",
+            "Release maturity: preview"
+          ],
+          "level": "medium",
+          "traceableTo": ["claim_0000000000000001"]
+        },
+        "enterpriseEconomicImplications": {
+          "evidence": [
+            "No strategic or economic claim types recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000001"]
+        },
+        "evidenceLimitations": {
+          "evidence": [
+            "No contradictory evidence, blocking uncertainties, or access limitations recorded."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "claim_0000000000000001",
+            "github-copilot-vscode"
+          ]
+        },
+        "evidenceStrength": {
+          "evidence": [
+            "Average claim confidence: 0.50",
+            "Average verification level: 0.00 (L0-L3 scale)"
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "claim_0000000000000001",
+            "github-copilot-vscode"
+          ]
+        },
+        "generalizability": {
+          "evidence": [
+            "No research scope context recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000001"]
+        },
+        "materialNovelty": {
+          "evidence": [
+            "Inherited novelty classification: NEW (confidence 0.77)",
+            "Material information first publicly disclosed inside the edition window",
+            "Temporal eligibility: NEW_PASS"
+          ],
+          "level": "medium",
+          "traceableTo": ["cand_0000000000000001", "novelty-classification"]
+        },
+        "potentialOverlap": {
+          "evidence": [
+            "Shares a source with 1 other candidate(s)",
+            "Shares a technology with 1 other candidate(s)",
+            "Shares an organization with 1 other candidate(s)"
+          ],
+          "level": "high",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "cand_0000000000000002",
+            "cand_0000000000000003",
+            "cand_0000000000000004",
+            "cand_0000000000000005",
+            "cand_0000000000000006",
+            "cand_0000000000000007",
+            "cand_0000000000000008",
+            "cand_0000000000000009",
+            "cand_0000000000000010"
+          ]
+        },
+        "practicalEngineeringRelevance": {
+          "evidence": [
+            "Agentic workflow or software-release implications documented",
+            "Maps to the agentic AI & software engineering domain"
+          ],
+          "level": "high",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "claim_0000000000000001",
+            "github-copilot-vscode"
+          ]
+        },
+        "realWorldConsequences": {
+          "evidence": ["No applied claim types recorded for this candidate."],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000001"]
+        },
+        "selectionNote": "Descriptive indicators only — no editorial ranking, quotas, topic weights or publication decisions are made at this stage.",
+        "technicalScientificSignificance": {
+          "evidence": [
+            "No technical or scientific claims recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "claim_0000000000000001",
+            "github-copilot-vscode"
+          ]
+        }
+      },
+      "evidenceGaps": [
+        "[claim_0000000000000001] VENDOR_CLAIM requires independent verification before factual use."
+      ],
+      "exactStatement": "GitHub Copilot coding agent now delegates tasks to background agents with checkpointing. Material change: GitHub Copilot coding agent now delegates tasks to background agents with checkpointing.",
+      "factualHeadline": "GitHub Copilot coding agent adds background delegation",
+      "organizations": ["GitHub"],
+      "previousCoverage": [
+        {
+          "available": false,
+          "editionDate": "2025-01-14",
+          "editionId": "edition_2025-01-14",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-13",
+          "editionId": "edition_2025-01-13",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-12",
+          "editionId": "edition_2025-01-12",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-11",
+          "editionId": "edition_2025-01-11",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-10",
+          "editionId": "edition_2025-01-10",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-09",
+          "editionId": "edition_2025-01-09",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-08",
+          "editionId": "edition_2025-01-08",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        }
+      ],
+      "processingStatus": "consolidated",
+      "products": ["GitHub Copilot coding agent"],
+      "provenance": {
+        "candidateStableId": "cand_0000000000000001",
+        "consumedFrom": [
+          "candidate-news",
+          "discovery-ledger",
+          "novelty-classification",
+          "evidence-verification",
+          "source-registry"
+        ],
+        "discoveryIds": ["disc_0000000000000001"],
+        "pipeline": [
+          "source-discovery",
+          "retrieval",
+          "candidate-identification",
+          "temporal-classification",
+          "claim-verification",
+          "canonical-fact-dossier"
+        ]
+      },
+      "researchDomains": ["agentic-ai-software-engineering"],
+      "researchProjects": [],
+      "sourceAccessibility": [
+        {
+          "accessible": false,
+          "canonicalUrl": "https://github.blog/changelog/feed/",
+          "limitations": [],
+          "note": "No discovery ledger monitoring record available for this source; accessibility unverified.",
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "github-copilot-vscode"
+        }
+      ],
+      "sources": [
+        {
+          "canonicalUrl": "https://github.blog/changelog/feed/",
+          "discoveryIds": ["disc_0000000000000001"],
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "github-copilot-vscode",
+          "tier": 2
+        }
+      ],
+      "subdomainTags": ["DOM-01-SD03"],
+      "technologies": ["background agents", "checkpointing"],
+      "temporalEligibility": {
+        "derivedAt": "2026-11-11T22:03:52.662Z",
+        "derivedFrom": "novelty-classification",
+        "editionBoundary": {
+          "end": "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+          "start": "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+          "timezone": "Europe/Amsterdam"
+        },
+        "firstDisclosureTimestampUsed": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "noveltyClassification": {
+          "classification": "NEW",
+          "confidence": 0.765,
+          "editionDate": "2025-01-15",
+          "evidence": [
+            {
+              "confidence": 0.85,
+              "description": "Primary publication timestamp: 2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+              "reference": "https://github.blog/changelog/feed/",
+              "timestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+              "type": "source_publication_date"
+            }
+          ],
+          "inWindow": true,
+          "isNewlyRevealedFact": false,
+          "isRepostOrSummary": false,
+          "isSubstantiveUpdate": false,
+          "primaryPublicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+          "reasoning": "Publication timestamp 2025-01-14T12:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window."
+        },
+        "publicationTimestampUsed": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "rationale": "Eligibility gate: NEW_PASS. Inherited novelty classification: NEW (confidence 0.77). Publication timestamp 2025-01-14T12:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window. Repost/summary flag: false.",
+        "status": "NEW_PASS"
+      },
+      "timestamps": {
+        "earliestSupportedPublicDisclosureTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "originalPublicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "retrievalTimestamp": "2025-01-15T06:15:00Z",
+        "timestampAvailability": "available",
+        "timestampConfidence": 0.95,
+        "timestampPrecision": "exact",
+        "timezone": "UTC"
+      },
+      "unresolvedQuestions": [
+        "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out."
+      ]
+    },
+    {
+      "audit": {
+        "claimsVerifiedAt": "2025-01-15T06:00:00Z",
+        "consolidatedAt": "2026-11-11T22:03:52.689Z",
+        "consolidatedBy": "build-fact-dossier-script",
+        "discoveredAt": "2025-01-15T06:15:00Z",
+        "noveltyClassifiedAt": "2026-11-11T22:03:52.689Z",
+        "retrievedAt": "2025-01-15T06:15:00Z",
+        "revision": 1
+      },
+      "candidateId": "cand_0000000000000002",
+      "claims": [
+        {
+          "candidateId": "cand_0000000000000002",
+          "claimId": "claim_0000000000000002",
+          "claimStatement": "Optimal Mixture-of-Experts count scales sublinearly with model size under the synthetic study conditions.",
+          "claimType": "scientific-research",
+          "confidence": 0.9,
+          "contradictoryEvidence": [],
+          "evidenceClassification": "RESEARCH_FINDING",
+          "inclusionNote": "Included as a research finding; methodology reviewed. Not an independently replicated fact unless corroboration is recorded.",
+          "independentCorroboration": {
+            "established": false,
+            "note": "No independent corroboration established in the verification pipeline.",
+            "sourceIds": [],
+            "urls": []
+          },
+          "limitingEvidence": [],
+          "methodologicalContext": {
+            "alternativeExplanations": [],
+            "benchmarkConditions": {
+              "batchSize": 64,
+              "confoundersAddressed": [
+                "thermal throttling",
+                "network variance"
+              ],
+              "hardwareSpecified": true,
+              "precision": "bfloat16",
+              "warmupRuns": true
+            },
+            "dataset": "Synthetic C4-derived validation set.",
+            "evaluationConditions": "Perplexity on held-out validation set.",
+            "methodology": "Synthetic controlled experiments on 8x H100, bfloat16, batch size 64.",
+            "reproducibility": {
+              "artifactAvailable": true,
+              "artifactUrl": "https://github.com/synthetic/moe-scaling",
+              "independentReplications": 0
+            },
+            "studyDesign": "Controlled scaling experiments with fixed compute budget."
+          },
+          "sourceProvenance": {
+            "publicationTimestamp": "2025-01-14T18:00:00+01:00[Europe/Amsterdam]",
+            "retrievedAt": "2025-01-15T06:00:00Z",
+            "sourceId": "arxiv-cs-lg",
+            "title": "Mixture-of-Experts scaling laws",
+            "url": "https://arxiv.org/abs/2501.12345",
+            "verificationTimestamp": "2025-01-15T06:00:00Z",
+            "verifiedBy": "synthetic-verifier"
+          },
+          "supportingEvidenceUrls": ["https://arxiv.org/abs/2501.12345"],
+          "uncertainty": {
+            "assumptions": [],
+            "falsificationCriteria": [],
+            "unresolved": []
+          },
+          "verificationLevel": "L2",
+          "verificationMethods": ["primary-source-inspection"],
+          "verificationRationale": "Evidence classification: RESEARCH_FINDING. Verification status: verified at level L2. Confidence: 0.90. Methods: primary-source-inspection.",
+          "verificationStatus": "verified"
+        }
+      ],
+      "discoveryRings": [2],
+      "editionDate": "2025-01-15",
+      "editionId": "edition_2025-01-15",
+      "editorialReadiness": {
+        "availabilityMaturity": {
+          "evidence": [
+            "No release maturity or implementation status recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000002"]
+        },
+        "enterpriseEconomicImplications": {
+          "evidence": [
+            "No strategic or economic claim types recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000002"]
+        },
+        "evidenceLimitations": {
+          "evidence": [
+            "No contradictory evidence, blocking uncertainties, or access limitations recorded."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "arxiv-cs-lg",
+            "cand_0000000000000002",
+            "claim_0000000000000002"
+          ]
+        },
+        "evidenceStrength": {
+          "evidence": [
+            "Average claim confidence: 0.90",
+            "Average verification level: 2.00 (L0-L3 scale)"
+          ],
+          "level": "medium",
+          "traceableTo": [
+            "arxiv-cs-lg",
+            "cand_0000000000000002",
+            "claim_0000000000000002"
+          ]
+        },
+        "generalizability": {
+          "evidence": [
+            "No research scope context recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000002"]
+        },
+        "materialNovelty": {
+          "evidence": [
+            "Inherited novelty classification: NEW (confidence 0.85)",
+            "Material information first publicly disclosed inside the edition window",
+            "Temporal eligibility: NEW_PASS"
+          ],
+          "level": "high",
+          "traceableTo": ["cand_0000000000000002", "novelty-classification"]
+        },
+        "potentialOverlap": {
+          "evidence": [
+            "Shares a source with 1 other candidate(s)",
+            "Shares an organization with 1 other candidate(s)"
+          ],
+          "level": "high",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "cand_0000000000000002",
+            "cand_0000000000000003",
+            "cand_0000000000000004",
+            "cand_0000000000000005",
+            "cand_0000000000000006",
+            "cand_0000000000000007",
+            "cand_0000000000000008",
+            "cand_0000000000000009",
+            "cand_0000000000000010"
+          ]
+        },
+        "practicalEngineeringRelevance": {
+          "evidence": [
+            "No engineering relevance signals recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": [
+            "arxiv-cs-lg",
+            "cand_0000000000000002",
+            "claim_0000000000000002"
+          ]
+        },
+        "realWorldConsequences": {
+          "evidence": ["No applied claim types recorded for this candidate."],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000002"]
+        },
+        "selectionNote": "Descriptive indicators only — no editorial ranking, quotas, topic weights or publication decisions are made at this stage.",
+        "technicalScientificSignificance": {
+          "evidence": [
+            "1 scientific-research/benchmark claim(s)",
+            "At least one claim verified at L2 or L3",
+            "Methodology or study design documented",
+            "Reproduction artifact available"
+          ],
+          "level": "high",
+          "traceableTo": [
+            "arxiv-cs-lg",
+            "cand_0000000000000002",
+            "claim_0000000000000002"
+          ]
+        }
+      },
+      "evidenceGaps": [],
+      "exactStatement": "A synthetic study derives scaling laws for Mixture-of-Experts models with documented methodology. Material change: Optimal Mixture-of-Experts count scales sublinearly with model size under the synthetic study conditions.",
+      "factualHeadline": "Mixture-of-Experts scaling laws show sublinear expert growth",
+      "organizations": ["Synthetic Research Lab"],
+      "previousCoverage": [
+        {
+          "available": false,
+          "editionDate": "2025-01-14",
+          "editionId": "edition_2025-01-14",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-13",
+          "editionId": "edition_2025-01-13",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-12",
+          "editionId": "edition_2025-01-12",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-11",
+          "editionId": "edition_2025-01-11",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-10",
+          "editionId": "edition_2025-01-10",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-09",
+          "editionId": "edition_2025-01-09",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-08",
+          "editionId": "edition_2025-01-08",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        }
+      ],
+      "processingStatus": "consolidated",
+      "products": [],
+      "provenance": {
+        "candidateStableId": "cand_0000000000000002",
+        "consumedFrom": [
+          "candidate-news",
+          "discovery-ledger",
+          "novelty-classification",
+          "evidence-verification",
+          "source-registry"
+        ],
+        "discoveryIds": ["disc_0000000000000002"],
+        "pipeline": [
+          "source-discovery",
+          "retrieval",
+          "candidate-identification",
+          "temporal-classification",
+          "claim-verification",
+          "canonical-fact-dossier"
+        ]
+      },
+      "researchDomains": ["models-inference-scientific"],
+      "researchProjects": ["synthetic-moe-scaling"],
+      "sourceAccessibility": [
+        {
+          "accessible": false,
+          "canonicalUrl": "https://arxiv.org/rss/cs.LG",
+          "limitations": [],
+          "note": "No discovery ledger monitoring record available for this source; accessibility unverified.",
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "arxiv-cs-lg"
+        }
+      ],
+      "sources": [
+        {
+          "canonicalUrl": "https://arxiv.org/rss/cs.LG",
+          "discoveryIds": ["disc_0000000000000002"],
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "arxiv-cs-lg",
+          "tier": 1
+        }
+      ],
+      "subdomainTags": ["DOM-02-SD01"],
+      "technologies": ["Mixture-of-Experts", "scaling laws"],
+      "temporalEligibility": {
+        "derivedAt": "2026-11-11T22:03:52.689Z",
+        "derivedFrom": "novelty-classification",
+        "editionBoundary": {
+          "end": "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+          "start": "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+          "timezone": "Europe/Amsterdam"
+        },
+        "firstDisclosureTimestampUsed": "2025-01-14T18:00:00+01:00[Europe/Amsterdam]",
+        "noveltyClassification": {
+          "classification": "NEW",
+          "confidence": 0.85,
+          "editionDate": "2025-01-15",
+          "evidence": [
+            {
+              "confidence": 0.95,
+              "description": "Primary publication timestamp: 2025-01-14T18:00:00+01:00[Europe/Amsterdam]",
+              "reference": "https://arxiv.org/rss/cs.LG",
+              "timestamp": "2025-01-14T18:00:00+01:00[Europe/Amsterdam]",
+              "type": "source_publication_date"
+            }
+          ],
+          "inWindow": true,
+          "isNewlyRevealedFact": false,
+          "isRepostOrSummary": false,
+          "isSubstantiveUpdate": false,
+          "primaryPublicationTimestamp": "2025-01-14T18:00:00+01:00[Europe/Amsterdam]",
+          "reasoning": "Publication timestamp 2025-01-14T18:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window."
+        },
+        "publicationTimestampUsed": "2025-01-14T18:00:00+01:00[Europe/Amsterdam]",
+        "rationale": "Eligibility gate: NEW_PASS. Inherited novelty classification: NEW (confidence 0.85). Publication timestamp 2025-01-14T18:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window. Repost/summary flag: false.",
+        "status": "NEW_PASS"
+      },
+      "timestamps": {
+        "earliestSupportedPublicDisclosureTimestamp": "2025-01-14T18:00:00+01:00[Europe/Amsterdam]",
+        "originalPublicationTimestamp": "2025-01-14T18:00:00+01:00[Europe/Amsterdam]",
+        "retrievalTimestamp": "2025-01-15T06:15:00Z",
+        "timestampAvailability": "available",
+        "timestampConfidence": 0.95,
+        "timestampPrecision": "exact",
+        "timezone": "UTC"
+      },
+      "unresolvedQuestions": [
+        "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out."
+      ]
+    },
+    {
+      "audit": {
+        "claimsVerifiedAt": "2025-01-15T06:00:00Z",
+        "consolidatedAt": "2026-11-11T22:03:52.706Z",
+        "consolidatedBy": "build-fact-dossier-script",
+        "discoveredAt": "2025-01-15T06:15:00Z",
+        "noveltyClassifiedAt": "2026-11-11T22:03:52.706Z",
+        "retrievedAt": "2025-01-15T06:15:00Z",
+        "revision": 1
+      },
+      "candidateId": "cand_0000000000000003",
+      "claims": [
+        {
+          "candidateId": "cand_0000000000000003",
+          "claimId": "claim_0000000000000003",
+          "claimStatement": "Generative AI could add a synthetic $2.6T-$4.4T annually across 63 use cases.",
+          "claimType": "advisory-finding",
+          "confidence": 0.7,
+          "contradictoryEvidence": [],
+          "evidenceClassification": "EXPERT_INTERPRETATION",
+          "inclusionNote": "Included as expert interpretation; not independently verified.",
+          "independentCorroboration": {
+            "established": false,
+            "note": "No independent corroboration established in the verification pipeline.",
+            "sourceIds": [],
+            "urls": []
+          },
+          "limitingEvidence": [],
+          "sourceProvenance": {
+            "publicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+            "retrievedAt": "2025-01-15T06:00:00Z",
+            "sourceId": "mckinsey-insights",
+            "title": "Synthetic economic potential of generative AI",
+            "url": "https://www.mckinsey.com/insights/synthetic-generative-ai-economic-potential",
+            "verificationTimestamp": "2025-01-15T06:00:00Z",
+            "verifiedBy": "synthetic-verifier"
+          },
+          "strategicContext": {
+            "baseline": "Current-state operations without generative AI.",
+            "causalClaimType": "prediction",
+            "competingExplanations": [
+              "Correlation may reflect a third variable driving both AI adoption and revenue growth, not direct causation."
+            ],
+            "conflictsOfInterest": [
+              "Consulting engagements with subject vendors possible."
+            ],
+            "economicImpact": ["Potential $2.6T-$4.4T annual value."],
+            "fundingSources": ["McKinsey Global Institute"],
+            "generalizability": "Estimates depend on adoption curves and productivity modeling choices; not a universal forecast.",
+            "geographicScope": "Global",
+            "governanceImplications": [
+              "Governance and oversight implications noted."
+            ],
+            "industryCoverage": "15 industries",
+            "measuredOutcome": "Potential annual value of $2.6T-$4.4T across 63 use cases.",
+            "researchPeriod": "2023 to 2024",
+            "researchPurpose": "Estimate the economic potential of generative AI across industries.",
+            "sampleComposition": "Survey of 1000+ organizations across 15 industries.",
+            "sampleSize": 1000,
+            "statisticalUncertainty": "Estimates span $2.6T-$4.4T; confidence intervals not disclosed in public summary.",
+            "workforceImplications": [
+              "Workforce transformation implications noted."
+            ]
+          },
+          "supportingEvidenceUrls": [
+            "https://www.mckinsey.com/insights/synthetic-generative-ai-economic-potential"
+          ],
+          "uncertainty": {
+            "assumptions": [],
+            "falsificationCriteria": [],
+            "unresolved": []
+          },
+          "verificationLevel": "L1",
+          "verificationMethods": ["primary-source-inspection"],
+          "verificationRationale": "Evidence classification: EXPERT_INTERPRETATION. Verification status: partially-verified at level L1. Confidence: 0.70. Methods: primary-source-inspection.",
+          "verificationStatus": "partially-verified"
+        }
+      ],
+      "discoveryRings": [2],
+      "editionDate": "2025-01-15",
+      "editionId": "edition_2025-01-15",
+      "editorialReadiness": {
+        "availabilityMaturity": {
+          "evidence": [
+            "No release maturity or implementation status recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000003"]
+        },
+        "enterpriseEconomicImplications": {
+          "evidence": [
+            "Baseline/comparison group documented",
+            "Economic impact, ROI or productivity consequences documented",
+            "advisory-finding: Generative AI could add a synthetic $2.6T-$4.4T annually across 63 use cases."
+          ],
+          "level": "high",
+          "traceableTo": ["claim_0000000000000003"]
+        },
+        "evidenceLimitations": {
+          "evidence": [
+            "No contradictory evidence, blocking uncertainties, or access limitations recorded."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000003",
+            "claim_0000000000000003",
+            "mckinsey-insights"
+          ]
+        },
+        "evidenceStrength": {
+          "evidence": [
+            "Average claim confidence: 0.70",
+            "Average verification level: 1.00 (L0-L3 scale)"
+          ],
+          "level": "medium",
+          "traceableTo": [
+            "cand_0000000000000003",
+            "claim_0000000000000003",
+            "mckinsey-insights"
+          ]
+        },
+        "generalizability": {
+          "evidence": [
+            "1 claim(s) with documented research scope",
+            "Geographic or industry scope explicitly bounded"
+          ],
+          "level": "medium",
+          "traceableTo": ["claim_0000000000000003"]
+        },
+        "materialNovelty": {
+          "evidence": [
+            "Inherited novelty classification: NEW (confidence 0.77)",
+            "Material information first publicly disclosed inside the edition window",
+            "Temporal eligibility: NEW_PASS"
+          ],
+          "level": "medium",
+          "traceableTo": ["cand_0000000000000003", "novelty-classification"]
+        },
+        "potentialOverlap": {
+          "evidence": [
+            "No overlapping sources, organizations, or technologies detected in this edition."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "cand_0000000000000002",
+            "cand_0000000000000003",
+            "cand_0000000000000004",
+            "cand_0000000000000005",
+            "cand_0000000000000006",
+            "cand_0000000000000007",
+            "cand_0000000000000008",
+            "cand_0000000000000009",
+            "cand_0000000000000010"
+          ]
+        },
+        "practicalEngineeringRelevance": {
+          "evidence": [
+            "No engineering relevance signals recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": [
+            "cand_0000000000000003",
+            "claim_0000000000000003",
+            "mckinsey-insights"
+          ]
+        },
+        "realWorldConsequences": {
+          "evidence": ["Measured outcome with baseline reported"],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000003"]
+        },
+        "selectionNote": "Descriptive indicators only — no editorial ranking, quotas, topic weights or publication decisions are made at this stage.",
+        "technicalScientificSignificance": {
+          "evidence": [
+            "No technical or scientific claims recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": [
+            "cand_0000000000000003",
+            "claim_0000000000000003",
+            "mckinsey-insights"
+          ]
+        }
+      },
+      "evidenceGaps": [],
+      "exactStatement": "A synthetic advisory study estimates generative AI economic potential with disclosed methodology. Material change: Generative AI could add a synthetic $2.6T-$4.4T annually across 63 use cases.",
+      "factualHeadline": "Synthetic advisory finding on generative AI economic potential",
+      "organizations": ["McKinsey Global Institute"],
+      "previousCoverage": [
+        {
+          "available": false,
+          "editionDate": "2025-01-14",
+          "editionId": "edition_2025-01-14",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-13",
+          "editionId": "edition_2025-01-13",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-12",
+          "editionId": "edition_2025-01-12",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-11",
+          "editionId": "edition_2025-01-11",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-10",
+          "editionId": "edition_2025-01-10",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-09",
+          "editionId": "edition_2025-01-09",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-08",
+          "editionId": "edition_2025-01-08",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        }
+      ],
+      "processingStatus": "consolidated",
+      "products": [],
+      "provenance": {
+        "candidateStableId": "cand_0000000000000003",
+        "consumedFrom": [
+          "candidate-news",
+          "discovery-ledger",
+          "novelty-classification",
+          "evidence-verification",
+          "source-registry"
+        ],
+        "discoveryIds": ["disc_0000000000000003"],
+        "pipeline": [
+          "source-discovery",
+          "retrieval",
+          "candidate-identification",
+          "temporal-classification",
+          "claim-verification",
+          "canonical-fact-dossier"
+        ]
+      },
+      "researchDomains": [
+        "economics-business-impact",
+        "independent-research-advisory"
+      ],
+      "researchProjects": ["synthetic-generative-ai-economic-potential"],
+      "sourceAccessibility": [
+        {
+          "accessible": false,
+          "canonicalUrl": "https://www.mckinsey.com/insights/rss",
+          "limitations": [],
+          "note": "No discovery ledger monitoring record available for this source; accessibility unverified.",
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "mckinsey-insights"
+        }
+      ],
+      "sources": [
+        {
+          "canonicalUrl": "https://www.mckinsey.com/insights/rss",
+          "discoveryIds": ["disc_0000000000000003"],
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "mckinsey-insights",
+          "tier": 2
+        }
+      ],
+      "subdomainTags": ["DOM-05-SD02", "DOM-06-SD01"],
+      "technologies": ["generative AI"],
+      "temporalEligibility": {
+        "derivedAt": "2026-11-11T22:03:52.706Z",
+        "derivedFrom": "novelty-classification",
+        "editionBoundary": {
+          "end": "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+          "start": "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+          "timezone": "Europe/Amsterdam"
+        },
+        "firstDisclosureTimestampUsed": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "noveltyClassification": {
+          "classification": "NEW",
+          "confidence": 0.765,
+          "editionDate": "2025-01-15",
+          "evidence": [
+            {
+              "confidence": 0.85,
+              "description": "Primary publication timestamp: 2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+              "reference": "https://www.mckinsey.com/insights/rss",
+              "timestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+              "type": "source_publication_date"
+            }
+          ],
+          "inWindow": true,
+          "isNewlyRevealedFact": false,
+          "isRepostOrSummary": false,
+          "isSubstantiveUpdate": false,
+          "primaryPublicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+          "reasoning": "Publication timestamp 2025-01-14T12:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window."
+        },
+        "publicationTimestampUsed": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "rationale": "Eligibility gate: NEW_PASS. Inherited novelty classification: NEW (confidence 0.77). Publication timestamp 2025-01-14T12:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window. Repost/summary flag: false.",
+        "status": "NEW_PASS"
+      },
+      "timestamps": {
+        "earliestSupportedPublicDisclosureTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "originalPublicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "retrievalTimestamp": "2025-01-15T06:15:00Z",
+        "timestampAvailability": "available",
+        "timestampConfidence": 0.9,
+        "timestampPrecision": "exact",
+        "timezone": "UTC"
+      },
+      "unresolvedQuestions": [
+        "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out."
+      ]
+    },
+    {
+      "audit": {
+        "claimsVerifiedAt": "2025-01-15T06:00:00Z",
+        "consolidatedAt": "2026-11-11T22:03:52.717Z",
+        "consolidatedBy": "build-fact-dossier-script",
+        "discoveredAt": "2025-01-15T06:15:00Z",
+        "noveltyClassifiedAt": "2026-11-11T22:03:52.717Z",
+        "retrievedAt": "2025-01-15T06:15:00Z",
+        "revision": 1
+      },
+      "candidateId": "cand_0000000000000004",
+      "claims": [
+        {
+          "candidateId": "cand_0000000000000004",
+          "claimId": "claim_0000000000000004",
+          "claimStatement": "Developers using the synthetic coding assistant complete tasks 55% faster.",
+          "claimType": "productivity-claim",
+          "confidence": 0.5,
+          "contradictoryEvidence": [],
+          "evidenceClassification": "VENDOR_CLAIM",
+          "inclusionNote": "Included as a vendor assertion; NOT independently verified. Inclusion does not imply verification.",
+          "independentCorroboration": {
+            "established": false,
+            "note": "No independent corroboration established in the verification pipeline.",
+            "sourceIds": [],
+            "urls": []
+          },
+          "limitingEvidence": [],
+          "sourceProvenance": {
+            "publicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+            "retrievedAt": "2025-01-15T06:00:00Z",
+            "sourceId": "github-copilot-vscode",
+            "title": "Synthetic vendor productivity study",
+            "url": "https://github.blog/research/synthetic-copilot-productivity-study",
+            "verificationTimestamp": "2025-01-15T06:00:00Z",
+            "verifiedBy": "synthetic-verifier"
+          },
+          "strategicContext": {
+            "baseline": "Control group without the coding assistant.",
+            "competingExplanations": [],
+            "economicImpact": ["Implementation cost of $19/user/month."],
+            "governanceImplications": ["Governance costs not assessed."],
+            "measuredOutcome": "55% faster task completion (1.2h vs 2.7h).",
+            "productivityConsequences": [
+              "55% faster task completion in a synthetic study."
+            ],
+            "workforceImplications": ["Role impact not assessed."]
+          },
+          "supportingEvidenceUrls": [
+            "https://github.blog/research/synthetic-copilot-productivity-study"
+          ],
+          "uncertainty": {
+            "assumptions": [],
+            "falsificationCriteria": [],
+            "unresolved": []
+          },
+          "verificationLevel": "L0",
+          "verificationMethods": ["primary-source-inspection"],
+          "verificationRationale": "Evidence classification: VENDOR_CLAIM. Verification status: unverified at level L0. Confidence: 0.50. Methods: primary-source-inspection.",
+          "verificationStatus": "unverified"
+        }
+      ],
+      "discoveryRings": [3],
+      "editionDate": "2025-01-15",
+      "editionId": "edition_2025-01-15",
+      "editorialReadiness": {
+        "availabilityMaturity": {
+          "evidence": [
+            "No release maturity or implementation status recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000004"]
+        },
+        "enterpriseEconomicImplications": {
+          "evidence": [
+            "Baseline/comparison group documented",
+            "Economic impact, ROI or productivity consequences documented",
+            "productivity-claim: Developers using the synthetic coding assistant complete tasks 55% faster."
+          ],
+          "level": "high",
+          "traceableTo": ["claim_0000000000000004"]
+        },
+        "evidenceLimitations": {
+          "evidence": [
+            "No contradictory evidence, blocking uncertainties, or access limitations recorded."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000004",
+            "claim_0000000000000004",
+            "github-copilot-vscode"
+          ]
+        },
+        "evidenceStrength": {
+          "evidence": [
+            "Average claim confidence: 0.50",
+            "Average verification level: 0.00 (L0-L3 scale)"
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000004",
+            "claim_0000000000000004",
+            "github-copilot-vscode"
+          ]
+        },
+        "generalizability": {
+          "evidence": [
+            "No research scope context recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000004"]
+        },
+        "materialNovelty": {
+          "evidence": [
+            "Inherited novelty classification: NEW (confidence 0.77)",
+            "Material information first publicly disclosed inside the edition window",
+            "Temporal eligibility: NEW_PASS"
+          ],
+          "level": "medium",
+          "traceableTo": ["cand_0000000000000004", "novelty-classification"]
+        },
+        "potentialOverlap": {
+          "evidence": [
+            "Shares a source with 1 other candidate(s)",
+            "Shares an organization with 1 other candidate(s)"
+          ],
+          "level": "high",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "cand_0000000000000002",
+            "cand_0000000000000003",
+            "cand_0000000000000004",
+            "cand_0000000000000005",
+            "cand_0000000000000006",
+            "cand_0000000000000007",
+            "cand_0000000000000008",
+            "cand_0000000000000009",
+            "cand_0000000000000010"
+          ]
+        },
+        "practicalEngineeringRelevance": {
+          "evidence": [
+            "No engineering relevance signals recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": [
+            "cand_0000000000000004",
+            "claim_0000000000000004",
+            "github-copilot-vscode"
+          ]
+        },
+        "realWorldConsequences": {
+          "evidence": [
+            "Measured outcome with baseline reported",
+            "productivity-claim: Developers using the synthetic coding assistant complete tasks 55% faster."
+          ],
+          "level": "high",
+          "traceableTo": ["claim_0000000000000004"]
+        },
+        "selectionNote": "Descriptive indicators only — no editorial ranking, quotas, topic weights or publication decisions are made at this stage.",
+        "technicalScientificSignificance": {
+          "evidence": [
+            "No technical or scientific claims recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": [
+            "cand_0000000000000004",
+            "claim_0000000000000004",
+            "github-copilot-vscode"
+          ]
+        }
+      },
+      "evidenceGaps": [
+        "[claim_0000000000000004] VENDOR_CLAIM requires independent verification before factual use."
+      ],
+      "exactStatement": "A synthetic vendor study reports faster task completion with a coding assistant. Material change: Developers using the synthetic coding assistant complete tasks 55% faster.",
+      "factualHeadline": "Synthetic vendor study claims 55% faster task completion",
+      "organizations": ["GitHub"],
+      "previousCoverage": [
+        {
+          "available": false,
+          "editionDate": "2025-01-14",
+          "editionId": "edition_2025-01-14",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-13",
+          "editionId": "edition_2025-01-13",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-12",
+          "editionId": "edition_2025-01-12",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-11",
+          "editionId": "edition_2025-01-11",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-10",
+          "editionId": "edition_2025-01-10",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-09",
+          "editionId": "edition_2025-01-09",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-08",
+          "editionId": "edition_2025-01-08",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        }
+      ],
+      "processingStatus": "consolidated",
+      "products": ["Synthetic coding assistant"],
+      "provenance": {
+        "candidateStableId": "cand_0000000000000004",
+        "consumedFrom": [
+          "candidate-news",
+          "discovery-ledger",
+          "novelty-classification",
+          "evidence-verification",
+          "source-registry"
+        ],
+        "discoveryIds": ["disc_0000000000000004"],
+        "pipeline": [
+          "source-discovery",
+          "retrieval",
+          "candidate-identification",
+          "temporal-classification",
+          "claim-verification",
+          "canonical-fact-dossier"
+        ]
+      },
+      "researchDomains": ["enterprise-adoption-organizational"],
+      "researchProjects": [],
+      "sourceAccessibility": [
+        {
+          "accessible": false,
+          "canonicalUrl": "https://github.blog/changelog/feed/",
+          "limitations": [],
+          "note": "No discovery ledger monitoring record available for this source; accessibility unverified.",
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "github-copilot-vscode"
+        }
+      ],
+      "sources": [
+        {
+          "canonicalUrl": "https://github.blog/changelog/feed/",
+          "discoveryIds": ["disc_0000000000000004"],
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "github-copilot-vscode",
+          "tier": 2
+        }
+      ],
+      "subdomainTags": ["DOM-04-SD02"],
+      "technologies": ["coding assistant"],
+      "temporalEligibility": {
+        "derivedAt": "2026-11-11T22:03:52.717Z",
+        "derivedFrom": "novelty-classification",
+        "editionBoundary": {
+          "end": "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+          "start": "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+          "timezone": "Europe/Amsterdam"
+        },
+        "firstDisclosureTimestampUsed": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "noveltyClassification": {
+          "classification": "NEW",
+          "confidence": 0.765,
+          "editionDate": "2025-01-15",
+          "evidence": [
+            {
+              "confidence": 0.85,
+              "description": "Primary publication timestamp: 2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+              "reference": "https://github.blog/changelog/feed/",
+              "timestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+              "type": "source_publication_date"
+            }
+          ],
+          "inWindow": true,
+          "isNewlyRevealedFact": false,
+          "isRepostOrSummary": false,
+          "isSubstantiveUpdate": false,
+          "primaryPublicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+          "reasoning": "Publication timestamp 2025-01-14T12:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window."
+        },
+        "publicationTimestampUsed": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "rationale": "Eligibility gate: NEW_PASS. Inherited novelty classification: NEW (confidence 0.77). Publication timestamp 2025-01-14T12:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window. Repost/summary flag: false.",
+        "status": "NEW_PASS"
+      },
+      "timestamps": {
+        "earliestSupportedPublicDisclosureTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "originalPublicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "retrievalTimestamp": "2025-01-15T06:15:00Z",
+        "timestampAvailability": "available",
+        "timestampConfidence": 0.9,
+        "timestampPrecision": "exact",
+        "timezone": "UTC"
+      },
+      "unresolvedQuestions": [
+        "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out."
+      ]
+    },
+    {
+      "audit": {
+        "claimsVerifiedAt": "2025-01-15T06:00:00Z",
+        "consolidatedAt": "2026-11-11T22:03:52.732Z",
+        "consolidatedBy": "build-fact-dossier-script",
+        "discoveredAt": "2025-01-15T06:15:00Z",
+        "noveltyClassifiedAt": "2026-11-11T22:03:52.732Z",
+        "retrievedAt": "2025-01-15T06:15:00Z",
+        "revision": 1
+      },
+      "candidateId": "cand_0000000000000005",
+      "claims": [
+        {
+          "candidateId": "cand_0000000000000005",
+          "claimId": "claim_0000000000000005",
+          "claimStatement": "A synthetic cloud provider experienced an unreported 2023 data breach affecting 10M users.",
+          "claimType": "original-reporting",
+          "confidence": 0.8,
+          "contradictoryEvidence": [],
+          "evidenceClassification": "ORIGINAL_REPORTING",
+          "inclusionNote": "Included as original reporting of a first-hand disclosure; not independently verified unless corroboration is recorded.",
+          "independentCorroboration": {
+            "established": false,
+            "note": "No independent corroboration established in the verification pipeline.",
+            "sourceIds": [],
+            "urls": []
+          },
+          "limitingEvidence": [],
+          "sourceProvenance": {
+            "firstDisclosureTimestamp": "2025-01-14T14:00:00+01:00[Europe/Amsterdam]",
+            "publicationTimestamp": "2025-01-14T14:00:00+01:00[Europe/Amsterdam]",
+            "retrievedAt": "2025-01-15T06:00:00Z",
+            "sourceId": "mit-technology-review-ai",
+            "title": "Exclusive: synthetic cloud provider hid 2023 breach",
+            "url": "https://www.technologyreview.com/synthetic/cloud-provider-2023-breach",
+            "verificationTimestamp": "2025-01-15T06:00:00Z",
+            "verifiedBy": "synthetic-verifier"
+          },
+          "supportingEvidenceUrls": [
+            "https://www.technologyreview.com/synthetic/cloud-provider-2023-breach",
+            "https://www.technologyreview.com/synthetic/cloud-provider-2023-breach-documents"
+          ],
+          "uncertainty": {
+            "assumptions": [],
+            "falsificationCriteria": [],
+            "unresolved": []
+          },
+          "verificationLevel": "L1",
+          "verificationMethods": ["primary-source-inspection"],
+          "verificationRationale": "Evidence classification: ORIGINAL_REPORTING. Verification status: verified at level L1. Confidence: 0.80. Methods: primary-source-inspection.",
+          "verificationStatus": "verified"
+        }
+      ],
+      "discoveryRings": [2],
+      "editionDate": "2025-01-15",
+      "editionId": "edition_2025-01-15",
+      "editorialReadiness": {
+        "availabilityMaturity": {
+          "evidence": [
+            "No release maturity or implementation status recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000005"]
+        },
+        "enterpriseEconomicImplications": {
+          "evidence": [
+            "No strategic or economic claim types recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000005"]
+        },
+        "evidenceLimitations": {
+          "evidence": [
+            "No contradictory evidence, blocking uncertainties, or access limitations recorded."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000005",
+            "claim_0000000000000005",
+            "mit-technology-review-ai"
+          ]
+        },
+        "evidenceStrength": {
+          "evidence": [
+            "Average claim confidence: 0.80",
+            "Average verification level: 1.00 (L0-L3 scale)"
+          ],
+          "level": "medium",
+          "traceableTo": [
+            "cand_0000000000000005",
+            "claim_0000000000000005",
+            "mit-technology-review-ai"
+          ]
+        },
+        "generalizability": {
+          "evidence": [
+            "No research scope context recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000005"]
+        },
+        "materialNovelty": {
+          "evidence": [
+            "Inherited novelty classification: NEW (confidence 0.77)",
+            "Material information first publicly disclosed inside the edition window",
+            "Temporal eligibility: NEW_PASS"
+          ],
+          "level": "medium",
+          "traceableTo": ["cand_0000000000000005", "novelty-classification"]
+        },
+        "potentialOverlap": {
+          "evidence": [
+            "No overlapping sources, organizations, or technologies detected in this edition."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "cand_0000000000000002",
+            "cand_0000000000000003",
+            "cand_0000000000000004",
+            "cand_0000000000000005",
+            "cand_0000000000000006",
+            "cand_0000000000000007",
+            "cand_0000000000000008",
+            "cand_0000000000000009",
+            "cand_0000000000000010"
+          ]
+        },
+        "practicalEngineeringRelevance": {
+          "evidence": [
+            "No engineering relevance signals recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": [
+            "cand_0000000000000005",
+            "claim_0000000000000005",
+            "mit-technology-review-ai"
+          ]
+        },
+        "realWorldConsequences": {
+          "evidence": ["No applied claim types recorded for this candidate."],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000005"]
+        },
+        "selectionNote": "Descriptive indicators only — no editorial ranking, quotas, topic weights or publication decisions are made at this stage.",
+        "technicalScientificSignificance": {
+          "evidence": [
+            "No technical or scientific claims recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": [
+            "cand_0000000000000005",
+            "claim_0000000000000005",
+            "mit-technology-review-ai"
+          ]
+        }
+      },
+      "evidenceGaps": [],
+      "exactStatement": "Original reporting reveals a synthetic 2023 data breach that was not publicly disclosed at the time. Material change: A synthetic cloud provider experienced an unreported 2023 data breach affecting 10M users.",
+      "factualHeadline": "Exclusive: synthetic cloud provider hid 2023 breach",
+      "organizations": ["Synthetic Cloud Provider"],
+      "previousCoverage": [
+        {
+          "available": false,
+          "editionDate": "2025-01-14",
+          "editionId": "edition_2025-01-14",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-13",
+          "editionId": "edition_2025-01-13",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-12",
+          "editionId": "edition_2025-01-12",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-11",
+          "editionId": "edition_2025-01-11",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-10",
+          "editionId": "edition_2025-01-10",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-09",
+          "editionId": "edition_2025-01-09",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-08",
+          "editionId": "edition_2025-01-08",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        }
+      ],
+      "processingStatus": "consolidated",
+      "products": ["Synthetic Cloud"],
+      "provenance": {
+        "candidateStableId": "cand_0000000000000005",
+        "consumedFrom": [
+          "candidate-news",
+          "discovery-ledger",
+          "novelty-classification",
+          "evidence-verification",
+          "source-registry"
+        ],
+        "discoveryIds": ["disc_0000000000000005"],
+        "pipeline": [
+          "source-discovery",
+          "retrieval",
+          "candidate-identification",
+          "temporal-classification",
+          "claim-verification",
+          "canonical-fact-dossier"
+        ]
+      },
+      "researchDomains": ["architecture-security-governance"],
+      "researchProjects": [],
+      "sourceAccessibility": [
+        {
+          "accessible": false,
+          "canonicalUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+          "limitations": [],
+          "note": "No discovery ledger monitoring record available for this source; accessibility unverified.",
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "mit-technology-review-ai"
+        }
+      ],
+      "sources": [
+        {
+          "canonicalUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+          "discoveryIds": ["disc_0000000000000005"],
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "mit-technology-review-ai",
+          "tier": 2
+        }
+      ],
+      "subdomainTags": ["DOM-03-SD03"],
+      "technologies": ["cloud infrastructure"],
+      "temporalEligibility": {
+        "derivedAt": "2026-11-11T22:03:52.732Z",
+        "derivedFrom": "novelty-classification",
+        "editionBoundary": {
+          "end": "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+          "start": "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+          "timezone": "Europe/Amsterdam"
+        },
+        "firstDisclosureTimestampUsed": "2025-01-14T14:00:00+01:00[Europe/Amsterdam]",
+        "noveltyClassification": {
+          "classification": "NEW",
+          "confidence": 0.765,
+          "editionDate": "2025-01-15",
+          "evidence": [
+            {
+              "confidence": 0.85,
+              "description": "Primary publication timestamp: 2025-01-14T14:00:00+01:00[Europe/Amsterdam]",
+              "reference": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+              "timestamp": "2025-01-14T14:00:00+01:00[Europe/Amsterdam]",
+              "type": "source_publication_date"
+            }
+          ],
+          "inWindow": true,
+          "isNewlyRevealedFact": false,
+          "isRepostOrSummary": false,
+          "isSubstantiveUpdate": false,
+          "primaryPublicationTimestamp": "2025-01-14T14:00:00+01:00[Europe/Amsterdam]",
+          "reasoning": "Publication timestamp 2025-01-14T14:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window."
+        },
+        "publicationTimestampUsed": "2025-01-14T14:00:00+01:00[Europe/Amsterdam]",
+        "rationale": "Eligibility gate: NEW_PASS. Inherited novelty classification: NEW (confidence 0.77). Publication timestamp 2025-01-14T14:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window. Repost/summary flag: false.",
+        "status": "NEW_PASS",
+        "underlyingEventTimestampUsed": "2023-03-15T00:00:00Z"
+      },
+      "timestamps": {
+        "earliestSupportedPublicDisclosureTimestamp": "2025-01-14T14:00:00+01:00[Europe/Amsterdam]",
+        "originalPublicationTimestamp": "2025-01-14T14:00:00+01:00[Europe/Amsterdam]",
+        "retrievalTimestamp": "2025-01-15T06:15:00Z",
+        "timestampAvailability": "available",
+        "timestampConfidence": 0.9,
+        "timestampPrecision": "exact",
+        "timezone": "UTC",
+        "underlyingEventDate": "2023-03-15T00:00:00Z"
+      },
+      "unresolvedQuestions": [
+        "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out."
+      ]
+    },
+    {
+      "audit": {
+        "claimsVerifiedAt": "2025-01-15T06:00:00Z",
+        "consolidatedAt": "2026-11-11T22:03:52.744Z",
+        "consolidatedBy": "build-fact-dossier-script",
+        "discoveredAt": "2025-01-15T06:15:00Z",
+        "noveltyClassifiedAt": "2026-11-11T22:03:52.744Z",
+        "retrievedAt": "2025-01-15T06:15:00Z",
+        "revision": 1
+      },
+      "candidateId": "cand_0000000000000006",
+      "claims": [
+        {
+          "candidateId": "cand_0000000000000006",
+          "claimId": "claim_0000000000000006",
+          "claimStatement": "Claude Code now supports MCP task delegation and checkpointing for autonomous development.",
+          "claimType": "software-release",
+          "confidence": 0.5,
+          "contradictoryEvidence": [],
+          "evidenceClassification": "VENDOR_CLAIM",
+          "inclusionNote": "Included as a vendor assertion; NOT independently verified. Inclusion does not imply verification.",
+          "independentCorroboration": {
+            "established": false,
+            "note": "No independent corroboration established in the verification pipeline.",
+            "sourceIds": [],
+            "urls": []
+          },
+          "limitingEvidence": [],
+          "sourceProvenance": {
+            "publicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+            "retrievedAt": "2025-01-15T06:00:00Z",
+            "sourceId": "anthropic-claude-code",
+            "title": "Claude Code changelog: MCP task support and checkpointing",
+            "url": "https://code.claude.com/docs/en/changelog/synthetic-mcp-task-support",
+            "verificationTimestamp": "2025-01-15T06:00:00Z",
+            "verifiedBy": "synthetic-verifier"
+          },
+          "supportingEvidenceUrls": [
+            "https://code.claude.com/docs/en/changelog/synthetic-mcp-task-support"
+          ],
+          "technicalContext": {
+            "agenticImplications": [
+              "Supports resumable autonomous development workflows."
+            ],
+            "implementationStatus": "released",
+            "mechanism": "MCP task delegation with checkpointed sessions."
+          },
+          "uncertainty": {
+            "assumptions": [],
+            "falsificationCriteria": [],
+            "unresolved": []
+          },
+          "verificationLevel": "L0",
+          "verificationMethods": ["primary-source-inspection"],
+          "verificationRationale": "Evidence classification: VENDOR_CLAIM. Verification status: unverified at level L0. Confidence: 0.50. Methods: primary-source-inspection.",
+          "verificationStatus": "unverified"
+        }
+      ],
+      "discoveryRings": [1],
+      "editionDate": "2025-01-15",
+      "editionId": "edition_2025-01-15",
+      "editorialReadiness": {
+        "availabilityMaturity": {
+          "evidence": ["Implementation status: released"],
+          "level": "high",
+          "traceableTo": ["claim_0000000000000006"]
+        },
+        "enterpriseEconomicImplications": {
+          "evidence": [
+            "No strategic or economic claim types recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000006"]
+        },
+        "evidenceLimitations": {
+          "evidence": [
+            "No contradictory evidence, blocking uncertainties, or access limitations recorded."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "anthropic-claude-code",
+            "cand_0000000000000006",
+            "claim_0000000000000006"
+          ]
+        },
+        "evidenceStrength": {
+          "evidence": [
+            "Average claim confidence: 0.50",
+            "Average verification level: 0.00 (L0-L3 scale)"
+          ],
+          "level": "low",
+          "traceableTo": [
+            "anthropic-claude-code",
+            "cand_0000000000000006",
+            "claim_0000000000000006"
+          ]
+        },
+        "generalizability": {
+          "evidence": [
+            "No research scope context recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000006"]
+        },
+        "materialNovelty": {
+          "evidence": [
+            "Inherited novelty classification: NEW (confidence 0.81)",
+            "Material information first publicly disclosed inside the edition window",
+            "Substantive update to a previously reported development",
+            "Temporal eligibility: NEW_PASS"
+          ],
+          "level": "medium",
+          "traceableTo": ["cand_0000000000000006", "novelty-classification"]
+        },
+        "potentialOverlap": {
+          "evidence": ["Shares a technology with 1 other candidate(s)"],
+          "level": "medium",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "cand_0000000000000002",
+            "cand_0000000000000003",
+            "cand_0000000000000004",
+            "cand_0000000000000005",
+            "cand_0000000000000006",
+            "cand_0000000000000007",
+            "cand_0000000000000008",
+            "cand_0000000000000009",
+            "cand_0000000000000010"
+          ]
+        },
+        "practicalEngineeringRelevance": {
+          "evidence": [
+            "Agentic workflow or software-release implications documented",
+            "Maps to the agentic AI & software engineering domain"
+          ],
+          "level": "high",
+          "traceableTo": [
+            "anthropic-claude-code",
+            "cand_0000000000000006",
+            "claim_0000000000000006"
+          ]
+        },
+        "realWorldConsequences": {
+          "evidence": ["No applied claim types recorded for this candidate."],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000006"]
+        },
+        "selectionNote": "Descriptive indicators only — no editorial ranking, quotas, topic weights or publication decisions are made at this stage.",
+        "technicalScientificSignificance": {
+          "evidence": [
+            "1 technical-announcement/software-release/security claim(s)"
+          ],
+          "level": "low",
+          "traceableTo": [
+            "anthropic-claude-code",
+            "cand_0000000000000006",
+            "claim_0000000000000006"
+          ]
+        }
+      },
+      "evidenceGaps": [
+        "[claim_0000000000000006] VENDOR_CLAIM requires independent verification before factual use."
+      ],
+      "exactStatement": "A synthetic changelog entry adds MCP task support and checkpointing to Claude Code. Material change: Claude Code now supports MCP task delegation and checkpointing for autonomous development.",
+      "factualHeadline": "Claude Code changelog: MCP task support and checkpointing",
+      "organizations": ["Anthropic"],
+      "previousCoverage": [
+        {
+          "available": false,
+          "editionDate": "2025-01-14",
+          "editionId": "edition_2025-01-14",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-13",
+          "editionId": "edition_2025-01-13",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-12",
+          "editionId": "edition_2025-01-12",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-11",
+          "editionId": "edition_2025-01-11",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-10",
+          "editionId": "edition_2025-01-10",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-09",
+          "editionId": "edition_2025-01-09",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-08",
+          "editionId": "edition_2025-01-08",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        }
+      ],
+      "processingStatus": "consolidated",
+      "products": ["Claude Code"],
+      "provenance": {
+        "candidateStableId": "cand_0000000000000006",
+        "consumedFrom": [
+          "candidate-news",
+          "discovery-ledger",
+          "novelty-classification",
+          "evidence-verification",
+          "source-registry"
+        ],
+        "discoveryIds": ["disc_0000000000000006"],
+        "pipeline": [
+          "source-discovery",
+          "retrieval",
+          "candidate-identification",
+          "temporal-classification",
+          "claim-verification",
+          "canonical-fact-dossier"
+        ]
+      },
+      "researchDomains": ["agentic-ai-software-engineering"],
+      "researchProjects": [],
+      "sourceAccessibility": [
+        {
+          "accessible": false,
+          "canonicalUrl": "https://code.claude.com/docs/en/changelog/rss.xml",
+          "limitations": [],
+          "note": "No discovery ledger monitoring record available for this source; accessibility unverified.",
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "anthropic-claude-code"
+        }
+      ],
+      "sources": [
+        {
+          "canonicalUrl": "https://code.claude.com/docs/en/changelog/rss.xml",
+          "discoveryIds": ["disc_0000000000000006"],
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "anthropic-claude-code",
+          "tier": 2
+        }
+      ],
+      "subdomainTags": ["DOM-01-SD03"],
+      "technologies": ["MCP", "checkpointing"],
+      "temporalEligibility": {
+        "derivedAt": "2026-11-11T22:03:52.744Z",
+        "derivedFrom": "novelty-classification",
+        "editionBoundary": {
+          "end": "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+          "start": "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+          "timezone": "Europe/Amsterdam"
+        },
+        "firstDisclosureTimestampUsed": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "noveltyClassification": {
+          "classification": "NEW",
+          "confidence": 0.81,
+          "editionDate": "2025-01-15",
+          "evidence": [
+            {
+              "confidence": 0.85,
+              "description": "Primary publication timestamp: 2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+              "reference": "https://code.claude.com/docs/en/changelog/rss.xml",
+              "timestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+              "type": "source_publication_date"
+            },
+            {
+              "confidence": 0.8,
+              "description": "Substantive update: Added MCP task support and checkpointing for autonomous development.",
+              "reference": "https://code.claude.com/docs/en/changelog/rss.xml",
+              "timestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+              "type": "version_history"
+            }
+          ],
+          "inWindow": true,
+          "isNewlyRevealedFact": false,
+          "isRepostOrSummary": false,
+          "isSubstantiveUpdate": true,
+          "primaryPublicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+          "reasoning": "Publication timestamp 2025-01-14T12:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW because it contains substantive updates first publicly disclosed in this window."
+        },
+        "publicationTimestampUsed": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "rationale": "Eligibility gate: NEW_PASS. Inherited novelty classification: NEW (confidence 0.81). Publication timestamp 2025-01-14T12:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW because it contains substantive updates first publicly disclosed in this window. Repost/summary flag: false.",
+        "status": "NEW_PASS"
+      },
+      "timestamps": {
+        "earliestSupportedPublicDisclosureTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "originalPublicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "retrievalTimestamp": "2025-01-15T06:15:00Z",
+        "substantiveUpdateTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "timestampAvailability": "available",
+        "timestampConfidence": 0.95,
+        "timestampPrecision": "exact",
+        "timezone": "UTC"
+      },
+      "unresolvedQuestions": [
+        "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out."
+      ]
+    },
+    {
+      "audit": {
+        "claimsVerifiedAt": "2025-01-15T06:00:00Z",
+        "consolidatedAt": "2026-11-11T22:03:52.752Z",
+        "consolidatedBy": "build-fact-dossier-script",
+        "discoveredAt": "2025-01-15T06:15:00Z",
+        "noveltyClassifiedAt": "2026-11-11T22:03:52.752Z",
+        "retrievedAt": "2025-01-15T06:15:00Z",
+        "revision": 1
+      },
+      "candidateId": "cand_0000000000000007",
+      "claims": [
+        {
+          "candidateId": "cand_0000000000000007",
+          "claimId": "claim_0000000000000007",
+          "claimStatement": "A synthetic optimization reduces inference latency by 90%.",
+          "claimType": "benchmark-result",
+          "confidence": 0.2,
+          "contradictoryEvidence": [
+            {
+              "confidence": 0.8,
+              "contradictionType": "direct",
+              "description": "Independent reproduction achieved 35% reduction; 90% claim not reproduced.",
+              "evidenceId": "ce_0000000000000001",
+              "sourceId": "independent-lab",
+              "url": "https://independent.example.com/synthetic-reproduction"
+            }
+          ],
+          "evidenceClassification": "VENDOR_CLAIM",
+          "inclusionNote": "Included as a vendor assertion; NOT independently verified. Inclusion does not imply verification.",
+          "independentCorroboration": {
+            "established": false,
+            "note": "No independent corroboration established in the verification pipeline.",
+            "sourceIds": [],
+            "urls": []
+          },
+          "limitingEvidence": [],
+          "sourceProvenance": {
+            "publicationTimestamp": "2025-01-14T16:00:00+01:00[Europe/Amsterdam]",
+            "retrievedAt": "2025-01-15T06:00:00Z",
+            "sourceId": "vendor-benchmark",
+            "title": "Synthetic vendor claims 90% latency reduction",
+            "url": "https://vendor.example.com/blog/synthetic-90-percent-latency-reduction",
+            "verificationTimestamp": "2025-01-15T06:00:00Z",
+            "verifiedBy": "synthetic-verifier"
+          },
+          "supportingEvidenceUrls": [
+            "https://vendor.example.com/blog/synthetic-90-percent-latency-reduction"
+          ],
+          "uncertainty": {
+            "assumptions": [],
+            "falsificationCriteria": [],
+            "unresolved": [
+              {
+                "blocking": true,
+                "impact": "high",
+                "type": "evidence-gap",
+                "uncertainty": "Direct counterevidence identified; the 90% claim may be contradicted."
+              }
+            ]
+          },
+          "verificationLevel": "L0",
+          "verificationMethods": ["primary-source-inspection"],
+          "verificationRationale": "Evidence classification: VENDOR_CLAIM. Verification status: contradicted at level L0. Confidence: 0.20. Methods: primary-source-inspection. 1 piece(s) of contradictory evidence recorded. 1 unresolved uncertainties recorded.",
+          "verificationStatus": "contradicted"
+        }
+      ],
+      "discoveryRings": [3],
+      "editionDate": "2025-01-15",
+      "editionId": "edition_2025-01-15",
+      "editorialReadiness": {
+        "availabilityMaturity": {
+          "evidence": [
+            "No release maturity or implementation status recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000007"]
+        },
+        "enterpriseEconomicImplications": {
+          "evidence": [
+            "No strategic or economic claim types recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000007"]
+        },
+        "evidenceLimitations": {
+          "evidence": [
+            "1 blocking unresolved uncertainties",
+            "Contradictory evidence present"
+          ],
+          "level": "high",
+          "traceableTo": [
+            "cand_0000000000000007",
+            "claim_0000000000000007",
+            "vendor-benchmark"
+          ]
+        },
+        "evidenceStrength": {
+          "evidence": [
+            "Average claim confidence: 0.20",
+            "Average verification level: 0.00 (L0-L3 scale)",
+            "Contradictory evidence present"
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000007",
+            "claim_0000000000000007",
+            "vendor-benchmark"
+          ]
+        },
+        "generalizability": {
+          "evidence": [
+            "No research scope context recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000007"]
+        },
+        "materialNovelty": {
+          "evidence": [
+            "Inherited novelty classification: NEW (confidence 0.68)",
+            "Material information first publicly disclosed inside the edition window",
+            "Temporal eligibility: NEW_PASS"
+          ],
+          "level": "medium",
+          "traceableTo": ["cand_0000000000000007", "novelty-classification"]
+        },
+        "potentialOverlap": {
+          "evidence": [
+            "No overlapping sources, organizations, or technologies detected in this edition."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "cand_0000000000000002",
+            "cand_0000000000000003",
+            "cand_0000000000000004",
+            "cand_0000000000000005",
+            "cand_0000000000000006",
+            "cand_0000000000000007",
+            "cand_0000000000000008",
+            "cand_0000000000000009",
+            "cand_0000000000000010"
+          ]
+        },
+        "practicalEngineeringRelevance": {
+          "evidence": [
+            "No engineering relevance signals recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": [
+            "cand_0000000000000007",
+            "claim_0000000000000007",
+            "vendor-benchmark"
+          ]
+        },
+        "realWorldConsequences": {
+          "evidence": ["No applied claim types recorded for this candidate."],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000007"]
+        },
+        "selectionNote": "Descriptive indicators only — no editorial ranking, quotas, topic weights or publication decisions are made at this stage.",
+        "technicalScientificSignificance": {
+          "evidence": ["1 scientific-research/benchmark claim(s)"],
+          "level": "medium",
+          "traceableTo": [
+            "cand_0000000000000007",
+            "claim_0000000000000007",
+            "vendor-benchmark"
+          ]
+        }
+      },
+      "evidenceGaps": [
+        "[claim_0000000000000007] Direct counterevidence identified; the 90% claim may be contradicted.",
+        "[claim_0000000000000007] VENDOR_CLAIM requires independent verification before factual use."
+      ],
+      "exactStatement": "A synthetic vendor benchmark claims a large latency reduction that independent reproduction did not confirm. Material change: A synthetic optimization reduces inference latency by 90%.",
+      "factualHeadline": "Synthetic vendor claims 90% latency reduction",
+      "organizations": ["Synthetic Independent Lab", "Synthetic Vendor"],
+      "previousCoverage": [
+        {
+          "available": false,
+          "editionDate": "2025-01-14",
+          "editionId": "edition_2025-01-14",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-13",
+          "editionId": "edition_2025-01-13",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-12",
+          "editionId": "edition_2025-01-12",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-11",
+          "editionId": "edition_2025-01-11",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-10",
+          "editionId": "edition_2025-01-10",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-09",
+          "editionId": "edition_2025-01-09",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-08",
+          "editionId": "edition_2025-01-08",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        }
+      ],
+      "processingStatus": "consolidated",
+      "products": [],
+      "provenance": {
+        "candidateStableId": "cand_0000000000000007",
+        "consumedFrom": [
+          "candidate-news",
+          "discovery-ledger",
+          "novelty-classification",
+          "evidence-verification",
+          "source-registry"
+        ],
+        "discoveryIds": ["disc_0000000000000007"],
+        "pipeline": [
+          "source-discovery",
+          "retrieval",
+          "candidate-identification",
+          "temporal-classification",
+          "claim-verification",
+          "canonical-fact-dossier"
+        ]
+      },
+      "researchDomains": ["models-inference-scientific"],
+      "researchProjects": [],
+      "sourceAccessibility": [
+        {
+          "accessible": false,
+          "canonicalUrl": "https://vendor.example.com/blog/synthetic-90-percent-latency-reduction",
+          "limitations": [],
+          "note": "No discovery ledger monitoring record available for this source; accessibility unverified.",
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "vendor-benchmark"
+        }
+      ],
+      "sources": [
+        {
+          "canonicalUrl": "https://vendor.example.com/blog/synthetic-90-percent-latency-reduction",
+          "discoveryIds": ["disc_0000000000000007"],
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "vendor-benchmark"
+        }
+      ],
+      "subdomainTags": ["DOM-02-SD03"],
+      "technologies": ["inference latency", "kernel optimization"],
+      "temporalEligibility": {
+        "derivedAt": "2026-11-11T22:03:52.752Z",
+        "derivedFrom": "novelty-classification",
+        "editionBoundary": {
+          "end": "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+          "start": "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+          "timezone": "Europe/Amsterdam"
+        },
+        "firstDisclosureTimestampUsed": "2025-01-14T16:00:00+01:00[Europe/Amsterdam]",
+        "noveltyClassification": {
+          "classification": "NEW",
+          "confidence": 0.68,
+          "editionDate": "2025-01-15",
+          "evidence": [
+            {
+              "confidence": 0.7,
+              "description": "Primary publication timestamp: 2025-01-14T16:00:00+01:00[Europe/Amsterdam]",
+              "reference": "https://vendor.example.com/blog/synthetic-90-percent-latency-reduction",
+              "timestamp": "2025-01-14T16:00:00+01:00[Europe/Amsterdam]",
+              "type": "source_publication_date"
+            }
+          ],
+          "inWindow": true,
+          "isNewlyRevealedFact": false,
+          "isRepostOrSummary": false,
+          "isSubstantiveUpdate": false,
+          "primaryPublicationTimestamp": "2025-01-14T16:00:00+01:00[Europe/Amsterdam]",
+          "reasoning": "Publication timestamp 2025-01-14T16:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window."
+        },
+        "publicationTimestampUsed": "2025-01-14T16:00:00+01:00[Europe/Amsterdam]",
+        "rationale": "Eligibility gate: NEW_PASS. Inherited novelty classification: NEW (confidence 0.68). Publication timestamp 2025-01-14T16:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15. Classified as NEW as material information first publicly disclosed in this window. Repost/summary flag: false.",
+        "status": "NEW_PASS"
+      },
+      "timestamps": {
+        "earliestSupportedPublicDisclosureTimestamp": "2025-01-14T16:00:00+01:00[Europe/Amsterdam]",
+        "originalPublicationTimestamp": "2025-01-14T16:00:00+01:00[Europe/Amsterdam]",
+        "retrievalTimestamp": "2025-01-15T06:15:00Z",
+        "timestampAvailability": "available",
+        "timestampConfidence": 0.9,
+        "timestampPrecision": "exact",
+        "timezone": "UTC"
+      },
+      "unresolvedQuestions": [
+        "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+        "[claim_0000000000000007] Contradictory evidence requires resolution."
+      ]
+    },
+    {
+      "audit": {
+        "claimsVerifiedAt": "2025-01-15T06:00:00Z",
+        "consolidatedAt": "2026-11-11T22:03:52.760Z",
+        "consolidatedBy": "build-fact-dossier-script",
+        "discoveredAt": "2025-01-15T06:15:00Z",
+        "noveltyClassifiedAt": "2026-11-11T22:03:52.760Z",
+        "retrievedAt": "2025-01-15T06:15:00Z",
+        "revision": 1
+      },
+      "candidateId": "cand_0000000000000008",
+      "claims": [
+        {
+          "candidateId": "cand_0000000000000008",
+          "claimId": "claim_0000000000000008",
+          "claimStatement": "A synthetic product feature exists.",
+          "claimType": "technical-announcement",
+          "confidence": 0.1,
+          "contradictoryEvidence": [],
+          "evidenceClassification": "UNVERIFIED",
+          "inclusionNote": "Included as unverified information; no independent check established.",
+          "independentCorroboration": {
+            "established": false,
+            "note": "No independent corroboration established in the verification pipeline.",
+            "sourceIds": [],
+            "urls": []
+          },
+          "limitingEvidence": [],
+          "sourceProvenance": {
+            "publicationTimestamp": "",
+            "retrievedAt": "2025-01-15T06:00:00Z",
+            "sourceId": "test-source",
+            "title": "Synthetic undated announcement",
+            "url": "https://example.com/undated",
+            "verificationTimestamp": "2025-01-15T06:00:00Z",
+            "verifiedBy": "synthetic-verifier"
+          },
+          "supportingEvidenceUrls": ["https://example.com/undated"],
+          "uncertainty": {
+            "assumptions": [],
+            "falsificationCriteria": [],
+            "unresolved": []
+          },
+          "verificationLevel": "L0",
+          "verificationMethods": ["primary-source-inspection"],
+          "verificationRationale": "Evidence classification: UNVERIFIED. Verification status: unverified at level L0. Confidence: 0.10. Methods: primary-source-inspection.",
+          "verificationStatus": "unverified"
+        }
+      ],
+      "discoveryRings": [3],
+      "editionDate": "2025-01-15",
+      "editionId": "edition_2025-01-15",
+      "editorialReadiness": {
+        "availabilityMaturity": {
+          "evidence": [
+            "No release maturity or implementation status recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000008"]
+        },
+        "enterpriseEconomicImplications": {
+          "evidence": [
+            "No strategic or economic claim types recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000008"]
+        },
+        "evidenceLimitations": {
+          "evidence": [
+            "No contradictory evidence, blocking uncertainties, or access limitations recorded."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000008",
+            "claim_0000000000000008",
+            "test-source"
+          ]
+        },
+        "evidenceStrength": {
+          "evidence": [
+            "Average claim confidence: 0.10",
+            "Average verification level: 0.00 (L0-L3 scale)"
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000008",
+            "claim_0000000000000008",
+            "test-source"
+          ]
+        },
+        "generalizability": {
+          "evidence": [
+            "No research scope context recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000008"]
+        },
+        "materialNovelty": {
+          "evidence": [
+            "Inherited novelty classification: TIME_UNVERIFIED (confidence 0.00)",
+            "Publication/disclosure time could not be verified",
+            "Temporal eligibility: TIME_UNVERIFIED"
+          ],
+          "level": "unclear",
+          "traceableTo": ["cand_0000000000000008", "novelty-classification"]
+        },
+        "potentialOverlap": {
+          "evidence": [
+            "Shares a source with 1 other candidate(s)",
+            "Shares an organization with 1 other candidate(s)"
+          ],
+          "level": "high",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "cand_0000000000000002",
+            "cand_0000000000000003",
+            "cand_0000000000000004",
+            "cand_0000000000000005",
+            "cand_0000000000000006",
+            "cand_0000000000000007",
+            "cand_0000000000000008",
+            "cand_0000000000000009",
+            "cand_0000000000000010"
+          ]
+        },
+        "practicalEngineeringRelevance": {
+          "evidence": ["Maps to the agentic AI & software engineering domain"],
+          "level": "unclear",
+          "traceableTo": [
+            "cand_0000000000000008",
+            "claim_0000000000000008",
+            "test-source"
+          ]
+        },
+        "realWorldConsequences": {
+          "evidence": ["No applied claim types recorded for this candidate."],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000008"]
+        },
+        "selectionNote": "Descriptive indicators only — no editorial ranking, quotas, topic weights or publication decisions are made at this stage.",
+        "technicalScientificSignificance": {
+          "evidence": [
+            "1 technical-announcement/software-release/security claim(s)"
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000008",
+            "claim_0000000000000008",
+            "test-source"
+          ]
+        }
+      },
+      "evidenceGaps": [
+        "[claim_0000000000000008] UNVERIFIED requires independent verification before factual use."
+      ],
+      "exactStatement": "A synthetic announcement without a traceable publication timestamp. Material change: A synthetic product feature exists.",
+      "factualHeadline": "Synthetic undated announcement",
+      "organizations": ["Synthetic Org"],
+      "previousCoverage": [
+        {
+          "available": false,
+          "editionDate": "2025-01-14",
+          "editionId": "edition_2025-01-14",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-13",
+          "editionId": "edition_2025-01-13",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-12",
+          "editionId": "edition_2025-01-12",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-11",
+          "editionId": "edition_2025-01-11",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-10",
+          "editionId": "edition_2025-01-10",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-09",
+          "editionId": "edition_2025-01-09",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-08",
+          "editionId": "edition_2025-01-08",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        }
+      ],
+      "processingStatus": "consolidated",
+      "products": [],
+      "provenance": {
+        "candidateStableId": "cand_0000000000000008",
+        "consumedFrom": [
+          "candidate-news",
+          "discovery-ledger",
+          "novelty-classification",
+          "evidence-verification",
+          "source-registry"
+        ],
+        "discoveryIds": ["disc_0000000000000008"],
+        "pipeline": [
+          "source-discovery",
+          "retrieval",
+          "candidate-identification",
+          "temporal-classification",
+          "claim-verification",
+          "canonical-fact-dossier"
+        ]
+      },
+      "researchDomains": ["agentic-ai-software-engineering"],
+      "researchProjects": [],
+      "sourceAccessibility": [
+        {
+          "accessible": false,
+          "canonicalUrl": "https://example.com/undated",
+          "limitations": [],
+          "note": "No discovery ledger monitoring record available for this source; accessibility unverified.",
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "test-source"
+        }
+      ],
+      "sources": [
+        {
+          "canonicalUrl": "https://example.com/undated",
+          "discoveryIds": ["disc_0000000000000008"],
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "test-source"
+        }
+      ],
+      "subdomainTags": [],
+      "technologies": [],
+      "temporalEligibility": {
+        "derivedAt": "2026-11-11T22:03:52.760Z",
+        "derivedFrom": "novelty-classification",
+        "editionBoundary": {
+          "end": "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+          "start": "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+          "timezone": "Europe/Amsterdam"
+        },
+        "noveltyClassification": {
+          "classification": "TIME_UNVERIFIED",
+          "confidence": 0,
+          "editionDate": "2025-01-15",
+          "evidence": [
+            {
+              "confidence": 0,
+              "description": "Could not parse proposed publication timestamp",
+              "reference": "https://example.com/undated",
+              "timestamp": "",
+              "type": "source_publication_date"
+            }
+          ],
+          "inWindow": false,
+          "isNewlyRevealedFact": false,
+          "isRepostOrSummary": false,
+          "isSubstantiveUpdate": false,
+          "primaryPublicationTimestamp": "",
+          "reasoning": "Unable to parse proposed publication timestamp; no traceable publication timestamp was available from earlier stages."
+        },
+        "rationale": "Eligibility gate: TIME_UNVERIFIED. Inherited novelty classification: TIME_UNVERIFIED (confidence 0.00). Unable to parse proposed publication timestamp; no traceable publication timestamp was available from earlier stages. Repost/summary flag: false.",
+        "status": "TIME_UNVERIFIED"
+      },
+      "timestamps": {
+        "retrievalTimestamp": "2025-01-15T06:15:00Z",
+        "timestampAvailability": "unavailable",
+        "timestampConfidence": 0,
+        "timestampPrecision": "unknown",
+        "timezone": "UTC"
+      },
+      "unresolvedQuestions": [
+        "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+        "Publication/disclosure time could not be verified; temporal eligibility is TIME_UNVERIFIED."
+      ]
+    },
+    {
+      "audit": {
+        "claimsVerifiedAt": "2025-01-15T06:00:00Z",
+        "consolidatedAt": "2026-11-11T22:03:52.768Z",
+        "consolidatedBy": "build-fact-dossier-script",
+        "discoveredAt": "2025-01-15T06:15:00Z",
+        "noveltyClassifiedAt": "2026-11-11T22:03:52.768Z",
+        "retrievedAt": "2025-01-15T06:15:00Z",
+        "revision": 1
+      },
+      "candidateId": "cand_0000000000000009",
+      "claims": [
+        {
+          "candidateId": "cand_0000000000000009",
+          "claimId": "claim_0000000000000009",
+          "claimStatement": "A synthetic 2023 advisory documented a vulnerability class.",
+          "claimType": "security-vulnerability",
+          "confidence": 0.85,
+          "contradictoryEvidence": [],
+          "evidenceClassification": "RESEARCH_FINDING",
+          "inclusionNote": "Included as a research finding; methodology reviewed. Not an independently replicated fact unless corroboration is recorded.",
+          "independentCorroboration": {
+            "established": false,
+            "note": "No independent corroboration established in the verification pipeline.",
+            "sourceIds": [],
+            "urls": []
+          },
+          "limitingEvidence": [],
+          "sourceProvenance": {
+            "publicationTimestamp": "2023-06-15T10:00:00+02:00[Europe/Amsterdam]",
+            "retrievedAt": "2025-01-15T06:00:00Z",
+            "sourceId": "arxiv-cs-lg",
+            "title": "Archived: synthetic 2023 security advisory",
+            "url": "https://arxiv.org/abs/synthetic-2023-advisory",
+            "verificationTimestamp": "2025-01-15T06:00:00Z",
+            "verifiedBy": "synthetic-verifier"
+          },
+          "supportingEvidenceUrls": [
+            "https://arxiv.org/abs/synthetic-2023-advisory"
+          ],
+          "uncertainty": {
+            "assumptions": [],
+            "falsificationCriteria": [],
+            "unresolved": []
+          },
+          "verificationLevel": "L1",
+          "verificationMethods": ["primary-source-inspection"],
+          "verificationRationale": "Evidence classification: RESEARCH_FINDING. Verification status: verified at level L1. Confidence: 0.85. Methods: primary-source-inspection.",
+          "verificationStatus": "verified"
+        }
+      ],
+      "discoveryRings": [2],
+      "editionDate": "2025-01-15",
+      "editionId": "edition_2025-01-15",
+      "editorialReadiness": {
+        "availabilityMaturity": {
+          "evidence": [
+            "No release maturity or implementation status recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000009"]
+        },
+        "enterpriseEconomicImplications": {
+          "evidence": [
+            "No strategic or economic claim types recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000009"]
+        },
+        "evidenceLimitations": {
+          "evidence": [
+            "No contradictory evidence, blocking uncertainties, or access limitations recorded."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "arxiv-cs-lg",
+            "cand_0000000000000009",
+            "claim_0000000000000009"
+          ]
+        },
+        "evidenceStrength": {
+          "evidence": [
+            "Average claim confidence: 0.85",
+            "Average verification level: 1.00 (L0-L3 scale)"
+          ],
+          "level": "medium",
+          "traceableTo": [
+            "arxiv-cs-lg",
+            "cand_0000000000000009",
+            "claim_0000000000000009"
+          ]
+        },
+        "generalizability": {
+          "evidence": [
+            "No research scope context recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000009"]
+        },
+        "materialNovelty": {
+          "evidence": [
+            "Explicitly dated older material with traceable evidence",
+            "Inherited novelty classification: CATCH_UP (confidence 0.85)",
+            "Temporal eligibility: CATCH_UP"
+          ],
+          "level": "medium",
+          "traceableTo": ["cand_0000000000000009", "novelty-classification"]
+        },
+        "potentialOverlap": {
+          "evidence": [
+            "Shares a source with 1 other candidate(s)",
+            "Shares an organization with 1 other candidate(s)"
+          ],
+          "level": "high",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "cand_0000000000000002",
+            "cand_0000000000000003",
+            "cand_0000000000000004",
+            "cand_0000000000000005",
+            "cand_0000000000000006",
+            "cand_0000000000000007",
+            "cand_0000000000000008",
+            "cand_0000000000000009",
+            "cand_0000000000000010"
+          ]
+        },
+        "practicalEngineeringRelevance": {
+          "evidence": [
+            "No engineering relevance signals recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": [
+            "arxiv-cs-lg",
+            "cand_0000000000000009",
+            "claim_0000000000000009"
+          ]
+        },
+        "realWorldConsequences": {
+          "evidence": [
+            "security-vulnerability: A synthetic 2023 advisory documented a vulnerability class."
+          ],
+          "level": "medium",
+          "traceableTo": ["claim_0000000000000009"]
+        },
+        "selectionNote": "Descriptive indicators only — no editorial ranking, quotas, topic weights or publication decisions are made at this stage.",
+        "technicalScientificSignificance": {
+          "evidence": [
+            "1 technical-announcement/software-release/security claim(s)"
+          ],
+          "level": "low",
+          "traceableTo": [
+            "arxiv-cs-lg",
+            "cand_0000000000000009",
+            "claim_0000000000000009"
+          ]
+        }
+      },
+      "evidenceGaps": [],
+      "exactStatement": "Explicitly dated older material with traceable archive evidence. Material change: A synthetic 2023 advisory documented a vulnerability class.",
+      "factualHeadline": "Archived: synthetic 2023 security advisory",
+      "organizations": ["Synthetic Research Lab"],
+      "previousCoverage": [
+        {
+          "available": false,
+          "editionDate": "2025-01-14",
+          "editionId": "edition_2025-01-14",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-13",
+          "editionId": "edition_2025-01-13",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-12",
+          "editionId": "edition_2025-01-12",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-11",
+          "editionId": "edition_2025-01-11",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-10",
+          "editionId": "edition_2025-01-10",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-09",
+          "editionId": "edition_2025-01-09",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-08",
+          "editionId": "edition_2025-01-08",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        }
+      ],
+      "processingStatus": "consolidated",
+      "products": [],
+      "provenance": {
+        "candidateStableId": "cand_0000000000000009",
+        "consumedFrom": [
+          "candidate-news",
+          "discovery-ledger",
+          "novelty-classification",
+          "evidence-verification",
+          "source-registry"
+        ],
+        "discoveryIds": ["disc_0000000000000009"],
+        "pipeline": [
+          "source-discovery",
+          "retrieval",
+          "candidate-identification",
+          "temporal-classification",
+          "claim-verification",
+          "canonical-fact-dossier"
+        ]
+      },
+      "researchDomains": ["architecture-security-governance"],
+      "researchProjects": [],
+      "sourceAccessibility": [
+        {
+          "accessible": false,
+          "canonicalUrl": "https://arxiv.org/rss/cs.LG",
+          "limitations": [],
+          "note": "No discovery ledger monitoring record available for this source; accessibility unverified.",
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "arxiv-cs-lg"
+        }
+      ],
+      "sources": [
+        {
+          "canonicalUrl": "https://arxiv.org/rss/cs.LG",
+          "discoveryIds": ["disc_0000000000000009"],
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "arxiv-cs-lg",
+          "tier": 1
+        }
+      ],
+      "subdomainTags": [],
+      "technologies": [],
+      "temporalEligibility": {
+        "derivedAt": "2026-11-11T22:03:52.768Z",
+        "derivedFrom": "novelty-classification",
+        "editionBoundary": {
+          "end": "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+          "start": "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+          "timezone": "Europe/Amsterdam"
+        },
+        "firstDisclosureTimestampUsed": "2023-06-15T10:00:00+02:00[Europe/Amsterdam]",
+        "noveltyClassification": {
+          "classification": "CATCH_UP",
+          "confidence": 0.85,
+          "editionDate": "2025-01-15",
+          "evidence": [
+            {
+              "confidence": 0.95,
+              "description": "Primary publication timestamp: 2023-06-15T10:00:00+02:00[Europe/Amsterdam]",
+              "reference": "https://arxiv.org/rss/cs.LG",
+              "timestamp": "2023-06-15T10:00:00+02:00[Europe/Amsterdam]",
+              "type": "source_publication_date"
+            },
+            {
+              "confidence": 0.9,
+              "description": "Archive snapshot confirming 2023 publication.",
+              "reference": "https://web.archive.org/web/20230615/https://arxiv.org/abs/synthetic-2023-advisory",
+              "timestamp": "2023-06-15T10:00:00+02:00[Europe/Amsterdam]",
+              "type": "archive_snapshot"
+            }
+          ],
+          "inWindow": false,
+          "isNewlyRevealedFact": false,
+          "isRepostOrSummary": false,
+          "isSubstantiveUpdate": false,
+          "primaryPublicationTimestamp": "2023-06-15T10:00:00+02:00[Europe/Amsterdam]",
+          "reasoning": "Publication timestamp 2023-06-15T10:00:00+02:00[Europe/Amsterdam] falls outside editorial window for edition 2025-01-15 (2025-01-14T05:00:00+01:00[Europe/Amsterdam] → 2025-01-15T05:00:00+01:00[Europe/Amsterdam]). Classified as CATCH_UP because the material is explicitly dated and has traceable evidence."
+        },
+        "publicationTimestampUsed": "2023-06-15T10:00:00+02:00[Europe/Amsterdam]",
+        "rationale": "Eligibility gate: CATCH_UP. Inherited novelty classification: CATCH_UP (confidence 0.85). Publication timestamp 2023-06-15T10:00:00+02:00[Europe/Amsterdam] falls outside editorial window for edition 2025-01-15 (2025-01-14T05:00:00+01:00[Europe/Amsterdam] → 2025-01-15T05:00:00+01:00[Europe/Amsterdam]). Classified as CATCH_UP because the material is explicitly dated and has traceable evidence. Repost/summary flag: false.",
+        "status": "CATCH_UP"
+      },
+      "timestamps": {
+        "earliestSupportedPublicDisclosureTimestamp": "2023-06-15T10:00:00+02:00[Europe/Amsterdam]",
+        "originalPublicationTimestamp": "2023-06-15T10:00:00+02:00[Europe/Amsterdam]",
+        "retrievalTimestamp": "2025-01-15T06:15:00Z",
+        "timestampAvailability": "available",
+        "timestampConfidence": 0.9,
+        "timestampPrecision": "exact",
+        "timezone": "UTC"
+      },
+      "unresolvedQuestions": [
+        "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out."
+      ]
+    },
+    {
+      "audit": {
+        "claimsVerifiedAt": "2025-01-15T06:00:00Z",
+        "consolidatedAt": "2026-11-11T22:03:52.780Z",
+        "consolidatedBy": "build-fact-dossier-script",
+        "discoveredAt": "2025-01-15T06:15:00Z",
+        "noveltyClassifiedAt": "2026-11-11T22:03:52.780Z",
+        "retrievedAt": "2025-01-15T06:15:00Z",
+        "revision": 1
+      },
+      "candidateId": "cand_0000000000000010",
+      "claims": [
+        {
+          "candidateId": "cand_0000000000000010",
+          "claimId": "claim_0000000000000010",
+          "claimStatement": "A synthetic recap restates previously announced features.",
+          "claimType": "technical-announcement",
+          "confidence": 0.6,
+          "contradictoryEvidence": [],
+          "evidenceClassification": "EXPERT_INTERPRETATION",
+          "inclusionNote": "Included as expert interpretation; not independently verified.",
+          "independentCorroboration": {
+            "established": false,
+            "note": "No independent corroboration established in the verification pipeline.",
+            "sourceIds": [],
+            "urls": []
+          },
+          "limitingEvidence": [],
+          "sourceProvenance": {
+            "publicationTimestamp": "2025-01-15T06:00:00Z",
+            "retrievedAt": "2025-01-15T06:00:00Z",
+            "sourceId": "test-source",
+            "title": "Synthetic Test Source",
+            "url": "https://example.com/source",
+            "verificationTimestamp": "2025-01-15T06:00:00Z",
+            "verifiedBy": "synthetic-verifier"
+          },
+          "supportingEvidenceUrls": ["https://example.com/recap"],
+          "uncertainty": {
+            "assumptions": [],
+            "falsificationCriteria": [],
+            "unresolved": []
+          },
+          "verificationLevel": "L1",
+          "verificationMethods": ["primary-source-inspection"],
+          "verificationRationale": "Evidence classification: EXPERT_INTERPRETATION. Verification status: partially-verified at level L1. Confidence: 0.60. Methods: primary-source-inspection.",
+          "verificationStatus": "partially-verified"
+        }
+      ],
+      "discoveryRings": [3],
+      "editionDate": "2025-01-15",
+      "editionId": "edition_2025-01-15",
+      "editorialReadiness": {
+        "availabilityMaturity": {
+          "evidence": [
+            "No release maturity or implementation status recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000010"]
+        },
+        "enterpriseEconomicImplications": {
+          "evidence": [
+            "No strategic or economic claim types recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000010"]
+        },
+        "evidenceLimitations": {
+          "evidence": [
+            "No contradictory evidence, blocking uncertainties, or access limitations recorded."
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000010",
+            "claim_0000000000000010",
+            "test-source"
+          ]
+        },
+        "evidenceStrength": {
+          "evidence": [
+            "Average claim confidence: 0.60",
+            "Average verification level: 1.00 (L0-L3 scale)"
+          ],
+          "level": "medium",
+          "traceableTo": [
+            "cand_0000000000000010",
+            "claim_0000000000000010",
+            "test-source"
+          ]
+        },
+        "generalizability": {
+          "evidence": [
+            "No research scope context recorded for this candidate."
+          ],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000010"]
+        },
+        "materialNovelty": {
+          "evidence": [
+            "In-window item identified as a repost/summary of established information",
+            "Inherited novelty classification: TIME_UNVERIFIED (confidence 0.63)",
+            "Temporal eligibility: NEW_FAIL"
+          ],
+          "level": "low",
+          "traceableTo": ["cand_0000000000000010", "novelty-classification"]
+        },
+        "potentialOverlap": {
+          "evidence": [
+            "Shares a source with 1 other candidate(s)",
+            "Shares an organization with 1 other candidate(s)"
+          ],
+          "level": "high",
+          "traceableTo": [
+            "cand_0000000000000001",
+            "cand_0000000000000002",
+            "cand_0000000000000003",
+            "cand_0000000000000004",
+            "cand_0000000000000005",
+            "cand_0000000000000006",
+            "cand_0000000000000007",
+            "cand_0000000000000008",
+            "cand_0000000000000009",
+            "cand_0000000000000010"
+          ]
+        },
+        "practicalEngineeringRelevance": {
+          "evidence": ["Maps to the agentic AI & software engineering domain"],
+          "level": "unclear",
+          "traceableTo": [
+            "cand_0000000000000010",
+            "claim_0000000000000010",
+            "test-source"
+          ]
+        },
+        "realWorldConsequences": {
+          "evidence": ["No applied claim types recorded for this candidate."],
+          "level": "unclear",
+          "traceableTo": ["claim_0000000000000010"]
+        },
+        "selectionNote": "Descriptive indicators only — no editorial ranking, quotas, topic weights or publication decisions are made at this stage.",
+        "technicalScientificSignificance": {
+          "evidence": [
+            "1 technical-announcement/software-release/security claim(s)"
+          ],
+          "level": "low",
+          "traceableTo": [
+            "cand_0000000000000010",
+            "claim_0000000000000010",
+            "test-source"
+          ]
+        }
+      },
+      "evidenceGaps": [],
+      "exactStatement": "A recap of synthetic features previously reported earlier this year. Material change: A synthetic recap restates previously announced features.",
+      "factualHeadline": "Recap: previously announced synthetic features",
+      "organizations": ["Synthetic Org"],
+      "previousCoverage": [
+        {
+          "available": false,
+          "editionDate": "2025-01-14",
+          "editionId": "edition_2025-01-14",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-13",
+          "editionId": "edition_2025-01-13",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-12",
+          "editionId": "edition_2025-01-12",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-11",
+          "editionId": "edition_2025-01-11",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-10",
+          "editionId": "edition_2025-01-10",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-09",
+          "editionId": "edition_2025-01-09",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        },
+        {
+          "available": false,
+          "editionDate": "2025-01-08",
+          "editionId": "edition_2025-01-08",
+          "note": "Earlier edition not available; absence of previous coverage cannot be established.",
+          "relationship": "related-topic"
+        }
+      ],
+      "processingStatus": "consolidated",
+      "products": [],
+      "provenance": {
+        "candidateStableId": "cand_0000000000000010",
+        "consumedFrom": [
+          "candidate-news",
+          "discovery-ledger",
+          "novelty-classification",
+          "evidence-verification",
+          "source-registry"
+        ],
+        "discoveryIds": ["disc_0000000000000010"],
+        "pipeline": [
+          "source-discovery",
+          "retrieval",
+          "candidate-identification",
+          "temporal-classification",
+          "claim-verification",
+          "canonical-fact-dossier"
+        ]
+      },
+      "researchDomains": ["agentic-ai-software-engineering"],
+      "researchProjects": [],
+      "sourceAccessibility": [
+        {
+          "accessible": false,
+          "canonicalUrl": "https://example.com/recap",
+          "limitations": [],
+          "note": "No discovery ledger monitoring record available for this source; accessibility unverified.",
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "test-source"
+        }
+      ],
+      "sources": [
+        {
+          "canonicalUrl": "https://example.com/recap",
+          "discoveryIds": ["disc_0000000000000010"],
+          "retrievalStatus": "NOT_CHECKED",
+          "sourceId": "test-source"
+        }
+      ],
+      "subdomainTags": [],
+      "technologies": [],
+      "temporalEligibility": {
+        "derivedAt": "2026-11-11T22:03:52.780Z",
+        "derivedFrom": "novelty-classification",
+        "editionBoundary": {
+          "end": "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+          "start": "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+          "timezone": "Europe/Amsterdam"
+        },
+        "firstDisclosureTimestampUsed": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "noveltyClassification": {
+          "classification": "TIME_UNVERIFIED",
+          "confidence": 0.63,
+          "editionDate": "2025-01-15",
+          "evidence": [
+            {
+              "confidence": 0.85,
+              "description": "Primary publication timestamp: 2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+              "reference": "https://example.com/recap",
+              "timestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+              "type": "source_publication_date"
+            }
+          ],
+          "inWindow": true,
+          "isNewlyRevealedFact": false,
+          "isRepostOrSummary": true,
+          "isSubstantiveUpdate": false,
+          "primaryPublicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+          "reasoning": "Publication timestamp 2025-01-14T12:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15, but content appears to be a repost or summary of established information without new material disclosure."
+        },
+        "publicationTimestampUsed": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "rationale": "Eligibility gate: NEW_FAIL. Inherited novelty classification: TIME_UNVERIFIED (confidence 0.63). Publication timestamp 2025-01-14T12:00:00+01:00[Europe/Amsterdam] is within editorial window for edition 2025-01-15, but content appears to be a repost or summary of established information without new material disclosure. Repost/summary flag: true.",
+        "status": "NEW_FAIL"
+      },
+      "timestamps": {
+        "earliestSupportedPublicDisclosureTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "originalPublicationTimestamp": "2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+        "retrievalTimestamp": "2025-01-15T06:15:00Z",
+        "timestampAvailability": "available",
+        "timestampConfidence": 0.8,
+        "timestampPrecision": "exact",
+        "timezone": "UTC"
+      },
+      "unresolvedQuestions": [
+        "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+        "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+        "Item appears to be a repost/summary; the original disclosure timing must be established."
+      ]
+    }
+  ],
+  "contentHash": "sha256:67d00e763edf95f8e1bf23ac86adc697df259df050c2efe68db1c9a6fa95db4f",
+  "createdAt": "2026-11-11T22:03:52.661Z",
+  "dossierId": "fd_c129ca1998b9d0ef",
+  "editionDate": "2025-01-15",
+  "editionId": "edition_2025-01-15",
+  "editionSummary": {
+    "averageClaimConfidence": 0.5649999999999998,
+    "byEvidenceClassification": {
+      "EXPERT_INTERPRETATION": 2,
+      "ORIGINAL_REPORTING": 1,
+      "RESEARCH_FINDING": 2,
+      "UNVERIFIED": 1,
+      "VENDOR_CLAIM": 4
+    },
+    "byResearchDomain": {
+      "agentic-ai-software-engineering": 4,
+      "architecture-security-governance": 2,
+      "economics-business-impact": 1,
+      "enterprise-adoption-organizational": 1,
+      "independent-research-advisory": 1,
+      "models-inference-scientific": 2
+    },
+    "byTemporalEligibility": {
+      "CATCH_UP": 1,
+      "NEW_FAIL": 1,
+      "NEW_PASS": 7,
+      "TIME_UNVERIFIED": 1
+    },
+    "byVerificationStatus": {
+      "contradicted": 1,
+      "partially-verified": 2,
+      "unverified": 4,
+      "verified": 3
+    },
+    "candidatesWithEvidenceGaps": 5,
+    "claimsWithCounterevidence": 1,
+    "claimsWithUnresolvedUncertainties": 1,
+    "strategicResearchCandidates": 2,
+    "technicalCandidates": 6,
+    "totalCandidates": 10,
+    "totalClaims": 10
+  },
+  "editionWindow": {
+    "durationHours": 24,
+    "editionDate": "2025-01-15",
+    "end": "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+    "start": "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+    "timezone": "Europe/Amsterdam"
+  },
+  "generatedBy": "build-fact-dossier-script",
+  "historicalContinuity": [
+    {
+      "candidateId": "cand_0000000000000001",
+      "checkedEditionDates": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "missingEditions": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "note": "7 earlier edition(s) unavailable; absence of previous coverage cannot be established."
+    },
+    {
+      "candidateId": "cand_0000000000000002",
+      "checkedEditionDates": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "missingEditions": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "note": "7 earlier edition(s) unavailable; absence of previous coverage cannot be established."
+    },
+    {
+      "candidateId": "cand_0000000000000003",
+      "checkedEditionDates": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "missingEditions": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "note": "7 earlier edition(s) unavailable; absence of previous coverage cannot be established."
+    },
+    {
+      "candidateId": "cand_0000000000000004",
+      "checkedEditionDates": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "missingEditions": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "note": "7 earlier edition(s) unavailable; absence of previous coverage cannot be established."
+    },
+    {
+      "candidateId": "cand_0000000000000005",
+      "checkedEditionDates": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "missingEditions": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "note": "7 earlier edition(s) unavailable; absence of previous coverage cannot be established."
+    },
+    {
+      "candidateId": "cand_0000000000000006",
+      "checkedEditionDates": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "missingEditions": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "note": "7 earlier edition(s) unavailable; absence of previous coverage cannot be established."
+    },
+    {
+      "candidateId": "cand_0000000000000007",
+      "checkedEditionDates": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "missingEditions": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "note": "7 earlier edition(s) unavailable; absence of previous coverage cannot be established."
+    },
+    {
+      "candidateId": "cand_0000000000000008",
+      "checkedEditionDates": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "missingEditions": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "note": "7 earlier edition(s) unavailable; absence of previous coverage cannot be established."
+    },
+    {
+      "candidateId": "cand_0000000000000009",
+      "checkedEditionDates": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "missingEditions": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "note": "7 earlier edition(s) unavailable; absence of previous coverage cannot be established."
+    },
+    {
+      "candidateId": "cand_0000000000000010",
+      "checkedEditionDates": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "missingEditions": [
+        "2025-01-14",
+        "2025-01-13",
+        "2025-01-12",
+        "2025-01-11",
+        "2025-01-10",
+        "2025-01-09",
+        "2025-01-08"
+      ],
+      "note": "7 earlier edition(s) unavailable; absence of previous coverage cannot be established."
+    }
+  ],
+  "previousVersionHash": "sha256:3e226e2ba75a016fbee6910c9e2c962a8c916bf3bfe4334120720a453f12e6af",
+  "processingAudit": {
+    "completedAt": "2026-11-11T22:03:52.820Z",
+    "completedCandidateIds": [
+      "cand_0000000000000001",
+      "cand_0000000000000002",
+      "cand_0000000000000003",
+      "cand_0000000000000004",
+      "cand_0000000000000005",
+      "cand_0000000000000006",
+      "cand_0000000000000007",
+      "cand_0000000000000008",
+      "cand_0000000000000009",
+      "cand_0000000000000010"
+    ],
+    "durationMs": 159,
+    "failedCandidateIds": [],
+    "inferenceNote": "No model inference was required for deterministic consolidation.",
+    "inferenceUsed": false,
+    "skippedCandidateIds": [],
+    "startedAt": "2026-11-11T22:03:52.661Z",
+    "steps": [
+      {
+        "completedAt": "2026-11-11T22:03:52.787Z",
+        "inputCount": 10,
+        "outputCount": 10,
+        "startedAt": "2026-11-11T22:03:52.661Z",
+        "status": "completed",
+        "step": "candidate-consolidation"
+      },
+      {
+        "completedAt": "2026-11-11T22:03:52.801Z",
+        "outputCount": 10,
+        "startedAt": "2026-11-11T22:03:52.661Z",
+        "status": "completed",
+        "step": "editorial-readiness-indicators"
+      },
+      {
+        "completedAt": "2026-11-11T22:03:52.801Z",
+        "status": "completed",
+        "step": "edition-summary"
+      },
+      {
+        "completedAt": "2026-11-11T22:03:52.801Z",
+        "status": "completed",
+        "step": "uncertainty-register"
+      },
+      {
+        "completedAt": "2026-11-11T22:03:52.801Z",
+        "status": "completed",
+        "step": "historical-continuity"
+      }
+    ]
+  },
+  "schemaVersion": "1.0.0",
+  "status": "ready-for-omission-review",
+  "uncertaintyRegister": [
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000007",
+      "description": "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_00c685f1ea76ec49"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000007",
+      "description": "[claim_0000000000000007] Contradictory evidence requires resolution.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_0293e074a7830ce1"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000001",
+      "description": "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_02fb4282247c1fc3"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000004",
+      "description": "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_0436cac92f0257d9"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000010",
+      "description": "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_0b2e1b3839ab7ef3"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000003",
+      "description": "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_0ecab29266f1cc8e"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000001",
+      "description": "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_10309d65abfc7c11"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000007",
+      "description": "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_12104136b763c584"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000003",
+      "description": "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_12d67f83c1d68829"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000008",
+      "description": "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_14b4d25afe3baed7"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000002",
+      "description": "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_150813e18bbd4584"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000004",
+      "description": "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_162534f1ffcf4393"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000001",
+      "description": "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_1fdc874055d03679"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000010",
+      "description": "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_263a6c0477621fe1"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000002",
+      "description": "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_2721b013843f45dc"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000008",
+      "description": "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_29311e83c213c638"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000003",
+      "description": "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_2a1d2b132c64b460"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000008",
+      "description": "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_2b452258bcb23e50"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000005",
+      "description": "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_2b4e59cd7f7bced8"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000005",
+      "description": "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_2c910b004a2ad578"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000003",
+      "description": "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_2cd328f7f0d90b30"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000005",
+      "description": "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_3264c02fa622ede4"
+    },
+    {
+      "blocking": true,
+      "candidateId": "cand_0000000000000007",
+      "claimId": "claim_0000000000000007",
+      "description": "Direct counterevidence identified; the 90% claim may be contradicted.",
+      "impact": "high",
+      "researchNeeded": "See the originating claim verification record for research requirements.",
+      "type": "evidence-gap",
+      "uncertaintyId": "unc_329435bced71f295"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000001",
+      "description": "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_35eab75f3785501e"
+    },
+    {
+      "blocking": true,
+      "candidateId": "cand_0000000000000001",
+      "description": "[claim_0000000000000001] VENDOR_CLAIM requires independent verification before factual use.",
+      "impact": "high",
+      "researchNeeded": "Resolve the evidence gap before downstream editorial use.",
+      "type": "evidence-gap",
+      "uncertaintyId": "unc_36be93b86c04b431"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000004",
+      "description": "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_381c7757b9c1073b"
+    },
+    {
+      "blocking": true,
+      "candidateId": "cand_0000000000000004",
+      "description": "[claim_0000000000000004] VENDOR_CLAIM requires independent verification before factual use.",
+      "impact": "high",
+      "researchNeeded": "Resolve the evidence gap before downstream editorial use.",
+      "type": "evidence-gap",
+      "uncertaintyId": "unc_397fbcbdad82aa79"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000009",
+      "description": "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_3d3dc2b879382c6a"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000002",
+      "description": "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_3e6225b797d8f91b"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000008",
+      "description": "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_40e0a0bb2a8cc4bb"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000004",
+      "description": "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_4126ce5b0c87b1f7"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000005",
+      "description": "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_4389f5032c4a8026"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000007",
+      "description": "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_4c70fe99d170f0ff"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000007",
+      "description": "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_4d1199b9f8f64570"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000010",
+      "description": "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_5b12a73f7ddc77ce"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000006",
+      "description": "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_61a21c399f7562a8"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000001",
+      "description": "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_6f794cdc1fc059e7"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000003",
+      "description": "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_6fe95a40d1294b86"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000006",
+      "description": "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_755f902e4a963c35"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000005",
+      "description": "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_8174955f9da0bacc"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000004",
+      "description": "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_8541b4b39dc2412f"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000007",
+      "description": "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_89d410df14420f62"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000007",
+      "description": "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_8a55d8d732fb8b89"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000008",
+      "description": "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_8a7cd52ae46ae226"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000009",
+      "description": "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_8b25797b9589439d"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000010",
+      "description": "Item appears to be a repost/summary; the original disclosure timing must be established.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_8fc894d6a6de9430"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000006",
+      "description": "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_90755a9575859f62"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000009",
+      "description": "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_91d1a5c74a928905"
+    },
+    {
+      "blocking": true,
+      "candidateId": "cand_0000000000000008",
+      "description": "[claim_0000000000000008] UNVERIFIED requires independent verification before factual use.",
+      "impact": "high",
+      "researchNeeded": "Resolve the evidence gap before downstream editorial use.",
+      "type": "evidence-gap",
+      "uncertaintyId": "unc_9397dc489e66a151"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000006",
+      "description": "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_95603fb359af3732"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000002",
+      "description": "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_966b5155373c3a5d"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000004",
+      "description": "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_9767962285000347"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000008",
+      "description": "Publication/disclosure time could not be verified; temporal eligibility is TIME_UNVERIFIED.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_97b6cbd52b6be7bf"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000003",
+      "description": "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_9817618de21b7704"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000005",
+      "description": "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_9b002107d817b310"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000006",
+      "description": "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_9dcce46ab274631a"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000001",
+      "description": "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_9e6955fac471efc9"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000003",
+      "description": "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_9e6fceeaf6ed7699"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000008",
+      "description": "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_a05e7d69d598468e"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000001",
+      "description": "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_ab3e5b25eb0a69a2"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000002",
+      "description": "Earlier edition 2025-01-14 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_af47386829a37cee"
+    },
+    {
+      "blocking": true,
+      "candidateId": "cand_0000000000000007",
+      "description": "[claim_0000000000000007] VENDOR_CLAIM requires independent verification before factual use.",
+      "impact": "high",
+      "researchNeeded": "Resolve the evidence gap before downstream editorial use.",
+      "type": "evidence-gap",
+      "uncertaintyId": "unc_b16ba5164990ae07"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000006",
+      "description": "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_b5778ac099f39f82"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000009",
+      "description": "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_b6c97b3e67c3ec21"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000010",
+      "description": "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_bd36f62f1e284233"
+    },
+    {
+      "blocking": true,
+      "candidateId": "cand_0000000000000007",
+      "description": "[claim_0000000000000007] Direct counterevidence identified; the 90% claim may be contradicted.",
+      "impact": "high",
+      "researchNeeded": "Resolve the evidence gap before downstream editorial use.",
+      "type": "evidence-gap",
+      "uncertaintyId": "unc_c04630dcedda4f71"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000010",
+      "description": "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_c647af6fcf0369a5"
+    },
+    {
+      "blocking": true,
+      "candidateId": "cand_0000000000000006",
+      "description": "[claim_0000000000000006] VENDOR_CLAIM requires independent verification before factual use.",
+      "impact": "high",
+      "researchNeeded": "Resolve the evidence gap before downstream editorial use.",
+      "type": "evidence-gap",
+      "uncertaintyId": "unc_ce82f2b1015836eb"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000002",
+      "description": "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_dde2c2d622085ba7"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000009",
+      "description": "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_de4e151d5f490e48"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000006",
+      "description": "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_e3017c772740fc96"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000005",
+      "description": "Earlier edition 2025-01-13 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_e3b00adb3777f307"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000010",
+      "description": "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_e7175c33da7d9de0"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000004",
+      "description": "Earlier edition 2025-01-09 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_ea4997b6d8c01323"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000009",
+      "description": "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_ec8f291a6a6987b3"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000007",
+      "description": "Earlier edition 2025-01-11 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_f0e40690038ee4b9"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000002",
+      "description": "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_f4f5ce07b250e90f"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000008",
+      "description": "Earlier edition 2025-01-12 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_f920516cc87de9e9"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000009",
+      "description": "Earlier edition 2025-01-10 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_f9b8b1e4732a7ef4"
+    },
+    {
+      "blocking": false,
+      "candidateId": "cand_0000000000000010",
+      "description": "Earlier edition 2025-01-08 unavailable; previous coverage cannot be ruled out.",
+      "impact": "medium",
+      "researchNeeded": "Investigate and resolve; missing historical publications must not be read as proof of no prior coverage.",
+      "type": "temporal",
+      "uncertaintyId": "unc_fe7442ee6656ef9b"
+    }
+  ],
+  "updatedAt": "2026-11-11T22:03:52.820Z"
+}

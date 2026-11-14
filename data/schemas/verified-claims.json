@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/verified-claims.json",
+  "title": "Verified Claim",
+  "description": "Individual atomic claims that have passed verification, linked to sources and candidates",
+  "type": "object",
+  "required": [
+    "id",
+    "claim",
+    "sourceId",
+    "candidateId",
+    "verificationLevel",
+    "verifiedAt",
+    "verifiedBy",
+    "confidence",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^claim_[a-z0-9]{16}$",
+      "description": "Unique claim ID"
+    },
+    "claim": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Atomic claim statement (one verifiable fact)"
+    },
+    "sourceId": {
+      "type": "string",
+      "description": "Source registry entry supporting this claim"
+    },
+    "candidateId": {
+      "type": "string",
+      "description": "Candidate this claim belongs to"
+    },
+    "locator": {
+      "type": "string",
+      "description": "Precise location in source (section, paragraph, timestamp, etc.)"
+    },
+    "verificationLevel": {
+      "type": "string",
+      "enum": ["L1", "L2", "L3"],
+      "description": "Verification level per contract §4.1"
+    },
+    "verificationDetails": {
+      "type": "object",
+      "description": "Evidence for verification level",
+      "properties": {
+        "methodologyChecked": { "type": "boolean" },
+        "hardwareSpecified": { "type": "boolean" },
+        "precisionStated": { "type": "boolean" },
+        "batchSizeStated": { "type": "boolean" },
+        "warmupExcluded": { "type": "boolean" },
+        "statisticalRigor": { "type": "boolean" },
+        "confoundersAddressed": { "type": "boolean" },
+        "rawDataAvailable": { "type": "boolean" },
+        "reproductionArtifact": { "type": "string", "format": "uri" }
+      },
+      "required": [
+        "methodologyChecked",
+        "hardwareSpecified",
+        "precisionStated",
+        "batchSizeStated",
+        "warmupExcluded",
+        "statisticalRigor",
+        "confoundersAddressed",
+        "rawDataAvailable"
+      ]
+    },
+    "verifiedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When verification completed"
+    },
+    "verifiedBy": {
+      "type": "string",
+      "description": "Verifier identifier"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score (0-1)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["verified", "downgraded", "retracted", "superseded"],
+      "description": "Current claim status"
+    },
+    "downgradeReason": {
+      "type": "string",
+      "description": "If downgraded, reason why"
+    },
+    "retractionReason": {
+      "type": "string",
+      "description": "If retracted, reason why"
+    },
+    "supersededBy": {
+      "type": "string",
+      "description": "If superseded, new claim ID"
+    }
+  },
+  "additionalProperties": false
+}

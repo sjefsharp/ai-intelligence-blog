@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/book-delta-evaluation.json",
+  "title": "Book Delta Evaluation Result",
+  "description": "Structured result of the daily Book Delta evaluation for integration into research-audit.md.",
+  "type": "object",
+  "properties": {
+    "editionId": {
+      "type": "string",
+      "pattern": "^edition_\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "editionDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "evaluatedAt": {
+      "type": "string"
+    },
+    "evaluatedBy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evaluationPerformed": {
+      "type": "boolean"
+    },
+    "factDossierConsidered": {
+      "type": "boolean"
+    },
+    "thesaurusConsulted": {
+      "type": "boolean"
+    },
+    "architecturePrinciplesConsulted": {
+      "type": "boolean"
+    },
+    "historicalProposalsInspected": {
+      "type": "boolean"
+    },
+    "targetDocumentsInspected": {
+      "type": "boolean"
+    },
+    "newProposals": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^bdp_[a-z0-9]{16}$"
+      }
+    },
+    "updatedHistoricalProposals": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^bdp_[a-z0-9]{16}$"
+      }
+    },
+    "duplicateProposalsIdentified": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^bdp_[a-z0-9]{16}$"
+      }
+    },
+    "noChangeDecisions": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "unresolvedEvidenceGaps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "targetDocumentAccessLimitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reviewRequirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "persistenceSucceeded": {
+      "type": "boolean"
+    },
+    "readbackSucceeded": {
+      "type": "boolean"
+    },
+    "inferenceUsed": {
+      "type": "boolean"
+    },
+    "inferenceNote": {
+      "type": "string"
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "editionId",
+    "editionDate",
+    "evaluatedAt",
+    "evaluatedBy",
+    "evaluationPerformed",
+    "factDossierConsidered",
+    "thesaurusConsulted",
+    "architecturePrinciplesConsulted",
+    "historicalProposalsInspected",
+    "targetDocumentsInspected",
+    "newProposals",
+    "updatedHistoricalProposals",
+    "duplicateProposalsIdentified",
+    "noChangeDecisions",
+    "unresolvedEvidenceGaps",
+    "targetDocumentAccessLimitations",
+    "reviewRequirements",
+    "persistenceSucceeded",
+    "readbackSucceeded",
+    "inferenceUsed"
+  ],
+  "additionalProperties": false
+}

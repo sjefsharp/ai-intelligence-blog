@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/repair-action.json",
+  "title": "Repair Action",
+  "description": "Record of a corrective action taken during listening quality evaluation, including the issue, proposed correction, application status, and regression checks.",
+  "type": "object",
+  "properties": {
+    "repairActionId": {
+      "type": "string"
+    },
+    "criterionId": {
+      "type": "string"
+    },
+    "evaluationId": {
+      "type": "string"
+    },
+    "issueType": {
+      "type": "string",
+      "enum": ["factual", "structural", "explanatory", "stylistic"]
+    },
+    "problemDescription": {
+      "type": "string"
+    },
+    "affectedPassage": {
+      "type": "object",
+      "properties": {
+        "characterOffset": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "lineNumber": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "sectionHeading": {
+          "type": "string"
+        },
+        "quote": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "storyId": {
+          "type": "string",
+          "pattern": "^story_[a-z0-9]{16}$"
+        }
+      },
+      "required": ["characterOffset", "quote"],
+      "additionalProperties": false
+    },
+    "proposedCorrection": {
+      "type": "string"
+    },
+    "preservesCanonicalFacts": {
+      "type": "boolean"
+    },
+    "preservesEditorialSelection": {
+      "type": "boolean"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["proposed", "applied", "rejected", "failed"]
+    },
+    "appliedCorrection": {
+      "type": "string"
+    },
+    "proposedAt": {
+      "type": "string"
+    },
+    "appliedAt": {
+      "type": "string"
+    },
+    "regressionChecks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "check": {
+            "type": "string"
+          },
+          "passed": {
+            "type": "boolean"
+          },
+          "details": {
+            "type": "string"
+          }
+        },
+        "required": ["check", "passed"],
+        "additionalProperties": false
+      }
+    },
+    "residualUncertainty": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "repairActionId",
+    "criterionId",
+    "evaluationId",
+    "issueType",
+    "problemDescription",
+    "affectedPassage",
+    "proposedCorrection",
+    "preservesCanonicalFacts",
+    "preservesEditorialSelection",
+    "status",
+    "proposedAt",
+    "regressionChecks"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/editorial-decision.json",
+  "title": "Editorial Decision",
+  "description": "Record of all editorial decisions with rationale and accountability per contract §12",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "subjectId",
+    "subjectType",
+    "decision",
+    "rationale",
+    "decidedBy",
+    "decidedAt",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^ed_[a-z0-9]{16}$",
+      "description": "Unique editorial decision ID"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "source-acceptance",
+        "source-rejection",
+        "source-tier-change",
+        "candidate-promotion",
+        "candidate-rejection",
+        "candidate-type-change",
+        "claim-verification",
+        "claim-downgrade",
+        "claim-retraction",
+        "dossier-lock",
+        "dossier-update",
+        "dossier-retraction",
+        "publication-approval",
+        "publication-rejection",
+        "publication-retraction",
+        "contract-amendment",
+        "glossary-addition",
+        "glossary-change",
+        "quality-gate-override",
+        "deadline-extension"
+      ],
+      "description": "Decision category per editorial workflow"
+    },
+    "subjectId": {
+      "type": "string",
+      "description": "ID of the subject (source, candidate, claim, dossier, publication)"
+    },
+    "subjectType": {
+      "type": "string",
+      "enum": [
+        "source",
+        "candidate",
+        "claim",
+        "dossier",
+        "publication",
+        "contract",
+        "glossary"
+      ],
+      "description": "Type of subject"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["approved", "rejected", "conditional", "deferred", "escalated"],
+      "description": "Decision outcome"
+    },
+    "conditions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Conditions if conditional approval"
+    },
+    "rationale": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Detailed reasoning for decision"
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string", "format": "uri" },
+      "description": "Links to supporting evidence (source URLs, verification artifacts, etc.)"
+    },
+    "decidedBy": {
+      "type": "string",
+      "description": "Editor/role who made decision"
+    },
+    "decidedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Decision timestamp"
+    },
+    "reviewedBy": {
+      "type": "string",
+      "description": "Secondary reviewer if required"
+    },
+    "reviewedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Review timestamp"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "superseded", "reverted"],
+      "description": "Current status of decision"
+    },
+    "supersededBy": {
+      "type": "string",
+      "description": "If superseded, new decision ID"
+    },
+    "revertReason": {
+      "type": "string",
+      "description": "If reverted, reason"
+    },
+    "relatedDecisions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Related decision IDs"
+    }
+  },
+  "additionalProperties": false
+}

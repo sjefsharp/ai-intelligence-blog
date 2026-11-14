@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/acceptance-gate-definition.json",
+  "title": "Acceptance Gate Definition",
+  "description": "Versioned contract for an acceptance gate containing stable identifier, purpose, scope, required inputs, dependencies, applicability conditions, validation rules, and evidence references.",
+  "type": "object",
+  "properties": {
+    "gateId": {
+      "type": "string",
+      "pattern": "^gate_[a-z0-9_]+$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "edition",
+        "artifact",
+        "claim",
+        "source",
+        "visualization",
+        "knowledge"
+      ]
+    },
+    "requiredInputArtifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "requiredUpstreamGates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "applicabilityConditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "validationRules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidenceReferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evaluatorVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "humanReviewRequired": {
+      "default": false,
+      "type": "boolean"
+    },
+    "mandatory": {
+      "default": true,
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "gateId",
+    "name",
+    "purpose",
+    "scope",
+    "requiredInputArtifacts",
+    "requiredUpstreamGates",
+    "applicabilityConditions",
+    "validationRules",
+    "evidenceReferences",
+    "evaluatorVersion",
+    "humanReviewRequired",
+    "mandatory"
+  ],
+  "additionalProperties": false
+}

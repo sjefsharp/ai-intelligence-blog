@@ -3,6 +3,7 @@
 ## Getting Help
 
 ### Documentation
+
 - **README.md**: Project overview, installation, development, deployment
 - **CONTRIBUTING.md**: Development workflow, conventions, testing
 - **AGENTS.md**: Repository-wide agent engineering rules
@@ -12,6 +13,7 @@
 ### Common Issues
 
 #### Build Failures
+
 ```bash
 # Clean install
 rm -rf node_modules pnpm-lock.yaml
@@ -20,12 +22,14 @@ pnpm run build
 ```
 
 #### Type Errors
+
 ```bash
 pnpm astro check
 # Fix reported errors, then rebuild
 ```
 
 #### Test Failures
+
 ```bash
 # Unit tests
 pnpm test
@@ -37,6 +41,7 @@ kill %1
 ```
 
 #### Dependency Issues
+
 ```bash
 pnpm audit --prod
 pnpm audit --dev
@@ -45,6 +50,7 @@ pnpm update <package>@latest
 ```
 
 ### Environment Problems
+
 - Ensure Node.js ≥ 22.23.4: `node --version`
 - Ensure pnpm ≥ 9.0.0: `pnpm --version`
 - Check `.env.local` exists with valid keys (for AI features)
@@ -52,13 +58,15 @@ pnpm update <package>@latest
 ## Reporting Bugs
 
 Before reporting:
+
 1. Search existing GitHub Issues
 2. Reproduce with minimal steps
 3. Include: OS, Node version, pnpm version, error output
 
-File at: https://github.com/<owner>/ai-intelligence-blog/issues
+File at: `https://github.com/<owner>/ai-intelligence-blog/issues`
 
 Template:
+
 - **Description**: Clear, concise description
 - **Steps to Reproduce**: Numbered list
 - **Expected Behavior**: What should happen
@@ -68,9 +76,10 @@ Template:
 
 ## Feature Requests
 
-File at: https://github.com/<owner>/ai-intelligence-blog/discussions
+File at: `https://github.com/<owner>/ai-intelligence-blog/discussions`
 
 Include:
+
 - Problem statement
 - Proposed solution
 - Alternatives considered

@@ -1,0 +1,1439 @@
+# Source Registry - Authoritative list of trusted information sources
+# Per contract §3.3 - maintained as YAML for human readability
+# Version: 1.1
+# Last Updated: 2025-11-10T06:00:00Z
+# Changes in v1.1: Extended coverage per contract requirements — AI vendors/labs, cloud providers,
+# advisory organizations, academic institutions, emerging labs and open-source projects.
+# All URLs verified 2025-11-09/2025-11-10. Preserved all v1.0 sources and identifiers.
+
+sources:
+  # =============================================================================
+  # TIER 1 — PRIMARY SOURCES (Trust Weight: 1.0, Max Age: 24 months)
+  # Standards bodies, official benchmark repos, peer-reviewed venues, cloud API docs
+  # =============================================================================
+
+  # --- Benchmarks & Standards ---
+  - id: mlperf-results
+    tier: 1
+    type: github
+    repo: mlcommons/results
+    url: https://github.com/mlcommons/results
+    tags: [benchmark, hardware, reproducibility, ml]
+    lang: en
+    addedDate: "2024-01-15T06:00:00Z"
+    lastVerified: "2025-01-10T06:00:00Z"
+    status: active
+    notes: "Official MLPerf benchmark results repository. Gold standard for ML hardware benchmarks."
+
+  - id: llmperf-results
+    tier: 1
+    type: github
+    repo: llmperf/llmperf
+    url: https://github.com/llmperf/llmperf
+    tags: [benchmark, llm, inference, reproducibility]
+    lang: en
+    addedDate: "2024-03-01T06:00:00Z"
+    lastVerified: "2025-01-12T06:00:00Z"
+    status: active
+
+  # --- Cloud Provider Architecture Blogs (Tier 1 per contract §3.1) ---
+  - id: aws-architecture-blog
+    tier: 1
+    type: rss
+    url: https://aws.amazon.com/blogs/architecture/feed/
+    tags: [cloud, patterns, cost, serverless, containers]
+    lang: en
+    addedDate: "2023-06-15T06:00:00Z"
+    lastVerified: "2025-01-14T06:00:00Z"
+    status: active
+    notes: "Official AWS Architecture Blog. Primary source for AWS patterns and best practices."
+
+  - id: gcp-architecture-blog
+    tier: 1
+    type: rss
+    url: https://cloud.google.com/blog/topics/architecture/rss.xml
+    tags: [cloud, patterns, kubernetes, mlops]
+    lang: en
+    addedDate: "2023-06-15T06:00:00Z"
+    lastVerified: "2025-01-14T06:00:00Z"
+    status: active
+
+  - id: azure-architecture-center
+    tier: 1
+    type: rss
+    url: https://techcommunity.microsoft.com/t5/azure-architecture/bg-p/AzureArchitectureBlog/rss.xml
+    tags: [cloud, patterns, hybrid, security]
+    lang: en
+    addedDate: "2023-06-15T06:00:00Z"
+    lastVerified: "2025-01-13T06:00:00Z"
+    status: active
+
+  - id: cloudflare-blog
+    tier: 1
+    type: rss
+    url: https://blog.cloudflare.com/rss/
+    tags: [edge, security, performance, ddos, workers]
+    lang: en
+    addedDate: "2023-06-15T06:00:00Z"
+    lastVerified: "2025-01-14T06:00:00Z"
+    status: active
+
+  # --- Peer-Reviewed Conference Proceedings ---
+  - id: neurips-proceedings
+    tier: 1
+    type: conference
+    url: https://papers.nips.cc/
+    tags: [ml, theory, safety, agents, benchmarks]
+    lang: en
+    addedDate: "2023-12-01T06:00:00Z"
+    lastVerified: "2025-01-10T06:00:00Z"
+    status: active
+    notes: "NeurIPS proceedings. Annual conference, proceedings published yearly."
+
+  - id: icml-proceedings
+    tier: 1
+    type: conference
+    url: https://proceedings.mlr.press/
+    tags: [ml, theory, optimization, safety]
+    lang: en
+    addedDate: "2023-12-01T06:00:00Z"
+    lastVerified: "2025-01-10T06:00:00Z"
+    status: active
+
+  - id: iclr-proceedings
+    tier: 1
+    type: conference
+    url: https://iclr.cc/
+    tags: [ml, representation, safety, agents]
+    lang: en
+    addedDate: "2023-12-01T06:00:00Z"
+    lastVerified: "2025-01-10T06:00:00Z"
+    status: active
+
+  - id: mlsys-proceedings
+    tier: 1
+    type: conference
+    url: https://mlsys.org/
+    tags: [ml, systems, infrastructure, compilers]
+    lang: en
+    addedDate: "2023-12-01T06:00:00Z"
+    lastVerified: "2025-01-10T06:00:00Z"
+    status: active
+
+  - id: osdi-proceedings
+    tier: 1
+    type: conference
+    url: https://www.usenix.org/conference/osdi24
+    tags: [systems, os, distributed, storage]
+    lang: en
+    addedDate: "2023-12-01T06:00:00Z"
+    lastVerified: "2025-01-10T06:00:00Z"
+    status: active
+
+  - id: sosp-proceedings
+    tier: 1
+    type: conference
+    url: https://www.acm.org/conferences/sosp
+    tags: [systems, os, distributed, kernels]
+    lang: en
+    addedDate: "2023-12-01T06:00:00Z"
+    lastVerified: "2025-01-10T06:00:00Z"
+    status: active
+
+  # --- arXiv Categories (Primary Preprints) ---
+  - id: arxiv-cs-lg
+    tier: 1
+    type: arxiv
+    url: https://arxiv.org/rss/cs.LG
+    tags: [ml, learning, theory]
+    lang: en
+    addedDate: "2023-01-01T06:00:00Z"
+    lastVerified: "2025-01-15T06:00:00Z"
+    status: active
+    notes: "arXiv cs.LG (Machine Learning) daily RSS. Primary for preprints."
+
+  - id: arxiv-cs-cl
+    tier: 1
+    type: arxiv
+    url: https://arxiv.org/rss/cs.CL
+    tags: [nlp, llm, language]
+    lang: en
+    addedDate: "2023-01-01T06:00:00Z"
+    lastVerified: "2025-01-15T06:00:00Z"
+    status: active
+
+  - id: arxiv-cs-dc
+    tier: 1
+    type: arxiv
+    url: https://arxiv.org/rss/cs.DC
+    tags: [distributed, consensus, systems]
+    lang: en
+    addedDate: "2023-01-01T06:00:00Z"
+    lastVerified: "2025-01-15T06:00:00Z"
+    status: active
+
+  - id: arxiv-cs-se
+    tier: 1
+    type: arxiv
+    url: https://arxiv.org/rss/cs.SE
+    tags: [software-eng, architecture, patterns]
+    lang: en
+    addedDate: "2023-01-01T06:00:00Z"
+    lastVerified: "2025-01-15T06:00:00Z"
+    status: active
+
+  - id: arxiv-stat-ml
+    tier: 1
+    type: arxiv
+    url: https://arxiv.org/rss/stat.ML
+    tags: [ml, statistics, theory]
+    lang: en
+    addedDate: "2023-01-01T06:00:00Z"
+    lastVerified: "2025-01-15T06:00:00Z"
+    status: active
+
+  # --- Security Feeds ---
+  - id: cve-feed
+    tier: 1
+    type: security
+    url: https://cve.mitre.org/cve/rss.xml
+    tags: [security, vulnerabilities, cve]
+    lang: en
+    addedDate: "2023-01-01T06:00:00Z"
+    lastVerified: "2025-01-15T06:00:00Z"
+    status: active
+
+  - id: ghsa-feed
+    tier: 1
+    type: security
+    url: https://github.com/advisories.rss
+    tags: [security, vulnerabilities, github]
+    lang: en
+    addedDate: "2023-01-01T06:00:00Z"
+    lastVerified: "2025-01-15T06:00:00Z"
+    status: active
+
+  # =============================================================================
+  # TIER 2 — VERIFIED SECONDARY (Trust Weight: 0.85, Max Age: 18 months)
+  # Major cloud engineering blogs, foundation model release notes, CNCF projects,
+  # authoritative research/advisory orgs (public research only), major AI lab blogs
+  # =============================================================================
+
+  # --- Technical Engineering Blogs ---
+  - id: lwn-kernel
+    tier: 2
+    type: blog
+    url: https://lwn.net/kernel/rss.xml
+    tags: [kernel, linux, systems, performance]
+    lang: en
+    addedDate: "2023-06-15T06:00:00Z"
+    lastVerified: "2025-01-14T06:00:00Z"
+    status: active
+    notes: "LWN.net kernel coverage. High-quality technical journalism."
+
+  - id: cncf-blog
+    tier: 2
+    type: blog
+    url: https://www.cncf.io/blog/feed/
+    tags: [kubernetes, cloud-native, cncf, graduation]
+    lang: en
+    addedDate: "2023-06-15T06:00:00Z"
+    lastVerified: "2025-01-13T06:00:00Z"
+    status: active
+
+  - id: acm-queue
+    tier: 2
+    type: blog
+    url: https://queue.acm.org/rss.xml
+    tags: [systems, architecture, research]
+    lang: en
+    addedDate: "2023-06-15T06:00:00Z"
+    lastVerified: "2025-01-12T06:00:00Z"
+    status: active
+
+  # --- Major AI Research Lab Blogs (Official Research Output) ---
+  - id: google-research-blog
+    tier: 2
+    type: blog
+    url: https://research.google/blog/rss.xml
+    tags: [ml, research, llm, infrastructure]
+    lang: en
+    addedDate: "2023-06-15T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Google Research blog RSS. Verified working 2025-11-09. Returns application/rss+xml. Primary source for Google Research publications (distinct from DeepMind)."
+
+  - id: meta-research-blog
+    tier: 2
+    type: blog
+    url: https://ai.facebook.com/blog/rss/
+    tags: [ml, research, llm, open-source]
+    lang: en
+    addedDate: "2023-06-15T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Meta AI (formerly Facebook AI Research) blog. RSS endpoint returns 404; monitored via Feeder-generated feed from ai.facebook.com/blog/. Includes PyTorch, Llama, research papers. Access limitation: no native RSS at /rss/ path."
+
+  - id: anthropic-research
+    tier: 2
+    type: blog
+    url: https://www.anthropic.com/research
+    tags: [safety, alignment, llm, interpretability]
+    lang: en
+    addedDate: "2023-06-15T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Anthropic research publications page (no native RSS). Verified accessible 2025-11-09. Monitored via Feeder-generated feed from anthropic.com/research and alan-turing-institute/ai-rss-feeds (anthropic-research.xml). Original research with methodology disclosed = Tier 2. Access limitation: no native RSS; requires generated feed."
+
+  - id: openai-research
+    tier: 2
+    type: blog
+    url: https://openai.com/news/research/
+    tags: [safety, alignment, llm, policy, models]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "OpenAI research category page (no native RSS). Official RSS at https://openai.com/news/rss.xml covers all categories; filter by tag for research-only. Research page returns 403 to automated fetches. Original research with artifacts = Tier 2; product announcements = Tier 3. Access limitation: requires browser-like headers."
+
+  - id: openai-news
+    tier: 2
+    type: blog
+    url: https://openai.com/news/rss.xml
+    tags: [models, product, policy, safety, research]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "OpenAI unified news feed (research + product + policy). Older blog/rss.xml forwards here. Full feed includes all categories; filter by tag for research-only."
+
+  - id: deepmind-blog
+    tier: 2
+    type: blog
+    url: https://deepmind.google/blog/rss.xml
+    tags: [ml, research, gemini, safety, science, agents]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Google DeepMind official blog. Primary source for Gemini, AlphaFold, research breakthroughs. Also available via blog.google/technology/google-deepmind/rss/."
+
+  - id: google-ai-blog
+    tier: 2
+    type: blog
+    url: https://blog.google/innovation-and-ai/technology/ai/rss/
+    tags: [ml, research, gemini, infrastructure, products]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Google AI blog (The Keyword). Broader than DeepMind; includes product launches, TPU infrastructure, developer tools."
+
+  - id: microsoft-research-blog
+    tier: 2
+    type: blog
+    url: https://www.microsoft.com/en-us/research/blog/feed/
+    tags: [ml, research, systems, ai, copilot, verification]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Microsoft Research official blog. High-quality research posts with methodology. ~2 posts/week. Also available at microsoft.com/en-us/research/feed/."
+
+  - id: nvidia-blog
+    tier: 2
+    type: blog
+    url: https://blogs.nvidia.com/feed/
+    tags: [gpu, ai-infrastructure, hardware, cuda, robotics, sovereign-ai]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "NVIDIA corporate blog. AI Day events, hardware announcements, CUDA, robotics. Also developer.nvidia.com/blog/feed/ for technical posts."
+
+  - id: nvidia-developer-blog
+    tier: 2
+    type: blog
+    url: https://developer.nvidia.com/blog/feed/
+    tags: [cuda, gpu-programming, ai-frameworks, performance, tutorials]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "NVIDIA Technical Blog. Tutorials, SDK updates, performance optimization. Complements corporate blog."
+
+  - id: meta-engineering-blog
+    tier: 2
+    type: blog
+    url: https://engineering.fb.com/category/ai-research/feed/
+    tags: [ml, infrastructure, systems, open-source, pytorch]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Engineering at Meta — AI Research category. Infrastructure, scaling, PyTorch, open-source releases. No native RSS on research.meta.ai; this category feed is authoritative."
+
+  - id: github-engineering-blog
+    tier: 2
+    type: blog
+    url: https://github.blog/engineering/feed/
+    tags: [developer-tools, copilot, ai-coding, infrastructure, git]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "GitHub Engineering blog. AI/ML category covers Copilot, Codespaces, Actions. Also main feed: github.blog/feed/."
+
+  # --- Cloud Provider AI/ML Specific Blogs ---
+  - id: aws-ml-blog
+    tier: 2
+    type: blog
+    url: https://aws.amazon.com/blogs/machine-learning/feed/
+    tags: [ml, bedrock, sagemaker, generative-ai, agents, nova]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "AWS Machine Learning Blog. High-frequency (~3/day). Technical depth on Bedrock, SageMaker, Nova models, AgentCore. Category feeds available (e.g., /category/artificial-intelligence/)."
+
+  - id: aws-ai-blog
+    tier: 2
+    type: blog
+    url: https://aws.amazon.com/blogs/amazon-ai/feed/
+    tags: [ai-services, bedrock, rekognition, comprehend, polly]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "AWS AI Blog (managed AI services). Complements ML blog; focuses on pre-trained services."
+
+  - id: azure-ai-blog
+    tier: 2
+    type: blog
+    url: https://azure.microsoft.com/en-us/blog/product/azure-ai/feed/
+    tags: [ai, ml, cognitive-services, openai, mlops, copilot]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Azure AI/ML product blog. Also main Azure blog: azure.microsoft.com/en-us/blog/feed/ and announcements feed."
+
+  - id: gcp-ai-blog
+    tier: 2
+    type: blog
+    url: https://cloud.google.com/blog/topics/ai-machine-learning/rss.xml
+    tags: [vertex-ai, gemini, tpus, mlops, generative-ai]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Google Cloud AI/ML blog RSS. Returns HTML landing page (not direct RSS XML) when fetched without browser headers; may require Cloudflare-aware fetcher. Alternative category feed: cloud.google.com/blog/products/ai-machine-learning/rss.xml. Vertex AI, Gemini on Cloud, TPU updates, MLOps patterns."
+
+  # --- Research & Strategic Advisory Organizations (Public Research Only) ---
+  # Original research (methodology disclosed, data cited) = Tier 2. Consultancy opinion = Tier 3.
+  # Most in-depth research paywalled; only public RSS feeds monitored.
+  - id: gartner-press-releases
+    tier: 2
+    type: blog
+    url: https://www.gartner.com/en/newsroom/rss
+    tags:
+      [
+        ai-adoption,
+        enterprise-ai,
+        governance,
+        hype-cycle,
+        magic-quadrant,
+        strategic-trends,
+      ]
+    lang: en
+    addedDate: "2025-11-09T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Gartner press releases RSS. Returns 403 (Cloudflare bot mitigation) to automated fetches; requires browser-like headers or manual review. Public summaries of Magic Quadrant, Hype Cycle, CIO surveys. Original research methodology often summarized; full reports paywalled. Distinguish: survey methodology + sample disclosed = Tier 2; analyst opinion = Tier 3. Conflict of interest: vendor-funded research possible. Access limitation: Cloudflare protection blocks automated discovery."
+
+  - id: mckinsey-insights
+    tier: 2
+    type: blog
+    url: https://www.mckinsey.com/insights/rss
+    tags:
+      [
+        ai-adoption,
+        enterprise-ai,
+        productivity,
+        economics,
+        workforce,
+        organizational-transformation,
+        mgi,
+      ]
+    lang: en
+    addedDate: "2025-11-09T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "McKinsey Insights & Publications RSS. Includes McKinsey Global Institute (MGI) original research on AI economics, workforce transformation, productivity. Methodology often disclosed in appendices. Distinguish: MGI research with data/methodology = Tier 2; McKinsey Quarterly opinion pieces = Tier 3. Conflict of interest: consulting engagements with subjects."
+
+  - id: forrester-blogs
+    tier: 2
+    type: blog
+    url: https://go.forrester.com/blogs/feed/
+    tags:
+      [
+        ai-adoption,
+        enterprise-ai,
+        agentic-ai,
+        predictions,
+        software-development,
+        cx,
+      ]
+    lang: en
+    addedDate: "2025-11-09T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Forrester public blogs only. Predictions, trend analysis, AI/agentic AI coverage. Original research methodology rarely fully disclosed in blog format; full reports paywalled. Distinguish: data-backed predictions with cited sources = Tier 2; analyst opinion = Tier 3. Conflict of interest: vendor subscriptions fund research."
+
+  - id: idc-rss-feeds
+    tier: 2
+    type: blog
+    url: https://www.idc.com/rss/idcpressreleases.xml
+    tags:
+      [
+        ai-adoption,
+        enterprise-ai,
+        market-forecasts,
+        predictions,
+        spending-guides,
+        agentic-commerce,
+      ]
+    lang: en
+    addedDate: "2025-11-09T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "IDC press releases RSS feed. Additional category feeds available (top10predictions, cloudcomputing, bigdata, etc.). Market forecasts, spending guides, AI/agentic commerce analysis. Original research methodology summarized; full reports paywalled. Distinguish: forecast methodology + track record = Tier 2; market commentary = Tier 3. Conflict of interest: vendor sponsorship possible."
+
+  - id: mit-technology-review-ai
+    tier: 2
+    type: blog
+    url: https://www.technologyreview.com/topic/artificial-intelligence/feed
+    tags: [ai-policy, governance, ethics, industry-analysis, emerging-tech]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "MIT Technology Review AI topic feed. Independent journalism, not vendor-funded. Original reporting with cited sources. ~6-7 posts/week. All stories feed: technologyreview.com/feed/."
+
+  # --- Academic & Nonprofit Research Institutions ---
+  - id: allen-institute-ai
+    tier: 2
+    type: blog
+    url: https://allenai.org/rss.xml
+    tags: [ml, research, open-source, olmo, datasets, benchmarks]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Allen Institute for AI (AI2) blog. Nonprofit research lab. OLMo models, datasets (Dolma), benchmarks, research notes. High-quality open research."
+
+  - id: mila-quebec-ai
+    tier: 2
+    type: blog
+    url: https://mila.quebec/en/rss.xml
+    tags: [ml, research, academic, open-source, scientific-ml]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Mila - Quebec AI Institute. 1400+ researchers. Research blog + news feed. Academic rigor, open science."
+
+  - id: bair-berkeley
+    tier: 2
+    type: blog
+    url: https://bair.berkeley.edu/blog/feed.xml
+    tags: [ml, research, robotics, vision, nlp, academic]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Berkeley Artificial Intelligence Research (BAIR) blog. Student/faculty research posts. Cutting-edge academic research with code."
+
+  - id: stanford-hai
+    tier: 2
+    type: blog
+    url: https://hai.stanford.edu/news/feed
+    tags: [ai-policy, governance, ethics, human-centered-ai, interdisciplinary]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Stanford HAI (Human-Centered AI) news feed. Policy, governance, ethics, societal impact. Also Stanford AI Lab blog: ai.stanford.edu/blog/feed.xml."
+
+  - id: stanford-ai-lab
+    tier: 2
+    type: blog
+    url: https://ai.stanford.edu/blog/feed.xml
+    tags: [ml, research, robotics, nlp, academic]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Stanford AI Lab (SAIL) blog RSS. Connection intermittent (SSL/DNS issues observed 2025-11-09). Complements HAI's policy focus. Technical research posts from students/faculty. Access limitation: intermittent connectivity; verify before automated fetch."
+
+  - id: ai-safety-institute-uk
+    tier: 2
+    type: blog
+    url: https://www.aisi.gov.uk/blog
+    tags:
+      [ai-safety, evaluation, governance, frontier-ai, policy, uk-government]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "UK AI Security Institute (AISI) blog page (no native RSS). Verified accessible 2025-11-09. Monitored via Feeder/alan-turing-institute generated feed (aisi-blog.xml). Government research org within DSIT. Safety cases, evaluations, frontier AI risk. Original research = Tier 2. Access limitation: no native RSS; requires generated feed."
+
+  - id: alan-turing-institute
+    tier: 2
+    type: blog
+    url: https://www.turing.ac.uk/blog
+    tags: [data-science, ai-ethics, policy, research, cetas]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Alan Turing Institute blog page (no native RSS). Returns 403 to automated fetches. Monitored via alan-turing-institute/ai-rss-feeds generated feeds (turing-blog.xml, turing-news.xml, cetas-research.xml, cetas-analysis.xml). National UK institute for data science/AI. Access limitation: no native RSS; requires generated feeds."
+
+  # =============================================================================
+  # TIER 3 — CORROBORATED COMMUNITY (Trust Weight: 0.65, Max Age: 12 months)
+  # Reproducible GitHub repos (≥50 stars + CI green), practitioner blogs with track record,
+  # conference talk recordings, emerging labs, open-source projects, independent researchers
+  # =============================================================================
+
+  # --- Existing Tier 3 Sources ---
+  - id: simon-willison-blog
+    tier: 3
+    type: blog
+    url: https://simonwillison.net/atom.xml
+    tags: [llm, tools, datasette, python]
+    lang: en
+    addedDate: "2024-01-15T06:00:00Z"
+    lastVerified: "2025-01-14T06:00:00Z"
+    status: active
+    notes: "Simon Willison's blog. Practitioner with track record. Requires corroboration."
+
+  - id: daniel-lemire-blog
+    tier: 3
+    type: blog
+    url: https://lemire.me/blog/feed.xml
+    tags: [performance, systems, benchmarks]
+    lang: en
+    addedDate: "2024-01-15T06:00:00Z"
+    lastVerified: "2025-01-13T06:00:00Z"
+    status: active
+
+  - id: hn-discussion
+    tier: 3
+    type: github
+    repo: hn-discussion/hn-discussion
+    url: https://github.com/hn-discussion/hn-discussion
+    tags: [discussion, community, curated]
+    lang: en
+    addedDate: "2024-06-01T06:00:00Z"
+    lastVerified: "2025-01-10T06:00:00Z"
+    status: active
+    notes: "Curated Hacker News discussions. Community signal, requires verification."
+
+  # --- Emerging AI Laboratories (New Labs, Independent Research) ---
+  - id: mistral-ai-news
+    tier: 3
+    type: blog
+    url: https://mistral.ai/news/rss
+    tags:
+      [models, releases, open-weights, european-ai, mistral-large, codestral]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Mistral AI official news RSS. Verified working 2025-11-09 (HTTP 200, Content-Type: text/plain). Feed serves incorrect Content-Type (text/plain instead of application/rss+xml); requires tolerant parser. Also available via Olshansk generated feed (feed_mistral.xml). Model releases, partnerships, company news."
+
+  - id: cohere-blog
+    tier: 3
+    type: blog
+    url: https://cohere.com/blog
+    tags: [enterprise-llm, retrieval, rerank, api, command-r]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Cohere blog page (no native RSS). Verified accessible 2025-11-09. Monitored via Olshansk/alan-turing-institute generated feeds (cohere-blog.xml, feed_cohere.xml). Enterprise LLM focus, retrieval-augmented generation. Access limitation: no native RSS; requires generated feed."
+
+  - id: xai-news
+    tier: 3
+    type: blog
+    url: https://x.ai/news
+    tags: [grok, models, musk, x-platform, reasoning]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "xAI news page (no native RSS). Returns 403 (Cloudflare bot management) to automated fetches; requires JavaScript rendering. Monitored via Olshansk generated feed (feed_xainews.xml, Selenium-based) or Diffbot RSS (rss.diffbot.com/rss?url=https://x.ai/news). Paused in some aggregators due to browser challenges. Access limitation: Cloudflare bot management blocks automated discovery; requires Selenium or similar."
+
+  - id: deepseek-news
+    tier: 3
+    type: blog
+    url: https://status.deepseek.com/feed.rss
+    tags: [models, v4, reasoning, chinese-ai, open-weights, api-status]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "DeepSeek status page RSS feed. Verified working 2025-11-09 (HTTP 200, application/rss+xml). Official status page feed (~2 posts/week). Research/news page at deepseek.com/en/news/ has no native RSS. Model releases, API updates. Access limitation: only status page has RSS; main news page requires generated feed."
+
+  - id: ollama-blog
+    tier: 3
+    type: blog
+    url: https://ollama.com/blog/rss.xml
+    tags: [local-llm, open-source, docker, model-library, on-device]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Ollama official blog RSS. Verified working 2025-11-09 (HTTP 200, text/xml). Added 2025-03-27. Local LLM runtime, model library, Docker image. Also model library feed via rsshub.app/ollama/library."
+
+  - id: perplexity-blog
+    tier: 3
+    type: blog
+    url: https://www.perplexity.ai/hub/blog
+    tags: [search, rag, citations, pro, api, sonar]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Perplexity Hub blog page (no native RSS). Returns 403 to automated fetches. Monitored via Olshansk generated feed (feed_perplexity_hub.xml, Selenium-based). Product updates, research, ideas. Changelog has native RSS: docs.perplexity.ai/docs/resources/changelog/rss.xml. Access limitation: no native RSS; requires Selenium-generated feed."
+
+  - id: huggingface-blog
+    tier: 3
+    type: blog
+    url: https://huggingface.co/blog/feed.xml
+    tags: [open-source, models, transformers, datasets, community, tutorials]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Hugging Face official blog RSS. Verified working 2025-11-09 (HTTP 200, application/rss+xml). Community articles, model releases, tutorials, libraries. Also huggingface.blog/feed.xml (independent publication, not operated by HF). Daily Papers page monitored separately."
+
+  - id: thinking-machines-lab
+    tier: 3
+    type: blog
+    url: https://thinkingmachines.ai/index.xml
+    tags:
+      [research, open-science, multimodal, human-ai-collaboration, mirak-murati]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Thinking Machines Lab (Mira Murati) blog RSS. Verified working 2025-11-09 (HTTP 200, application/xml). New lab (2025). Blog at thinkingmachines.ai/blog/ with RSS at index.xml. Technical posts, science sharing, NVIDIA partnership news."
+
+  - id: transluce-research
+    tier: 3
+    type: blog
+    url: https://transluce.org/research
+    tags:
+      [
+        ai-oversight,
+        interpretability,
+        evaluations,
+        mental-health,
+        nonprofit,
+        independent,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Transluce nonprofit research lab page (no native RSS). Verified accessible 2025-11-09. Monitored via Olshansk generated feed (feed_transluce.xml). Oversight foundation models, agent activity investigations, mental health evaluations. Independent, public-interest focus. Access limitation: no native RSS; requires generated feed."
+
+  - id: timaeus-research
+    tier: 3
+    type: blog
+    url: https://timaeus.co/research
+    tags:
+      [
+        ai-safety,
+        singular-learning-theory,
+        interpretability,
+        theoretical,
+        nonprofit,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Timaeus research lab page (no native RSS). Verified accessible 2025-11-09. Monitored via Olshansk generated feed (feed_timaeus.xml). Singular learning theory, AI safety, theoretical foundations. Publications page at timaeus.co/research. Access limitation: no native RSS; requires generated feed."
+
+  - id: goodfire-research
+    tier: 3
+    type: blog
+    url: https://www.goodfire.ai/research
+    tags:
+      [interpretability, mechanistic, sparse-autoencoders, features, monitoring]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Goodfire interpretability research lab page (no native RSS). Verified accessible 2025-11-09. Monitored via Olshansk generated feed (feed_goodfire.xml). Mechanistic interpretability, sparse autoencoders, feature steering. Also blog at goodfire.com/blog/. Access limitation: no native RSS; requires generated feed."
+
+  - id: far-ai-publications
+    tier: 3
+    type: blog
+    url: https://www.far.ai/blog/rss.xml
+    tags:
+      [
+        ai-safety,
+        adversarial-robustness,
+        interpretability,
+        evaluations,
+        nonprofit,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "FAR.AI (Fund for Alignment Research) blog RSS. Verified working 2025-11-09 (HTTP 200, application/rss+xml). Native RSS on blog. Publications, news, adversarial robustness, interpretability. Nonprofit research funding org."
+
+  - id: eleutherai-papers
+    tier: 3
+    type: blog
+    url: https://eleuther.ai/papers
+    tags: [open-source, llm, the-pile, gpt-neox, datasets, independent-research]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "EleutherAI publications page (no native RSS). Verified accessible 2025-11-09. Monitored via Olshansk generated feed (feed_eleuther_papers.xml). Also blog.eleuther.ai/ (has RSS via Hugo index.xml). Independent grassroots research, The Pile, GPT-NeoX. Access limitation: publications page has no native RSS; blog has RSS."
+
+  # --- Open-Source Projects & Developer Tooling (Community) ---
+  - id: langchain-blog
+    tier: 3
+    type: blog
+    url: https://www.langchain.com/blog/rss.xml
+    tags:
+      [
+        agent-engineering,
+        langgraph,
+        langsmith,
+        tutorials,
+        case-studies,
+        frameworks,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "LangChain official blog RSS. Verified working 2025-11-09 (HTTP 200, application/rss+xml). Agent engineering, LangGraph, LangSmith, tutorials, case studies. Also blog.langchain.dev/rss/ (may have issues). High practitioner relevance."
+
+  - id: cursor-blog
+    tier: 3
+    type: blog
+    url: https://www.cursor.com/atom.xml
+    tags: [ai-editor, coding-assistant, ide, product-updates, changelog]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Cursor AI editor Atom feed. Returns 400 (CSP header size limit) to some HTTP clients; works in browsers. Verified via Feeder/Feeder.co. Changelog separate: cursor.com/changelog/rss.xml. Product updates, tips. Access limitation: CSP header causes issues with some RSS clients; Feeder-generated feed may be more reliable."
+
+  - id: supabase-blog
+    tier: 3
+    type: blog
+    url: https://supabase.com/rss.xml
+    tags: [postgres, database, auth, realtime, edge-functions, pgvector, ai]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Supabase blog RSS. Verified working 2025-11-09 (HTTP 200, application/xml). Postgres platform, pgvector, AI/ML integrations, edge functions, auth. Engineering + company categories."
+
+  - id: weaviate-blog
+    tier: 3
+    type: blog
+    url: https://weaviate.io/blog/rss.xml
+    tags: [vector-database, rag, generative-ai, graphql, modules, open-source]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Weaviate vector database blog RSS. Verified working 2025-11-09 (HTTP 200, application/xml). RAG, Generative AI, GraphQL, modules. Open-source, technical depth."
+
+  - id: pinecone-blog
+    tier: 3
+    type: blog
+    url: https://www.pinecone.io/blog/
+    tags: [vector-database, rag, serverless, hybrid-search, managed-service]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Pinecone blog page (no native RSS). Verified accessible 2025-11-09. pinecone.io/rss/ returns validator page, not RSS. Monitored via Olshansk generated feed (feed_pinecone.xml, Selenium-based). Vector DB, serverless, RAG patterns. Access limitation: no native RSS; requires Selenium-generated feed."
+
+  - id: groq-blog
+    tier: 3
+    type: blog
+    url: https://groq.com/blog/
+    tags: [lp-inference, hardware, speed, api, compound-ai, neocloud]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Groq blog page (no native RSS). Verified accessible 2025-11-09. Monitored via Olshansk generated feed (feed_groq.xml) or third-party (rss.traeai.com/feed/groqBlog, api.bestblogs.dev/feed/groqBlog). LPU inference engine, speed benchmarks. Access limitation: no native RSS; requires generated feed."
+
+  # --- AI Infrastructure & Emerging Cloud Providers ---
+  - id: dagster-blog
+    tier: 3
+    type: blog
+    url: https://dagster.io/blog
+    tags:
+      [data-orchestration, mlops, pipelines, assets, software-defined-assets]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Dagster blog page (no native RSS). Verified accessible 2025-11-09. Monitored via Olshansk generated feed (feed_dagster.xml). Data orchestration, ML pipelines, software-defined assets. MLOps relevance. Access limitation: no native RSS; requires generated feed."
+
+  # --- Independent Researchers & Practitioner Blogs (Track Record) ---
+  - id: hamel-husain-blog
+    tier: 3
+    type: blog
+    url: https://hamel.dev/index.xml
+    tags: [llm-eval, fine-tuning, production, mlops, practitioner]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Hamel Husain blog RSS. Verified working 2025-11-09 (HTTP 200, application/xml). LLM evaluation, fine-tuning, production ML. Practitioner with strong track record. Official RSS (Hugo)."
+
+  - id: lilian-weng-blog
+    tier: 3
+    type: blog
+    url: https://lilianweng.github.io/index.xml
+    tags: [llm, reasoning, agents, survey, technical-deep-dive]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Lilian Weng (OpenAI) personal blog RSS. Verified working 2025-11-09 (HTTP 200, application/xml). Technical surveys on LLM reasoning, agents, alignment. High-quality deep dives. Official RSS (GitHub Pages/Jekyll)."
+
+  - id: interconnnected-matt-webb
+    tier: 3
+    type: blog
+    url: https://interconnected.org/home/feed
+    tags: [product, ai-ux, design, strategy, independent]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "Matt Webb (Interconnected) blog RSS. Verified working 2025-11-09 (HTTP 200, application/xml). Product thinking, AI UX, design strategy. Independent practitioner perspective."
+
+  # --- Industry Newsletters / Aggregators (Curated, Require Corroboration) ---
+  - id: tl-dr-ai
+    tier: 3
+    type: blog
+    url: https://tldr.tech/ai/archives
+    tags: [daily, curated, industry-news, summaries, newsletter]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "TLDR AI daily newsletter page (no native RSS). Verified accessible 2025-11-09. Monitored via alan-turing-institute generated feed (tldr-ai.xml). Curated summaries with links. Requires corroboration of linked sources. Access limitation: no native RSS; requires generated feed."
+
+  - id: the-batch-deeplearning-ai
+    tier: 3
+    type: blog
+    url: https://www.deeplearning.ai/the-batch/
+    tags: [weekly, curated, andrew-ng, industry-analysis, education]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-09T06:00:00Z"
+    status: active
+    notes: "The Batch (DeepLearning.AI, Andrew Ng) page (no native RSS). Verified accessible 2025-11-09. Monitored via alan-turing-institute generated feed (the-batch.xml, currently paused/broken). Weekly curated newsletter. Requires corroboration. Access limitation: no native RSS; generated feed currently paused."
+
+  # ============================================================================
+  # TIER 2 — VERIFIED SECONDARY: AI-POWERED DEVELOPMENT TOOLS & CODING AGENTS
+  # Official vendor feeds for mandatory and comparative monitoring
+  # ============================================================================
+
+  # --- Visual Studio Code (Mandatory Monitoring) ---
+  - id: vscode-releases
+    tier: 2
+    type: rss
+    url: https://code.visualstudio.com/feed.xml
+    tags:
+      [
+        vscode,
+        editor,
+        releases,
+        insiders,
+        extensions,
+        microsoft,
+        ai-coding,
+        copilot-integration,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official VS Code releases feed. Covers stable releases, Insiders builds, and extension API updates. Verified working 2025-11-10 (HTTP 200, application/xml). Includes GitHub Copilot integration updates and agent mode features. Primary source for VS Code release cadence (~monthly stable, daily Insiders)."
+
+  # --- GitHub Copilot CLI (Mandatory Monitoring) ---
+  - id: github-copilot-cli-releases
+    tier: 2
+    type: github
+    repo: github/copilot-cli
+    url: https://github.com/github/copilot-cli/releases.atom
+    tags:
+      [
+        copilot,
+        cli,
+        coding-agent,
+        autonomous,
+        experimental,
+        github,
+        mcp,
+        sandbox,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official GitHub Copilot CLI releases via GitHub Atom feed. Covers agent capabilities, experimental features, sandbox/MCP integration, /index commands, session management. High-frequency releases (~weekly). Verified working 2025-11-10 via GitHub releases.atom endpoint."
+
+  # --- GitHub Copilot in VS Code (Mandatory Monitoring) ---
+  - id: github-copilot-vscode
+    tier: 2
+    type: rss
+    url: https://github.blog/changelog/feed/
+    tags:
+      [
+        copilot,
+        vscode,
+        agent-mode,
+        chat,
+        inline-chat,
+        github,
+        vs-code-integration,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "GitHub Blog changelog RSS (main feed). Filter by 'copilot' label in discovery for VS Code updates: agent mode, chat, inline chat, model picker, extensions. Also available via Havoptic per-tool feed: https://www.havoptic.com/feeds/copilot-vscode.xml. Verified working 2025-11-10 (HTTP 200, application/rss+xml). Label-specific feed /changelog/label/copilot/rss.xml returns 404; use main feed with label filtering."
+
+  # --- GitHub Copilot Coding Agent / Autonomous Agent (Mandatory Monitoring) ---
+  - id: github-copilot-coding-agent
+    tier: 2
+    type: rss
+    url: https://github.blog/changelog/feed/
+    tags:
+      [
+        copilot,
+        coding-agent,
+        autonomous,
+        background-agent,
+        github-actions,
+        self-hosted-runners,
+        security,
+        governance,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "GitHub Blog changelog RSS (main feed). Filter by 'copilot' and 'coding-agent' labels in discovery for autonomous background agent updates: delegate tasks, draft PRs, background execution in GitHub Actions, self-hosted runners (ARC), network configuration, mobile model picker, enterprise security/governance. Label-specific feed returns 404; use main feed with label filtering. Also tracked via Havoptic combined feed."
+
+  # --- Anthropic Claude Code (Comparative Monitoring) ---
+  - id: anthropic-claude-code
+    tier: 2
+    type: rss
+    url: https://code.claude.com/docs/en/changelog/rss.xml
+    tags:
+      [
+        claude-code,
+        anthropic,
+        coding-agent,
+        cli,
+        mcp,
+        terminal,
+        autonomous,
+        changelog,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official Claude Code changelog RSS (Mintlify). Covers releases, MCP task support, terminal UX updates, checkpoints for autonomous development, native VS Code extension. Also available via GitHub releases: https://github.com/anthropics/claude-code/releases.atom and Havoptic: https://www.havoptic.com/feeds/claude-code.xml. Verified working 2025-11-10 (HTTP 200, application/xml)."
+
+  # --- OpenAI Codex CLI (Comparative Monitoring) ---
+  - id: openai-codex-cli
+    tier: 2
+    type: github
+    repo: openai/codex
+    url: https://github.com/openai/codex/releases.atom
+    tags:
+      [codex, openai, cli, coding-agent, agentic, rust, terminal, gpt-5-codex]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official OpenAI Codex CLI releases via GitHub Atom feed. High-frequency releases (daily/weekly). Covers agentic coding workflows, GPT-5-Codex model integration, image attachments, IDE extension. Also available via Havoptic: https://www.havoptic.com/feeds/openai-codex.xml and PyPI RSS for openai-codex-cli-bin. Verified working 2025-11-10."
+
+  # --- Google Gemini CLI (Comparative Monitoring) ---
+  - id: google-gemini-cli
+    tier: 2
+    type: github
+    repo: google-gemini/gemini-cli
+    url: https://github.com/google-gemini/gemini-cli/releases.atom
+    tags:
+      [
+        gemini,
+        cli,
+        google,
+        coding-agent,
+        nightly,
+        preview,
+        stable,
+        mcp,
+        a2a,
+        vertex-ai,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official Gemini CLI releases via GitHub Atom feed. Three release channels: nightly (daily), preview (weekly), stable (weekly promotion). Covers atomic operations, state persistence, MCP OAuth, A2A server, terminal rendering, settings migration, telemetry. Also via Havoptic: https://www.havoptic.com/feeds/gemini-cli.xml and geminicli.com/docs/changelogs/. Verified working 2025-11-10."
+
+  # --- JetBrains Junie & AI (Comparative Monitoring) ---
+  - id: jetbrains-junie-releases
+    tier: 2
+    type: rss
+    url: https://blog.jetbrains.com/junie/category/releases/feed/
+    tags:
+      [junie, jetbrains, ai-coding-agent, local-ai, cli, ide, qwen, nvidia-rtx]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official JetBrains Junie releases feed (category-specific). Covers Junie Local (local AI coding agent), merged models (Qwen3.8-3.6-27B-blend), NVIDIA RTX support on Windows, Junie Lite free tier, CLI beta. Also available: AI category feed https://blog.jetbrains.com/junie/category/ai/feed/ and main Junie blog https://junie.jetbrains.com/blog/ (no native RSS). Verified working 2025-11-10."
+
+  # --- Apple Xcode AI Integrations (Comparative Monitoring) ---
+  - id: apple-xcode-releases
+    tier: 2
+    type: rss
+    url: https://developer.apple.com/news/releases/rss/releases.rss
+    tags:
+      [
+        xcode,
+        apple,
+        ai-coding,
+        claude,
+        chatgpt,
+        byom,
+        agentic-coding,
+        swift,
+        intelligence,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official Apple Developer releases RSS. Covers Xcode beta/stable releases with AI coding intelligence features: integrated ChatGPT/Claude accounts, BYOM (Bring Your Own Model) for OpenAI/Anthropic/Ollama/custom endpoints, agentic coding in Xcode 27 (interactive planning, multi-turn Q&A, canvas rendering). Also xcodereleases.com/api/all.rss for version-specific feed. Verified working 2025-11-10."
+
+  # --- Visual Studio & GitHub Copilot Integrations (Comparative Monitoring) ---
+  - id: visual-studio-blog
+    tier: 2
+    type: rss
+    url: https://devblogs.microsoft.com/visualstudio/search/feed/
+    tags:
+      [
+        visual-studio,
+        copilot,
+        agent,
+        byom,
+        github-copilot-sdk,
+        dotnet,
+        azure,
+        ide,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official Visual Studio Blog RSS (search feed). Covers VS updates with GitHub Copilot integration: new Agent (Preview) built on Copilot SDK, BYOM (Bring Your Own Model) for Foundry/OpenAI/Anthropic/Ollama, NuGet vulnerability fixing, Git agent, GitHub Copilot Chat experience. Also Microsoft Developer Changelog: https://developer.microsoft.com/api/changelog/rss. Verified working 2025-11-10."
+
+  # ============================================================================
+  # TIER 3 — CORROBORATED COMMUNITY: CODING AGENTS & DEVELOPER ENVIRONMENTS
+  # Community/aggregator feeds, GitHub releases, emerging tools
+  # ============================================================================
+
+  # --- Cursor AI Editor (Comparative Monitoring) ---
+  - id: cursor-changelog
+    tier: 3
+    type: rss
+    url: https://cursor.com/changelog/rss.xml
+    tags:
+      [
+        cursor,
+        ai-editor,
+        coding-assistant,
+        ide,
+        voice-chat,
+        agent-sdk,
+        changelog,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official Cursor changelog RSS. Covers product updates: Voice Chat with agents, Agent SDK, Cloud Agent Canvases, Origin CLI, mobile, security review (Teams/Enterprise). Also release notes feed: https://cursor.com/docs/release-notes/rss.xml. Note: CSP header may cause 400 for some HTTP clients; Feeder-generated feed works. Verified via Feeder 2025-11-10. Also via Havoptic: https://www.havoptic.com/feeds/cursor.xml."
+
+  # --- Windsurf (Codeium) Editor (Comparative Monitoring) ---
+  - id: windsurf-blog
+    tier: 3
+    type: rss
+    url: https://windsurf.com/feed.xml
+    tags:
+      [
+        windsurf,
+        codeium,
+        ai-editor,
+        agent,
+        devin,
+        opus,
+        adaptive-routing,
+        changelog,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official Windsurf (Codeium) blog RSS. Verified working 2025-11-10 (HTTP 200, application/xml). Covers: Opus 4.7 fast mode, Devin Review/Quick Review, Agent Command Center v2.0, Adaptive model router, pricing overhaul, model roster (GPT-5.4, Gemini 3.1 Pro). Changelog also at windsurf.com/changelog with generated feed at https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_windsurf_changelog.xml. Also via Havoptic: https://www.havoptic.com/feeds/windsurf.xml."
+
+  # --- Zed Editor (Comparative Monitoring) ---
+  - id: zed-blog
+    tier: 3
+    type: rss
+    url: https://zed.dev/blog.rss
+    tags: [zed, editor, ai, delta, collaboration, local-models, zeta, business]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official Zed Industries blog RSS. Verified working 2025-11-10. Covers: Delta (PR replacement), local models, Zeta model updates, Zed for Business (org-wide AI settings, policy enforcement), Windows support, 1.0 release. Stable/preview release pages at zed.dev/releases/stable and /preview (no native RSS). Also via Havoptic: https://www.havoptic.com/feeds/zed.xml."
+
+  # --- Cline (Comparative Monitoring) ---
+  - id: cline-releases
+    tier: 3
+    type: github
+    repo: cline/cline
+    url: https://github.com/cline/cline/releases.atom
+    tags:
+      [
+        cline,
+        coding-agent,
+        autonomous,
+        sdk,
+        ide-extension,
+        cli,
+        plugins,
+        worker-mode,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Cline autonomous coding agent releases via GitHub Atom feed. High-frequency releases (~daily). Covers: plugin worker mode, cloud tasks local/cloud toggle, model selection, retry logic, provider error tracing. Also via Havoptic: https://www.havoptic.com/feeds/cline.xml and DevAgentRadar. Verified working 2025-11-10."
+
+  # --- OpenCode (Comparative Monitoring) ---
+  - id: opencode-changelog
+    tier: 3
+    type: rss
+    url: https://opencode.ai/changelog.xml
+    tags:
+      [
+        opencode,
+        coding-agent,
+        open-source,
+        mcp,
+        worktree,
+        desktop,
+        browse,
+        rune,
+        hex,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Official OpenCode changelog RSS. Verified working 2025-11-10. Covers: Shared MCP Connections, GUI Plugin Themes, Mobile Composer Dock, Scripted Runs in Worktrees, Persistent Desktop Terminals, Image Generation, OpenCode Browse (real browser control), Hex/Browse/Rune tools, DeepSeek access. Also GitHub releases: https://github.com/anomalyco/opencode/releases.atom and Havoptic: https://www.havoptic.com/feeds/opencode.xml."
+
+  # --- Aider (Comparative Monitoring) ---
+  - id: aider-releases
+    tier: 3
+    type: github
+    repo: Aider-AI/aider
+    url: https://github.com/Aider-AI/aider/releases.atom
+    tags:
+      [
+        aider,
+        pair-programming,
+        terminal,
+        cli,
+        python,
+        gpt-5,
+        anthropic,
+        open-source,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Aider AI pair programming terminal releases via GitHub Atom feed. Covers: GPT-5 model support, multi-model, repository mapping, voice input, test-driven development. Also HISTORY.md at github.com/Aider-AI/aider/blob/main/HISTORY.md. Verified working 2025-11-10."
+
+  # --- Kilo Code (Comparative Monitoring) ---
+  - id: kilocode-releases
+    tier: 3
+    type: github
+    repo: Kilo-Org/kilocode
+    url: https://github.com/Kilo-Org/kilocode/releases.atom
+    tags:
+      [
+        kilocode,
+        ide-agent,
+        free,
+        vscode,
+        jetbrains,
+        cli,
+        cloud,
+        workspace,
+        docker,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Kilo Code releases via GitHub Atom feed. High-frequency (pre-releases daily, releases weekly). Covers: hosted workspace operations, Cloud system feed, Session Host API, Docker images for OpenShell sandboxes, JetBrains plugin, goal tool for session continuation. Also via Havoptic: https://www.havoptic.com/feeds/kilocode.xml (if available), Agentic Index, DevAgentRadar. Verified working 2025-11-10."
+
+  # --- Havoptic Aggregated Feeds (Comparative Monitoring - Aggregator) ---
+  - id: havoptic-combined
+    tier: 3
+    type: rss
+    url: https://www.havoptic.com/feed.xml
+    tags:
+      [
+        havoptic,
+        aggregator,
+        ai-coding-tools,
+        releases,
+        combined,
+        cursor,
+        codex,
+        claude-code,
+        gemini,
+        copilot,
+        windsurf,
+        zed,
+        cline,
+        opencode,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Havoptic combined feed for ALL tracked AI coding tools (RSS 2.0). Tracks 20+ tools: Claude Code, OpenAI Codex CLI, Cursor, Gemini CLI, Kiro CLI, GitHub Copilot CLI, Devin Desktop, Antigravity CLI, Grok Build, Cline, OpenCode, Zed, Factory Droid, Devin, Lovable, Amp, GitHub Copilot in VS Code, Replit Agent, Bolt, v0. Updates within ~1 hour of release detection. Also JSON Feed: https://www.havoptic.com/feed.json, Atom: https://www.havoptic.com/feed.atom. Typed change feeds: https://www.havoptic.com/feeds/changes.xml. Verified working 2025-11-10."
+
+  # --- Agentic Index (Comparative Monitoring - Aggregator) ---
+  - id: agentic-index-changes
+    tier: 3
+    type: rss
+    url: https://agenticindex.io/feeds/changes.xml
+    tags:
+      [
+        agentic-index,
+        aggregator,
+        ai-agents,
+        platform-updates,
+        verified,
+        taxonomy,
+        impact-level,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Agentic Index changes feed (RSS). Reviews vendor blogs, changelogs, docs, press weekly. Entries dated, sourced, carry change type and impact level per 14-point taxonomy. Filterable by vendor, change type, impact, verification. Free RSS for automation. Verified accessible 2025-11-10."
+
+  # --- DevAgentRadar (Comparative Monitoring - Aggregator) ---
+  - id: devagentradar-feed
+    tier: 3
+    type: rss
+    url: https://www.devagentradar.com/api/radar/feed.xml
+    tags:
+      [
+        devagentradar,
+        aggregator,
+        ai-coding-agents,
+        releases,
+        high-signal,
+        github-releases,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "DevAgentRadar high-signal release feed (RSS). Tracks major AI coding agents: OpenAI Codex, GitHub Copilot CLI, Cline, Google Antigravity, etc. Sources from official GitHub releases. Covers: plugin worker mode, cloud tasks, MCP connections, model updates. Verified working 2025-11-10."
+
+  # --- Emerging: Goose (Comparative Monitoring) ---
+  - id: goose-releases
+    tier: 3
+    type: github
+    repo: aaif-goose/goose
+    url: https://github.com/aaif-goose/goose/releases.atom
+    tags:
+      [
+        goose,
+        ai-agent,
+        open-source,
+        extensible,
+        llm-agnostic,
+        block,
+        jackdorsey,
+      ]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Goose (Block/open-source) AI agent releases via GitHub Atom feed. Extensible, LLM-agnostic agent that goes beyond code suggestions: install, execute, edit, test with any LLM. High star count (56k+). Verified working 2025-11-10."
+
+  # --- Emerging: Continue (Comparative Monitoring - acquired by Cursor) ---
+  - id: continue-releases
+    tier: 3
+    type: github
+    repo: continuedev/continue
+    url: https://github.com/continuedev/continue/releases.atom
+    tags: [continue, coding-agent, open-source, vscode, acquired, cursor]
+    lang: en
+    addedDate: "2025-11-10T06:00:00Z"
+    lastVerified: "2025-11-10T06:00:00Z"
+    status: active
+    notes: "Continue (acquired by Cursor) releases via GitHub Atom feed. Open-source coding agent. Note: project acquired by Cursor; monitoring for historical context and any continuing releases. Verified working 2025-11-10."
+
+  # --- Emerging: Factory Droid / Devin / Amp / Kiro / Replit Agent / Bolt / v0 (Havoptic coverage) ---
+  # These are covered via Havoptic per-tool feeds and combined feed; individual feeds not yet native.
+  # Monitoring via Havoptic: https://www.havoptic.com/feeds/factory-droid.xml, /feeds/devin.xml, /feeds/amp.xml, /feeds/kiro.xml, /feeds/replit-agent.xml, /feeds/bolt.xml, /feeds/v0.xml
+
+  # --- Deprecated / Blocked examples (Tier 4 excluded per contract §3.1) ---
+  # - id: vendor-comparison-matrix
+  #   tier: 4
+  #   type: blog
+  #   url: https://example.com/vendor-matrix
+  #   tags: [vendor, comparison, marketing]
+  #   lang: en
+  #   addedDate: "2023-01-01T06:00:00Z"
+  #   lastVerified: "2024-01-15T06:00:00Z"
+  #   status: blocked
+  #   notes: "Explicitly excluded per contract §3.1 Tier 4. Vendor comparison matrices are marketing material."

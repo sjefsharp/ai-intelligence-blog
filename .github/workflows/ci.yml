@@ -26,7 +26,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: true
+          run_install: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -34,26 +34,20 @@ jobs:
           node-version: "22"
           cache: "pnpm"
 
-      - name: Setup CI environment
-        run: bash scripts/ci-setup.sh
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Run Prettier
-        run: ./node_modules/.bin/prettier --check .
+        run: pnpm exec prettier --check .
 
       - name: Run ESLint
-        run: ./node_modules/.bin/eslint . --ext .ts,.tsx,.js,.jsx,.astro --max-warnings 0
+        run: pnpm exec eslint . --max-warnings 0
 
       - name: Run Markdownlint
-        run: ./node_modules/.bin/markdownlint .
-
-      - name: Run Yamllint
-        run: ./node_modules/.bin/yamllint .
-
-      - name: Run Yamllint
-        run: pnpm exec yamllint .
+        run: pnpm exec markdownlint .
 
       - name: Run Astro Check
-        run: ./node_modules/.bin/astro check
+        run: pnpm exec astro check
 
   test:
     name: Unit Tests
@@ -67,7 +61,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: true
+          run_install: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -75,11 +69,11 @@ jobs:
           node-version: "22"
           cache: "pnpm"
 
-      - name: Setup CI environment
-        run: bash scripts/ci-setup.sh
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Run Vitest
-        run: ./node_modules/.bin/vitest run
+        run: pnpm exec vitest run
 
   build:
     name: Build
@@ -94,7 +88,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: true
+          run_install: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -102,11 +96,11 @@ jobs:
           node-version: "22"
           cache: "pnpm"
 
-      - name: Setup CI environment
-        run: bash scripts/ci-setup.sh
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: ./node_modules/.bin/astro build
+        run: pnpm exec astro build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v7
@@ -128,7 +122,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: true
+          run_install: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -136,11 +130,11 @@ jobs:
           node-version: "22"
           cache: "pnpm"
 
-      - name: Setup CI environment
-        run: bash scripts/ci-setup.sh
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: ./node_modules/.bin/playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: Download build artifacts
         uses: actions/download-artifact@v8
@@ -150,11 +144,19 @@ jobs:
 
       - name: Start preview server
         run: |
-          ./node_modules/.bin/astro preview --port 4321 &
-          sleep 5
+          pnpm exec astro preview --port 4321 &
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:4321/ >/dev/null; then
+              echo "preview server ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "preview server did not become ready" >&2
+          exit 1
 
       - name: Run Playwright accessibility tests
-        run: ./node_modules/.bin/playwright test
+        run: pnpm exec playwright test
         env:
           BASE_URL: http://localhost:4321
 
@@ -170,7 +172,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: true
+          run_install: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -178,15 +180,14 @@ jobs:
           node-version: "22"
           cache: "pnpm"
 
-      - name: Setup CI environment
-        run: bash scripts/ci-setup.sh
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Audit production dependencies
-        run: ./node_modules/.bin/pnpm audit --prod --audit-level=high
-        continue-on-error: false
+        run: pnpm audit --prod --audit-level=high
 
       - name: Audit dev dependencies (warn only)
-        run: ./node_modules/.bin/pnpm audit --dev --audit-level=high || true
+        run: pnpm audit --dev --audit-level=high || true
 
   secret-scan:
     name: Secret Scan
@@ -200,9 +201,9 @@ jobs:
 
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v3
-        with:
-          config: .gitleaks.toml
-          args: "--verbose"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
 
   commitlint:
     name: Commitlint
@@ -219,7 +220,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: true
+          run_install: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -227,11 +228,11 @@ jobs:
           node-version: "22"
           cache: "pnpm"
 
-      - name: Setup CI environment
-        run: bash scripts/ci-setup.sh
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Run commitlint
-        run: ./node_modules/.bin/commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+        run: pnpm exec commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
   branch-name:
     name: Branch Name Validation

@@ -1,0 +1,205 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/criterion-evaluation.json",
+  "title": "Criterion Evaluation",
+  "description": "Individual Q1-Q10 and Audio A-G criterion evaluation result with evidence, passage references, severity, and repair tracking.",
+  "type": "object",
+  "properties": {
+    "criterionId": {
+      "type": "string"
+    },
+    "evaluationId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["CRITICAL", "MAJOR", "MINOR", "ADVISORY"]
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "full-narrative",
+        "per-story",
+        "opening",
+        "transitions",
+        "conclusion",
+        "specific-passage"
+      ]
+    },
+    "summary": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["deterministic", "model-assisted", "evidence-based"]
+          },
+          "description": {
+            "type": "string"
+          },
+          "passageReferences": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "characterOffset": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "lineNumber": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "sectionHeading": {
+                  "type": "string"
+                },
+                "quote": {
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "storyId": {
+                  "type": "string",
+                  "pattern": "^story_[a-z0-9]{16}$"
+                }
+              },
+              "required": ["characterOffset", "quote"],
+              "additionalProperties": false
+            }
+          },
+          "claimIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          }
+        },
+        "required": [
+          "type",
+          "description",
+          "passageReferences",
+          "claimIds",
+          "sourceIds"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "passageReferences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "characterOffset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "lineNumber": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "sectionHeading": {
+            "type": "string"
+          },
+          "quote": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "storyId": {
+            "type": "string",
+            "pattern": "^story_[a-z0-9]{16}$"
+          }
+        },
+        "required": ["characterOffset", "quote"],
+        "additionalProperties": false
+      }
+    },
+    "repairAttempted": {
+      "type": "boolean"
+    },
+    "repairActionId": {
+      "type": "string"
+    },
+    "reassessment": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "reassessedAt": {
+          "type": "string"
+        }
+      },
+      "required": ["status", "summary", "reassessedAt"],
+      "additionalProperties": false
+    },
+    "residualUncertainty": {
+      "type": "string"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["deterministic", "model-assisted", "evidence-based"]
+    },
+    "evaluatedAt": {
+      "type": "string"
+    },
+    "evaluatedBy": {
+      "type": "string"
+    },
+    "qEvidenceReferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "holisticAssessment": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "criterionId",
+    "evaluationId",
+    "status",
+    "scope",
+    "summary",
+    "rationale",
+    "evidence",
+    "passageReferences",
+    "repairAttempted",
+    "method",
+    "evaluatedAt",
+    "evaluatedBy",
+    "holisticAssessment"
+  ],
+  "additionalProperties": false
+}

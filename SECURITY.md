@@ -4,10 +4,10 @@
 
 Only the latest release on the `main` branch receives security updates. This is a static site with no server runtime; vulnerabilities in dependencies are the primary concern.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| Latest  | ✅                 |
-| Older   | ❌                 |
+| Version | Supported |
+| ------- | --------- |
+| Latest  | ✅        |
+| Older   | ❌        |
 
 ## Reporting a Vulnerability
 
@@ -16,6 +16,7 @@ Only the latest release on the `main` branch receives security updates. This is 
 Email security concerns to: **security@<domain>** (replace with actual contact)
 
 Include:
+
 - Description of the vulnerability
 - Steps to reproduce
 - Potential impact
@@ -26,24 +27,28 @@ We will acknowledge receipt within 48 hours and provide a remediation timeline.
 ## Security Measures
 
 ### Dependency Management
+
 - `pnpm audit --prod` run before every release
 - Build fails on `high` or `critical` production vulnerabilities
 - `devDependencies` audited separately (warn only)
 - Dependabot configured for automated updates
 
 ### Secrets
+
 - **No secrets in repository** — ever (not in history, not in `.env`, not in code)
 - Local development: `.env.local` (gitignored)
 - CI/CD: GitHub Actions secrets only
 - OpenRouter API key rotated quarterly
 
 ### Content Security
+
 - No user-generated content (author-only blog)
 - No inline scripts (Astro strips them; CSP `script-src 'self'` compatible)
 - External links: `rel="noopener noreferrer"` on all `target="_blank"`
 - Images: Local assets or trusted CDN only (Astro `Image` component)
 
 ### AI Model Access
+
 - Free-tier only: OpenRouter (`nvidia/nemotron-3-ultra-550b-a55b:free`) + Nous Portal
 - No paid models, no non-configured endpoints, no key sharing
 - Rate limits respected with exponential backoff

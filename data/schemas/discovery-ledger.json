@@ -1,0 +1,190 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/discovery-ledger.json",
+  "title": "Discovery Ledger Entry",
+  "description": "Raw discovered items from automated discovery (RSS, GitHub, arXiv, etc.) before triage. Extended per Signal Desk Specification v1.0 with evidence classification and ring mapping.",
+  "type": "object",
+  "required": [
+    "id",
+    "sourceId",
+    "discoveredAt",
+    "title",
+    "url",
+    "contentHash",
+    "rawMetadata",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^disc_[a-z0-9]{16}$",
+      "description": "Unique discovery ID (disc_ + 16 hex chars)"
+    },
+    "sourceId": {
+      "type": "string",
+      "description": "Reference to source registry entry"
+    },
+    "contributorId": {
+      "type": "string",
+      "description": "Reference to contributor registry entry (if Signal Desk origin)"
+    },
+    "discoveredAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When item was discovered"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Original title from source"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical URL of discovered item"
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "SHA-256 of content for deduplication"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Original publication date from source"
+    },
+    "firstDisclosedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "First supported public disclosure timestamp (distinct from publication)"
+    },
+    "eventDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Underlying event date, when different from publication/disclosure"
+    },
+    "lastUpdatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last substantive update timestamp"
+    },
+    "sourceTimezone": {
+      "type": "string",
+      "description": "Source timezone for timestamp interpretation"
+    },
+    "timestampConfidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence in the timestamp values (0-1)"
+    },
+    "authors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Author names if available"
+    },
+    "rawMetadata": {
+      "type": "object",
+      "description": "Full raw metadata from source (RSS entry, GitHub release, arXiv metadata, etc.)",
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Auto-extracted or original summary"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Auto-extracted tags"
+    },
+    "language": {
+      "type": "string",
+      "enum": ["en", "nl", "unknown"],
+      "description": "Detected language"
+    },
+    "evidenceClass": {
+      "type": "string",
+      "enum": [
+        "ORIGINAL_FINDING",
+        "FIRST_HAND_DISCLOSURE",
+        "INDEPENDENT_ANALYSIS",
+        "EXPERT_INTERPRETATION",
+        "UNVERIFIED_CLAIM"
+      ],
+      "description": "Signal Desk evidence classification (per Signal Desk §5)"
+    },
+    "ringClassification": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "integer",
+        "enum": [1, 2, 3]
+      },
+      "description": "Discovery ring(s) this item feeds based on evidentiary role (per Signal Desk §6). May span multiple rings."
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim", "evidenceClass", "ringClassification"],
+        "properties": {
+          "claim": {
+            "type": "string",
+            "description": "Atomic claim statement"
+          },
+          "evidenceClass": {
+            "type": "string",
+            "enum": [
+              "ORIGINAL_FINDING",
+              "FIRST_HAND_DISCLOSURE",
+              "INDEPENDENT_ANALYSIS",
+              "EXPERT_INTERPRETATION",
+              "UNVERIFIED_CLAIM"
+            ]
+          },
+          "ringClassification": {
+            "type": "array",
+            "items": { "type": "integer", "enum": [1, 2, 3] }
+          },
+          "locator": {
+            "type": "string",
+            "description": "Section/paragraph in source"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Per-claim evidence classification and ring mapping"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "triaged",
+        "promoted",
+        "rejected",
+        "duplicate",
+        "quarantined"
+      ],
+      "description": "Triage status (quarantined = UNVERIFIED_CLAIM awaiting corroboration)"
+    },
+    "triageNotes": {
+      "type": "string",
+      "description": "Editor notes during triage"
+    },
+    "candidateId": {
+      "type": "string",
+      "description": "Link to candidate if promoted"
+    },
+    "duplicateOf": {
+      "type": "string",
+      "description": "If duplicate, reference to original discovery ID"
+    },
+    "signalDeskOrigin": {
+      "type": "boolean",
+      "description": "Whether this item originated from Signal Desk monitoring"
+    }
+  },
+  "additionalProperties": false
+}

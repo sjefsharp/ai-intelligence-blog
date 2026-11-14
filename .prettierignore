@@ -6,3 +6,10 @@ dist/
 
 # Generated lockfile (pnpm manages its own formatting)
 pnpm-lock.yaml
+
+# Ad-hoc scratch probes (not part of the test suite)
+test-*.mjs
+
+# Playwright output
+test-results/
+playwright-report/

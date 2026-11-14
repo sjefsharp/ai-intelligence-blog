@@ -1,6 +1,7 @@
 # Implementation TODO
 
 ## Phase 1: Repository Standards & Core Files
+
 - [x] Create .github directory structure
 - [x] Add README.md
 - [x] Add CONTRIBUTING.md
@@ -16,6 +17,7 @@
 - [x] Add .gitattributes
 
 ## Phase 2: Git Conventions & Hooks
+
 - [x] Install and configure Lefthook
 - [x] Configure pre-commit hooks (format, lint, typecheck on staged files)
 - [x] Configure commit-msg hook (commitlint)
@@ -28,6 +30,7 @@
 - [x] Add .gitleaks.toml
 
 ## Phase 3: CI/CD & Quality Gates
+
 - [x] Create .github/workflows/ci.yml (build, typecheck, test, lint)
 - [x] Fix Playwright configuration (playwright.config.ts)
 - [x] Fix accessibility tests to work with proper Playwright config
@@ -39,17 +42,20 @@
 - [x] Create sonar-project.properties (with placeholders)
 
 ## Phase 4: Repository Security & Protection
+
 - [ ] Install gh secure extension
 - [ ] Run gh secure assessment
 - [ ] Configure branch protection rules
 - [ ] Configure required status checks
 
 ## Phase 5: MCP Integration
+
 - [ ] Configure Firecrawl MCP
 - [ ] Configure Context.dev MCP
 - [ ] Test MCP connectivity and operations
 
 ## Phase 6: Documentation & Agent Skills
+
 - [ ] Create nested AGENTS.md for src/components/
 - [ ] Create nested AGENTS.md for src/lib/
 - [ ] Create nested AGENTS.md for src/content/
@@ -58,6 +64,7 @@
 - [ ] Evaluate and install relevant Agent Skills
 
 ## Phase 7: GitHub Repository Setup
+
 - [ ] Create GitHub repository (if not exists)
 - [ ] Push main branch
 - [ ] Configure repository settings

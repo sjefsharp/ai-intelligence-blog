@@ -1,0 +1,208 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/candidate-news.json",
+  "title": "Candidate News Item",
+  "description": "Triaged discovery items promoted for potential publication. Extended per Research Taxonomy v2.0 and Signal Desk v1.0 with domain classification and evidence tracking.",
+  "type": "object",
+  "required": [
+    "id",
+    "discoveryId",
+    "title",
+    "summary",
+    "sourceIds",
+    "proposedType",
+    "tier",
+    "triageDate",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^cand_[a-z0-9]{16}$",
+      "description": "Unique candidate ID"
+    },
+    "discoveryId": {
+      "type": "string",
+      "description": "Original discovery ledger entry"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Editorial title for publication"
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Brief editorial summary (BLUF style)"
+    },
+    "sourceIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Source registry IDs supporting this candidate"
+    },
+    "contributorIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Contributor registry IDs (Signal Desk) associated with this candidate"
+    },
+    "proposedType": {
+      "type": "string",
+      "enum": [
+        "daily-brief",
+        "architectural-essay",
+        "pattern-catalog",
+        "adr",
+        "model-evaluation",
+        "tooling-deep-dive"
+      ],
+      "description": "Proposed publication format per contract §7.1"
+    },
+    "tier": {
+      "type": "integer",
+      "enum": [1, 2, 3],
+      "description": "Highest tier among sources"
+    },
+    "triageDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When promoted to candidate"
+    },
+    "triageBy": {
+      "type": "string",
+      "description": "Editor who triaged"
+    },
+    "keyClaims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim", "sourceId", "needsVerification"],
+        "properties": {
+          "claim": {
+            "type": "string",
+            "description": "Atomic claim statement"
+          },
+          "sourceId": { "type": "string", "description": "Supporting source" },
+          "contributorId": {
+            "type": "string",
+            "description": "Contributor registry ID (if Signal Desk)"
+          },
+          "evidenceClass": {
+            "type": "string",
+            "enum": [
+              "ORIGINAL_FINDING",
+              "FIRST_HAND_DISCLOSURE",
+              "INDEPENDENT_ANALYSIS",
+              "EXPERT_INTERPRETATION",
+              "UNVERIFIED_CLAIM"
+            ]
+          },
+          "ringClassification": {
+            "type": "array",
+            "items": { "type": "integer", "enum": [1, 2, 3] }
+          },
+          "needsVerification": {
+            "type": "boolean",
+            "description": "Whether claim needs L1+ verification"
+          },
+          "proposedLevel": { "type": "string", "enum": ["L1", "L2", "L3"] }
+        }
+      },
+      "description": "Key claims extracted for verification with evidence classification"
+    },
+    "relevanceTags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Topic tags for routing (cloud, patterns, cost, agents, etc.)"
+    },
+    "researchDomains": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "agentic-ai-software-engineering",
+          "models-inference-scientific",
+          "architecture-security-governance",
+          "enterprise-adoption-organizational",
+          "economics-business-impact",
+          "independent-research-advisory"
+        ]
+      },
+      "description": "Research domains this candidate spans (per Research Taxonomy v2.0). Multiple domains allowed for interdisciplinary items.",
+      "minItems": 1
+    },
+    "subdomainTags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^DOM-\\d{2}-SD\\d{2}$"
+      },
+      "description": "Specific subdomain identifiers (e.g., DOM-01-SD03 for Autonomous Coding Agents). References Research Taxonomy v2.0 stable identifiers."
+    },
+    "crossDomainSignals": {
+      "type": "boolean",
+      "description": "Whether this candidate demonstrates significant interdisciplinary signal across research domains"
+    },
+    "evidenceClassDistribution": {
+      "type": "object",
+      "properties": {
+        "ORIGINAL_FINDING": { "type": "integer", "minimum": 0 },
+        "FIRST_HAND_DISCLOSURE": { "type": "integer", "minimum": 0 },
+        "INDEPENDENT_ANALYSIS": { "type": "integer", "minimum": 0 },
+        "EXPERT_INTERPRETATION": { "type": "integer", "minimum": 0 },
+        "UNVERIFIED_CLAIM": { "type": "integer", "minimum": 0 }
+      },
+      "description": "Count of claims per evidence class (Signal Desk §5)"
+    },
+    "ringClassificationDistribution": {
+      "type": "object",
+      "properties": {
+        "1": { "type": "integer", "minimum": 0 },
+        "2": { "type": "integer", "minimum": 0 },
+        "3": { "type": "integer", "minimum": 0 }
+      },
+      "description": "Count of claims per discovery ring (Signal Desk §6)"
+    },
+    "signalDeskOrigin": {
+      "type": "boolean",
+      "description": "Whether this candidate originated from Signal Desk monitoring"
+    },
+    "temporalWindowDays": {
+      "type": "integer",
+      "description": "Max age per contract §5.1 for this content type"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "in-verification",
+        "verified",
+        "drafting",
+        "review",
+        "approved",
+        "published",
+        "rejected",
+        "archived"
+      ],
+      "description": "Workflow status"
+    },
+    "assignedAuthor": {
+      "type": "string",
+      "description": "Author assigned for drafting"
+    },
+    "assignedVerifier": {
+      "type": "string",
+      "description": "Verifier assigned for claim checking"
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Publication deadline"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Editorial notes"
+    }
+  },
+  "additionalProperties": false
+}

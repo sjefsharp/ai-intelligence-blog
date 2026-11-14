@@ -1,0 +1,283 @@
+---
+import BaseHead from "../../../../components/BaseHead.astro";
+import Footer from "../../../../components/Footer.astro";
+import Masthead from "../../../../components/Masthead.astro";
+import CookieConsent from "../../../../components/CookieConsent.astro";
+import ReadAloud from "../../../../components/ReadAloud.astro";
+import { getTranslation, type Locale } from "../../../../i18n";
+import {
+	loadEditionContent,
+	getEditionPaths,
+	getEditionUrl,
+	getEditionAlternateUrls,
+	formatEditionDate,
+	formatEditionWindow,
+	getReadingTime,
+} from "../../../../lib/publication/astro-adapter.js";
+
+export async function getStaticPaths() {
+	const paths = await getEditionPaths();
+	const result = [];
+
+	for (const path of paths) {
+		// Only add newsletter path if the edition has a Dutch newsletter
+		const edition = await loadEditionContent(path.props.editionDate);
+		if (
+			edition?.newsletter?.metadata.lifecycleStatus === "VALIDATED" ||
+			edition?.newsletter?.metadata.lifecycleStatus === "PUBLISHED"
+		) {
+			result.push({
+				params: {
+					lang: path.params.lang,
+					edition: path.params.edition,
+				},
+				props: {
+					editionDate: path.props.editionDate,
+					locale: path.props.locale,
+				},
+			});
+		}
+	}
+
+	return result;
+}
+
+const { locale, editionDate } = Astro.props;
+const t = getTranslation(locale);
+
+// Load edition content
+const edition = await loadEditionContent(editionDate);
+
+if (!edition || !edition.newsletter) {
+	return Astro.redirect(`/${locale}/404`);
+}
+
+const newsletter = edition.newsletter;
+
+// Check if this artifact is public
+const isPublic =
+	newsletter.metadata.lifecycleStatus === "VALIDATED" ||
+	newsletter.metadata.lifecycleStatus === "PUBLISHED";
+if (!isPublic && locale === "nl") {
+	return Astro.redirect(`/${locale}/404`);
+}
+
+// Check for English counterpart
+const enArticle = edition.englishArticles.find((a) =>
+	a.metadata.relatedVariants.some(
+		(v) =>
+			v.artifactId === newsletter.metadata.artifactId &&
+			v.relationship === "translation",
+	),
+);
+
+// Page metadata
+const pageTitle = newsletter.metadata.title;
+const pageDescription = newsletter.metadata.description;
+
+// Canonical and alternate URLs
+const canonicalURL = Astro.site
+	? new URL(Astro.url.pathname, Astro.site)
+	: new URL(Astro.url.pathname, "https://example.com");
+const alternateUrls = getEditionAlternateUrls(
+	editionDate,
+	Astro.url.pathname,
+	Astro.site,
+);
+
+// Add specific alternate for the English article counterpart
+if (enArticle && locale === "nl") {
+	alternateUrls.push({
+		lang: "en",
+		url: Astro.site
+			? new URL(
+					`/en/edition/${editionDate}/newsletter/`,
+					Astro.site,
+				).toString()
+			: `/en/edition/${editionDate}/newsletter/`,
+	});
+} else if (enArticle && locale === "en") {
+	alternateUrls.push({
+		lang: "nl",
+		url: Astro.site
+			? new URL(
+					`/nl/edition/${editionDate}/newsletter/`,
+					Astro.site,
+				).toString()
+			: `/nl/edition/${editionDate}/newsletter/`,
+	});
+}
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+		<link rel="canonical" href={canonicalURL} />
+		{alternateUrls.map((alt) => (
+			<link rel="alternate" hreflang={alt.lang} href={alt.url} />
+		))}
+		<link
+			rel="alternate"
+			hreflang="x-default"
+			href={
+				alternateUrls.find((a) => a.lang === "en")?.url ||
+				`/en/edition/${editionDate}/newsletter/`
+			}
+		/>
+	</head>
+	<body>
+		<!-- Skip links -->
+		<a href="#main-content" class="skip-link">
+			Skip to main content
+		</a>
+		<a href="#page-nav" class="skip-link">
+			Skip to navigation
+		</a>
+
+		<Masthead currentPath={Astro.url.pathname} locale={locale} t={t} />
+
+		<div class="article-layout">
+			<!-- Fold Margin -->
+			<aside class="fold-margin" aria-hidden="true">
+				<div class="fold-margin-line"></div>
+			</aside>
+
+			<!-- Reading Column -->
+			<main class="reading-column" id="main-content" role="main">
+				<article class="prose">
+					<header class="article-header">
+						<div class="article-meta">
+							<time datetime={editionDate}>
+								{formatEditionDate(editionDate, locale)}
+							</time>
+							<span class="meta-separator" aria-hidden="true">
+								•
+							</span>
+							<span>
+								{getReadingTime(newsletter)} min leestijd
+							</span>
+							{newsletter.metadata.topics.length > 0 && (
+								<>
+									<span
+										class="meta-separator"
+										aria-hidden="true"
+									>
+										•
+									</span>
+									<span
+										class="article-tags"
+										style="display: inline-flex; gap: var(--space-1); flex-wrap: wrap;"
+									>
+										{newsletter.metadata.topics.map(
+											(topic) => (
+												<a
+													href={`/${locale}/topics/${topic.toLowerCase().replace(/\s+/g, "-")}/`}
+													style="
+													font-family: var(--font-structural);
+													font-size: var(--size-xs);
+													font-weight: 600;
+													color: var(--gold);
+													background: var(--valley-light);
+													padding: 1px 6px;
+													border-radius: 999px;
+													text-decoration: none;
+												"
+												>
+													{topic}
+												</a>
+											),
+										)}
+									</span>
+								</>
+							)}
+							{newsletter.metadata.sourceReferences.length >
+								0 && (
+								<>
+									<span
+										class="meta-separator"
+										aria-hidden="true"
+									>
+										•
+									</span>
+									<a
+										href={
+											newsletter.metadata
+												.sourceReferences[0]
+										}
+										target="_blank"
+										rel="noopener noreferrer"
+										style="
+											font-family: var(--font-structural);
+											font-size: var(--size-xs);
+											font-weight: 600;
+											color: var(--valley);
+											text-decoration: none;
+											border-bottom: 1px dotted var(--valley);
+										"
+									>
+										{t.meta.source}
+									</a>
+								</>
+							)}
+						</div>
+						<h1 class="article-title">
+							{newsletter.metadata.title}
+						</h1>
+						<p class="article-abstract">
+							{newsletter.metadata.description}
+						</p>
+					</header>
+
+					<div class="article-content">
+						<slot>{newsletter.content}</slot>
+					</div>
+
+					<!-- Read Aloud -->
+					<ReadAloud
+						locale={locale}
+						t={t}
+						articleSelector=".article-content"
+					/>
+
+					<footer class="footnotes" aria-label={t.ui.references}>
+						<h2>{t.ui.references}</h2>
+						<ol>
+							{newsletter.metadata.sourceReferences.map(
+								(source, i) => (
+									<li>
+										<a
+											href={source}
+											target="_blank"
+											rel="noopener noreferrer"
+										>
+											Bron {i + 1}:{" "}
+											{new URL(source).hostname}
+										</a>
+									</li>
+								),
+							)}
+							{newsletter.metadata.claimReferences.length > 0 && (
+								<li>
+									<strong>
+										{t.callout.evidence} Claims:
+									</strong>{" "}
+									{newsletter.metadata.claimReferences.map(
+										(claim) => (
+											<code style="margin: 0 var(--space-1); font-size: var(--size-xs);">
+												{claim}
+											</code>
+										),
+									)}
+								</li>
+							)}
+						</ol>
+					</footer>
+				</article>
+			</main>
+		</div>
+
+		<Footer locale={locale} t={t} />
+		<CookieConsent locale={locale} t={t} />
+	</body>
+</html>

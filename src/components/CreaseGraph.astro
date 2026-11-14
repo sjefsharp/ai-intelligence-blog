@@ -1,0 +1,90 @@
+---
+/**
+ * Crease Graph — the accessible table of contents / wayfinding diagram.
+ * In Miura-fold terminology, this is the crease pattern diagram.
+ * Desktop: fixed sidebar. Mobile: inline at top of article.
+ */
+interface Props {
+	headings: Array<{
+		level: number;
+		text: string;
+		slug: string;
+	}>;
+}
+
+const { headings } = Astro.props;
+---
+
+<aside class="crease-graph" aria-labelledby="toc-heading">
+	<h2 id="toc-heading" class="toc-title">
+		On this page
+	</h2>
+	<nav aria-label="Table of contents">
+		<ul class="toc-list">
+			{headings.map((heading) => (
+				<li class={heading.level === 3 ? "toc-child" : ""}>
+					<a href={`#${heading.slug}`} data-heading-id={heading.slug}>
+						{heading.text}
+					</a>
+				</li>
+			))}
+		</ul>
+	</nav>
+</aside>
+
+<style>
+	.toc-title {
+		font-family: var(--font-display);
+		font-weight: 700;
+		font-size: var(--size-sm);
+		color: var(--ink);
+		margin-bottom: var(--space-3);
+		padding-bottom: var(--space-2);
+		border-bottom: 1px solid var(--mountain-light);
+	}
+
+	.toc-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+	}
+
+	.toc-child {
+		padding-left: var(--space-4);
+		font-size: var(--size-xs);
+		color: var(--ink-muted);
+	}
+
+	.toc-list a {
+		display: block;
+		padding: var(--space-1) var(--space-2);
+		color: var(--ink-muted);
+		text-decoration: none;
+		border-radius: var(--radius);
+		transition:
+			color var(--transition-base),
+			background var(--transition-base);
+	}
+
+	.toc-list a:hover,
+	.toc-list a:focus,
+	.toc-list a.active {
+		color: var(--gold);
+		background: var(--valley-light);
+		outline: none;
+	}
+
+	.toc-list a:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+	}
+
+	.toc-child a:hover,
+	.toc-child a:focus,
+	.toc-child a.active {
+		padding-left: calc(var(--space-4) + var(--space-2));
+	}
+</style>

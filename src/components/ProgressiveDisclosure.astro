@@ -1,0 +1,194 @@
+---
+/**
+ * ProgressiveDisclosure — accessible collapsible sections for complex content.
+ * Reduces cognitive load by hiding detail until requested.
+ */
+import { getTranslation, type Locale } from "../i18n";
+import type { TranslationKeys } from "../i18n";
+
+interface Props {
+	locale: Locale;
+	t: TranslationKeys;
+	summary: string;
+	detail: string;
+	open?: boolean;
+	level?: "section" | "detail" | "footnote";
+}
+
+const {
+	locale,
+	t,
+	summary,
+	detail,
+	open = false,
+	level = "detail",
+} = Astro.props;
+---
+
+<details
+	class={`progressive-disclosure progressive-disclosure--${level}`}
+	open={open}
+>
+	<summary class="progressive-disclosure-summary">
+		<span class="progressive-disclosure-icon" aria-hidden="true">
+			▸
+		</span>
+		<span class="progressive-disclosure-text">{summary}</span>
+		<span class="progressive-disclosure-hint" aria-hidden="true">
+			{t.ui.clickToExpand || "Click to expand"}
+		</span>
+	</summary>
+	<div class="progressive-disclosure-content">{detail}</div>
+</details>
+
+<style>
+	.progressive-disclosure {
+		border: 1px solid var(--mountain-light);
+		border-radius: var(--radius);
+		background: var(--sheet-darker);
+		margin: var(--space-4) 0;
+		overflow: hidden;
+		transition:
+			border-color var(--transition-base),
+			background var(--transition-base);
+	}
+
+	.progressive-disclosure:hover {
+		border-color: var(--gold);
+	}
+
+	.progressive-disclosure--section {
+		border-left: 3px solid var(--gold);
+	}
+
+	.progressive-disclosure--detail {
+		border-left: 3px solid var(--valley);
+	}
+
+	.progressive-disclosure--footnote {
+		border-left: 3px solid var(--mountain);
+		background: var(--sheet);
+	}
+
+	.progressive-disclosure-summary {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-3) var(--space-4);
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+		transition: background var(--transition-base);
+	}
+
+	.progressive-disclosure-summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.progressive-disclosure-summary:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: -2px;
+		background: var(--valley-light);
+		border-radius: calc(var(--radius) - 1px);
+	}
+
+	.progressive-disclosure-icon {
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		color: var(--gold);
+		flex-shrink: 0;
+		transition: transform var(--transition-base);
+		width: 1em;
+		text-align: center;
+	}
+
+	.progressive-disclosure[open] .progressive-disclosure-icon {
+		transform: rotate(90deg);
+	}
+
+	.progressive-disclosure-text {
+		font-family: var(--font-structural);
+		font-size: var(--size-sm);
+		font-weight: 600;
+		color: var(--ink);
+		flex: 1;
+	}
+
+	.progressive-disclosure-hint {
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		color: var(--ink-muted);
+		flex-shrink: 0;
+		opacity: 0.7;
+	}
+
+	.progressive-disclosure[open] .progressive-disclosure-hint {
+		display: none;
+	}
+
+	.progressive-disclosure-content {
+		padding: 0 var(--space-4) var(--space-4);
+		border-top: 1px solid var(--mountain-light);
+		animation: progressive-disclosure-reveal var(--transition-fold) ease-out;
+	}
+
+	@keyframes progressive-disclosure-reveal {
+		from {
+			opacity: 0;
+			transform: translateY(-0.5rem);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.progressive-disclosure-content > *:first-child {
+		margin-top: var(--space-3);
+	}
+
+	.progressive-disclosure-content > *:last-child {
+		margin-bottom: 0;
+	}
+
+	/* Reduced motion */
+	@media (prefers-reduced-motion: reduce) {
+		.progressive-disclosure-content {
+			animation: none;
+		}
+		.progressive-disclosure-icon {
+			transition: none;
+		}
+	}
+
+	/* High contrast */
+	@media (prefers-contrast: high) {
+		.progressive-disclosure {
+			border-color: currentColor;
+			background: transparent;
+		}
+		.progressive-disclosure-content {
+			border-top-color: currentColor;
+		}
+	}
+
+	/* Print */
+	@media print {
+		.progressive-disclosure {
+			break-inside: avoid;
+			border-color: #000;
+			background: #f9f9f9;
+		}
+		.progressive-disclosure[open] .progressive-disclosure-content {
+			display: block;
+		}
+		.progressive-disclosure:not([open]) .progressive-disclosure-content {
+			display: none;
+		}
+		.progressive-disclosure-icon::after {
+			content: " (click to expand)";
+			font-size: 0.8em;
+			color: #666;
+		}
+	}
+</style>

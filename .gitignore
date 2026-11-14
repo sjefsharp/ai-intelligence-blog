@@ -22,3 +22,12 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Hermes agent state
+.hermes/
+
+# Impeccable design tool state
+.impeccable/
+
+# Generated pipeline runtime data (regenerate via pnpm run:* scripts)
+data/

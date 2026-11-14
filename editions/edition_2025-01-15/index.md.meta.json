@@ -1,0 +1,214 @@
+{
+  "availableNavigation": {
+    "byOrganization": [
+      {
+        "articleIds": ["art_1111111111111111"],
+        "organization": "OpenAI"
+      },
+      {
+        "articleIds": ["art_1111111111111111", "art_3333333333333333"],
+        "organization": "GitHub"
+      },
+      {
+        "articleIds": ["art_2222222222222222"],
+        "organization": "Anthropic"
+      },
+      {
+        "articleIds": ["art_3333333333333333"],
+        "organization": "McKinsey Global Institute"
+      }
+    ],
+    "byResearchDomain": [
+      {
+        "articleIds": ["art_1111111111111111"],
+        "domain": "foundation-models"
+      },
+      {
+        "articleIds": ["art_1111111111111111", "art_2222222222222222"],
+        "domain": "coding-agents"
+      },
+      {
+        "articleIds": ["art_2222222222222222"],
+        "domain": "ai-safety"
+      },
+      {
+        "articleIds": ["art_3333333333333333"],
+        "domain": "enterprise-adoption"
+      },
+      {
+        "articleIds": ["art_3333333333333333"],
+        "domain": "developer-productivity"
+      }
+    ],
+    "bySource": [
+      {
+        "articleIds": ["art_1111111111111111"],
+        "sourceId": "openai-research"
+      },
+      {
+        "articleIds": ["art_1111111111111111"],
+        "sourceId": "github-copilot-vscode"
+      },
+      {
+        "articleIds": ["art_2222222222222222"],
+        "sourceId": "anthropic-research"
+      },
+      {
+        "articleIds": ["art_2222222222222222"],
+        "sourceId": "claude-code-releases"
+      },
+      {
+        "articleIds": ["art_3333333333333333"],
+        "sourceId": "mckinsey-insights"
+      },
+      {
+        "articleIds": ["art_3333333333333333"],
+        "sourceId": "github-research"
+      }
+    ],
+    "byTopic": [
+      {
+        "articleIds": ["art_1111111111111111"],
+        "topic": "foundation-models"
+      },
+      {
+        "articleIds": ["art_1111111111111111", "art_2222222222222222"],
+        "topic": "coding-agents"
+      },
+      {
+        "articleIds": ["art_2222222222222222"],
+        "topic": "ai-safety"
+      },
+      {
+        "articleIds": ["art_3333333333333333"],
+        "topic": "enterprise-adoption"
+      },
+      {
+        "articleIds": ["art_3333333333333333"],
+        "topic": "developer-productivity"
+      }
+    ]
+  },
+  "canonicalPublications": [
+    {
+      "artifactId": "pubart_d1ddfbc59536f02f",
+      "contentType": "newsletter",
+      "description": "Dagelijkse technische nieuwsbrief met de meest consequentiele AI-ontwikkelingen.",
+      "filename": "publication.md",
+      "language": "nl",
+      "lifecycleStatus": "DRAFT",
+      "readingTimeMinutes": 8,
+      "relativePath": "canonical/publication.md",
+      "title": "AI Intelligence — woensdag 15 januari 2025"
+    },
+    {
+      "artifactId": "pubart_475a8513d5a4cb7b",
+      "contentType": "research-audit",
+      "description": "Technisch bewijs- en editorieel verantwoordingsdocument voor deze editie.",
+      "filename": "research-audit.md",
+      "language": "nl",
+      "lifecycleStatus": "DRAFT",
+      "readingTimeMinutes": 15,
+      "relativePath": "canonical/research-audit.md",
+      "title": "Research Audit — AI Intelligence 2025-01-15"
+    },
+    {
+      "artifactId": "pubart_1ade9640f658f80a",
+      "contentType": "listening-narrative",
+      "description": "Volledig, onafhankelijk geauthored Nederlands luisternarratief.",
+      "estimatedListeningDurationMinutes": 12,
+      "filename": "AI Daily Intelligence — 2025-01-15.md",
+      "language": "nl",
+      "lifecycleStatus": "DRAFT",
+      "relativePath": "canonical/AI Daily Intelligence — 2025-01-15.md",
+      "title": "AI Daily Intelligence — 2025-01-15"
+    }
+  ],
+  "contentHash": "sha256:55266d440b39bd9e7517ebca661b177e9d234b57a49619d7470e578f288b3ca8",
+  "editionDate": "2025-01-15",
+  "editionId": "edition_2025-01-15",
+  "editionWindow": {
+    "durationHours": 24,
+    "editionDate": "2025-01-15",
+    "end": "2025-01-15T04:00:00.000Z",
+    "start": "2025-01-14T04:00:00.000Z",
+    "timezone": "Europe/Amsterdam"
+  },
+  "englishDerivatives": [
+    {
+      "artifactId": "pubart_ed9ade514877c8fc",
+      "contentType": "english-derivative",
+      "description": "Engelse websiteartikel afgeleid van het canonieke feiten dossier voor OpenAI.",
+      "filename": "pubart_ed9ade514877c8fc-english-derivative.md",
+      "language": "en",
+      "lifecycleStatus": "DRAFT",
+      "relativePath": "derivatives/en/articles/pubart_ed9ade514877c8fc-english-derivative.md",
+      "sourceArtifactId": "pubart_d1ddfbc59536f02f",
+      "title": "OpenAI, GitHub — foundation-models"
+    },
+    {
+      "artifactId": "pubart_0fbf88df3660e99c",
+      "contentType": "english-listening",
+      "description": "Engelse luistertekst-derivaat voor OpenAI.",
+      "filename": "pubart_0fbf88df3660e99c-english-listening.md",
+      "language": "en",
+      "lifecycleStatus": "DRAFT",
+      "relativePath": "derivatives/en/listening/pubart_0fbf88df3660e99c-english-listening.md",
+      "sourceArtifactId": "pubart_d1ddfbc59536f02f",
+      "title": "OpenAI, GitHub — foundation-models (luistertekst)"
+    },
+    {
+      "artifactId": "pubart_24d808d02cce4674",
+      "contentType": "english-derivative",
+      "description": "Engelse websiteartikel afgeleid van het canonieke feiten dossier voor Anthropic.",
+      "filename": "pubart_24d808d02cce4674-english-derivative.md",
+      "language": "en",
+      "lifecycleStatus": "DRAFT",
+      "relativePath": "derivatives/en/articles/pubart_24d808d02cce4674-english-derivative.md",
+      "sourceArtifactId": "pubart_d1ddfbc59536f02f",
+      "title": "Anthropic — ai-safety"
+    },
+    {
+      "artifactId": "pubart_a04a1acca2dfc873",
+      "contentType": "english-listening",
+      "description": "Engelse luistertekst-derivaat voor Anthropic.",
+      "filename": "pubart_a04a1acca2dfc873-english-listening.md",
+      "language": "en",
+      "lifecycleStatus": "DRAFT",
+      "relativePath": "derivatives/en/listening/pubart_a04a1acca2dfc873-english-listening.md",
+      "sourceArtifactId": "pubart_d1ddfbc59536f02f",
+      "title": "Anthropic — ai-safety (luistertekst)"
+    },
+    {
+      "artifactId": "pubart_cdba93bf471b8901",
+      "contentType": "english-derivative",
+      "description": "Engelse websiteartikel afgeleid van het canonieke feiten dossier voor McKinsey Global Institute.",
+      "filename": "pubart_cdba93bf471b8901-english-derivative.md",
+      "language": "en",
+      "lifecycleStatus": "DRAFT",
+      "relativePath": "derivatives/en/articles/pubart_cdba93bf471b8901-english-derivative.md",
+      "sourceArtifactId": "pubart_d1ddfbc59536f02f",
+      "title": "McKinsey Global Institute, GitHub — enterprise-adoption"
+    },
+    {
+      "artifactId": "pubart_b61c31ee3b4247da",
+      "contentType": "english-listening",
+      "description": "Engelse luistertekst-derivaat voor McKinsey Global Institute.",
+      "filename": "pubart_b61c31ee3b4247da-english-listening.md",
+      "language": "en",
+      "lifecycleStatus": "DRAFT",
+      "relativePath": "derivatives/en/listening/pubart_b61c31ee3b4247da-english-listening.md",
+      "sourceArtifactId": "pubart_d1ddfbc59536f02f",
+      "title": "McKinsey Global Institute, GitHub — enterprise-adoption (luistertekst)"
+    }
+  ],
+  "generatedAt": "2026-11-11T22:20:34.436Z",
+  "generatedBy": "build-publication.ts",
+  "missingArtifacts": [],
+  "reportingWindow": {
+    "end": "2025-01-15T04:00:00.000Z",
+    "start": "2025-01-14T04:00:00.000Z",
+    "timezone": "Europe/Amsterdam"
+  },
+  "schemaVersion": "1.0.0"
+}

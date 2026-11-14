@@ -1,0 +1,160 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../../components/BaseHead.astro";
+import Footer from "../../../components/Footer.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import Masthead from "../../../components/Masthead.astro";
+import CookieConsent from "../../../components/CookieConsent.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../../consts";
+import { formatReadingTime } from "../../../utils/readingTime";
+import { getTranslation, type Locale } from "../../../i18n";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { lang: "en" }, props: { locale: "en" as Locale } },
+		{ params: { lang: "nl" }, props: { locale: "nl" as Locale } },
+	];
+}
+
+const { locale } = Astro.props;
+const t = getTranslation(locale);
+
+const posts = (await getCollection("blog")).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<!-- Skip to main content link -->
+		<a href="#main-content" class="skip-link">
+			Skip to main content
+		</a>
+		<a href="#page-nav" class="skip-link">
+			Skip to navigation
+		</a>
+
+		<Masthead currentPath={Astro.url.pathname} locale={locale} t={t} />
+
+		<main
+			class="reading-column"
+			id="main-content"
+			style="max-width: var(--measure); margin: 0 auto; padding: var(--space-6) var(--margin-page);"
+		>
+			<header style="margin-bottom: var(--space-7); padding-bottom: var(--space-5); border-bottom: 1px solid var(--mountain-light); text-align: center;">
+				<h1 style="font-size: var(--size-3xl); margin-bottom: var(--space-3);">
+					Essays & Pattern Catalog
+				</h1>
+				<p style="font-size: var(--size-lg); color: var(--ink-muted); font-style: italic; max-width: 60ch; margin: 0 auto;">
+					Architectural reasoning for AI-intensive systems.
+					Evidence-first. ADHD-friendly by structure.
+				</p>
+			</header>
+
+			<ul style="list-style: none; padding: 0; display: grid; gap: var(--space-4);">
+				{posts.map((post) => (
+					<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker); transition: border-color var(--transition-base), box-shadow var(--transition-base);">
+						<a
+							href={`/${locale}/blog/${post.id}/`}
+							style="text-decoration: none; color: inherit; display: block;"
+						>
+							{post.data.heroImage && (
+								<div style="margin: calc(var(--space-4) * -1) calc(var(--space-4) * -1) var(--space-4); border-radius: var(--radius) var(--radius) 0 0; overflow: hidden;">
+									<img
+										src={post.data.heroImage.src}
+										alt={post.data.description}
+										style="width: 100%; height: auto; display: block;"
+									/>
+								</div>
+							)}
+							<h2
+								class="title"
+								style="margin: 0 0 var(--space-2); font-size: var(--size-xl); color: var(--ink); transition: color var(--transition-base);"
+							>
+								{post.data.title}
+							</h2>
+							<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-sm); color: var(--ink-muted); font-family: var(--font-structural); align-items: center; margin-bottom: var(--space-2);">
+								<time
+									datetime={post.data.pubDate.toISOString()}
+									style="font-variant-numeric: tabular-nums;"
+								>
+									{new Intl.DateTimeFormat(
+										locale === "nl" ? "nl-NL" : "en-US",
+										{ dateStyle: "medium" },
+									).format(post.data.pubDate)}
+								</time>
+								<span aria-hidden="true">•</span>
+								<span>
+									{formatReadingTime(
+										post.data.readingTime || 0,
+									)}
+								</span>
+								{post.data.updatedDate && (
+									<>
+										<span aria-hidden="true">•</span>
+										<span>
+											{t.meta.updated.replace(
+												"{date}",
+												new Intl.DateTimeFormat(
+													locale === "nl"
+														? "nl-NL"
+														: "en-US",
+													{ dateStyle: "medium" },
+												).format(post.data.updatedDate),
+											)}
+										</span>
+									</>
+								)}
+							</div>
+							{post.data.tags.length > 0 && (
+								<div style="display: inline-flex; gap: var(--space-1); flex-wrap: wrap;">
+									{post.data.tags.slice(0, 3).map((tag) => (
+										<a
+											href={`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`}
+											style="
+												font-family: var(--font-structural);
+												font-size: var(--size-xs);
+												font-weight: 600;
+												color: var(--gold);
+												background: var(--valley-light);
+												padding: 1px 6px;
+												border-radius: 999px;
+												text-decoration: none;
+												transition: background var(--transition-base), color var(--transition-base);
+											"
+											onmouseover="this.style.background='var(--gold)'; this.style.color='var(--ink)'"
+											onmouseout="this.style.background='var(--valley-light)'; this.style.color='var(--gold)'"
+										>
+											{tag}
+										</a>
+									))}
+									{post.data.tags.length > 3 && (
+										<span
+											style="
+											font-family: var(--font-structural);
+											font-size: var(--size-xs);
+											color: var(--ink-muted);
+											padding: 1px 6px;
+										"
+										>
+											+{post.data.tags.length - 3} more
+										</span>
+									)}
+								</div>
+							)}
+						</a>
+					</li>
+				))}
+			</ul>
+		</main>
+
+		<Footer locale={locale} t={t} />
+
+		<!-- Cookie Consent Banner -->
+		<CookieConsent locale={locale} t={t} />
+	</body>
+</html>

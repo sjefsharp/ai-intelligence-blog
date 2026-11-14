@@ -1,0 +1,111 @@
+---
+import AboutHeroImage from "../../assets/blog-placeholder-about.jpg";
+import Layout from "../../layouts/BlogPost.astro";
+import { getTranslation, type Locale } from "../../i18n";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { lang: "en" }, props: { locale: "en" as Locale } },
+		{ params: { lang: "nl" }, props: { locale: "nl" as Locale } },
+	];
+}
+
+const { locale } = Astro.props;
+const t = getTranslation(locale);
+---
+
+<Layout
+	title={t.about.title}
+	description={t.about.description}
+	pubDate={new Date("2026-11-08")}
+	heroImage={AboutHeroImage}
+	locale={locale}
+	tags={[]}
+>
+	<p class="article-abstract">{t.about.missionText}</p>
+
+	<h2 class="folded-heading">
+		<span class="section-number">01</span>
+		{t.about.mission}
+	</h2>
+
+	<p>{t.about.missionText}</p>
+
+	<p>{t.about.successText}</p>
+
+	<h2 class="folded-heading">
+		<span class="section-number">02</span>
+		{t.about.editorialStandards}
+	</h2>
+
+	<ul>
+		{t.about.standards.map((standard) => (
+			<li>
+				<strong>{standard.title}.</strong> {standard.desc}
+			</li>
+		))}
+	</ul>
+
+	<h2 class="folded-heading">
+		<span class="section-number">03</span>
+		{t.about.contentTypes}
+	</h2>
+
+	<table>
+		<thead>
+			<tr>
+				<th>{t.about.contentTypesTable[0].type}</th>
+				<th>{t.about.contentTypesTable[0].purpose}</th>
+				<th>{t.about.contentTypesTable[0].structure}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{t.about.contentTypesTable.map((row) => (
+				<tr>
+					<td>
+						<strong>{row.type}</strong>
+					</td>
+					<td>{row.purpose}</td>
+					<td>{row.structure}</td>
+				</tr>
+			))}
+		</tbody>
+	</table>
+
+	<h2 class="folded-heading">
+		<span class="section-number">04</span>
+		{t.about.accessibility}
+	</h2>
+
+	<p>{t.about.accessibilityText}</p>
+
+	<ul>
+		{t.about.accessibilityItems.map((item) => (
+			<li>{item}</li>
+		))}
+	</ul>
+
+	<h2 class="folded-heading">
+		<span class="section-number">05</span>
+		{t.about.technology}
+	</h2>
+
+	<ul>
+		{t.about.techItems.map((item) => (
+			<li>
+				<strong>{item.label}:</strong> {item.value}
+			</li>
+		))}
+	</ul>
+
+	<h2 class="folded-heading">
+		<span class="section-number">06</span>
+		{t.about.contact}
+	</h2>
+
+	<p>{t.about.contactText}</p>
+
+	<div class="callout" data-type="decision">
+		<p>{t.about.decision}</p>
+	</div>
+</Layout>

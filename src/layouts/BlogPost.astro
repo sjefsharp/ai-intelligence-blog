@@ -1,84 +1,356 @@
 ---
-import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import Masthead from "../components/Masthead.astro";
+import CreaseGraph from "../components/CreaseGraph.astro";
+import FoldMarginMarkers from "../components/FoldMarginMarkers.astro";
+import KeyFindings from "../components/KeyFindings.astro";
+import ReadingMode from "../components/ReadingMode.astro";
+import FocusReadingMode from "../components/FocusReadingMode.astro";
+import ReadAloud from "../components/ReadAloud.astro";
+import CookieConsent from "../components/CookieConsent.astro";
+import { calculateReadingTime, formatReadingTime } from "../utils/readingTime";
+import { getTranslation, type Locale, type TranslationKeys } from "../i18n";
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<"blog">["data"] & {
+	locale: Locale;
+	body?: string;
+	headings?: Array<{ level: number; text: string; slug: string }>;
+	keyFindings?: string[];
+};
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const {
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	heroImage,
+	tags,
+	sourceUrl,
+	readingTime,
+	keyFindings,
+	locale,
+} = Astro.props;
+
+// Calculate reading time if not provided
+const computedReadingTime =
+	readingTime || calculateReadingTime(Astro.props.body || "");
+
+// Format tags as slugs for URLs
+const tagLinks = (tags || []).map((tag) => ({
+	name: tag,
+	slug: tag.toLowerCase().replace(/\s+/g, "-"),
+}));
+
+// Get translations for this locale
+const t = getTranslation(locale);
+
+// Format date for locale
+const formatDate = (date: Date) => {
+	return new Intl.DateTimeFormat(locale === "nl" ? "nl-NL" : "en-US", {
+		dateStyle: "medium",
+	}).format(date);
+};
 ---
 
-<html lang="en">
+<html lang={locale}>
 	<head>
 		<BaseHead title={title} description={description} />
 		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
+			/* Override any BaseHead styles that conflict */
+			.article-layout {
+				grid-template-columns:
+					[margin-start] var(--margin-page)
+					[fold-margin] 40px
+					[content-start] minmax(0, var(--measure))
+					[content-end] 1fr
+					[margin-end] var(--margin-page);
 			}
 		</style>
 	</head>
 
 	<body>
-		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
+		<!-- Skip to main content link -->
+		<a href="#main-content" class="skip-link">
+			Skip to main content
+		</a>
+		<a href="#page-nav" class="skip-link">
+			Skip to navigation
+		</a>
+
+		<Masthead currentPath={Astro.url.pathname} locale={locale} t={t} />
+
+		<div class="article-layout">
+			<!-- Fold Margin — gold line tracking scroll position -->
+			<FoldMarginMarkers headings={Astro.props.headings || []} />
+
+			<!-- Reading Column -->
+			<main class="reading-column" id="main-content" role="main">
+				<article class="prose">
+					<div
+						class="article-header"
+						role="region"
+						aria-labelledby="article-title"
+					>
+						<div class="article-meta">
+							<time datetime={pubDate.toISOString()}>
+								{formatDate(pubDate)}
+							</time>
+							<span class="meta-separator" aria-hidden="true">
+								•
+							</span>
+							<span>
+								{formatReadingTime(computedReadingTime)}
+							</span>
+							{tagLinks.length > 0 && (
+								<>
+									<span
+										class="meta-separator"
+										aria-hidden="true"
+									>
+										•
+									</span>
+									<span
+										class="article-tags"
+										style="display: inline-flex; gap: var(--space-1); flex-wrap: wrap;"
+									>
+										{tagLinks.map((tag) => (
+											<a
+												href={`/${locale}/topics/${tag.slug}/`}
+												style="
+													font-family: var(--font-structural);
+													font-size: var(--size-xs);
+													font-weight: 600;
+													color: var(--gold);
+													background: var(--valley-light);
+													padding: 1px 6px;
+													border-radius: 999px;
+													text-decoration: none;
+													transition: background var(--transition-base), color var(--transition-base);
+												"
+												onmouseover="this.style.background='var(--gold)'; this.style.color='var(--sheet)'"
+												onmouseout="this.style.background='var(--valley-light)'; this.style.color='var(--gold)'"
+											>
+												{tag.name}
+											</a>
+										))}
+									</span>
+								</>
+							)}
 							{updatedDate && (
-								<div class="last-updated-on">
-									Last updated on <FormattedDate date={updatedDate} />
-								</div>
+								<>
+									<span
+										class="meta-separator"
+										aria-hidden="true"
+									>
+										•
+									</span>
+									<span>
+										{t.meta.updated.replace(
+											"{date}",
+											formatDate(updatedDate),
+										)}
+									</span>
+								</>
+							)}
+							{sourceUrl && (
+								<>
+									<span
+										class="meta-separator"
+										aria-hidden="true"
+									>
+										•
+									</span>
+									<a
+										href={sourceUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										style="
+											font-family: var(--font-structural);
+											font-size: var(--size-xs);
+											font-weight: 600;
+											color: var(--valley);
+											text-decoration: none;
+											border-bottom: 1px dotted var(--valley);
+											transition: color var(--transition-base), border-color var(--transition-base);
+										"
+										onmouseover="this.style.color='var(--gold)'; this.style.borderColor='var(--gold)'"
+										onmouseout="this.style.color='var(--valley)'; this.style.borderColor='var(--valley)'"
+									>
+										{t.meta.source}
+									</a>
+								</>
 							)}
 						</div>
-						<h1>{title}</h1>
-						<hr />
+						<h1 class="article-title">{title}</h1>
+						<p class="article-abstract">{description}</p>
 					</div>
-					<slot />
-				</div>
-			</article>
-		</main>
-		<Footer />
+
+					<!-- Key Findings (TL;DR) — shown if frontmatter provides keyFindings -->
+					{keyFindings && keyFindings.length > 0 && (
+						<KeyFindings
+							locale={locale}
+							t={t}
+							findings={keyFindings}
+						/>
+					)}
+
+					<div class="article-content">
+						{heroImage && (
+							<figure class="hero-image">
+								<Image
+									width={1020}
+									height={510}
+									src={heroImage}
+									alt={description}
+								/>
+							</figure>
+						)}
+						<slot />
+					</div>
+
+					<!-- Read Aloud — native browser TTS -->
+					<ReadAloud
+						locale={locale}
+						t={t}
+						articleSelector=".article-content"
+					/>
+
+					<div
+						class="footnotes"
+						role="region"
+						aria-labelledby="footnotes-heading"
+					>
+						<h2 id="footnotes-heading">{t.ui.references}</h2>
+						<ol>
+							<li>
+								<a
+									href="https://example.com/ref1"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									Primary source citation
+								</a>
+							</li>
+							<li>
+								<a
+									href="https://example.com/ref2"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									Benchmark methodology
+								</a>
+							</li>
+							<li>
+								<a
+									href="https://example.com/ref3"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									Architecture decision record template
+								</a>
+							</li>
+						</ol>
+					</div>
+				</article>
+			</main>
+
+			<!-- Crease Graph (TOC) -->
+			<CreaseGraph headings={Astro.props.headings || []} />
+		</div>
+
+		<!-- Focus mode exit banner (only visible in focus mode) -->
+		<div
+			class="focus-mode-exit-banner"
+			hidden
+			role="region"
+			aria-label="Focus mode active"
+		>
+			<button
+				type="button"
+				id="focus-mode-exit"
+				aria-label={t.ui.exitFocus || "Exit focus mode"}
+			>
+				✕ {t.ui.exitFocus || "Exit focus"}
+			</button>
+		</div>
+
+		<Footer locale={locale} t={t} />
+
+		<!-- Cookie Consent Banner -->
+		<CookieConsent locale={locale} t={t} />
+
+		<script>
+			// Fold margin marker activation on scroll
+			const markers = document.querySelectorAll<HTMLElement>(
+				".fold-margin-marker",
+			);
+			const headings = document.querySelectorAll<HTMLElement>(
+				".article-content h2[id], .article-content h3[id]",
+			);
+			const creaseGraphLinks = document.querySelectorAll<HTMLElement>(
+				".crease-graph .toc-list a",
+			);
+
+			if (markers.length && headings.length) {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (entry.isIntersecting) {
+								const id = entry.target.id;
+								// Update fold margin markers
+								markers.forEach((m) => {
+									m.classList.toggle(
+										"active",
+										m.dataset.headingId === id,
+									);
+								});
+								// Update crease graph active link
+								creaseGraphLinks.forEach((link) => {
+									link.classList.toggle(
+										"active",
+										link.dataset.headingId === id,
+									);
+								});
+							}
+						});
+					},
+					{
+						rootMargin: "-20% 0px -60% 0px",
+						threshold: 0.1,
+					},
+				);
+
+				headings.forEach((heading) => observer.observe(heading));
+			}
+
+			// Smooth scroll for TOC links
+			document.querySelectorAll(".toc-list a").forEach((link) => {
+				link.addEventListener("click", (e) => {
+					e.preventDefault();
+					const href = link.getAttribute("href");
+					const target = href ? document.querySelector(href) : null;
+					if (target) {
+						target.scrollIntoView({
+							behavior: "smooth",
+							block: "start",
+						});
+						history.pushState(null, "", href);
+					}
+				});
+			});
+
+			// Focus mode exit button
+			const exitBtn = document.getElementById("focus-mode-exit");
+			if (exitBtn) {
+				exitBtn.addEventListener("click", () => {
+					document.documentElement.classList.remove("focus-mode");
+					localStorage.setItem("focus-mode-preference", "false");
+				});
+			}
+		</script>
 	</body>
 </html>

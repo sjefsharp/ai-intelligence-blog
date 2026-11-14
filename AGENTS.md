@@ -359,16 +359,52 @@ When an agent works in this repo:
 5. **Verify with terminal** — run build, type-check, tests after changes
 6. **Report real output** — never fabricate tool results
 7. **Respect boundaries** — no paid services, no secrets, no npm/yarn
+8. **Look up current docs** — Context7 first, plus web search/fetch for the authoritative pages (see §11)
 
 ---
 
-## 11. Change Log
+## 11. Documentation Lookup — Context7 + Web Sources
+
+**Actionable rule**: before writing code or making a claim about a programming language, library, framework, runtime, or CLI, retrieve current documentation. Use Context7 MCP as the primary structured source **and** web search/fetch to locate the authoritative pages (official docs, specs, release notes). Memory and training data are not authoritative for APIs, defaults, or version-specific behavior.
+
+### 11.1 Mandatory procedure
+
+1. Discover the authoritative source with `web_search` + `web_extract` — search for the concept + library + version, then extract the top official result (docs site, spec, release notes). Prefer primary sources over aggregated blogs.
+2. Resolve the exact Context7 library ID:
+   `mcp__context7__resolve_library_id(query: "<concept>", libraryName: "<official name>")`
+3. Query one concept at a time:
+   `mcp__context7__query_docs(libraryId: "<resolved-id>", query: "<specific concept>", language: "TypeScript")`
+4. Cross-check: if Context7 and the fetched official page disagree, prefer the official page and note the discrepancy.
+5. Version-pin when the answer depends on a version: use `/<org>/<project>/<version>` with the version from `package.json`.
+6. Cite the result: any API signature, option, or default you rely on must come from Context7 or the fetched official docs — not from memory.
+
+### 11.2 Source hierarchy
+
+| Question type                                           | First source                                           | Fallback / cross-check          |
+| ------------------------------------------------------- | ------------------------------------------------------ | ------------------------------- |
+| Language / library / framework / runtime / CLI API      | Context7 MCP                                           | official docs via `web_extract` |
+| Platform or vendor behavior (GitHub, OpenRouter, hosts) | Official product docs via `web_search` + `web_extract` | Context7 if indexed             |
+| Repository-specific rules                               | this AGENTS.md, scoped `AGENTS.md`, `docs/`            | —                               |
+
+### 11.3 Pitfalls
+
+- Always `resolve_library_id` before `query_docs`; never guess an ID.
+- One concept per `query_docs` call; max 3 calls per question.
+- Never send secrets, tokens, or private code in a query or search.
+- Prefer primary sources (official docs, specs, release notes) over aggregated blog posts; verify the page matches the installed version.
+- If Context7 has no coverage, say so explicitly and fall back to the official docs, citing the URL.
+- When a docs lookup changes an implementation decision, record the source URL / resolved ID and version in the code comment or PR description.
+
+---
+
+## 12. Change Log
 
 | Date       | Change                                                                                                                                                                                                                                                                                      | Author |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
 | 2026-11-08 | Initial AGENTS.md created from repo inspection                                                                                                                                                                                                                                              | Agent  |
 | 2026-11-11 | Added the Seven-Day Historical Regression stage (`src/lib/historical-regression/`, `scripts/run-historical-regression.ts`, `data/schemas/historical-regression.json`, `docs/historical-regression.md`) between Omission Review and Editorial Selection; see `docs/historical-regression.md` | Agent  |
 | 2026-11-13 | Implemented Book Delta capability (`src/lib/book-delta/`, `scripts/run-book-delta.ts`, `docs/book-delta.md`) within Knowledge Continuity gate; cleared pre-existing `astro check` backlog (596 → 0 errors), all gates green; see `docs/book-delta.md`                                       | Agent  |
+| 2026-11-14 | Added §11 "Documentation Lookup — Context7 + Web Sources" (Context7 MCP plus web search/fetch for authoritative docs, with mandatory procedure and source hierarchy) and §10 item 8                                                                                                         | Agent  |
 
 ---
 

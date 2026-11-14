@@ -1,0 +1,751 @@
+---
+/**
+ * ReadAloud — native browser text-to-speech for articles.
+ * Uses SpeechSynthesis API with no external dependencies.
+ * Supports EN/NL voices, keyboard accessible, screen reader friendly.
+ */
+import { getTranslation, type Locale } from "../i18n";
+import type { TranslationKeys } from "../i18n";
+
+interface Props {
+	locale: Locale;
+	t: TranslationKeys;
+	articleSelector?: string; // CSS selector for article content
+}
+
+const { locale, t, articleSelector = ".article-content" } = Astro.props;
+---
+
+<div
+	class="read-aloud"
+	role="region"
+	aria-label={t.ui.readAloud?.label || "Read aloud"}
+>
+	<div
+		class="read-aloud-controls"
+		role="group"
+		aria-label={t.ui.readAloud?.controls || "Playback controls"}
+	>
+		<button
+			type="button"
+			class="read-aloud-btn read-aloud-btn--play"
+			id="read-aloud-play"
+			aria-label={t.ui.readAloud?.play || "Play"}
+			aria-pressed="false"
+			disabled
+		>
+			<span class="read-aloud-icon" aria-hidden="true">
+				▶
+			</span>
+			<span class="read-aloud-label">
+				{t.ui.readAloud?.play || "Play"}
+			</span>
+		</button>
+
+		<button
+			type="button"
+			class="read-aloud-btn read-aloud-btn--pause"
+			id="read-aloud-pause"
+			aria-label={t.ui.readAloud?.pause || "Pause"}
+			aria-pressed="false"
+			disabled
+			hidden
+		>
+			<span class="read-aloud-icon" aria-hidden="true">
+				⏸
+			</span>
+			<span class="read-aloud-label">
+				{t.ui.readAloud?.pause || "Pause"}
+			</span>
+		</button>
+
+		<button
+			type="button"
+			class="read-aloud-btn read-aloud-btn--resume"
+			id="read-aloud-resume"
+			aria-label={t.ui.readAloud?.resume || "Resume"}
+			aria-pressed="false"
+			disabled
+			hidden
+		>
+			<span class="read-aloud-icon" aria-hidden="true">
+				▶
+			</span>
+			<span class="read-aloud-label">
+				{t.ui.readAloud?.resume || "Resume"}
+			</span>
+		</button>
+
+		<button
+			type="button"
+			class="read-aloud-btn read-aloud-btn--stop"
+			id="read-aloud-stop"
+			aria-label={t.ui.readAloud?.stop || "Stop"}
+			disabled
+			hidden
+		>
+			<span class="read-aloud-icon" aria-hidden="true">
+				⏹
+			</span>
+			<span class="read-aloud-label">
+				{t.ui.readAloud?.stop || "Stop"}
+			</span>
+		</button>
+	</div>
+
+	<div
+		class="read-aloud-status"
+		role="status"
+		aria-live="polite"
+		aria-atomic="true"
+	>
+		<span id="read-aloud-status-text" class="sr-only"></span>
+	</div>
+
+	<div
+		class="read-aloud-progress"
+		role="progressbar"
+		aria-valuenow="0"
+		aria-valuemin="0"
+		aria-valuemax="100"
+		aria-label={t.ui.readAloud?.progress || "Reading progress"}
+		hidden
+	>
+		<div class="read-aloud-progress-bar"></div>
+	</div>
+</div>
+
+<script is:inline>
+	// ReadAloud component logic — inline so Astro variables (locale, t, articleSelector) are available
+	(() => {
+		// Configuration - use Astro-injected values
+		const STORAGE_KEY = "read-aloud-preferences";
+
+		// State
+		let utterance = null;
+		let voices = [];
+		let selectedVoice = null;
+		let isPlaying = false;
+		let isPaused = false;
+		let currentText = "";
+		let textChunks = [];
+		let currentChunkIndex = 0;
+
+		// DOM Elements
+		const playBtn = document.getElementById("read-aloud-play");
+		const pauseBtn = document.getElementById("read-aloud-pause");
+		const resumeBtn = document.getElementById("read-aloud-resume");
+		const stopBtn = document.getElementById("read-aloud-stop");
+		const statusText = document.getElementById("read-aloud-status-text");
+		const progressContainer = document.querySelector(
+			".read-aloud-progress",
+		);
+		const progressBar = document.querySelector(".read-aloud-progress-bar");
+
+		// Translations from Astro props
+		const translations = {
+			play: t.ui.readAloud?.play || "Play",
+			pause: t.ui.readAloud?.pause || "Pause",
+			resume: t.ui.readAloud?.resume || "Resume",
+			stop: t.ui.readAloud?.stop || "Stop",
+			loading: t.ui.readAloud?.loading || "Loading voices…",
+			noVoices:
+				t.ui.readAloud?.noVoices ||
+				"No voices available for this language",
+			progress: t.ui.readAloud?.progress || "Reading progress",
+			reading: t.ui.readAloud?.reading || "Reading…",
+			paused: t.ui.readAloud?.paused || "Paused",
+			stopped: t.ui.readAloud?.stopped || "Stopped",
+			completed: t.ui.readAloud?.completed || "Reading completed",
+			error: t.ui.readAloud?.error || "Speech synthesis error",
+			unsupported:
+				t.ui.readAloud?.unsupported ||
+				"Speech synthesis not supported in this browser",
+		};
+
+		// Check SpeechSynthesis support
+		if (!("speechSynthesis" in window)) {
+			console.warn("SpeechSynthesis not supported");
+			if (playBtn) {
+				playBtn.setAttribute("aria-label", translations.unsupported);
+				playBtn.disabled = true;
+				playBtn.querySelector(".read-aloud-label").textContent =
+					"Unsupported";
+			}
+			return;
+		}
+
+		// Initialize status
+		updateStatus(translations.loading);
+
+		// Load voices
+		function loadVoices() {
+			voices = window.speechSynthesis.getVoices();
+
+			// Filter voices for current locale
+			const langPrefix = locale === "nl" ? "nl" : "en";
+			const localeVoices = voices.filter((v) =>
+				v.lang.startsWith(langPrefix),
+			);
+
+			if (localeVoices.length === 0) {
+				updateStatus(translations.noVoices);
+				return false;
+			}
+
+			// Prefer local/premium voices, then default
+			selectedVoice =
+				localeVoices.find(
+					(v) => v.localService && !v.name.includes("Google"),
+				) ||
+				localeVoices.find((v) => v.default) ||
+				localeVoices[0];
+
+			// Enable controls
+			enableControls(true);
+			updateStatus("");
+			return true;
+		}
+
+		// Voices load asynchronously in some browsers
+		if (window.speechSynthesis.onvoiceschanged !== undefined) {
+			window.speechSynthesis.onvoiceschanged = loadVoices;
+		}
+		loadVoices();
+
+		// Extract article text
+		function extractArticleText() {
+			const article = document.querySelector(articleSelector);
+			if (!article) return "";
+
+			// Clone to avoid modifying original
+			const clone = article.cloneNode(true);
+
+			// Remove non-content elements
+			const removeSelectors = [
+				".read-aloud",
+				".key-findings",
+				".progressive-disclosure",
+				".callout",
+				"figure",
+				"figcaption",
+				".footnotes",
+				"script",
+				"style",
+				'[aria-hidden="true"]',
+				".sr-only",
+			];
+			removeSelectors.forEach((sel) => {
+				clone.querySelectorAll(sel).forEach((el) => el.remove());
+			});
+
+			// Get text content with some structure preservation
+			let text = "";
+			const walker = document.createTreeWalker(
+				clone,
+				NodeFilter.SHOW_TEXT,
+				null,
+				false,
+			);
+			const textNodes = [];
+			while (walker.nextNode()) {
+				const node = walker.currentNode;
+				const parent = node.parentElement;
+				if (
+					parent &&
+					!["STYLE", "SCRIPT", "NOSCRIPT"].includes(parent.tagName)
+				) {
+					const trimmed = node.textContent.trim();
+					if (trimmed) {
+						textNodes.push({ text: trimmed, element: parent });
+					}
+				}
+			}
+
+			// Build chunks with context
+			textChunks = textNodes.map((node, i) => ({
+				text: node.text,
+				element: node.element,
+				index: i,
+				total: textNodes.length,
+			}));
+
+			return textChunks.map((c) => c.text).join(" ");
+		}
+
+		// Split text into sentences for better chunking
+		function splitIntoSentences(text) {
+			// Simple sentence splitter - handles common cases
+			return text
+				.replace(/\n+/g, " ")
+				.replace(/\s+/g, " ")
+				.split(/(?<=[.!?])\s+(?=[A-Z])/)
+				.filter((s) => s.trim().length > 0);
+		}
+
+		// Create utterance for a text chunk
+		function createUtterance(text) {
+			const u = new SpeechSynthesisUtterance(text);
+			u.lang = locale === "nl" ? "nl-NL" : "en-US";
+			u.voice = selectedVoice;
+			u.rate = 1.0;
+			u.pitch = 1.0;
+			u.volume = 1.0;
+			return u;
+		}
+
+		// Update button states
+		function setButtonState(btn, enabled, pressed, hidden) {
+			if (!btn) return;
+			btn.disabled = !enabled;
+			btn.setAttribute("aria-pressed", pressed.toString());
+			if (hidden) {
+				btn.hidden = true;
+			} else {
+				btn.hidden = false;
+			}
+		}
+
+		function enableControls(enabled) {
+			setButtonState(playBtn, enabled, false, false);
+			setButtonState(pauseBtn, false, false, true);
+			setButtonState(resumeBtn, false, false, true);
+			setButtonState(stopBtn, false, false, true);
+		}
+
+		function setPlayingState(playing) {
+			isPlaying = playing;
+			isPaused = false;
+
+			if (playing) {
+				setButtonState(playBtn, true, true, true);
+				setButtonState(pauseBtn, true, false, false);
+				setButtonState(resumeBtn, false, false, true);
+				setButtonState(stopBtn, true, false, false);
+				updateStatus(translations.reading);
+				showProgress(true);
+			} else {
+				setButtonState(playBtn, true, false, false);
+				setButtonState(pauseBtn, false, false, true);
+				setButtonState(resumeBtn, false, false, true);
+				setButtonState(stopBtn, false, false, true);
+				updateStatus("");
+				showProgress(false);
+			}
+		}
+
+		function setPausedState(paused) {
+			isPaused = paused;
+			isPlaying = !paused;
+
+			if (paused) {
+				setButtonState(playBtn, false, false, true);
+				setButtonState(pauseBtn, true, true, true);
+				setButtonState(resumeBtn, true, false, false);
+				setButtonState(stopBtn, true, false, false);
+				updateStatus(translations.paused);
+			} else {
+				setButtonState(playBtn, true, true, true);
+				setButtonState(pauseBtn, true, false, false);
+				setButtonState(resumeBtn, false, false, true);
+				setButtonState(stopBtn, true, false, false);
+				updateStatus(translations.reading);
+			}
+		}
+
+		function setStoppedState() {
+			isPlaying = false;
+			isPaused = false;
+			currentChunkIndex = 0;
+
+			setButtonState(playBtn, true, false, false);
+			setButtonState(pauseBtn, false, false, true);
+			setButtonState(resumeBtn, false, false, true);
+			setButtonState(stopBtn, false, false, true);
+			updateStatus(translations.stopped);
+			showProgress(false);
+		}
+
+		function showProgress(show) {
+			if (progressContainer) {
+				progressContainer.hidden = !show;
+			}
+		}
+
+		function updateProgress(percent) {
+			if (progressBar) {
+				progressBar.style.width = `${percent}%`;
+			}
+			if (progressContainer) {
+				progressContainer.setAttribute(
+					"aria-valuenow",
+					Math.round(percent),
+				);
+			}
+		}
+
+		function updateStatus(message) {
+			if (statusText) {
+				statusText.textContent = message;
+			}
+		}
+
+		// Speak next chunk
+		function speakNextChunk() {
+			if (currentChunkIndex >= textChunks.length) {
+				onReadingComplete();
+				return;
+			}
+
+			const chunk = textChunks[currentChunkIndex];
+			utterance = createUtterance(chunk.text);
+
+			// Highlight current element
+			if (chunk.element) {
+				chunk.element.classList.add("read-aloud-current");
+				chunk.element.scrollIntoView({
+					behavior: "smooth",
+					block: "center",
+				});
+			}
+
+			// Remove highlight from previous
+			if (currentChunkIndex > 0) {
+				const prevChunk = textChunks[currentChunkIndex - 1];
+				if (prevChunk.element) {
+					prevChunk.element.classList.remove("read-aloud-current");
+				}
+			}
+
+			// Update progress
+			const progress = (currentChunkIndex / textChunks.length) * 100;
+			updateProgress(progress);
+
+			// Event handlers
+			utterance.onboundary = (e) => {
+				if (e.name === "word") {
+					// Could add word-level highlighting here
+				}
+			};
+
+			utterance.onend = () => {
+				currentChunkIndex++;
+				if (isPlaying && !isPaused) {
+					// Small delay between chunks for natural flow
+					setTimeout(speakNextChunk, 150);
+				}
+			};
+
+			utterance.onerror = (e) => {
+				console.error("SpeechSynthesis error:", e);
+				if (e.error !== "interrupted" && e.error !== "canceled") {
+					updateStatus(translations.error);
+					setStoppedState();
+				}
+			};
+
+			window.speechSynthesis.speak(utterance);
+		}
+
+		function onReadingComplete() {
+			// Remove highlight from last chunk
+			if (currentChunkIndex > 0) {
+				const lastChunk = textChunks[currentChunkIndex - 1];
+				if (lastChunk.element) {
+					lastChunk.element.classList.remove("read-aloud-current");
+				}
+			}
+			updateProgress(100);
+			updateStatus(translations.completed);
+			setStoppedState();
+
+			// Clear completion status after delay
+			setTimeout(() => {
+				if (!isPlaying) updateStatus("");
+			}, 3000);
+		}
+
+		// Public API
+		function play() {
+			if (!selectedVoice) {
+				if (!loadVoices()) return;
+			}
+
+			if (isPaused) {
+				resume();
+				return;
+			}
+
+			// Stop any existing speech
+			window.speechSynthesis.cancel();
+
+			// Extract text if not already done
+			if (textChunks.length === 0) {
+				currentText = extractArticleText();
+				if (!currentText.trim()) {
+					updateStatus("No text to read");
+					return;
+				}
+				textChunks = splitIntoSentences(currentText).map((text, i) => ({
+					text,
+					index: i,
+					total: 0,
+				}));
+			}
+
+			currentChunkIndex = 0;
+			setPlayingState(true);
+			speakNextChunk();
+		}
+
+		function pause() {
+			if (isPlaying && !isPaused) {
+				window.speechSynthesis.pause();
+				setPausedState(true);
+			}
+		}
+
+		function resume() {
+			if (isPaused) {
+				window.speechSynthesis.resume();
+				setPausedState(false);
+			}
+		}
+
+		function stop() {
+			window.speechSynthesis.cancel();
+			// Clean up highlights
+			textChunks.forEach((chunk) => {
+				if (chunk.element)
+					chunk.element.classList.remove("read-aloud-current");
+			});
+			setStoppedState();
+		}
+
+		// Event Listeners
+		playBtn?.addEventListener("click", play);
+		pauseBtn?.addEventListener("click", pause);
+		resumeBtn?.addEventListener("click", resume);
+		stopBtn?.addEventListener("click", stop);
+
+		// Keyboard shortcuts
+		document.addEventListener("keydown", (e) => {
+			// Only trigger if read-aloud controls are focused or no input focused
+			const active = document.activeElement;
+			const isInput =
+				active &&
+				(active.tagName === "INPUT" ||
+					active.tagName === "TEXTAREA" ||
+					active.isContentEditable);
+			const isReadAloudFocused = active && active.closest(".read-aloud");
+
+			if (isInput && !isReadAloudFocused) return;
+
+			// Space to play/pause when read-aloud is focused
+			if (e.code === "Space" && isReadAloudFocused) {
+				e.preventDefault();
+				if (isPlaying && !isPaused) {
+					pause();
+				} else if (isPaused) {
+					resume();
+				} else {
+					play();
+				}
+			}
+
+			// Escape to stop
+			if (e.key === "Escape" && (isPlaying || isPaused)) {
+				stop();
+			}
+		});
+
+		// Handle page navigation - stop speech
+		function handleNavigation() {
+			if (isPlaying || isPaused) {
+				stop();
+			}
+		}
+
+		// Listen for Astro page transitions
+		document.addEventListener("astro:before-preparation", handleNavigation);
+		document.addEventListener("astro:after-swap", handleNavigation);
+
+		// Also handle standard navigation
+		window.addEventListener("beforeunload", handleNavigation);
+
+		// Cleanup on unload
+		window.addEventListener("unload", () => {
+			window.speechSynthesis.cancel();
+			document.removeEventListener(
+				"astro:before-preparation",
+				handleNavigation,
+			);
+			document.removeEventListener("astro:after-swap", handleNavigation);
+			window.removeEventListener("beforeunload", handleNavigation);
+		});
+
+		// Expose for debugging
+		window.__readAloud = {
+			play,
+			pause,
+			resume,
+			stop,
+			voices: () => voices,
+		};
+	})();
+</script>
+
+<style>
+	.read-aloud {
+		background: var(--sheet-darker);
+		border: 1px solid var(--mountain-light);
+		border-radius: var(--radius);
+		padding: var(--space-3) var(--space-4);
+		margin: var(--space-4) 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+	}
+
+	.read-aloud-controls {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		flex-wrap: wrap;
+	}
+
+	.read-aloud-btn {
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		font-weight: 600;
+		padding: var(--space-1) var(--space-3);
+		background: transparent;
+		border: 1px solid var(--mountain-light);
+		border-radius: var(--radius);
+		color: var(--ink-muted);
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--space-1);
+		min-width: 44px;
+		min-height: 44px;
+		transition:
+			color var(--transition-base),
+			background var(--transition-base),
+			border-color var(--transition-base);
+		white-space: nowrap;
+	}
+
+	.read-aloud-btn:hover:not(:disabled),
+	.read-aloud-btn:focus:not(:disabled) {
+		color: var(--gold);
+		background: var(--valley-light);
+		border-color: var(--gold);
+		outline: none;
+	}
+
+	.read-aloud-btn:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+	}
+
+	.read-aloud-btn:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	.read-aloud-btn[aria-pressed="true"] {
+		color: var(--ink);
+		background: var(--gold);
+		border-color: var(--gold);
+	}
+
+	.read-aloud-icon {
+		font-size: var(--size-sm);
+		line-height: 1;
+	}
+
+	.read-aloud-status {
+		min-height: 1.2em;
+		font-size: var(--size-xs);
+		color: var(--ink-muted);
+	}
+
+	.read-aloud-progress {
+		height: 4px;
+		background: var(--mountain-light);
+		border-radius: 2px;
+		overflow: hidden;
+	}
+
+	.read-aloud-progress-bar {
+		height: 100%;
+		background: var(--gold);
+		width: 0%;
+		transition: width 0.1s linear;
+		border-radius: 2px;
+	}
+
+	/* Current text highlighting */
+	.read-aloud-current {
+		background: var(--valley-light) !important;
+		border-radius: 2px;
+		box-shadow: 0 0 0 2px var(--valley);
+		transition:
+			background var(--transition-base),
+			box-shadow var(--transition-base);
+	}
+
+	/* Reduced motion */
+	@media (prefers-reduced-motion: reduce) {
+		.read-aloud-current {
+			transition: none;
+		}
+		.read-aloud-progress-bar {
+			transition: none;
+		}
+	}
+
+	/* High contrast */
+	@media (prefers-contrast: high) {
+		.read-aloud {
+			border-color: currentColor;
+		}
+		.read-aloud-btn {
+			border-color: currentColor;
+		}
+		.read-aloud-btn:hover:not(:disabled),
+		.read-aloud-btn:focus:not(:disabled),
+		.read-aloud-btn[aria-pressed="true"] {
+			border-color: currentColor;
+			background: transparent;
+			color: currentColor;
+		}
+		.read-aloud-progress-bar {
+			background: currentColor;
+		}
+		.read-aloud-current {
+			background: transparent !important;
+			outline: 2px solid currentColor;
+			box-shadow: none;
+		}
+	}
+
+	/* Print */
+	@media print {
+		.read-aloud {
+			display: none !important;
+		}
+	}
+
+	/* Responsive */
+	@media (max-width: 480px) {
+		.read-aloud-btn .read-aloud-label {
+			display: none;
+		}
+		.read-aloud-btn {
+			padding: var(--space-1);
+		}
+	}
+</style>

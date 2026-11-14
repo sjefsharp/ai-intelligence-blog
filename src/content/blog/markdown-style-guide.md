@@ -1,214 +1,155 @@
 ---
-title: 'Markdown Style Guide'
-description: 'Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.'
-pubDate: 'Jun 19 2024'
-heroImage: '../../assets/blog-placeholder-1.jpg'
+title: "Markdown Style Guide for Technical Architecture"
+description: "Consistent conventions for headings, code, tables, callouts, and citations in architectural documentation."
+pubDate: "Jun 19 2024"
+updatedDate: "Nov 08 2026"
+heroImage: "../../assets/blog-placeholder-1.jpg"
+tags: ["Style Guide", "Documentation", "Markdown", "Conventions"]
+sourceUrl: "https://github.com/example/arch-style-guide"
+readingTime: 12
 ---
 
-Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.
+Consistent Markdown conventions reduce cognitive load for readers and authors. This guide documents the patterns used across this publication.
 
 ## Headings
 
-The following HTML `<h1>`—`<h6>` elements represent six levels of section headings. `<h1>` is the highest section level while `<h6>` is the lowest.
-
-# H1
-
-## H2
-
-### H3
-
-#### H4
-
-##### H5
-
-###### H6
-
-## Paragraph
-
-Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.
-
-Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.
-
-## Images
-
-### Syntax
+Use ATX-style headings (`#` through `######`). Exactly one H1 per page (the article title).
 
 ```markdown
-![Alt text](./full/or/relative/path/of/image)
+# Article Title (H1 - frontmatter only)
+
+## Major Section (H2)
+
+### Subsection (H3)
+
+#### Detail Level (H4)
 ```
 
-### Output
-
-![blog placeholder](../../assets/blog-placeholder-about.jpg)
-
-## Blockquotes
-
-The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a `footer` or `cite` element, and optionally with in-line changes such as annotations and abbreviations.
-
-### Blockquote without attribution
-
-#### Syntax
-
-```markdown
-> Tiam, ad mint andaepu dandae nostion secatur sequo quae.  
-> **Note** that you can use _Markdown syntax_ within a blockquote.
-```
-
-#### Output
-
-> Tiam, ad mint andaepu dandae nostion secatur sequo quae.  
-> **Note** that you can use _Markdown syntax_ within a blockquote.
-
-### Blockquote with attribution
-
-#### Syntax
-
-```markdown
-> Don't communicate by sharing memory, share memory by communicating.<br>
-> — <cite>Rob Pike[^1]</cite>
-```
-
-#### Output
-
-> Don't communicate by sharing memory, share memory by communicating.<br>
-> — <cite>Rob Pike[^1]</cite>
-
-[^1]: The above quote is excerpted from Rob Pike's [talk](https://www.youtube.com/watch?v=PAAkCSZUG1c) during Gopherfest, November 18, 2015.
-
-## Tables
-
-### Syntax
-
-```markdown
-| Italics   | Bold     | Code   |
-| --------- | -------- | ------ |
-| _italics_ | **bold** | `code` |
-```
-
-### Output
-
-| Italics   | Bold     | Code   |
-| --------- | -------- | ------ |
-| _italics_ | **bold** | `code` |
+H2s become folded headings on the diagonal crease line. H3s appear in the crease graph as indented children.
 
 ## Code Blocks
 
-### Syntax
-
-we can use 3 backticks ``` in new line and write snippet and close with 3 backticks on new line and to highlight language specific syntax, write one word of language name after first 3 backticks, for eg. html, javascript, css, markdown, typescript, txt, bash
+Always specify the language for syntax highlighting:
 
 ````markdown
-```html
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Example HTML5 Document</title>
-  </head>
-  <body>
-    <p>Test</p>
-  </body>
-</html>
+```rust
+fn main() {
+    println!("Hello, architecture!");
+}
 ```
 ````
 
-### Output
+### Inline Code
 
-```html
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Example HTML5 Document</title>
-  </head>
-  <body>
-    <p>Test</p>
-  </body>
-</html>
+Use backticks for inline code, parameters, and CLI commands:
+
+> The `orchestrator` service uses `WasmSandbox` for isolation.
+
+### Annotated Code
+
+Use comments for inline explanations:
+
+```typescript
+interface AgentBounding {
+  schema: JsonSchema; // traceability: every call validated
+  sandbox: WasmSandbox; // isolation: untrusted code execution
+  tokens: CapabilitySet; // cost control: token budget enforcement
+}
 ```
 
-## List Types
+## Tables
 
-### Ordered List
+Use pipes for alignment. Header row required. Right-align numeric columns:
 
-#### Syntax
+| Criterion    | Weight | Schema | Sandbox | Tokens |
+| :----------- | -----: | :----: | :-----: | :----: |
+| Traceability |   0.30 | ★★★★★  |  ★★☆☆☆  | ★★★★☆  |
+| Cost Control |   0.25 | ★★★☆☆  |  ★★★★☆  | ★★★★★  |
+
+## Callouts (Admonitions)
+
+Use the `<Callout>` component with typed variants:
+
+```mdx
+<Callout type="evidence">Backed by benchmark data.</Callout>
+<Callout type="failure">This approach fails under load.</Callout>
+<Callout type="migration">
+  Phase 1: Add validation. Phase 2: Enable breaker.
+</Callout>
+<Callout type="decision">Schema enforcement selected as primary.</Callout>
+```
+
+Types map to colors: gold (decision), blue (evidence), red (failure), green (migration).
+
+## Blockquotes
+
+Use for citations and extracted text. Attribute with `<cite>`:
+
+> Don't communicate by sharing memory, share memory by communicating.
+> — <cite>Rob Pike</cite>
+
+## Lists
+
+### Ordered
+
+Use for sequential steps:
+
+1. Instrument all LLM calls
+2. Deploy budgets in shadow mode
+3. Enable breakers with generous thresholds
+
+### Unordered
+
+Use for sets of related items:
+
+- Zero paid services
+- No tracking or analytics
+- Self-hosted fonts only
+
+### Task Lists
+
+Use for checklists in migration paths:
+
+- [x] Add JSON Schema validation
+- [ ] Introduce capability token minting
+- [ ] Deprecate raw tool access
+
+## Footnotes
+
+Use for references without breaking flow:
+
+The orchestrator uses structured event logs[^1] for observability.
+
+[^1]: See [Observability Patterns for Agent Systems](/blog/observability-patterns/) for details.
+
+## Citations
+
+Inline citations use bracket notation with DOI/URL in footnotes:
+
+The framework achieves 99.2% success rate[^2] under production load.
+
+[^2]: Internal benchmark, Q3 2026. DOI: 10.5281/zenodo.1234567
+
+## Images
+
+Always include descriptive alt text. Use `heroImage` in frontmatter for article headers:
 
 ```markdown
-1. First item
-2. Second item
-3. Third item
+![Architecture diagram: request flow through API gateway to agent orchestrator](./arch-flow.png)
 ```
 
-#### Output
+## Horizontal Rules
 
-1. First item
-2. Second item
-3. Third item
+Use `---` for major section breaks within content (not between H2s — those have automatic rules).
 
-### Unordered List
+---
 
-#### Syntax
+## References Section
 
-```markdown
-- List item
-- Another item
-- And another item
-```
+Every article ends with a References section using footnote links:
 
-#### Output
+## References
 
-- List item
-- Another item
-- And another item
-
-### Nested list
-
-#### Syntax
-
-```markdown
-- Fruit
-  - Apple
-  - Orange
-  - Banana
-- Dairy
-  - Milk
-  - Cheese
-```
-
-#### Output
-
-- Fruit
-  - Apple
-  - Orange
-  - Banana
-- Dairy
-  - Milk
-  - Cheese
-
-## Other Elements — abbr, sub, sup, kbd, mark
-
-### Syntax
-
-```markdown
-<abbr title="Graphics Interchange Format">GIF</abbr> is a bitmap image format.
-
-H<sub>2</sub>O
-
-X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup>
-
-Press <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Delete</kbd> to end the session.
-
-Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.
-```
-
-### Output
-
-<abbr title="Graphics Interchange Format">GIF</abbr> is a bitmap image format.
-
-H<sub>2</sub>O
-
-X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup>
-
-Press <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Delete</kbd> to end the session.
-
-Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.
+1. [JSON Schema Specification](https://json-schema.org/)
+2. [WASM Component Model](https://github.com/WebAssembly/component-model)
+3. [Capability-Based Security](https://erights.org/elib/capability/ode/ode.html)

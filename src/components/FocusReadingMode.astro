@@ -1,0 +1,250 @@
+---
+/**
+ * FocusReadingMode — distraction-free reading overlay.
+ * Hides all UI chrome (masthead, TOC, fold margin, footer) for pure focus.
+ */
+import { getTranslation, type Locale } from "../i18n";
+import type { TranslationKeys } from "../i18n";
+
+interface Props {
+	locale: Locale;
+	t: TranslationKeys;
+}
+
+const { locale, t } = Astro.props;
+---
+
+<div
+	class="focus-mode-toggle"
+	role="region"
+	aria-label={t.ui.focusMode || "Focus mode"}
+>
+	<button
+		type="button"
+		class="focus-mode-btn"
+		id="focus-mode-trigger"
+		aria-pressed="false"
+		aria-label={t.ui.focusMode || "Enter focus mode"}
+		title={t.ui.focusMode || "Focus mode"}
+	>
+		<span class="focus-mode-icon" aria-hidden="true">
+			📖
+		</span>
+		<span
+			class="focus-mode-label"
+			data-focus-label-enter={t.ui.focusMode || "Focus"}
+			data-focus-label-exit={t.ui.exitFocus || "Exit Focus"}
+		>
+			{t.ui.focusMode || "Focus"}
+		</span>
+	</button>
+</div>
+
+<script>
+	(function () {
+		const STORAGE_KEY = "focus-mode-preference";
+
+		const trigger = document.getElementById("focus-mode-trigger");
+		const html = document.documentElement;
+
+		function getSavedFocusMode() {
+			const saved = localStorage.getItem(STORAGE_KEY);
+			return saved === "true";
+		}
+
+		function saveFocusMode(enabled: boolean) {
+			localStorage.setItem(STORAGE_KEY, enabled.toString());
+		}
+
+		function applyFocusMode(enabled: boolean) {
+			const labelEnter =
+				trigger?.querySelector<HTMLElement>(".focus-mode-label")
+					?.dataset?.focusLabelEnter || "Focus";
+			const labelExit =
+				trigger?.querySelector<HTMLElement>(".focus-mode-label")
+					?.dataset?.focusLabelExit || "Exit Focus";
+
+			if (enabled) {
+				html.classList.add("focus-mode");
+				trigger?.setAttribute("aria-pressed", "true");
+				trigger?.setAttribute("aria-label", "Exit focus mode");
+				trigger?.setAttribute("title", "Exit focus mode");
+				const labelEl = trigger?.querySelector(".focus-mode-label");
+				if (labelEl) labelEl.textContent = labelExit;
+			} else {
+				html.classList.remove("focus-mode");
+				trigger?.setAttribute("aria-pressed", "false");
+				trigger?.setAttribute("aria-label", "Enter focus mode");
+				trigger?.setAttribute("title", "Enter focus mode");
+				const labelEl = trigger?.querySelector(".focus-mode-label");
+				if (labelEl) labelEl.textContent = labelEnter;
+			}
+		}
+
+		function toggleFocusMode() {
+			const enabled = !html.classList.contains("focus-mode");
+			applyFocusMode(enabled);
+			saveFocusMode(enabled);
+		}
+
+		// Initialize
+		const saved = getSavedFocusMode();
+		if (saved) {
+			applyFocusMode(true);
+		}
+
+		trigger?.addEventListener("click", toggleFocusMode);
+
+		// Keyboard shortcut: F or Escape to toggle
+		document.addEventListener("keydown", (e) => {
+			if (e.key === "f" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+				const active = document.activeElement as HTMLElement | null;
+				if (
+					active &&
+					active.tagName !== "INPUT" &&
+					active.tagName !== "TEXTAREA" &&
+					active.isContentEditable !== true
+				) {
+					e.preventDefault();
+					toggleFocusMode();
+				}
+			}
+			if (e.key === "Escape") {
+				if (html.classList.contains("focus-mode")) {
+					toggleFocusMode();
+				}
+			}
+		});
+	})();
+</script>
+
+<style>
+	.focus-mode-toggle {
+		display: inline-flex;
+	}
+
+	.focus-mode-btn {
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		font-weight: 600;
+		padding: var(--space-1) var(--space-2);
+		background: transparent;
+		border: 1px solid var(--mountain-light);
+		border-radius: var(--radius);
+		color: var(--ink-muted);
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--space-1);
+		min-width: 44px;
+		transition:
+			color var(--transition-base),
+			background var(--transition-base),
+			border-color var(--transition-base);
+	}
+
+	.focus-mode-btn:hover,
+	.focus-mode-btn:focus {
+		color: var(--gold);
+		background: var(--valley-light);
+		border-color: var(--gold);
+		outline: none;
+	}
+
+	.focus-mode-btn:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+	}
+
+	.focus-mode-btn[aria-pressed="true"] {
+		color: var(--ink);
+		background: var(--gold);
+		border-color: var(--gold);
+	}
+
+	/* Focus Mode Styles */
+	html.focus-mode .masthead,
+	html.focus-mode .fold-margin,
+	html.focus-mode .crease-graph,
+	html.focus-mode .footer,
+	html.focus-mode .reading-mode-toggle,
+	html.focus-mode .lang-toggle,
+	html.focus-mode .theme-toggle,
+	html.focus-mode .focus-mode-toggle {
+		display: none !important;
+	}
+
+	html.focus-mode .article-layout {
+		grid-template-columns:
+			[margin-start] var(--margin-page)
+			[content-start] minmax(0, var(--reading-measure))
+			[content-end] 1fr
+			[margin-end] var(--margin-page);
+	}
+
+	html.focus-mode .reading-column {
+		max-width: 100%;
+		padding: var(--space-4) 0;
+	}
+
+	html.focus-mode .article-header {
+		border-bottom: none;
+		padding-bottom: 0;
+		margin-bottom: var(--space-6);
+	}
+
+	html.focus-mode .article-title {
+		font-size: var(--size-2xl);
+	}
+
+	html.focus-mode .article-abstract {
+		font-size: var(--size-base);
+	}
+
+	/* Focus mode exit banner */
+	html.focus-mode .focus-mode-exit-banner {
+		display: block;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1000;
+		background: var(--sheet);
+		border-bottom: 1px solid var(--mountain-light);
+		padding: var(--space-2) var(--margin-page);
+		text-align: center;
+	}
+
+	html.focus-mode .focus-mode-exit-banner button {
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		font-weight: 600;
+		padding: var(--space-1) var(--space-3);
+		background: var(--gold);
+		border: none;
+		border-radius: var(--radius);
+		color: var(--ink);
+		cursor: pointer;
+		transition: background var(--transition-base);
+	}
+
+	html.focus-mode .focus-mode-exit-banner button:hover {
+		background: var(--gold-dim);
+	}
+
+	html.focus-mode .focus-mode-exit-banner button:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+	}
+
+	/* Print */
+	@media print {
+		html.focus-mode .masthead,
+		html.focus-mode .fold-margin,
+		html.focus-mode .crease-graph,
+		html.focus-mode .footer {
+			display: none !important;
+		}
+	}
+</style>

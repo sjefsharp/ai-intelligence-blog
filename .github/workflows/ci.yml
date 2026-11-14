@@ -26,7 +26,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -49,6 +49,9 @@ jobs:
       - name: Run Yamllint
         run: ./node_modules/.bin/yamllint .
 
+      - name: Run Yamllint
+        run: pnpm exec yamllint .
+
       - name: Run Astro Check
         run: ./node_modules/.bin/astro check
 
@@ -64,7 +67,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -91,7 +94,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -125,7 +128,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -167,7 +170,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -216,7 +219,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v7

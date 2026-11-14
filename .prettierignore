@@ -1,0 +1,8 @@
+# Build output
+dist/
+
+# Generated Astro types
+.astro/
+
+# Generated lockfile (pnpm manages its own formatting)
+pnpm-lock.yaml

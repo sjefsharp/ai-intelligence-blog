@@ -35,22 +35,22 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --shamefully-hoist
 
       - name: Run Prettier
-        run: pnpm dlx prettier --check .
+        run: ./node_modules/.bin/prettier --check .
 
       - name: Run ESLint
-        run: pnpm dlx eslint . --ext .ts,.tsx,.js,.jsx,.astro --max-warnings 0
+        run: ./node_modules/.bin/eslint . --ext .ts,.tsx,.js,.jsx,.astro --max-warnings 0
 
       - name: Run Markdownlint
-        run: pnpm dlx markdownlint .
+        run: ./node_modules/.bin/markdownlint .
 
       - name: Run Yamllint
-        run: pnpm dlx yamllint .
+        run: ./node_modules/.bin/yamllint .
 
       - name: Run Astro Check
-        run: pnpm dlx astro check
+        run: ./node_modules/.bin/astro check
 
   test:
     name: Unit Tests
@@ -73,10 +73,10 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --shamefully-hoist
 
       - name: Run Vitest
-        run: pnpm dlx vitest run
+        run: ./node_modules/.bin/vitest run
 
   build:
     name: Build
@@ -100,10 +100,10 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --shamefully-hoist
 
       - name: Build
-        run: pnpm dlx astro build
+        run: ./node_modules/.bin/astro build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -134,10 +134,10 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --shamefully-hoist
 
       - name: Install Playwright browsers
-        run: pnpm dlx playwright install --with-deps chromium
+        run: ./node_modules/.bin/playwright install --with-deps chromium
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -147,11 +147,11 @@ jobs:
 
       - name: Start preview server
         run: |
-          pnpm dlx astro preview --port 4321 &
+          ./node_modules/.bin/astro preview --port 4321 &
           sleep 5
 
       - name: Run Playwright accessibility tests
-        run: pnpm dlx playwright test
+        run: ./node_modules/.bin/playwright test
         env:
           BASE_URL: http://localhost:4321
 
@@ -176,14 +176,14 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --shamefully-hoist
 
       - name: Audit production dependencies
-        run: pnpm audit --prod --audit-level=high
+        run: ./node_modules/.bin/pnpm audit --prod --audit-level=high
         continue-on-error: false
 
       - name: Audit dev dependencies (warn only)
-        run: pnpm audit --dev --audit-level=high || true
+        run: ./node_modules/.bin/pnpm audit --dev --audit-level=high || true
 
   secret-scan:
     name: Secret Scan
@@ -227,10 +227,10 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --shamefully-hoist
 
       - name: Run commitlint
-        run: pnpm dlx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
+        run: ./node_modules/.bin/commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
 
   branch-name:
     name: Branch Name Validation

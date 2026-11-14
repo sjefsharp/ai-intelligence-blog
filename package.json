@@ -63,7 +63,7 @@
     "@playwright/test": "^1.65.0",
     "ajv": "^8.20.0",
     "astro-eslint-parser": "^3.2.0",
-    "commander": "^11.1.0",
+    "commander": "^15.1.0",
     "commitlint-plugin-gitmoji": "^2.2.6",
     "eslint": "^10.14.0",
     "eslint-plugin-astro": "^3.2.1",

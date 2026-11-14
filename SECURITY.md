@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Only the latest release on the `master` branch receives security updates. This is a static site with no server runtime; vulnerabilities in dependencies are the primary concern.
+Only the latest release on the `main` branch receives security updates. This is a static site with no server runtime; vulnerabilities in dependencies are the primary concern.
 
 | Version | Supported          |
 | ------- | ------------------ |

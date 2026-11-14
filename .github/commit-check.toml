@@ -1,0 +1,27 @@
+# commit-check configuration for Conventional Branch specification
+# https://conventionalbranch.org/
+# This file is used by commit-check-action in CI and commit-check locally
+
+[branch]
+# Enable Conventional Branch validation (default: true)
+conventional_branch = true
+
+# Also validate the description grammar (lowercase, hyphens, dots for versions)
+require_description_grammar = true
+
+# Types from Conventional Branch spec v1.1.0
+# Categories: purpose (feature, bugfix, hotfix, release, chore) and ai-source (ai, claude, codex, copilot, cursor)
+allow_branch_types = [
+  "feature", "feat",
+  "bugfix", "fix",
+  "hotfix",
+  "release",
+  "chore",
+  "ai", "claude", "codex", "copilot", "cursor",
+]
+
+# Trunk branches that don't require a prefix
+allow_branch_names = ["main", "master", "develop"]
+
+# Ignore bot authors (they push from their own infrastructure)
+ignore_authors = ["dependabot[bot]", "renovate[bot]", "github-actions[bot]"]

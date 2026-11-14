@@ -15,6 +15,9 @@ updates:
     commit-message:
       prefix: "chore(deps)"
       include: "scope"
+    pull-request-branch-name:
+      prefix: "chore/"
+      separator: "-"
     labels:
       - "dependencies"
       - "pnpm"
@@ -57,6 +60,9 @@ updates:
     commit-message:
       prefix: "chore(ci)"
       include: "scope"
+    pull-request-branch-name:
+      prefix: "chore/"
+      separator: "-"
     labels:
       - "dependencies"
       - "github-actions"

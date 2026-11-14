@@ -145,7 +145,7 @@ jobs:
       - name: Start preview server
         run: |
           pnpm exec astro preview --port 4321 &
-          for i in $(seq 1 30); do
+          for _ in $(seq 1 30); do
             if curl -sf http://localhost:4321/ >/dev/null; then
               echo "preview server ready"
               exit 0

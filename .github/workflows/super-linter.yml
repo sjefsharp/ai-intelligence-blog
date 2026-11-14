@@ -32,9 +32,10 @@ jobs:
           # flat config. The CI "Lint & TypeCheck" job runs ESLint authoritatively,
           # so the JS/TS linters are simply not enabled here. Super-Linter forbids
           # mixing VALIDATE=true and VALIDATE=false, so unset linters stay off.
-          VALIDATE_JSON: true
+          # MARKDOWN and JSON are also left unset: Super-Linter cannot resolve the
+          # repo's dotfile markdown config, and its JSON linter (ESLint 8 ESM)
+          # fails on its own default config. The CI markdownlint gate owns markdown.
           VALIDATE_YAML: true
-          VALIDATE_MARKDOWN: true
           VALIDATE_HTML: true
           VALIDATE_BASH: true
           VALIDATE_GITHUB_ACTIONS: true

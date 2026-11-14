@@ -277,7 +277,12 @@ const { locale, t } = Astro.props;
 			theme: string;
 		};
 		type SettingKey = keyof ReadingState;
-		let state: ReadingState = { ...DEFAULTS };
+		let state: ReadingState = {
+			...DEFAULTS,
+			// Preserve the theme chosen in the masthead instead of clobbering it.
+			theme:
+				document.documentElement.getAttribute("data-theme") ?? "system",
+		};
 
 		// Initialize from localStorage
 		function loadState() {

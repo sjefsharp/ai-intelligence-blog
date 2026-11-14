@@ -30,14 +30,11 @@ interface ConsentState {
 <div
 	class="cookie-consent"
 	id="cookie-consent"
-	role="dialog"
-	aria-modal="true"
-	aria-labelledby="cookie-consent-title"
+	role="region"
+	aria-label={t.cookieConsent?.title || "Cookie Preferences"}
 	aria-describedby="cookie-consent-description"
 	hidden
 >
-	<div class="cookie-consent-backdrop" aria-hidden="true"></div>
-
 	<div class="cookie-consent-panel">
 		<div class="cookie-consent-header" role="heading" aria-level="2">
 			<h2 id="cookie-consent-title" class="cookie-consent-title">
@@ -283,7 +280,6 @@ interface ConsentState {
 
 		// DOM Elements
 		const banner = document.getElementById("cookie-consent");
-		const panel = banner?.querySelector(".cookie-consent-panel");
 		const closeBtn = document.getElementById("cookie-consent-close");
 		const rejectBtn = document.getElementById("cookie-consent-reject");
 		const acceptBtn = document.getElementById("cookie-consent-accept");
@@ -318,8 +314,6 @@ interface ConsentState {
 		function showBanner() {
 			if (banner) {
 				banner.hidden = false;
-				setTimeout(() => rejectBtn?.focus(), 100);
-				trapFocus(panel);
 			}
 		}
 
@@ -435,31 +429,6 @@ interface ConsentState {
 			}
 		});
 
-		// Focus trap for modal dialog
-		function trapFocus(element) {
-			if (!element) return;
-
-			const focusable = element.querySelectorAll(
-				'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-			);
-			const first = focusable[0];
-			const last = focusable[focusable.length - 1];
-
-			element.addEventListener("keydown", (e) => {
-				if (e.key !== "Tab") return;
-
-				if (e.shiftKey && document.activeElement === first) {
-					e.preventDefault();
-					last?.focus();
-				} else if (!e.shiftKey && document.activeElement === last) {
-					e.preventDefault();
-					first?.focus();
-				}
-			});
-
-			first?.focus();
-		}
-
 		// Expose for debugging
 		window.__cookieConsent = {
 			show: showBanner,
@@ -510,6 +479,8 @@ interface ConsentState {
 		position: relative;
 		width: 100%;
 		max-width: 480px;
+		max-height: calc(100vh - 10rem);
+		overflow-y: auto;
 		background: var(--sheet);
 		border: 1px solid var(--mountain-light);
 		border-radius: var(--radius) var(--radius) 0 0;

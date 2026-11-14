@@ -6,6 +6,11 @@
   Grid: Parallelogram 60°/120°, diagonal fold line at 30°.
 */
 
+/* The hidden attribute must always win over component display rules. */
+[hidden] {
+	display: none !important;
+}
+
 :root {
 	/* ---- Palette (Light Theme - Default) ---- */
 	--sheet: #fafafa; /* matte white ground */
@@ -107,8 +112,8 @@
 		--transition-fold: 0ms;
 	}
 	* {
-		animation-duration: 0.01ms !important;
-		transition-duration: 0.01ms !important;
+		animation-duration: 0s !important;
+		transition-duration: 0s !important;
 	}
 }
 
@@ -317,15 +322,6 @@ pre {
 }
 .astro-code span[style*="color:#6A737D"] {
 	color: #4a4a4a !important;
-}
-
-/* Dark mode syntax highlight fixes */
-.astro-code[style*="--shiki-github-dark"] span[style*="color:#6A737D"],
-.astro-code[style*="--shiki-github-dark"] span[style*="color:#BBBBBB"] {
-	color: #d1d5db !important;
-}
-.astro-code[style*="--shiki-github-dark"] span[style*="color:#6A737D"] {
-	color: #9ca3af !important;
 }
 
 pre > code {
@@ -1013,6 +1009,17 @@ html.focus-mode .article-content {
 
 	.masthead-inner {
 		justify-content: space-between;
+	}
+
+	.masthead-tools {
+		gap: var(--space-2);
+		flex-wrap: wrap;
+	}
+
+	/* Keep the tool row inside narrow viewports (320px reflow). */
+	.readingMode-label,
+	.focus-mode-label {
+		display: none;
 	}
 
 	.reading-column {

@@ -29,19 +29,18 @@ export function getLocaleFromPath(pathname: string): Locale {
 }
 
 export function getPathWithoutLocale(pathname: string): string {
-	const locale = getLocaleFromPath(pathname);
-	if (locale === defaultLocale) {
-		return pathname;
+	const segments = pathname.split("/").filter(Boolean);
+	if (segments.length > 0 && (segments[0] === "en" || segments[0] === "nl")) {
+		const rest = segments.slice(1);
+		return rest.length === 0 ? "/" : `/${rest.join("/")}`;
 	}
-	return pathname.replace(`/${locale}`, "") || "/";
+	return pathname;
 }
 
 export function localizePath(pathname: string, locale: Locale): string {
-	const pathWithoutLocale = getPathWithoutLocale(pathname);
-	if (locale === defaultLocale) {
-		return pathWithoutLocale;
-	}
-	return `/${locale}${pathWithoutLocale}`;
+	const bare = getPathWithoutLocale(pathname);
+	const trimmed = bare === "/" ? "" : bare.replace(/\/+$/, "");
+	return `/${locale}${trimmed}/`;
 }
 
 export function getAlternateLocales(

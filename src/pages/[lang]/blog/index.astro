@@ -110,12 +110,13 @@ const posts = (await getCollection("blog")).sort(
 									</>
 								)}
 							</div>
-							{post.data.tags.length > 0 && (
-								<div style="display: inline-flex; gap: var(--space-1); flex-wrap: wrap;">
-									{post.data.tags.slice(0, 3).map((tag) => (
-										<a
-											href={`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`}
-											style="
+						</a>
+						{post.data.tags.length > 0 && (
+							<div style="display: inline-flex; gap: var(--space-1); flex-wrap: wrap;">
+								{post.data.tags.slice(0, 3).map((tag) => (
+									<a
+										href={`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`}
+										style="
 												font-family: var(--font-structural);
 												font-size: var(--size-xs);
 												font-weight: 600;
@@ -126,27 +127,26 @@ const posts = (await getCollection("blog")).sort(
 												text-decoration: none;
 												transition: background var(--transition-base), color var(--transition-base);
 											"
-											onmouseover="this.style.background='var(--gold)'; this.style.color='var(--ink)'"
-											onmouseout="this.style.background='var(--valley-light)'; this.style.color='var(--gold)'"
-										>
-											{tag}
-										</a>
-									))}
-									{post.data.tags.length > 3 && (
-										<span
-											style="
+										onmouseover="this.style.background='var(--gold)'; this.style.color='var(--ink)'"
+										onmouseout="this.style.background='var(--valley-light)'; this.style.color='var(--gold)'"
+									>
+										{tag}
+									</a>
+								))}
+								{post.data.tags.length > 3 && (
+									<span
+										style="
 											font-family: var(--font-structural);
 											font-size: var(--size-xs);
 											color: var(--ink-muted);
 											padding: 1px 6px;
 										"
-										>
-											+{post.data.tags.length - 3} more
-										</span>
-									)}
-								</div>
-							)}
-						</a>
+									>
+										+{post.data.tags.length - 3} more
+									</span>
+								)}
+							</div>
+						)}
 					</li>
 				))}
 			</ul>

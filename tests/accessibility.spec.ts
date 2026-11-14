@@ -167,17 +167,16 @@ test.describe("Keyboard Navigation Tests", () => {
 		const banner = page.locator("#cookie-consent");
 		await expect(banner).toBeVisible();
 
-		// Focus should be on reject button
-		await page.keyboard.press("Tab");
-		const focused = await page.evaluate(() => document.activeElement?.id);
-		expect(focused).toBe("cookie-consent-reject");
-
-		// Tab through all controls
-		await page.keyboard.press("Tab"); // accept
-		await page.keyboard.press("Tab"); // save
-		await page.keyboard.press("Tab"); // close
-		await page.keyboard.press("Tab"); // preferences checkbox
-		await page.keyboard.press("Tab"); // analytics checkbox
+		// The banner is non-modal: it must not steal focus or block the page.
+		// Its controls stay reachable by keyboard and have accessible names.
+		await page.focus("#cookie-consent-reject");
+		await expect(page.locator("#cookie-consent-reject")).toBeFocused();
+		await expect(
+			page.locator("#cookie-consent-accept"),
+		).toHaveAccessibleName(/accept/i);
+		await expect(page.locator("#cookie-consent-save")).toHaveAccessibleName(
+			/save/i,
+		);
 
 		// Escape should close
 		await page.keyboard.press("Escape");
@@ -484,7 +483,7 @@ test.describe("Landmark and Semantic Structure Tests", () => {
 		await page.waitForLoadState("networkidle");
 
 		const landmarks = await page.$$eval(
-			"[role], header, nav, main, aside, footer",
+			"header, nav, main, aside, footer",
 			(elements) =>
 				elements.map((el) => ({
 					tag: el.tagName.toLowerCase(),
@@ -493,12 +492,12 @@ test.describe("Landmark and Semantic Structure Tests", () => {
 				})),
 		);
 
-		// Check for required landmarks
-		const roles = landmarks.map((l) => l.role).filter(Boolean);
-		expect(roles).toContain("banner"); // header
-		expect(roles).toContain("navigation"); // nav
-		expect(roles).toContain("main");
-		expect(roles).toContain("contentinfo"); // footer
+		// Native elements provide the landmarks (banner/navigation/main/contentinfo).
+		const tags = landmarks.map((l) => l.tag);
+		expect(tags).toContain("header"); // banner
+		expect(tags).toContain("nav"); // navigation
+		expect(tags).toContain("main");
+		expect(tags).toContain("footer"); // contentinfo
 	});
 
 	test("Heading hierarchy is correct", async ({ page }) => {

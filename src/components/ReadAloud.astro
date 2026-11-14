@@ -32,7 +32,7 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 			id="read-aloud-play"
 			aria-label={t.ui.readAloud?.play || "Play"}
 			aria-pressed="false"
-			disabled
+			aria-disabled="true"
 		>
 			<span class="read-aloud-icon" aria-hidden="true">
 				▶
@@ -48,7 +48,7 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 			id="read-aloud-pause"
 			aria-label={t.ui.readAloud?.pause || "Pause"}
 			aria-pressed="false"
-			disabled
+			aria-disabled="true"
 			hidden
 		>
 			<span class="read-aloud-icon" aria-hidden="true">
@@ -65,7 +65,7 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 			id="read-aloud-resume"
 			aria-label={t.ui.readAloud?.resume || "Resume"}
 			aria-pressed="false"
-			disabled
+			aria-disabled="true"
 			hidden
 		>
 			<span class="read-aloud-icon" aria-hidden="true">
@@ -297,7 +297,7 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 		// Update button states
 		function setButtonState(btn, enabled, pressed, hidden) {
 			if (!btn) return;
-			btn.disabled = !enabled;
+			btn.setAttribute("aria-disabled", String(!enabled));
 			btn.setAttribute("aria-pressed", pressed.toString());
 			if (hidden) {
 				btn.hidden = true;
@@ -467,6 +467,7 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 
 		// Public API
 		function play() {
+			if (playBtn?.getAttribute("aria-disabled") === "true") return;
 			if (!selectedVoice) {
 				if (!loadVoices()) return;
 			}
@@ -637,8 +638,8 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 		white-space: nowrap;
 	}
 
-	.read-aloud-btn:hover:not(:disabled),
-	.read-aloud-btn:focus:not(:disabled) {
+	.read-aloud-btn:hover:not([aria-disabled="true"]),
+	.read-aloud-btn:focus:not([aria-disabled="true"]) {
 		color: var(--gold);
 		background: var(--valley-light);
 		border-color: var(--gold);
@@ -650,7 +651,7 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 		outline-offset: 2px;
 	}
 
-	.read-aloud-btn:disabled {
+	.read-aloud-btn[aria-disabled="true"] {
 		opacity: 0.5;
 		cursor: not-allowed;
 	}

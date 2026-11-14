@@ -38,6 +38,4 @@ jobs:
           VALIDATE_HTML: true
           VALIDATE_BASH: true
           VALIDATE_GITHUB_ACTIONS: true
-          MARKDOWN_CONFIG_FILE: .markdownlint.json
-          YAML_CONFIG_FILE: .yamllint.yml
           FILTER_REGEX_EXCLUDE: .*dist/.*|.*\.astro/.*|.*node_modules/.*|.*coverage/.*|.*data/.*

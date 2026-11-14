@@ -28,8 +28,11 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_TYPESCRIPT_ES: true
-          VALIDATE_JAVASCRIPT_ES: true
+          # ESLint 8 (Super-Linter's pinned version) cannot consume this repo's
+          # ESLint 10 flat config. The CI "Lint & TypeCheck" job runs ESLint
+          # authoritatively, so the redundant Super-Linter JS/TS linters are off.
+          VALIDATE_TYPESCRIPT_ES: false
+          VALIDATE_JAVASCRIPT_ES: false
           VALIDATE_JSON: true
           VALIDATE_YAML: true
           VALIDATE_MARKDOWN: true

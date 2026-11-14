@@ -22,29 +22,32 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12
+          run_install: true
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm install
+          cache: "pnpm"
 
       - name: Run Prettier
-        run: npx prettier --check .
+        run: pnpm exec prettier --check .
 
       - name: Run ESLint
-        run: npx eslint . --ext .ts,.tsx,.js,.jsx,.astro --max-warnings 0
+        run: pnpm exec eslint . --ext .ts,.tsx,.js,.jsx,.astro --max-warnings 0
 
       - name: Run Markdownlint
-        run: npx markdownlint .
+        run: pnpm exec markdownlint .
 
       - name: Run Yamllint
-        run: npx yamllint .
+        run: pnpm exec yamllint .
 
       - name: Run Astro Check
-        run: npx astro check
+        run: pnpm exec astro check
 
   test:
     name: Unit Tests
@@ -54,17 +57,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12
+          run_install: true
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm install
+          cache: "pnpm"
 
       - name: Run Vitest
-        run: npx vitest run
+        run: pnpm exec vitest run
 
   build:
     name: Build
@@ -75,17 +81,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12
+          run_install: true
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm install
+          cache: "pnpm"
 
       - name: Build
-        run: npx astro build
+        run: pnpm exec astro build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -103,17 +112,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12
+          run_install: true
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm install
+          cache: "pnpm"
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -123,11 +135,11 @@ jobs:
 
       - name: Start preview server
         run: |
-          npx astro preview --port 4321 &
+          pnpm exec astro preview --port 4321 &
           sleep 5
 
       - name: Run Playwright accessibility tests
-        run: npx playwright test
+        run: pnpm exec playwright test
         env:
           BASE_URL: http://localhost:4321
 
@@ -139,21 +151,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12
+          run_install: true
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm install
+          cache: "pnpm"
 
       - name: Audit production dependencies
-        run: npm audit --production --audit-level=high
+        run: pnpm audit --prod --audit-level=high
         continue-on-error: false
 
       - name: Audit dev dependencies (warn only)
-        run: npm audit --audit-level=high || true
+        run: pnpm audit --dev --audit-level=high || true
 
   secret-scan:
     name: Secret Scan
@@ -184,17 +199,20 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12
+          run_install: true
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm install
+          cache: "pnpm"
 
       - name: Run commitlint
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
+        run: pnpm exec commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
 
   branch-name:
     name: Branch Name Validation

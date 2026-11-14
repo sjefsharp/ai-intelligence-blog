@@ -42,3 +42,5 @@ data/*
 !data/sources.yml
 !data/fact-dossiers/
 !data/fact-dossiers/**
+!data/thesaurus/
+!data/thesaurus/**

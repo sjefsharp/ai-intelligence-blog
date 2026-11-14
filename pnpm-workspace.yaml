@@ -1,0 +1,14 @@
+# pnpm settings — pnpm >= 11 reads settings here, not from package.json.
+# https://pnpm.io/settings/build
+
+allowBuilds:
+  # esbuild fetches its platform binary during postinstall; without it the
+  # Astro/Rolldown build fails.
+  esbuild: true
+  # lefthook downloads its native binary during postinstall.
+  lefthook: true
+
+overrides:
+  # Astro's language server uses the astro2tsx WASM bridge. 0.1.3 resolved a
+  # beta @emnapi/runtime that crashes on Node 26; 0.1.4 pins the stable runtime.
+  "@astrojs/astro2tsx": 0.1.4

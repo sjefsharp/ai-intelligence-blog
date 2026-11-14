@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -29,25 +29,31 @@ jobs:
           run_install: true
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           cache: "pnpm"
 
+      - name: Setup CI environment
+        run: bash scripts/ci-setup.sh
+
       - name: Run Prettier
-        run: pnpm exec prettier --check .
+        run: ./node_modules/.bin/prettier --check .
 
       - name: Run ESLint
-        run: pnpm exec eslint . --ext .ts,.tsx,.js,.jsx,.astro --max-warnings 0
+        run: ./node_modules/.bin/eslint . --ext .ts,.tsx,.js,.jsx,.astro --max-warnings 0
 
       - name: Run Markdownlint
-        run: pnpm exec markdownlint .
+        run: ./node_modules/.bin/markdownlint .
+
+      - name: Run Yamllint
+        run: ./node_modules/.bin/yamllint .
 
       - name: Run Yamllint
         run: pnpm exec yamllint .
 
       - name: Run Astro Check
-        run: pnpm exec astro check
+        run: ./node_modules/.bin/astro check
 
   test:
     name: Unit Tests
@@ -55,7 +61,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -64,13 +70,16 @@ jobs:
           run_install: true
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           cache: "pnpm"
 
+      - name: Setup CI environment
+        run: bash scripts/ci-setup.sh
+
       - name: Run Vitest
-        run: pnpm exec vitest run
+        run: ./node_modules/.bin/vitest run
 
   build:
     name: Build
@@ -79,7 +88,7 @@ jobs:
     needs: [lint-and-typecheck, test]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -88,16 +97,19 @@ jobs:
           run_install: true
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           cache: "pnpm"
 
+      - name: Setup CI environment
+        run: bash scripts/ci-setup.sh
+
       - name: Build
-        run: pnpm exec astro build
+        run: ./node_modules/.bin/astro build
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist/
@@ -110,7 +122,7 @@ jobs:
     needs: [build]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -119,27 +131,30 @@ jobs:
           run_install: true
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           cache: "pnpm"
 
+      - name: Setup CI environment
+        run: bash scripts/ci-setup.sh
+
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: ./node_modules/.bin/playwright install --with-deps chromium
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: dist
           path: dist/
 
       - name: Start preview server
         run: |
-          pnpm exec astro preview --port 4321 &
+          ./node_modules/.bin/astro preview --port 4321 &
           sleep 5
 
       - name: Run Playwright accessibility tests
-        run: pnpm exec playwright test
+        run: ./node_modules/.bin/playwright test
         env:
           BASE_URL: http://localhost:4321
 
@@ -149,7 +164,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -158,17 +173,20 @@ jobs:
           run_install: true
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           cache: "pnpm"
 
+      - name: Setup CI environment
+        run: bash scripts/ci-setup.sh
+
       - name: Audit production dependencies
-        run: pnpm audit --prod --audit-level=high
+        run: ./node_modules/.bin/pnpm audit --prod --audit-level=high
         continue-on-error: false
 
       - name: Audit dev dependencies (warn only)
-        run: pnpm audit --dev --audit-level=high || true
+        run: ./node_modules/.bin/pnpm audit --dev --audit-level=high || true
 
   secret-scan:
     name: Secret Scan
@@ -176,14 +194,12 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: gitleaks/gitleaks-action@v3
         with:
           config: .gitleaks.toml
           args: "--verbose"
@@ -195,7 +211,7 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -206,26 +222,33 @@ jobs:
           run_install: true
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           cache: "pnpm"
 
+      - name: Setup CI environment
+        run: bash scripts/ci-setup.sh
+
       - name: Run commitlint
-        run: pnpm exec commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
+        run: ./node_modules/.bin/commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
   branch-name:
     name: Branch Name Validation
     runs-on: ubuntu-latest
     timeout-minutes: 5
     if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
-      - name: Validate branch name
-        run: |
-          branch="${{ github.head_ref }}"
-          if ! echo "$branch" | grep -qE '^(feat|fix|chore|docs|refactor|perf|test|build|ci|a11y|security)/[a-z0-9-]+$'; then
-            echo "ERROR: Branch name '$branch' does not follow Conventional Branch format"
-            echo "Expected: <type>/<short-description>"
-            echo "Types: feat, fix, chore, docs, refactor, perf, test, build, ci, a11y, security"
-            exit 1
-          fi
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Validate branch name (Conventional Branch spec)
+        uses: commit-check/commit-check-action@v2
+        with:
+          branch: true
+          message: false
+          pr-comments: true
+          config-file: ".github/commit-check.toml"

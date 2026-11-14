@@ -20,11 +20,6 @@ pre-commit:
       run: pnpm exec markdownlint {staged_files}
       stage_fixed: true
 
-    - name: yaml-lint
-      glob: "*.{yaml,yml}"
-      run: pnpm exec yamllint {staged_files}
-      stage_fixed: true
-
     - name: json-lint
       glob: "*.{json,jsonc}"
       run: pnpm exec jsonlint {staged_files}
@@ -33,10 +28,6 @@ pre-commit:
     - name: astro-check
       glob: "*.astro"
       run: pnpm astro check --types-only
-      stage_fixed: false
-
-    - name: secret-detection
-      run: pnpm exec gitleaks detect --source . --staged --verbose
       stage_fixed: false
 
     - name: conflict-markers

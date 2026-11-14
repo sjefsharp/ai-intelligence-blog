@@ -38,13 +38,16 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run Prettier
-        run: pnpm format:check
+        run: pnpm exec prettier --check .
 
       - name: Run ESLint
-        run: pnpm lint
+        run: pnpm exec eslint . --ext .ts,.tsx,.js,.jsx,.astro --max-warnings 0
 
       - name: Run Markdownlint
         run: pnpm exec markdownlint .
+
+      - name: Run Yamllint
+        run: pnpm exec yamllint .
 
       - name: Run Astro Check
         run: pnpm astro check

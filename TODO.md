@@ -59,6 +59,6 @@
 
 ## Phase 7: GitHub Repository Setup
 - [ ] Create GitHub repository (if not exists)
-- [ ] Push master branch
+- [ ] Push main branch
 - [ ] Configure repository settings
 - [ ] Enable GitHub Actions

@@ -102,7 +102,7 @@ Required sections:
 
 ## Repository Settings (Manual Configuration)
 
-- **Branch protection**: `master` — require PR, require status checks, require linear history
+- **Branch protection**: `main` — require PR, require status checks, require linear history
 - **Rulesets**: Import `.github/conventional-branch-ruleset.json` via **Settings → Rules → Rulesets → New ruleset → Import a ruleset** (or `gh api repos/OWNER/REPO/rulesets --method POST --input .github/conventional-branch-ruleset.json`). Start with `"enforcement": "evaluate"` to audit, then switch to `"active"`. Rulesets are available on public repositories with every plan, and on private repositories with GitHub Pro, Team, and Enterprise Cloud.
 - **Secrets**: `OPENROUTER_API_KEY`, `NOUS_API_KEY`, `SONAR_TOKEN`, `SONAR_PROJECT_KEY`, `SONAR_ORGANIZATION`
 - **Environments**: `production` (for deployment)

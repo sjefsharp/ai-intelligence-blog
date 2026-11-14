@@ -36,7 +36,7 @@ Hooks configured:
 
 We follow [Trunk-Based Development](https://trunkbaseddevelopment.com/):
 
-- **One authoritative trunk**: `master` (protected, deployable, linear history)
+- **One authoritative trunk**: `main` (protected, deployable, linear history)
 - **Short-lived branches**: `feat/<short-name>`, `fix/<short-name>`, `chore/<short-name>`
 - **Frequent integration**: Merge or rebase within 2 days
 - **Small reviewable changes**: Single logical concern per PR
@@ -95,7 +95,7 @@ For parallel development, use the shared sibling worktree container:
 
 ```
 ~/projects/
-├── ai-intelligence-blog/           # Main worktree (master)
+├── ai-intelligence-blog/           # Main worktree (main)
 └── ai-intelligence-blog.worktrees/ # Sibling container
     ├── governance/
     ├── quality/
@@ -121,9 +121,9 @@ Rules:
 
 For changes that can be reviewed and integrated independently:
 
-- Create feature branch from `master`
+- Create feature branch from `main`
 - Implement, validate, commit
-- Push and open PR targeting `master`
+- Push and open PR targeting `main`
 - Human review required before merge
 - Squash merge (one commit per logical change)
 - Delete branch after merge
@@ -170,7 +170,7 @@ All PRs must address the template in `.github/pull_request_template.md`:
 
 - **Author**: Self-review before requesting review; ensure CI passes
 - **Reviewer**: Verify correctness, architecture alignment, security, accessibility
-- **Merge**: Squash merge to `master` after approval; CI must pass
+- **Merge**: Squash merge to `main` after approval; CI must pass
 - **No automatic merges** — human approval required
 
 ## Formatting and Linting

@@ -57,7 +57,7 @@ src/content/blog/
 ### Publication Lifecycle
 1. **Draft**: Local only, not committed
 2. **Ready**: PR opened, CI passes
-3. **Published**: Merged to `master`, deployed
+3. **Published**: Merged to `main`, deployed
 4. **Updated**: `updatedDate` added, PR for changes
 
 ### SEO & Metadata

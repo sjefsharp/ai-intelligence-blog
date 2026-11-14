@@ -150,7 +150,7 @@ pnpm exec playwright test --project=accessibility
 
 ### 5.1 Branch Strategy
 
-- **`master`** — protected, deployable, linear history
+- **`main`** — protected, deployable, linear history
 - **Feature branches** — `feat/<short-name>`, `fix/<short-name>`, `chore/<short-name>`
 - **No long-lived branches** — merge or rebase within 2 days
 
@@ -186,9 +186,9 @@ When you create a branch yourself rather than at a person's direction, prefix it
 
 ### 5.5 PR / Merge Rules
 
-- Squash merge to `master` (one commit per logical change)
+- Squash merge to `main` (one commit per logical change)
 - Delete branch after merge
-- No merge commits on `master`
+- No merge commits on `main`
 - CI must pass (build, type-check, a11y tests)
 
 ---

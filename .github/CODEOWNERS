@@ -1,0 +1,53 @@
+# CODEOWNERS
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global owners (review all changes)
+* @sjefsharp
+
+# Frontend / Astro
+/src/components/ @sjefsharp
+/src/layouts/ @sjefsharp
+/src/pages/ @sjefsharp
+/src/styles/ @sjefsharp
+/src/consts.ts @sjefsharp
+/astro.config.mjs @sjefsharp
+
+# Content & Editorial Pipeline
+/src/content/ @sjefsharp
+/src/content.config.ts @sjefsharp
+/src/lib/collection/ @sjefsharp
+/src/lib/editorial-window.ts @sjefsharp
+/src/lib/historical-regression/ @sjefsharp
+/src/lib/omission-review/ @sjefsharp
+/src/lib/evidence-verification/ @sjefsharp
+/src/lib/editorial-selection/ @sjefsharp
+/src/lib/fact-dossier/ @sjefsharp
+/src/lib/publication/ @sjefsharp
+/src/lib/publication-acceptance/ @sjefsharp
+/src/lib/signal-desk/ @sjefsharp
+/src/lib/novelty-classification/ @sjefsharp
+/src/lib/book-delta/ @sjefsharp
+/src/lib/workflow-orchestrator/ @sjefsharp
+/src/lib/free-llm-client.ts @sjefsharp
+
+# Internationalization
+/src/i18n/ @sjefsharp
+
+# Configuration & Tooling
+/package.json @sjefsharp
+/pnpm-lock.yaml @sjefsharp
+/tsconfig.json @sjefsharp
+/.editorconfig @sjefsharp
+/.gitattributes @sjefsharp
+/.github/ @sjefsharp
+/scripts/ @sjefsharp
+
+# Documentation
+/docs/ @sjefsharp
+/README.md @sjefsharp
+/CONTRIBUTING.md @sjefsharp
+/AGENTS.md @sjefsharp
+/CHANGELOG.md @sjefsharp
+
+# Tests
+/tests/ @sjefsharp

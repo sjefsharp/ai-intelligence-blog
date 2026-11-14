@@ -1,0 +1,46 @@
+name: Super-Linter
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+  packages: read
+  statuses: write
+
+jobs:
+  super-linter:
+    name: Super-Linter
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Super-Linter
+        uses: super-linter/super-linter@v7
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_TYPESCRIPT_ES: true
+          VALIDATE_JAVASCRIPT_ES: true
+          VALIDATE_JSON: true
+          VALIDATE_YAML: true
+          VALIDATE_MARKDOWN: true
+          VALIDATE_CSS: true
+          VALIDATE_HTML: true
+          VALIDATE_BASH: true
+          VALIDATE_DOCKERFILE: false
+          VALIDATE_GITHUB_ACTIONS: true
+          MARKDOWN_CONFIG_FILE: .markdownlint.json
+          YAML_CONFIG_FILE: .yamllint.yml
+          TYPESCRIPT_ES_CONFIG_FILE: eslint.config.js
+          JAVASCRIPT_ES_CONFIG_FILE: eslint.config.js
+          CSS_CONFIG_FILE: .stylelintrc.json
+          FILTER_REGEX_EXCLUDE: .*dist/.*|.*\.astro/.*|.*node_modules/.*|.*coverage/.*|.*data/.*

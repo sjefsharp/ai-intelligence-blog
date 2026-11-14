@@ -1,0 +1,65 @@
+# Git Attributes
+# https://git-scm.com/docs/gitattributes
+
+# Text files normalization
+* text=auto eol=lf
+
+# Explicit text files
+*.astro text
+*.ts text
+*.tsx text
+*.js text
+*.jsx text
+*.mjs text
+*.cjs text
+*.json text
+*.jsonc text
+*.yaml text
+*.yml text
+*.md text
+*.mdx text
+*.css text
+*.html text
+*.txt text
+*.sh text
+*.toml text
+*.ini text
+*.cfg text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+*.pdf binary
+
+# Lockfiles - treat as text for diffing
+pnpm-lock.yaml text
+package-lock.json text
+yarn.lock text
+
+# Generated files - linguist-vendored
+dist/** linguist-vendored
+.astro/** linguist-vendored
+node_modules/** linguist-vendored
+coverage/** linguist-vendored
+
+# Test fixtures - linguist-vendored
+tests/fixtures/** linguist-vendored
+data/** linguist-vendored
+
+# Documentation
+docs/** linguist-documentation
+*.md linguist-documentation
+
+# Exclude from language stats
+*.lock linguist-vendored

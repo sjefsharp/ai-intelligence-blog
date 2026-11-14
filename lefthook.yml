@@ -1,0 +1,80 @@
+# Lefthook Configuration
+# https://lefthook.dev/configuration/
+
+# Run staged files through formatters and linters
+pre-commit:
+  parallel: true
+  jobs:
+    - name: prettier
+      glob: "*.{astro,ts,tsx,js,jsx,json,jsonc,yaml,yml,md,mdx,css,html}"
+      run: pnpm exec prettier --check {staged_files}
+      stage_fixed: true
+
+    - name: eslint
+      glob: "*.{ts,tsx,js,jsx,astro}"
+      run: pnpm exec eslint {staged_files}
+      stage_fixed: true
+
+    - name: markdownlint
+      glob: "*.md"
+      run: pnpm exec markdownlint {staged_files}
+      stage_fixed: true
+
+    - name: yaml-lint
+      glob: "*.{yaml,yml}"
+      run: pnpm exec yamllint {staged_files}
+      stage_fixed: true
+
+    - name: json-lint
+      glob: "*.{json,jsonc}"
+      run: pnpm exec jsonlint {staged_files}
+      stage_fixed: true
+
+    - name: astro-check
+      glob: "*.astro"
+      run: pnpm astro check --types-only
+      stage_fixed: false
+
+    - name: secret-detection
+      run: pnpm exec gitleaks detect --source . --staged --verbose
+      stage_fixed: false
+
+    - name: conflict-markers
+      run: |
+        if git diff --cached --name-only | xargs grep -l "^<<<<<<< " 2>/dev/null; then
+          echo "ERROR: Conflict markers found in staged files"
+          exit 1
+        fi
+      stage_fixed: false
+
+# Validate commit message format
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: pnpm exec commitlint --edit {1}
+
+# Pre-push validation
+pre-push:
+  jobs:
+    - name: typecheck
+      run: pnpm astro check
+      stage_fixed: false
+
+    - name: build
+      run: pnpm run build
+      stage_fixed: false
+
+    - name: unit-tests
+      run: pnpm test --run
+      stage_fixed: false
+
+    - name: branch-name
+      run: |
+        branch=$(git rev-parse --abbrev-ref HEAD)
+        if ! echo "$branch" | grep -qE '^(feat|fix|chore|docs|refactor|perf|test|build|ci|a11y|security)/[a-z0-9-]+$'; then
+          echo "ERROR: Branch name '$branch' does not follow Conventional Branch format"
+          echo "Expected: <type>/<short-description>"
+          echo "Types: feat, fix, chore, docs, refactor, perf, test, build, ci, a11y, security"
+          exit 1
+        fi
+      stage_fixed: false

@@ -1,0 +1,46 @@
+# Gitleaks Configuration
+# https://github.com/gitleaks/gitleaks
+
+[extend]
+# Use default ruleset
+useDefault = true
+
+[allowlist]
+description = "Allowlisted patterns for this repository"
+paths = [
+  "(?i)^.*\\.md$",
+  "(?i)^.*\\.json$",
+  "(?i)^.*\\.yaml$",
+  "(?i)^.*\\.yml$",
+  "(?i)^.*\\.toml$",
+  "(?i)^.*\\.lock$",
+  "(?i)^.*\\.txt$",
+  "(?i)^.*\\.gitignore$",
+  "(?i)^.*\\.gitattributes$",
+  "(?i)^.*\\.editorconfig$",
+  "(?i)^CHANGELOG\\.md$",
+  "(?i)^LICENSE$",
+  "(?i)^README\\.md$",
+  "(?i)^TODO\\.md$",
+  "(?i)^docs/.*",
+  "(?i)^data/.*",
+  "(?i)^editions/.*",
+  "(?i)^test-results/.*",
+  "(?i)^\\.impeccable/.*",
+  "(?i)^\\.hermes/.*",
+  "(?i)^pnpm-lock\\.yaml$",
+  "(?i)^pnpm-workspace\\.yaml$",
+  "(?i)^sonar-project\\.properties$",
+  "(?i)^DESIGN\\.md$",
+  "(?i)^PRODUCT\\.md$",
+  "tests/.*",
+  "scripts/.*",
+]
+
+# Allow specific keys in config files
+regexes = [
+  # Allow placeholder values
+  '''(?i)(REPLACE_WITH|PLACEHOLDER|YOUR_|EXAMPLE_|DUMMY_|TEST_)''',
+  # Allow localhost and example URLs
+  '''(?i)(localhost|127\\.0\\.0\\.1|example\\.com|example\\.org|test\\.com)''',
+]

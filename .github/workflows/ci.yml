@@ -26,16 +26,13 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - name: Run Prettier
         run: pnpm exec prettier --check .
@@ -64,16 +61,13 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - name: Run Vitest
         run: pnpm exec vitest run
@@ -91,16 +85,13 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm exec astro build
@@ -125,16 +116,13 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
@@ -167,16 +155,13 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - name: Audit production dependencies
         run: pnpm audit --prod --audit-level=high
@@ -218,16 +203,13 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 12
-          run_install: false
+          run_install: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - name: Run commitlint
         run: pnpm exec commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}

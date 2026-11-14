@@ -62,15 +62,16 @@ pre-push:
     - name: branch-name
       run: |
         branch=$(git rev-parse --abbrev-ref HEAD)
-        # Allow trunk branches (master, main)
-        if echo "$branch" | grep -qE '^(master|main)$'; then
+        # Allow trunk branches (master, main, develop)
+        if echo "$branch" | grep -qE '^(master|main|develop)$'; then
           exit 0
         fi
         # Feature branches must follow Conventional Branch format
-        if ! echo "$branch" | grep -qE '^(feat|fix|chore|docs|refactor|perf|test|build|ci|a11y|security)/[a-z0-9-]+$'; then
+        # Types: feature/feat, bugfix/fix, hotfix, release, chore, ai/claude/codex/copilot/cursor
+        if ! echo "$branch" | grep -qE '^(feat|feature|fix|bugfix|hotfix|release|chore|docs|refactor|perf|test|build|ci|a11y|security|ai|claude|codex|copilot|cursor)/[a-z0-9-]+$'; then
           echo "ERROR: Branch name '$branch' does not follow Conventional Branch format"
-          echo "Expected: <type>/<short-description> (or master/main for trunk)"
-          echo "Types: feat, fix, chore, docs, refactor, perf, test, build, ci, a11y, security"
+          echo "Expected: <type>/<short-description> (or master/main/develop for trunk)"
+          echo "Types: feat, feature, fix, bugfix, hotfix, release, chore, docs, refactor, perf, test, build, ci, a11y, security, ai, claude, codex, copilot, cursor"
           exit 1
         fi
       stage_fixed: false

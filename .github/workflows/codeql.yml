@@ -23,22 +23,22 @@ jobs:
         language: [typescript, javascript]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v7.0.1
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@1b549b9259bda1b5ccda2e55c94b3e3f1c4c2c5c # v3.29.0
         with:
           languages: ${{ matrix.language }}
           queries: +security-and-quality
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f220e44986c9d7cc0d2 # v6.1.1
         with:
           version: 12
           run_install: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@c68a5c4a41f639e5e3b5f4b4496c1ea2a99b6b2c # v7.1.0
         with:
           node-version: "22"
           cache: "pnpm"
@@ -47,6 +47,6 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@1b549b9259bda1b5ccda2e55c94b3e3f1c4c2c5c # v3.29.0
         with:
           category: "/language:${{ matrix.language }}"

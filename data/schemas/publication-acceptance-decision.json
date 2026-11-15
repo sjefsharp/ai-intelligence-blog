@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/publication-acceptance-decision.json",
+  "title": "Publication Acceptance Decision",
+  "description": "Machine-readable acceptance decision containing edition identity, decision status, publication eligibility, blocking gates, evidence references, artifact integrity references, and report location.",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "decisionId": {
+      "type": "string",
+      "pattern": "^dec_[a-z0-9]{16}$"
+    },
+    "editionId": {
+      "type": "string",
+      "pattern": "^edition_\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "decisionStatus": {
+      "type": "string",
+      "enum": ["VALIDATED", "FAILED", "INCOMPLETE", "NOT_ASSESSABLE"]
+    },
+    "publicationEligible": {
+      "type": "boolean"
+    },
+    "blockingGateIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blockingEvidenceReferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unverifiedConditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "artifactIntegrityReferences": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "acceptanceReportLocation": {
+      "type": "string"
+    },
+    "contractVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decidedAt": {
+      "type": "string"
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "decisionId",
+    "editionId",
+    "decisionStatus",
+    "publicationEligible",
+    "blockingGateIds",
+    "blockingEvidenceReferences",
+    "unverifiedConditions",
+    "artifactIntegrityReferences",
+    "contractVersion",
+    "decidedAt",
+    "contentHash"
+  ],
+  "additionalProperties": false
+}

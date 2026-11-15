@@ -1,31 +1,105 @@
 ---
-title: 'Using MDX'
-description: 'Lorem ipsum dolor sit amet'
-pubDate: 'Jun 01 2024'
-heroImage: '../../assets/blog-placeholder-5.jpg'
+title: "MDX Components for Architectural Documentation"
+description: "Embedding interactive diagrams, executable code, and live data in technical articles."
+pubDate: "Jun 01 2024"
+updatedDate: "Nov 08 2026"
+heroImage: "../../assets/blog-placeholder-5.jpg"
+tags: ["MDX", "Documentation", "Components", "Interactive"]
+sourceUrl: "https://github.com/example/mdx-arch-docs"
+readingTime: 8
 ---
 
-This theme comes with the [@astrojs/mdx](https://docs.astro.build/en/guides/integrations-guide/mdx/) integration installed and configured in your `astro.config.mjs` config file. If you prefer not to use MDX, you can disable support by removing the integration from your config file.
+import Callout from "../../components/Callout.astro";
 
-## Why MDX?
+This publication uses MDX to embed interactive components directly in articles — executable code, live diagrams, and evaluatable expressions.
 
-MDX is a special flavor of Markdown that supports embedded JavaScript & JSX syntax. This unlocks the ability to [mix JavaScript and UI Components into your Markdown content](https://docs.astro.build/en/guides/integrations-guide/mdx/#mdx-in-astro) for things like interactive charts or alerts.
+## Why MDX for Architecture?
 
-If you have existing content authored in MDX, this integration will hopefully make migrating to Astro a breeze.
+Technical documentation benefits from _executable_ examples. Instead of showing a code snippet and its output separately, MDX lets us run the code and display results inline.
 
-## Example
+## Interactive Components
 
-Here is how you import and use a UI component inside of MDX.  
-When you open this page in the browser, you should see the clickable button below.
+### Executable Code Blocks
 
-import HeaderLink from '../../components/HeaderLink.astro';
+```jsx
+import { renderToString } from "react-dom/server";
 
-<HeaderLink href="#" onclick="alert('clicked!')">
-	Embedded component in MDX
-</HeaderLink>
+function TokenCounter({ text }) {
+  const tokens = text.split(/\s+/).length;
+  return (
+    <code>
+      {tokens} tokens ≈ {Math.ceil(tokens / 1.3)} words
+    </code>
+  );
+}
 
-## More Links
+<TokenCounter text="This publication treats AI as a systems engineering discipline." />;
+```
 
-- [MDX Syntax Documentation](https://mdxjs.com/docs/what-is-mdx)
-- [Astro Usage Documentation](https://docs.astro.build/en/basics/astro-pages/#markdownmdx-pages)
-- **Note:** [Client Directives](https://docs.astro.build/en/reference/directives-reference/#client-directives) are still required to create interactive components. Otherwise, all components in your MDX will render as static HTML (no JavaScript) by default.
+<Callout type="evidence">
+  Token estimation runs client-side; zero server cost. Source:
+  [token-estimator](https://github.com/example/token-estimator).
+</Callout>
+
+### Live Architecture Diagrams
+
+```mermaid
+graph TD
+    A[Client Request] --> B[API Gateway]
+    B --> C{Auth Valid?}
+    C -->|Yes| D[Agent Orchestrator]
+    C -->|No| E[401 Response]
+    D --> F[Tool Executor]
+    F --> G[LLM Provider]
+    G --> H[Response]
+```
+
+<Callout type="decision">
+  Mermaid diagrams render at build time via `@astrojs/mdx` + `rehype-mermaid`.
+  Zero runtime JS.
+</Callout>
+
+### Evaluatable Expressions
+
+```jsx
+const budget = 100_000;
+const used = 67_432;
+const remaining = budget - used;
+const pct = Math.round((used / budget) * 100);
+
+<div
+  style={{
+    padding: "1rem",
+    background: "var(--sheet-darker)",
+    borderRadius: "var(--radius)",
+  }}
+>
+  <strong>Budget:</strong> {budget.toLocaleString()} tokens
+  <br />
+  <strong>Used:</strong> {used.toLocaleString()} ({pct}%)
+  <br />
+  <strong>Remaining:</strong> {remaining.toLocaleString()}
+</div>;
+```
+
+## Custom Components
+
+Components live in `src/components/` and can be imported directly in MDX:
+
+```mdx
+import Callout from "../components/Callout.astro";
+
+<Callout type="evidence">This claim is backed by data.</Callout>
+```
+
+Available components:
+
+- `<Callout type="evidence|failure|migration|decision">` — Admonitions
+- `<Diagram>` — Mermaid/PlantUML diagrams
+- `<CodeBlock lang="rust" editable>` — Editable code playground
+
+## References
+
+- [MDX Specification](https://mdxjs.com/docs/what-is-mdx)
+- [Astro MDX Integration](https://docs.astro.build/en/guides/integrations-guide/mdx/)
+- [Mermaid in Astro](https://docs.astro.build/en/guides/integrations-guide/mermaid/)

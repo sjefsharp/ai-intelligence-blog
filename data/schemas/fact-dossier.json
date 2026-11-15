@@ -1,0 +1,191 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/fact-dossier.json",
+  "title": "Fact Dossier",
+  "description": "Complete machine-readable fact dossier for a publication per contract §6",
+  "type": "object",
+  "required": [
+    "id",
+    "candidateId",
+    "slug",
+    "type",
+    "locale",
+    "evidenceLevel",
+    "sourceWindowDays",
+    "sources",
+    "claims",
+    "createdAt",
+    "updatedAt",
+    "status",
+    "contentHash"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^dossier_[a-z0-9]{16}$",
+      "description": "Unique dossier ID"
+    },
+    "candidateId": {
+      "type": "string",
+      "description": "Originating candidate"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "URL slug (matches publication)"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "architectural-essay",
+        "pattern-catalog",
+        "adr",
+        "model-evaluation",
+        "tooling-deep-dive",
+        "daily-brief"
+      ],
+      "description": "Publication format per contract §7.1"
+    },
+    "locale": {
+      "type": "string",
+      "enum": ["en", "nl"],
+      "description": "Language locale"
+    },
+    "evidenceLevel": {
+      "type": "string",
+      "enum": ["L1", "L2", "L3"],
+      "description": "Minimum verification level across all claims"
+    },
+    "sourceWindowDays": {
+      "type": "integer",
+      "description": "Max source age per contract §5.1 for this type"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "tier",
+          "url",
+          "title",
+          "accessed",
+          "claims",
+          "verification"
+        ],
+        "properties": {
+          "id": { "type": "string", "description": "Source registry ID" },
+          "tier": { "type": "integer", "enum": [1, 2, 3] },
+          "url": { "type": "string", "format": "uri" },
+          "title": { "type": "string" },
+          "accessed": { "type": "string", "format": "date-time" },
+          "claims": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Claim IDs this source supports"
+          },
+          "verification": { "type": "string", "enum": ["L1", "L2", "L3"] },
+          "reproduction": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["github-actions", "docker", "conda", "nix", "local"]
+              },
+              "url": { "type": "string", "format": "uri" }
+            }
+          }
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "text", "sourceId", "verification", "confidence"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^claim_[a-z0-9]{16}$" },
+          "text": { "type": "string", "maxLength": 1000 },
+          "sourceId": { "type": "string" },
+          "locator": {
+            "type": "string",
+            "description": "Section/paragraph in source"
+          },
+          "verification": { "type": "string", "enum": ["L1", "L2", "L3"] },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "status": {
+            "type": "string",
+            "enum": ["verified", "downgraded", "retracted", "superseded"]
+          }
+        }
+      }
+    },
+    "frontmatter": {
+      "type": "object",
+      "description": "Astro content collection frontmatter",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "pubDate": { "type": "string", "format": "date-time" },
+        "updatedDate": { "type": "string", "format": "date-time" },
+        "authors": { "type": "array", "items": { "type": "string" } },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "readingTime": { "type": "integer" },
+        "heroImage": { "type": "string", "format": "uri" },
+        "sourceUrl": { "type": "string", "format": "uri" }
+      },
+      "required": ["title", "description", "pubDate", "locale"]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Dossier creation timestamp"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last modification timestamp"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "in-review",
+        "locked",
+        "published",
+        "retracted",
+        "superseded"
+      ],
+      "description": "Dossier lifecycle status per contract §6.3"
+    },
+    "lockedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When dossier was locked for publication"
+    },
+    "lockedBy": {
+      "type": "string",
+      "description": "Editor who locked the dossier"
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "SHA-256 of dossier JSON for immutability verification"
+    },
+    "previousVersionHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "Hash of previous version for diff chain"
+    },
+    "retractionReason": {
+      "type": "string",
+      "description": "If retracted, reason"
+    },
+    "supersededBy": {
+      "type": "string",
+      "description": "If superseded, new dossier ID"
+    }
+  },
+  "additionalProperties": false
+}

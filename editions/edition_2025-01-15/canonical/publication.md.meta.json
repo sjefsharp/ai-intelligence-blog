@@ -1,0 +1,28 @@
+{
+  "articleId": "art_1111111111111111",
+  "artifactId": "pubart_d1ddfbc59536f02f",
+  "canonicalFilename": "publication.md",
+  "claimReferences": ["claim_1111111111111111", "claim_2222222222222222"],
+  "contentHash": "sha256:06295bf051bd48ce2a55522fe41e30cb242f978fe7df501d732ee208cd8077be",
+  "contentType": "newsletter",
+  "description": "Dagelijkse technische nieuwsbrief met de meest consequentiele AI-ontwikkelingen.",
+  "editionDate": "2025-01-15",
+  "editionId": "edition_2025-01-15",
+  "language": "nl",
+  "lastSubstantiveUpdateTimestamp": "2026-11-11T22:20:34.325Z",
+  "lifecycleStatus": "DRAFT",
+  "organizations": ["OpenAI", "GitHub"],
+  "publicationTimestamp": "2026-11-11T22:20:34.325Z",
+  "readingTimeMinutes": 8,
+  "relatedVariants": [],
+  "schemaVersion": "1.0.0",
+  "sourceReferences": [
+    "https://openai.com/research/new-model-capabilities",
+    "https://github.blog/changelog/copilot-agent-mode"
+  ],
+  "title": "AI Intelligence — woensdag 15 januari 2025",
+  "topics": ["foundation-models", "coding-agents"],
+  "validationResults": [],
+  "validationStatus": "pending",
+  "version": 1
+}

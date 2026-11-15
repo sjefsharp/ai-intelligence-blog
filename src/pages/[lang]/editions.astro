@@ -1,0 +1,205 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Masthead from "../../components/Masthead.astro";
+import CookieConsent from "../../components/CookieConsent.astro";
+import { SITE_TITLE } from "../../consts";
+import { formatReadingTime } from "../../utils/readingTime";
+import { getTranslation, type Locale } from "../../i18n";
+import {
+	listPublicEditionDates,
+	loadEditionContent,
+	getEditionUrl,
+	formatEditionDate,
+	type EditionContent,
+} from "../../lib/publication/astro-adapter.js";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { lang: "en" }, props: { locale: "en" as Locale } },
+		{ params: { lang: "nl" }, props: { locale: "nl" as Locale } },
+	];
+}
+
+const { locale } = Astro.props;
+const t = getTranslation(locale);
+
+const editionDates = await listPublicEditionDates();
+
+// Load edition summaries for display
+const editionSummaries: Array<{
+	date: string;
+	edition: EditionContent | null;
+}> = [];
+
+for (const date of editionDates) {
+	const edition = await loadEditionContent(date);
+	editionSummaries.push({ date, edition });
+}
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead title={t.nav.essays} description={t.siteDescription} />
+	</head>
+	<body>
+		<a href="#main-content" class="skip-link">
+			Skip to main content
+		</a>
+		<a href="#page-nav" class="skip-link">
+			Skip to navigation
+		</a>
+
+		<Masthead currentPath={Astro.url.pathname} locale={locale} t={t} />
+
+		<main
+			class="reading-column"
+			id="main-content"
+			style="max-width: var(--measure); margin: 0 auto; padding: var(--space-6) var(--margin-page);"
+		>
+			<header style="margin-bottom: var(--space-7); padding-bottom: var(--space-5); border-bottom: 1px solid var(--mountain-light); text-align: center;">
+				<h1 style="font-size: var(--size-3xl); margin-bottom: var(--space-3);">
+					{SITE_TITLE}
+				</h1>
+				<p style="font-size: var(--size-lg); color: var(--ink-muted); font-style: italic; max-width: 60ch; margin: 0 auto;">
+					{t.ui.latestEssays}
+				</p>
+			</header>
+
+			{editionSummaries.length === 0 && (
+				<p style="text-align: center; color: var(--ink-muted); padding: var(--space-7);">
+					{locale === "nl"
+						? "Er zijn nog geen gepubliceerde edities beschikbaar."
+						: "No published editions available yet."}
+				</p>
+			)}
+
+			<ul style="list-style: none; padding: 0; display: grid; gap: var(--space-4);">
+				{editionSummaries.map(({ date, edition }) => (
+					<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker); transition: border-color var(--transition-base), box-shadow var(--transition-base);">
+						<div style="display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: flex-start;">
+							<div style="flex: 1; min-width: 280px;">
+								<div style="display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; margin-bottom: var(--space-2); font-family: var(--font-structural); font-size: var(--size-sm); color: var(--ink-muted);">
+									<time
+										datetime={date}
+										style="font-variant-numeric: tabular-nums;"
+									>
+										{formatEditionDate(date, locale)}
+									</time>
+									{edition?.newsletter && (
+										<span style="background: var(--valley-light); color: var(--valley); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: var(--size-xs);">
+											NL
+										</span>
+									)}
+									{edition?.englishArticles.length && (
+										<span style="background: var(--valley-light); color: var(--valley); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: var(--size-xs);">
+											EN
+										</span>
+									)}
+									{edition?.newsletter?.metadata
+										.lifecycleStatus && (
+										<span style="background: var(--valley-light); color: var(--valley); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: var(--size-xs);">
+											{
+												edition.newsletter.metadata
+													.lifecycleStatus
+											}
+										</span>
+									)}
+								</div>
+
+								<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-xl); color: var(--ink);">
+									<a
+										href={getEditionUrl(date, locale)}
+										style="text-decoration: none; color: inherit;"
+									>
+										{edition?.newsletter?.metadata.title ??
+											(locale === "nl"
+												? `Editie ${date}`
+												: `Edition ${date}`)}
+									</a>
+								</h3>
+
+								{edition?.newsletter && (
+									<p style="color: var(--ink-muted); margin: 0 0 var(--space-2);">
+										{
+											edition.newsletter.metadata
+												.description
+										}
+									</p>
+								)}
+
+								{edition && (
+									<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-sm); color: var(--ink-muted); font-family: var(--font-structural); align-items: center;">
+										{edition.newsletter && (
+											<span>
+												📖{" "}
+												{formatReadingTime(
+													edition.newsletter.metadata
+														.readingTimeMinutes ||
+														0,
+												)}
+											</span>
+										)}
+										{edition.listeningNarrative &&
+											edition.listeningNarrative.metadata
+												.estimatedListeningDurationMinutes && (
+												<span>
+													🔊{" "}
+													{
+														edition
+															.listeningNarrative
+															.metadata
+															.estimatedListeningDurationMinutes
+													}{" "}
+													min
+												</span>
+											)}
+										{edition.englishArticles.length > 0 && (
+											<span>
+												{edition.englishArticles.length}{" "}
+												EN articles
+											</span>
+										)}
+										{edition.englishListening.length >
+											0 && (
+											<span>
+												{
+													edition.englishListening
+														.length
+												}{" "}
+												EN listening
+											</span>
+										)}
+									</div>
+								)}
+							</div>
+
+							<div style="display: flex; flex-direction: column; gap: var(--space-2);">
+								<a
+									href={getEditionUrl(date, locale)}
+									style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px; text-align: center; padding: var(--space-2) var(--space-3); background: var(--valley-light); border-radius: var(--radius);"
+								>
+									{locale === "nl"
+										? "Bekijk editie →"
+										: "View edition →"}
+								</a>
+							</div>
+						</div>
+					</li>
+				))}
+			</ul>
+
+			{editionSummaries.length > 0 && (
+				<p style="text-align: center; margin-top: var(--space-6); color: var(--ink-muted); font-size: var(--size-sm); font-family: var(--font-structural);">
+					{locale === "nl"
+						? `Totaal {editionSummaries.length} gepubliceerde edities`
+						: `Total {editionSummaries.length} published editions`}
+				</p>
+			)}
+		</main>
+
+		<Footer locale={locale} t={t} />
+		<CookieConsent locale={locale} t={t} />
+	</body>
+</html>

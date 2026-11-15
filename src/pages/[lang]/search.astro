@@ -1,0 +1,356 @@
+---
+import { getCollection } from "astro:content";
+import { createSearchIndexFile } from "../../utils/searchIndex";
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Masthead from "../../components/Masthead.astro";
+import CookieConsent from "../../components/CookieConsent.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import { getTranslation, type Locale } from "../../i18n";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { lang: "en" }, props: { locale: "en" as Locale } },
+		{ params: { lang: "nl" }, props: { locale: "nl" as Locale } },
+	];
+}
+
+const { locale } = Astro.props;
+const t = getTranslation(locale);
+
+const posts = await getCollection("blog");
+const searchIndexJson = createSearchIndexFile(posts);
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead
+			title={`${SITE_TITLE} — {t.search.title}`}
+			description={t.search.description}
+		/>
+		<script is:inline>
+			window.__SEARCH_INDEX__ = JSON.parse(
+				decodeURIComponent("{searchIndexJson}"),
+			);
+			window.__SEARCH_LOCALE__ = "{locale}";
+		</script>
+	</head>
+	<body>
+		<!-- Skip to main content link -->
+		<a href="#main-content" class="skip-link">
+			Skip to main content
+		</a>
+		<a href="#page-nav" class="skip-link">
+			Skip to navigation
+		</a>
+
+		<Masthead currentPath={Astro.url.pathname} locale={locale} t={t} />
+
+		<main
+			class="reading-column"
+			id="main-content"
+			style="max-width: var(--measure); margin: 0 auto; padding: var(--space-6) var(--margin-page);"
+		>
+			<header style="margin-bottom: var(--space-7); padding-bottom: var(--space-5); border-bottom: 1px solid var(--mountain-light); text-align: center;">
+				<h1 style="font-size: var(--size-3xl); margin-bottom: var(--space-3);">
+					{t.search.title}
+				</h1>
+				<p style="font-size: var(--size-lg); color: var(--ink-muted); font-style: italic; max-width: 60ch; margin: 0 auto;">
+					{t.search.description}
+				</p>
+			</header>
+
+			<div
+				class="search-container"
+				style="max-width: 600px; margin: 0 auto var(--space-7);"
+			>
+				<div style="position: relative;">
+					<label for="search-input" class="sr-only">
+						{t.search.placeholder}
+					</label>
+					<input
+						type="search"
+						id="search-input"
+						placeholder={t.search.placeholder}
+						autocomplete="off"
+						style="
+									width: 100%;
+									padding: var(--space-3) var(--space-4);
+									font-family: var(--font-reading);
+									font-size: var(--size-lg);
+									border: 2px solid var(--mountain-light);
+									border-radius: var(--radius);
+									background: var(--sheet);
+									color: var(--ink);
+									transition: border-color var(--transition-base), box-shadow var(--transition-base);
+								"
+						onfocus="this.style.borderColor='var(--gold)'; this.style.boxShadow='0 0 0 3px var(--valley-light)'"
+						onblur="this.style.borderColor='var(--mountain-light)'; this.style.boxShadow='none'"
+						aria-describedby="search-hint"
+					/>
+					<span id="search-hint" class="sr-only">
+						Type to search articles and patterns. Results will
+						appear below.
+					</span>
+					<div
+						id="search-loading"
+						style="
+									position: absolute;
+									right: var(--space-3);
+									top: 50%;
+									transform: translateY(-50%);
+									display: none;
+									width: 20px;
+									height: 20px;
+									border: 2px solid var(--mountain-light);
+									border-top-color: var(--gold);
+									border-radius: 50%;
+									animation: spin 1s linear infinite;
+								"
+						aria-hidden="true"
+					></div>
+				</div>
+				<style>
+					@keyframes spin {
+						to {
+							transform: translateY(-50%) rotate(360deg);
+						}
+					}
+				</style>
+
+				<div
+					id="search-results"
+					role="list"
+					aria-label={t.ui.searchResults}
+					aria-live="polite"
+					style="display: none; margin-top: var(--space-4);"
+				></div>
+
+				<p
+					id="search-empty"
+					role="status"
+					aria-live="polite"
+					style="display: none; text-align: center; color: var(--ink-muted); margin-top: var(--space-4);"
+				>
+					{t.ui.noResults}
+				</p>
+			</div>
+
+			<!-- Recent articles fallback -->
+			<section aria-labelledby="recent-heading">
+				<h2
+					id="recent-heading"
+					class="folded-heading"
+					style="margin-left: 0;"
+				>
+					<span class="section-number">01</span>
+					{t.ui.recentArticles}
+				</h2>
+				<ul style="list-style: none; padding: 0; display: grid; gap: var(--space-4);">
+					{posts
+						.sort(
+							(a, b) =>
+								b.data.pubDate.valueOf() -
+								a.data.pubDate.valueOf(),
+						)
+						.slice(0, 10)
+						.map((post) => (
+							<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker); transition: border-color var(--transition-base);">
+								<a
+									href={`/${locale}/blog/${post.id}/`}
+									style="text-decoration: none; color: inherit; display: block;"
+								>
+									<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-xl); color: var(--ink); transition: color var(--transition-base);">
+										{post.data.title}
+									</h3>
+									<p style="color: var(--ink-muted); margin: 0 0 var(--space-2);">
+										{post.data.description}
+									</p>
+									<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-sm); color: var(--ink-muted); font-family: var(--font-structural); align-items: center;">
+										<time
+											datetime={post.data.pubDate.toISOString()}
+											style="font-variant-numeric: tabular-nums;"
+										>
+											{new Intl.DateTimeFormat(
+												locale === "nl"
+													? "nl-NL"
+													: "en-US",
+												{ dateStyle: "medium" },
+											).format(post.data.pubDate)}
+										</time>
+										<span aria-hidden="true">•</span>
+										<span>
+											{post.data.readingTime || "~"} min
+											read
+										</span>
+										{post.data.tags.length > 0 && (
+											<span style="color: var(--gold);">
+												{post.data.tags
+													.slice(0, 3)
+													.join(", ")}
+												{post.data.tags.length > 3
+													? "…"
+													: ""}
+											</span>
+										)}
+									</div>
+								</a>
+							</li>
+						))}
+				</ul>
+			</section>
+		</main>
+
+		<Footer locale={locale} t={t} />
+
+		<!-- Cookie Consent Banner -->
+		<CookieConsent locale={locale} t={t} />
+
+		<script>
+			// Simple client-side search
+			type SearchPost = {
+				id: string;
+				title: string;
+				description: string;
+				content: string;
+				pubDate: string;
+				readingTime: number;
+				tags: string[];
+			};
+			const searchInput = document.getElementById(
+				"search-input",
+			) as HTMLInputElement | null;
+			const searchResults = document.getElementById(
+				"search-results",
+			) as HTMLElement;
+			const searchEmpty = document.getElementById(
+				"search-empty",
+			) as HTMLElement;
+			const searchLoading = document.getElementById(
+				"search-loading",
+			) as HTMLElement;
+			const index: SearchPost[] =
+				(window as unknown as { __SEARCH_INDEX__?: SearchPost[] })
+					.__SEARCH_INDEX__ || [];
+			const locale =
+				(window as unknown as { __SEARCH_LOCALE__?: string })
+					.__SEARCH_LOCALE__ || "en";
+
+			function escapeHtml(text: string) {
+				const div = document.createElement("div");
+				div.textContent = text;
+				return div.innerHTML;
+			}
+
+			function highlightMatch(text: string, query: string) {
+				if (!query) return escapeHtml(text);
+				const regex = new RegExp(
+					`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+					"gi",
+				);
+				return escapeHtml(text).replace(
+					regex,
+					'<mark style="background: var(--valley-light); color: var(--ink); padding: 0 2px; border-radius: 2px;">$1</mark>',
+				);
+			}
+
+			function formatDate(dateStr: string) {
+				const date = new Date(dateStr);
+				return date.toLocaleDateString(
+					locale === "nl" ? "nl-NL" : "en-US",
+					{ dateStyle: "medium" },
+				);
+			}
+
+			function renderResults(results: SearchPost[], query: string) {
+				if (results.length === 0) {
+					searchResults.style.display = "none";
+					searchEmpty.style.display = "block";
+					return;
+				}
+				searchEmpty.style.display = "none";
+				searchResults.style.display = "block";
+				searchResults.innerHTML = results
+					.map(
+						(post) => `
+					<article style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker); margin-bottom: var(--space-3);" role="listitem">
+						<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-lg);">
+							<a href="/${locale}/blog/${post.id}/" style="text-decoration: none; color: var(--ink);">${highlightMatch(post.title, query)}</a>
+						</h3>
+						<p style="color: var(--ink-muted); margin: 0 0 var(--space-2);">${highlightMatch(post.description, query)}</p>
+						<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-sm); color: var(--ink-muted); font-family: var(--font-structural); align-items: center;">
+							<time datetime="${post.pubDate}">${formatDate(post.pubDate)}</time>
+							<span aria-hidden="true">•</span>
+							<span>${post.readingTime} min read</span>
+							${post.tags.length > 0 ? `<span style="color: var(--gold);">${post.tags.slice(0, 3).join(", ")}${post.tags.length > 3 ? "…" : ""}</span>` : ""}
+						</div>
+					</article>
+				`,
+					)
+					.join("");
+			}
+
+			function search(query: string) {
+				if (!query.trim()) {
+					searchResults.style.display = "none";
+					searchEmpty.style.display = "none";
+					return;
+				}
+
+				searchLoading.style.display = "block";
+				searchResults.style.display = "none";
+				searchEmpty.style.display = "none";
+
+				// Debounce
+				setTimeout(() => {
+					const terms = query
+						.toLowerCase()
+						.split(/\s+/)
+						.filter(Boolean);
+					const results = index
+						.map((post) => {
+							let score = 0;
+							const searchable =
+								`${post.title} ${post.description} ${post.content} ${post.tags.join(" ")}`.toLowerCase();
+
+							for (const term of terms) {
+								if (post.title.toLowerCase().includes(term))
+									score += 10;
+								if (
+									post.description
+										.toLowerCase()
+										.includes(term)
+								)
+									score += 5;
+								if (
+									post.tags.some((t) =>
+										t.toLowerCase().includes(term),
+									)
+								)
+									score += 8;
+								if (post.content.toLowerCase().includes(term))
+									score += 1;
+							}
+
+							return { ...post, score };
+						})
+						.filter((p) => p.score > 0)
+						.sort((a, b) => b.score - a.score)
+						.slice(0, 20);
+
+					searchLoading.style.display = "none";
+					renderResults(results, query);
+				}, 50);
+			}
+
+			searchInput?.addEventListener("input", (e) => {
+				const target = e.target as HTMLInputElement | null;
+				search(target?.value ?? "");
+			});
+			searchInput?.addEventListener("focus", () =>
+				search(searchInput?.value ?? ""),
+			);
+		</script>
+	</body>
+</html>

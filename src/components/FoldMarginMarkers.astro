@@ -1,0 +1,142 @@
+---
+/**
+ * FoldMarginMarkers — scroll-tracking markers in the fold margin.
+ * Shows active heading position as user scrolls.
+ */
+interface Props {
+	headings: Array<{
+		level: number;
+		text: string;
+		slug: string;
+	}>;
+}
+
+const { headings } = Astro.props;
+---
+
+<aside class="fold-margin" aria-hidden="true">
+	<div class="fold-margin-line"></div>
+	{headings.map((heading) => (
+		<div
+			class="fold-margin-marker"
+			data-heading-id={heading.slug}
+			style="--heading-level: #{heading.level};"
+		>
+			<span class="fold-marker-tooltip">{heading.text}</span>
+		</div>
+	))}
+</aside>
+
+<style>
+	.fold-margin {
+		position: sticky;
+		top: 0;
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		padding-top: var(--space-6);
+		pointer-events: none;
+		z-index: 10;
+	}
+
+	.fold-margin-line {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 50%;
+		width: var(--fold-margin-width);
+		background: var(--gold);
+		transform: translateX(-50%);
+		opacity: 0.3;
+	}
+
+	.fold-margin-marker {
+		position: relative;
+		width: 100%;
+		height: 8px;
+		margin-bottom: var(--space-4);
+		opacity: 0;
+		transform: translateX(-100%);
+		transition:
+			opacity var(--transition-fold),
+			transform var(--transition-fold);
+	}
+
+	.fold-margin-marker.active {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	.fold-margin-marker::before {
+		content: "";
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 12px;
+		height: 12px;
+		background: var(--gold);
+		border: 2px solid var(--sheet);
+		border-radius: 50%;
+		transform: translate(-50%, -50%);
+		box-shadow: 0 0 0 2px var(--gold);
+	}
+
+	.fold-marker-tooltip {
+		position: absolute;
+		left: calc(100% + var(--space-2));
+		top: 50%;
+		transform: translateY(-50%);
+		white-space: nowrap;
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		color: var(--ink-muted);
+		background: var(--sheet);
+		padding: var(--space-1) var(--space-2);
+		border-radius: var(--radius);
+		border: 1px solid var(--mountain-light);
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--transition-base);
+		z-index: 20;
+	}
+
+	.fold-margin-marker:hover .fold-marker-tooltip,
+	.fold-margin-marker.active .fold-marker-tooltip {
+		opacity: 1;
+	}
+
+	/* Reduced motion */
+	@media (prefers-reduced-motion: reduce) {
+		.fold-margin-marker {
+			transition: none;
+		}
+		.fold-marker-tooltip {
+			transition: none;
+		}
+	}
+
+	/* High contrast */
+	@media (prefers-contrast: high) {
+		.fold-margin-line {
+			opacity: 1;
+		}
+		.fold-margin-marker::before {
+			border-color: currentColor;
+		}
+	}
+
+	/* Mobile: hide fold margin */
+	@media (max-width: 1200px) {
+		.fold-margin {
+			display: none;
+		}
+	}
+
+	/* Print */
+	@media print {
+		.fold-margin {
+			display: none !important;
+		}
+	}
+</style>

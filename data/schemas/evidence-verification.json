@@ -1,0 +1,692 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/evidence-verification.json",
+  "title": "Evidence Verification Record",
+  "description": "Complete verification record for a material claim with full traceability, evidence classification, and uncertainty tracking",
+  "type": "object",
+  "required": [
+    "id",
+    "candidateId",
+    "candidateStableId",
+    "claim",
+    "claimType",
+    "originalSource",
+    "supportingEvidence",
+    "counterevidence",
+    "assumptions",
+    "alternativeExplanations",
+    "falsificationCriteria",
+    "unresolvedUncertainties",
+    "evidenceClassification",
+    "verificationStatus",
+    "verificationMethods",
+    "confidence",
+    "verificationLevel",
+    "temporalVerification",
+    "verifiedAt",
+    "verifiedBy",
+    "revisionHistory"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^claim_[a-z0-9]{16}$",
+      "description": "Unique claim ID"
+    },
+    "candidateId": {
+      "type": "string",
+      "pattern": "^cand_[a-z0-9]{16}$",
+      "description": "Candidate ID this claim belongs to"
+    },
+    "candidateStableId": {
+      "type": "string",
+      "description": "Stable candidate ID for cross-reference"
+    },
+    "claim": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Exact claim text (one verifiable fact)"
+    },
+    "claimType": {
+      "type": "string",
+      "enum": [
+        "technical-announcement",
+        "software-release",
+        "scientific-research",
+        "benchmark-result",
+        "strategic-research",
+        "advisory-finding",
+        "enterprise-adoption",
+        "productivity-claim",
+        "roi-claim",
+        "economic-impact",
+        "original-reporting",
+        "vendor-announcement",
+        "policy-regulation",
+        "security-vulnerability"
+      ],
+      "description": "Claim type for specialized verification rules"
+    },
+    "originalSource": {
+      "type": "object",
+      "required": ["sourceId", "url", "title", "publicationTimestamp"],
+      "properties": {
+        "sourceId": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "title": { "type": "string" },
+        "author": { "type": "array", "items": { "type": "string" } },
+        "publisher": { "type": "string" },
+        "publicationTimestamp": { "type": "string", "format": "date-time" },
+        "firstDisclosureTimestamp": { "type": "string", "format": "date-time" }
+      }
+    },
+    "supportingEvidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "sourceId",
+          "classification",
+          "url",
+          "locator",
+          "extractedText",
+          "timestamp",
+          "timestampType",
+          "confidence",
+          "tier",
+          "evidenceRole",
+          "applicableMethods",
+          "retrievalMetadata"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^ev_[a-z0-9]{16}$" },
+          "sourceId": { "type": "string" },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "VERIFIED_FACT",
+              "VENDOR_CLAIM",
+              "RESEARCH_FINDING",
+              "ORIGINAL_REPORTING",
+              "EXPERT_INTERPRETATION",
+              "INFERENCE",
+              "SPECULATION",
+              "UNVERIFIED"
+            ]
+          },
+          "url": { "type": "string", "format": "uri" },
+          "locator": { "type": "string" },
+          "extractedText": { "type": "string", "maxLength": 5000 },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "timestampType": {
+            "type": "string",
+            "enum": [
+              "original-publication",
+              "first-public-disclosure",
+              "underlying-event",
+              "substantive-update",
+              "retrieval",
+              "indexing"
+            ]
+          },
+          "sourceTimezone": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "tier": { "type": "integer", "enum": [1, 2, 3] },
+          "evidenceRole": {
+            "type": "string",
+            "enum": ["primary", "secondary", "corroborating", "counterevidence"]
+          },
+          "applicableMethods": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "primary-source-inspection",
+                "methodology-review",
+                "artifact-reproduction",
+                "independent-replication",
+                "cross-reference",
+                "expert-consultation",
+                "statistical-analysis",
+                "source-document-review",
+                "api-documentation-check",
+                "benchmark-methodology-audit",
+                "paywall-accessible-review"
+              ]
+            }
+          },
+          "limitations": { "type": "array", "items": { "type": "string" } },
+          "retrievalMetadata": {
+            "type": "object",
+            "required": ["retrievedAt", "retrievalMethod", "contentHash"],
+            "properties": {
+              "retrievedAt": { "type": "string", "format": "date-time" },
+              "retrievalMethod": { "type": "string" },
+              "httpStatus": { "type": "integer" },
+              "contentHash": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "counterevidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "claimId",
+          "evidenceReference",
+          "contradictsClaim",
+          "contradictionType",
+          "description",
+          "confidence",
+          "sourceId",
+          "discoveredAt"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^ce_[a-z0-9]{16}$" },
+          "claimId": { "type": "string", "pattern": "^claim_[a-z0-9]{16}$" },
+          "evidenceReference": {
+            "$ref": "#/properties/supportingEvidence/items"
+          },
+          "contradictsClaim": { "type": "string" },
+          "contradictionType": {
+            "type": "string",
+            "enum": ["direct", "qualifying", "contextual", "methodological"]
+          },
+          "description": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "sourceId": { "type": "string" },
+          "discoveredAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "claimId",
+          "assumption",
+          "type",
+          "criticality",
+          "status"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^asm_[a-z0-9]{16}$" },
+          "claimId": { "type": "string", "pattern": "^claim_[a-z0-9]{16}$" },
+          "assumption": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "technical",
+              "methodological",
+              "contextual",
+              "economic",
+              "organizational"
+            ]
+          },
+          "criticality": {
+            "type": "string",
+            "enum": ["essential", "important", "minor"]
+          },
+          "evidenceForAssumption": {
+            "type": "array",
+            "items": { "$ref": "#/properties/supportingEvidence/items" }
+          },
+          "evidenceAgainstAssumption": {
+            "type": "array",
+            "items": { "$ref": "#/properties/supportingEvidence/items" }
+          },
+          "status": {
+            "type": "string",
+            "enum": ["supported", "unsupported", "contradicted", "unknown"]
+          }
+        }
+      }
+    },
+    "alternativeExplanations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "claimId", "explanation", "type", "plausibility"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^alt_[a-z0-9]{16}$" },
+          "claimId": { "type": "string", "pattern": "^claim_[a-z0-9]{16}$" },
+          "explanation": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "confounding-variable",
+              "selection-bias",
+              "measurement-artifact",
+              "different-causal-mechanism",
+              "statistical-fluke"
+            ]
+          },
+          "supportingEvidence": {
+            "type": "array",
+            "items": { "$ref": "#/properties/supportingEvidence/items" }
+          },
+          "plausibility": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          }
+        }
+      }
+    },
+    "falsificationCriteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "claimId", "criterion", "type", "feasibility"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^fal_[a-z0-9]{16}$" },
+          "claimId": { "type": "string", "pattern": "^claim_[a-z0-9]{16}$" },
+          "criterion": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "observation",
+              "experiment",
+              "reproduction",
+              "benchmark",
+              "audit"
+            ]
+          },
+          "feasibility": {
+            "type": "string",
+            "enum": ["feasible", "difficult", "infeasible"]
+          },
+          "estimatedCost": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          },
+          "timeframe": { "type": "string" },
+          "prerequisites": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "unresolvedUncertainties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "claimId",
+          "uncertainty",
+          "type",
+          "impact",
+          "blockingVerification",
+          "researchNeeded"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^unc_[a-z0-9]{16}$" },
+          "claimId": { "type": "string", "pattern": "^claim_[a-z0-9]{16}$" },
+          "uncertainty": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "evidence-gap",
+              "methodological",
+              "definitional",
+              "temporal",
+              "scope",
+              "generalizability"
+            ]
+          },
+          "impact": { "type": "string", "enum": ["high", "medium", "low"] },
+          "blockingVerification": { "type": "boolean" },
+          "researchNeeded": { "type": "string" }
+        }
+      }
+    },
+    "evidenceClassification": {
+      "type": "string",
+      "enum": [
+        "VERIFIED_FACT",
+        "VENDOR_CLAIM",
+        "RESEARCH_FINDING",
+        "ORIGINAL_REPORTING",
+        "EXPERT_INTERPRETATION",
+        "INFERENCE",
+        "SPECULATION",
+        "UNVERIFIED"
+      ],
+      "description": "Explicit evidence classification per contract §4.2"
+    },
+    "verificationStatus": {
+      "type": "string",
+      "enum": [
+        "verified",
+        "partially-verified",
+        "unverified",
+        "contradicted",
+        "insufficient-evidence",
+        "downgraded",
+        "retracted"
+      ],
+      "description": "Current verification status"
+    },
+    "verificationMethods": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "primary-source-inspection",
+          "methodology-review",
+          "artifact-reproduction",
+          "independent-replication",
+          "cross-reference",
+          "expert-consultation",
+          "statistical-analysis",
+          "source-document-review",
+          "api-documentation-check",
+          "benchmark-methodology-audit",
+          "paywall-accessible-review"
+        ]
+      },
+      "description": "Verification methods applied"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Overall confidence score (0-1)"
+    },
+    "verificationLevel": {
+      "type": "string",
+      "enum": ["L0", "L1", "L2", "L3"],
+      "description": "Verification level per contract §4.1"
+    },
+    "verificationDetails": {
+      "type": "object",
+      "required": [
+        "methodologyChecked",
+        "hardwareSpecified",
+        "precisionStated",
+        "batchSizeStated",
+        "warmupExcluded",
+        "statisticalRigor",
+        "confoundersAddressed",
+        "rawDataAvailable"
+      ],
+      "properties": {
+        "methodologyChecked": { "type": "boolean" },
+        "hardwareSpecified": { "type": "boolean" },
+        "precisionStated": { "type": "boolean" },
+        "batchSizeStated": { "type": "boolean" },
+        "warmupExcluded": { "type": "boolean" },
+        "statisticalRigor": { "type": "boolean" },
+        "confoundersAddressed": { "type": "boolean" },
+        "rawDataAvailable": { "type": "boolean" },
+        "reproductionArtifact": { "type": "string", "format": "uri" },
+        "independentReplication": {
+          "type": "object",
+          "properties": {
+            "sourceId": { "type": "string" },
+            "url": { "type": "string", "format": "uri" },
+            "confirmed": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "temporalVerification": {
+      "type": "object",
+      "required": [
+        "originalPublicationTimestamp",
+        "retrievalTimestamp",
+        "indexingTimestamp",
+        "timezonePrecision",
+        "timestampConfidence"
+      ],
+      "properties": {
+        "originalPublicationTimestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "firstPublicDisclosureTimestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "underlyingEventTimestamp": { "type": "string", "format": "date-time" },
+        "substantiveUpdateTimestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "retrievalTimestamp": { "type": "string", "format": "date-time" },
+        "indexingTimestamp": { "type": "string", "format": "date-time" },
+        "timezonePrecision": {
+          "type": "string",
+          "enum": ["exact", "source-stated", "inferred", "unknown"]
+        },
+        "timestampConfidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "productContext": {
+      "type": "object",
+      "properties": {
+        "productName": { "type": "string" },
+        "version": { "type": "string" },
+        "releaseMaturity": {
+          "type": "string",
+          "enum": ["ga", "preview", "experimental", "deprecated", "unknown"]
+        },
+        "availability": {
+          "type": "string",
+          "enum": ["general", "limited", "waitlist", "internal", "unknown"]
+        },
+        "rolloutRestrictions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "licensing": { "type": "string" },
+        "pricing": { "type": "string" }
+      }
+    },
+    "technicalContext": {
+      "type": "object",
+      "properties": {
+        "implementationStatus": {
+          "type": "string",
+          "enum": ["released", "preview", "announced", "research", "unknown"]
+        },
+        "technicalMechanism": { "type": "string" },
+        "architecturalImplications": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "compatibility": { "type": "array", "items": { "type": "string" } },
+        "knownLimitations": { "type": "array", "items": { "type": "string" } },
+        "securityAssumptions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "trustBoundaries": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "scientificContext": {
+      "type": "object",
+      "properties": {
+        "studyDesign": { "type": "string" },
+        "methodology": { "type": "string" },
+        "dataset": { "type": "string" },
+        "evaluationConditions": { "type": "string" },
+        "reproducibility": {
+          "type": "object",
+          "properties": {
+            "artifactAvailable": { "type": "boolean" },
+            "artifactUrl": { "type": "string", "format": "uri" },
+            "independentReplications": { "type": "integer", "minimum": 0 },
+            "replicationResults": {
+              "type": "string",
+              "enum": ["confirmed", "partial", "failed", "mixed"]
+            }
+          }
+        },
+        "benchmarkMethodology": {
+          "type": "object",
+          "properties": {
+            "warmupRuns": { "type": "boolean" },
+            "batchSize": { "type": "integer" },
+            "precision": { "type": "string" },
+            "hardwareSpecified": { "type": "boolean" },
+            "confoundersAddressed": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "contradictoryFindings": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "researchContext": {
+      "type": "object",
+      "properties": {
+        "researchPurpose": { "type": "string" },
+        "hypotheses": { "type": "array", "items": { "type": "string" } },
+        "researchDesign": { "type": "string" },
+        "sampleSize": { "type": "integer", "minimum": 0 },
+        "sampleComposition": { "type": "string" },
+        "geographicScope": { "type": "string" },
+        "industryCoverage": { "type": "string" },
+        "statisticalMethods": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "fundingSources": { "type": "array", "items": { "type": "string" } },
+        "conflictsOfInterest": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "definitionsUsed": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "causalClaimType": {
+          "type": "string",
+          "enum": ["correlation", "causation", "prediction", "interpretation"]
+        },
+        "generalizabilityAssessment": { "type": "string" },
+        "paywallDetails": {
+          "type": "object",
+          "properties": {
+            "accessibleSections": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "inaccessibleSections": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "methodologyVerifiable": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "enterpriseContext": {
+      "type": "object",
+      "properties": {
+        "measuredOutcome": { "type": "string" },
+        "operationalDefinition": { "type": "string" },
+        "baseline": { "type": "string" },
+        "comparisonGroup": { "type": "string" },
+        "individualVsTeamVsOrg": {
+          "type": "string",
+          "enum": ["individual", "team", "organizational", "mixed", "unclear"]
+        },
+        "implementationCosts": { "type": "string" },
+        "inferenceCosts": { "type": "string" },
+        "governanceCosts": { "type": "string" },
+        "operatingCosts": { "type": "string" },
+        "selectionBias": { "type": "string" },
+        "survivorshipBias": { "type": "string" },
+        "confoundingVariables": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "shortTermVsSustained": {
+          "type": "string",
+          "enum": ["short-term", "sustained", "unknown"]
+        },
+        "realizedVsEstimatedVsProjected": {
+          "type": "string",
+          "enum": ["realized", "estimated", "projected", "unknown"]
+        },
+        "organizationalDependencies": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "technicalDependencies": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "verifiedAt": { "type": "string", "format": "date-time" },
+    "verifiedBy": { "type": "string" },
+    "verificationDurationMs": { "type": "integer", "minimum": 0 },
+    "revisionHistory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "revisionId",
+          "revisedAt",
+          "revisedBy",
+          "changes",
+          "reason"
+        ],
+        "properties": {
+          "revisionId": { "type": "string", "pattern": "^rev_[a-z0-9]{16}$" },
+          "revisedAt": { "type": "string", "format": "date-time" },
+          "revisedBy": { "type": "string" },
+          "changes": { "type": "array", "items": { "type": "string" } },
+          "previousClassification": {
+            "type": "string",
+            "enum": [
+              "VERIFIED_FACT",
+              "VENDOR_CLAIM",
+              "RESEARCH_FINDING",
+              "ORIGINAL_REPORTING",
+              "EXPERT_INTERPRETATION",
+              "INFERENCE",
+              "SPECULATION",
+              "UNVERIFIED"
+            ]
+          },
+          "previousStatus": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "partially-verified",
+              "unverified",
+              "contradicted",
+              "insufficient-evidence",
+              "downgraded",
+              "retracted"
+            ]
+          },
+          "previousConfidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "reason": { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

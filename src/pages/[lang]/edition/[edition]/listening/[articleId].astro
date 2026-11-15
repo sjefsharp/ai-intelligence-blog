@@ -1,0 +1,176 @@
+---
+import BaseHead from "../../../../../components/BaseHead.astro";
+import Footer from "../../../../../components/Footer.astro";
+import Masthead from "../../../../../components/Masthead.astro";
+import CookieConsent from "../../../../../components/CookieConsent.astro";
+import ReadAloud from "../../../../../components/ReadAloud.astro";
+import { getTranslation, type Locale } from "../../../../../i18n";
+import {
+	loadEditionContent,
+	getEditionPaths,
+	getEditionAlternateUrls,
+	formatEditionDate,
+	getListeningDuration,
+} from "../../../../../lib/publication/astro-adapter.js";
+
+export async function getStaticPaths() {
+	const paths = await getEditionPaths();
+	const result = [];
+
+	for (const path of paths) {
+		const edition = await loadEditionContent(path.props.editionDate);
+		const publicListening = edition?.englishListening.filter(
+			(a) =>
+				a.metadata.lifecycleStatus === "VALIDATED" ||
+				a.metadata.lifecycleStatus === "PUBLISHED",
+		);
+		if (publicListening) {
+			for (const narrative of publicListening) {
+				result.push({
+					params: {
+						lang: path.params.lang,
+						edition: path.params.edition,
+						articleId: narrative.metadata.artifactId,
+					},
+					props: {
+						editionDate: path.props.editionDate,
+						locale: path.props.locale,
+						articleArtifactId: narrative.metadata.artifactId,
+					},
+				});
+			}
+		}
+	}
+
+	return result;
+}
+
+const { locale, editionDate, articleArtifactId } = Astro.props;
+const t = getTranslation(locale);
+
+const edition = await loadEditionContent(editionDate);
+
+if (!edition) {
+	return Astro.redirect(`/${locale}/404`);
+}
+
+const narrative = edition.englishListening.find(
+	(a) => a.metadata.artifactId === articleArtifactId,
+);
+
+if (
+	!narrative ||
+	(narrative.metadata.lifecycleStatus !== "VALIDATED" &&
+		narrative.metadata.lifecycleStatus !== "PUBLISHED")
+) {
+	return Astro.redirect(`/${locale}/404`);
+}
+
+const pageTitle = narrative.metadata.title;
+const pageDescription = narrative.metadata.description;
+
+const canonicalURL = Astro.site
+	? new URL(Astro.url.pathname, Astro.site)
+	: new URL(Astro.url.pathname, "https://example.com");
+const alternateUrls = getEditionAlternateUrls(
+	editionDate,
+	Astro.url.pathname,
+	Astro.site,
+);
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+		<link rel="canonical" href={canonicalURL} />
+		{alternateUrls.map((alt) => (
+			<link rel="alternate" hreflang={alt.lang} href={alt.url} />
+		))}
+		<link
+			rel="alternate"
+			hreflang="x-default"
+			href={
+				alternateUrls.find((a) => a.lang === "en")?.url ||
+				`/en/edition/${editionDate}/listening/${articleArtifactId}/`
+			}
+		/>
+	</head>
+	<body>
+		<a href="#main-content" class="skip-link">
+			Skip to main content
+		</a>
+		<a href="#page-nav" class="skip-link">
+			Skip to navigation
+		</a>
+
+		<Masthead currentPath={Astro.url.pathname} locale={locale} t={t} />
+
+		<div class="article-layout">
+			<aside class="fold-margin" aria-hidden="true">
+				<div class="fold-margin-line"></div>
+			</aside>
+
+			<main class="reading-column" id="main-content" role="main">
+				<article class="prose">
+					<header class="article-header">
+						<div class="article-meta">
+							<time datetime={editionDate}>
+								{formatEditionDate(editionDate, locale)}
+							</time>
+							<span class="meta-separator" aria-hidden="true">
+								•
+							</span>
+							<span>
+								{getListeningDuration(narrative)} min listen
+							</span>
+						</div>
+						<h1 class="article-title">
+							{narrative.metadata.title}
+						</h1>
+						<p class="article-abstract">
+							{narrative.metadata.description}
+						</p>
+					</header>
+
+					<div class="article-content">
+						<slot>{narrative.content}</slot>
+					</div>
+
+					<ReadAloud
+						locale={locale}
+						t={t}
+						articleSelector=".article-content"
+					/>
+
+					<footer
+						class="footnotes"
+						role="region"
+						aria-labelledby="footnotes-heading"
+					>
+						<h2 id="footnotes-heading">{t.ui.references}</h2>
+						<p style="font-size: var(--size-sm); color: var(--ink-muted); font-style: italic;">
+							{locale === "nl"
+								? "Dit luisterverhaal is een Engels derivaat van het canonieke Nederlandse luisternarratief."
+								: "This listening narrative is an English derivative of the canonical Dutch listening narrative."}
+						</p>
+						{narrative.metadata.relatedVariants.length > 0 && (
+							<p style="font-size: var(--size-sm); color: var(--ink-muted); margin-top: var(--space-3);">
+								<strong>Derived from:</strong>{" "}
+								{narrative.metadata.relatedVariants.map((v) => (
+									<code style="margin: 0 var(--space-1); font-size: var(--size-xs);">
+										{v.contentType} ({v.language}) -{" "}
+										{v.artifactId}
+									</code>
+								))}
+							</p>
+						)}
+					</footer>
+				</article>
+			</main>
+		</div>
+
+		<Footer locale={locale} t={t} />
+		<CookieConsent locale={locale} t={t} />
+	</body>
+</html>

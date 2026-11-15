@@ -1,0 +1,2205 @@
+# Research Taxonomy — Comprehensive Domain Map for AI Intelligence Monitoring
+# Version: 2.0
+# Last Updated: 2025-11-10
+# Status: Authoritative Specification
+# Integrates with: AI Intelligence Publication Contract §3, Discovery Rings Specification
+# Backward Compatible: Preserves all v1.0 identifiers and structures
+
+domains:
+  # =============================================================================
+  # DOMAIN 1: AGENTIC AI & SOFTWARE ENGINEERING
+  # =============================================================================
+  - id: agentic-ai-software-engineering
+    label:
+      en: "Agentic AI & Software Engineering"
+      nl: "Agentic AI & Software Engineering"
+    description:
+      en: "Autonomous agents, multi-agent orchestration, agent evaluation, context engineering, agent identity/security, and agent software supply chains"
+      nl: "Autonome agents, multi-agent orchestratie, agent evaluatie, context engineering, agent identiteit/beveiliging, en agent software supply chains"
+    stable_id: "DOM-01"
+    version: "2.0"
+    subdomains:
+      - id: agent-skills-discovery-distribution
+        label:
+          en: "Agent Skills, Discovery & Distribution"
+          nl: "Agent Vaardigheden, Ontdekking & Distributie"
+        description:
+          en: "Agent skill definitions, progressive disclosure, capability tokens, skill marketplaces, Agent Package Manager (APM)"
+          nl: "Agent vaardigheidsdefinities, progressieve openbaring, capability tokens, vaardigheidsmarkten, Agent Package Manager (APM)"
+        stable_id: "DOM-01-SD01"
+        canonical_terms:
+          en:
+            [
+              "Agent Skill",
+              "Capability Token",
+              "Progressive Disclosure",
+              "Agent Package Manager (APM)",
+              "Skill Discovery",
+            ]
+          nl:
+            [
+              "Agent Vaardigheid",
+              "Capability Token",
+              "Progressieve Openbaring",
+              "Agent Package Manager (APM)",
+              "Vaardigheidsontdekking",
+            ]
+        source_families:
+          - "github-releases-agent-frameworks"
+          - "mcp-specifications"
+          - "agent-package-manager-repos"
+          - "langchain-langgraph-blog"
+          - "anthropic-claude-code-releases"
+          - "openai-codex-releases"
+          - "google-gemini-cli-releases"
+        discovery_methods:
+          - "GitHub releases Atom feeds (agent frameworks)"
+          - "MCP specification repositories (modelcontextprotocol/spec)"
+          - "APM registry feeds (when available)"
+          - "Vendor changelog RSS (Claude Code, Codex, Gemini CLI)"
+          - "Havoptic aggregated feeds"
+          - "Agentic Index changes feed"
+        ring_affinity: [1, 3]
+        cross_domain_links:
+          - "models-inference-scientific" # Model capabilities enable agent skills
+          - "architecture-security-governance" # Agent security boundaries
+          - "economics-business-impact" # Agent economics, ROI
+      - id: mcp-tools-hooks-plugins-apm
+        label:
+          en: "Model Context Protocol (MCP), Tools, Hooks, Plugins & APM"
+          nl: "Model Context Protocol (MCP), Tools, Hooks, Plugins & APM"
+        description:
+          en: "MCP specification evolution, tool calling standards, hook/plugin architectures, agent package managers, sandboxed tool execution"
+          nl: "MCP specificatie evolutie, tool calling standaarden, hook/plugin architecturen, agent package managers, sandboxed tool uitvoering"
+        stable_id: "DOM-01-SD02"
+        canonical_terms:
+          en:
+            [
+              "Model Context Protocol (MCP)",
+              "Tool Calling",
+              "Hook Architecture",
+              "Plugin System",
+              "Agent Package Manager (APM)",
+              "Sandboxed Execution",
+            ]
+          nl:
+            [
+              "Model Context Protocol (MCP)",
+              "Tool Calling",
+              "Hook Architectuur",
+              "Plugin Systeem",
+              "Agent Package Manager (APM)",
+              "Sandbox Uitvoering",
+            ]
+        source_families:
+          - "mcp-specifications"
+          - "github-releases-agent-frameworks"
+          - "anthropic-claude-code-releases"
+          - "agent-package-manager-repos"
+        discovery_methods:
+          - "MCP spec repo (modelcontextprotocol/spec) GitHub releases"
+          - "MCP server implementations (GitHub topics: mcp-server)"
+          - "Claude Code changelog (MCP task support)"
+          - "APM registry monitoring"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "agentic-ai-software-engineering"
+          - "architecture-security-governance" # MCP security model
+      - id: autonomous-coding-agents-orchestration
+        label:
+          en: "Autonomous Coding Agents & Multi-Agent Orchestration"
+          nl: "Autonome Coding Agents & Multi-Agent Orchestratie"
+        description:
+          en: "Coding agents (Copilot, Cursor, Codex, Claude Code, Gemini CLI, Junie, Cline, OpenCode, Aider, etc.), delegation, coordination, background agents, agent swarms"
+          nl: "Coding agents (Copilot, Cursor, Codex, Claude Code, Gemini CLI, Junie, Cline, OpenCode, Aider, etc.), delegatie, coordinatie, background agents, agent zwermen"
+        stable_id: "DOM-01-SD03"
+        canonical_terms:
+          en:
+            [
+              "Autonomous Coding Agent",
+              "Background Agent",
+              "Agent Delegation",
+              "Multi-Agent Orchestration",
+              "Agent Swarm",
+              "Copilot Coding Agent",
+              "Claude Code",
+              "Codex CLI",
+              "Gemini CLI",
+            ]
+          nl:
+            [
+              "Autonome Coding Agent",
+              "Background Agent",
+              "Agent Delegatie",
+              "Multi-Agent Orchestratie",
+              "Agent Zwerm",
+              "Copilot Coding Agent",
+              "Claude Code",
+              "Codex CLI",
+              "Gemini CLI",
+            ]
+        source_families:
+          - "coding-agent-vendor-releases"
+          - "coding-agent-community-releases"
+          - "ai-ide-releases"
+          - "havoptic-aggregated"
+          - "agentic-index"
+          - "devagentradar"
+        discovery_methods:
+          - "Vendor GitHub releases Atom feeds (github/copilot-cli, anthropics/claude-code, openai/codex, google-gemini/gemini-cli)"
+          - "Community GitHub releases (cline/cline, anomalyco/opencode, Aider-AI/aider, Kilo-Org/kilocode, aaif-goose/goose)"
+          - "AI IDE RSS feeds (VS Code, Cursor, Zed, Windsurf, Junie)"
+          - "Havoptic combined/per-tool feeds"
+          - "Agentic Index changes feed"
+          - "DevAgentRadar feed"
+        ring_affinity: [1, 3]
+        cross_domain_links:
+          - "agentic-ai-software-engineering"
+          - "agentic-ai-software-engineering"
+          - "models-inference-scientific"
+          - "enterprise-adoption-organizational" # Developer productivity impact
+          - "economics-business-impact" # Coding agent ROI
+      - id: agent-evaluation-benchmarks-observability
+        label:
+          en: "Agent Evaluation, Benchmarks, Validation & Observability"
+          nl: "Agent Evaluatie, Benchmarks, Validatie & Observabiliteit"
+        description:
+          en: "Agent benchmarks (SWE-bench, AgentBench, τ-bench), evaluation frameworks, observability spines, continuous improvement loops, regression detection"
+          nl: "Agent benchmarks (SWE-bench, AgentBench, τ-bench), evaluatieramenwerken, observabiliteitsstam, continue verbeteringslussen, regressiedetectie"
+        stable_id: "DOM-01-SD04"
+        canonical_terms:
+          en:
+            [
+              "Agent Benchmark",
+              "SWE-bench",
+              "AgentBench",
+              "τ-bench",
+              "Evaluation Framework",
+              "Observability Spine",
+              "Continuous Improvement",
+              "Regression Detection",
+            ]
+          nl:
+            [
+              "Agent Benchmark",
+              "SWE-bench",
+              "AgentBench",
+              "τ-bench",
+              "Evaluatieraamwerk",
+              "Observabiliteitsstam",
+              "Continue Verbetering",
+              "Regressiedetectie",
+            ]
+        source_families:
+          - "benchmark-repositories"
+          - "agent-evaluation-frameworks"
+          - "observability-tools"
+        discovery_methods:
+          - "MLPerf/LLMPerf repos (mlcommons/results, llmperf/llmperf)"
+          - "SWE-bench, AgentBench, τ-bench GitHub repos"
+          - "LangSmith, Weave, Arize, Langfuse releases"
+          - "arXiv cs.SE, cs.LG (evaluation papers)"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "models-inference-scientific" # Model eval enables agent eval
+          - "architecture-security-governance" # Observability for governance
+      - id: context-engineering-memory-retrieval
+        label:
+          en: "Context Engineering, Memory Architectures & Retrieval"
+          nl: "Context Engineering, Geheugenarchitecturen & Retrieval"
+        description:
+          en: "Context window management, memory systems (short/long-term), RAG architectures, retrieval optimization, System-1 vs System-2 decision routing, context compression"
+          nl: "Context window beheer, geheugensystemen (kort/langetermijn), RAG architecturen, retrieval optimalisatie, Systeem-1 vs Systeem-2 besluitrouting, context compressie"
+        stable_id: "DOM-01-SD05"
+        canonical_terms:
+          en:
+            [
+              "Context Engineering",
+              "Context Window",
+              "Memory Architecture",
+              "RAG (Retrieval-Augmented Generation)",
+              "System-1/ System-2 Routing",
+              "Context Compression",
+              "Long-term Memory",
+              "Short-term Memory",
+            ]
+          nl:
+            [
+              "Context Engineering",
+              "Context Window",
+              "Geheugenarchitectuur",
+              "RAG (Retrieval-Augmented Generation)",
+              "Systeem-1/ Systeem-2 Routing",
+              "Context Compressie",
+              "Langetermijngeheugen",
+              "Kortetermijngeheugen",
+            ]
+        source_families:
+          - "rag-frameworks"
+          - "vector-databases"
+          - "memory-architecture-papers"
+          - "llm-context-optimization"
+        discovery_methods:
+          - "arXiv cs.CL, cs.LG (RAG, memory, context papers)"
+          - "Vector DB blogs (Weaviate, Pinecone, Qdrant, Chroma)"
+          - "LangChain/LlamaIndex releases"
+          - "Conference proceedings (MLSys, OSDI)"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "models-inference-scientific" # Model context windows
+          - "architecture-security-governance" # Memory isolation
+      - id: agent-identity-authorization-sandboxing
+        label:
+          en: "Agent Identity, Authorization, Sandboxing & Execution Boundaries"
+          nl: "Agent Identiteit, Autorisatie, Sandboxing & Uitvoervgrenzen"
+        description:
+          en: "Agent identity models, capability-based authorization, sandbox isolation (WASM, process, container), execution boundaries, tool permission models, audit trails"
+          nl: "Agent identiteitsmodellen, capability-based autorisatie, sandbox isolatie (WASM, proces, container), uitvoervgrenzen, tool permissiemodellen, audittrails"
+        stable_id: "DOM-01-SD06"
+        canonical_terms:
+          en:
+            [
+              "Agent Identity",
+              "Capability Token",
+              "Authorization",
+              "Sandbox",
+              "WASM Sandbox",
+              "Process Isolation",
+              "Container Isolation",
+              "Execution Boundary",
+              "Tool Permission Model",
+              "Audit Trail",
+            ]
+          nl:
+            [
+              "Agent Identiteit",
+              "Capability Token",
+              "Autorisatie",
+              "Sandbox",
+              "WASM Sandbox",
+              "Proces Isolatie",
+              "Container Isolatie",
+              "Uitvoervgrens",
+              "Tool Permissiemodel",
+              "Audittrail",
+            ]
+        source_families:
+          - "agent-security-papers"
+          - "sandbox-technologies"
+          - "capability-security-models"
+          - "cloud-provider-agent-security"
+        discovery_methods:
+          - "arXiv cs.SE, cs.CR (agent security papers)"
+          - "Cloud provider AI security blogs (AWS, GCP, Azure)"
+          - "WASM runtime releases (wasmtime, wasmer, spin)"
+          - "CNCF sandbox projects (Kata, gVisor)"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "architecture-security-governance" # Core security domain
+          - "agentic-ai-software-engineering" # MCP sandbox model
+      - id: agent-software-supply-chain
+        label:
+          en: "Agent Software Supply Chains, Provenance, Versioning & Rollback"
+          nl: "Agent Software Supply Chains, Provenance, Versionering & Rollback"
+        description:
+          en: "Agent package provenance, SBOM for agents, version pinning, dependency resolution, rollback mechanisms, reproducible builds, supply-chain attack mitigation"
+          nl: "Agent pakket provenance, SBOM voor agents, versie vastpinnen, dependency resolution, rollback mechanismen, reproduceerbare builds, supply-chain aanvalsmitigatie"
+        stable_id: "DOM-01-SD07"
+        canonical_terms:
+          en:
+            [
+              "Agent Supply Chain",
+              "SBOM (Software Bill of Materials)",
+              "Provenance",
+              "Version Pinning",
+              "Dependency Resolution",
+              "Rollback",
+              "Reproducible Builds",
+              "Supply Chain Attack",
+            ]
+          nl:
+            [
+              "Agent Supply Chain",
+              "SBOM (Software Bill of Materials)",
+              "Provenance",
+              "Versie Vastpinnen",
+              "Dependency Resolution",
+              "Rollback",
+              "Reproduceerbare Builds",
+              "Supply Chain Aanval",
+            ]
+        source_families:
+          - "supply-chain-security"
+          - "sbom-tools"
+          - "package-managers"
+          - "reproducible-builds"
+        discovery_methods:
+          - "SLSA framework, sigstore, cosign releases"
+          - "SBOM tools (syft, grype, cyclonedx) releases"
+          - "GitHub Dependency Graph, Dependabot alerts"
+          - "arXiv cs.SE, cs.CR (supply chain papers)"
+          - "CNCF TAG Security outputs"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "architecture-security-governance" # Supply chain security
+          - "agentic-ai-software-engineering" # APM supply chain
+
+  # =============================================================================
+  # DOMAIN 2: MODELS, INFERENCE & SCIENTIFIC RESEARCH
+  # =============================================================================
+  - id: models-inference-scientific
+    label:
+      en: "Models, Inference & Scientific Research"
+      nl: "Modellen, Inferentie & Wetenschappelijk Onderzoek"
+    description:
+      en: "Foundation models, reasoning, multimodality, open-weight models, optimization, inference architectures, AI hardware, original research, reproducibility"
+      nl: "Foundation models, redenering, multimodaliteit, open-weight modellen, optimalisatie, inferentie architecturen, AI hardware, originaal onderzoek, reproduceerbaarheid"
+    stable_id: "DOM-02"
+    version: "2.0"
+    subdomains:
+      - id: foundation-models-reasoning-multimodality
+        label:
+          en: "Foundation Models, Reasoning & Multimodality"
+          nl: "Foundation Models, Redenering & Multimodaliteit"
+        description:
+          en: "LLM releases (GPT, Claude, Gemini, Llama, Mistral, Qwen, DeepSeek, etc.), reasoning models (o1, o3, r1), multimodal capabilities, tool use, model cards"
+          nl: "LLM releases (GPT, Claude, Gemini, Llama, Mistral, Qwen, DeepSeek, etc.), redeneringsmodellen (o1, o3, r1), multimodale capaciteiten, tool use, model cards"
+        stable_id: "DOM-02-SD01"
+        canonical_terms:
+          en:
+            [
+              "Foundation Model",
+              "Large Language Model (LLM)",
+              "Reasoning Model",
+              "Multimodal Model",
+              "Tool Use",
+              "Model Card",
+              "System Card",
+              "Chain-of-Thought",
+            ]
+          nl:
+            [
+              "Foundation Model",
+              "Large Language Model (LLM)",
+              "Redeneringsmodel",
+              "Multimodaal Model",
+              "Tool Use",
+              "Model Card",
+              "System Card",
+              "Chain-of-Thought",
+            ]
+        source_families:
+          - "major-ai-lab-blogs"
+          - "model-release-repos"
+          - "huggingface-model-cards"
+          - "arxiv-cs-cl-cs-lg"
+        discovery_methods:
+          - "Major lab blogs (OpenAI, Anthropic, Google DeepMind, Meta, Mistral, xAI, DeepSeek, Cohere)"
+          - "Hugging Face model card RSS"
+          - "GitHub model release repos"
+          - "arXiv cs.CL, cs.LG daily query"
+          - "Papers with Code model tracking"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "agentic-ai-software-engineering" # Models enable agents
+          - "architecture-security-governance" # Model security
+          - "economics-business-impact" # Model economics
+      - id: open-weight-models-optimization
+        label:
+          en: "Open-Weight Models, Optimization, Quantization & Distillation"
+          nl: "Open-Weight Modellen, Optimalisatie, Quantisatie & Distillatie"
+        description:
+          en: "Open-weight releases (Llama, Gemma, Qwen, Mistral, OLMo, DeepSeek), quantization (GGUF, AWQ, GPTQ), distillation, pruning, speculative decoding, model merging"
+          nl: "Open-weight releases (Llama, Gemma, Qwen, Mistral, OLMo, DeepSeek), quantisatie (GGUF, AWQ, GPTQ), distillatie, pruning, speculative decoding, model merging"
+        stable_id: "DOM-02-SD02"
+        canonical_terms:
+          en:
+            [
+              "Open-Weight Model",
+              "Quantization (GGUF, AWQ, GPTQ)",
+              "Distillation",
+              "Pruning",
+              "Speculative Decoding",
+              "Model Merging",
+              "LoRA/QLoRA",
+              "GGML/GGUF",
+            ]
+          nl:
+            [
+              "Open-Weight Model",
+              "Quantisatie (GGUF, AWQ, GPTQ)",
+              "Distillatie",
+              "Pruning",
+              "Speculative Decoding",
+              "Model Merging",
+              "LoRA/QLoRA",
+              "GGML/GGUF",
+            ]
+        source_families:
+          - "open-weight-model-repos"
+          - "quantization-tools"
+          - "local-llm-runtimes"
+          - "arxiv-cs-lg"
+        discovery_methods:
+          - "Hugging Face model hub (trending, new)"
+          - "Local LLM runtime blogs (Ollama, llama.cpp, vLLM, TGI)"
+          - "Quantization tool releases (llama.cpp, AutoGPTQ, AWQ, EXL2)"
+          - "arXiv cs.LG (optimization papers)"
+          - "MLSys, NeurIPS proceedings"
+        ring_affinity: [1, 2, 3]
+        cross_domain_links:
+          - "agentic-ai-software-engineering" # Local models for agents
+          - "architecture-security-governance" # Model deployment security
+          - "economics-business-impact" # Cost optimization
+      - id: inference-architectures-efficiency
+        label:
+          en: "Inference Architectures, Latency, Throughput, Caching & Computational Efficiency"
+          nl: "Inferentie Architecturen, Latentie, Throughput, Caching & Computationele Efficiëntie"
+        description:
+          en: "Inference engines (vLLM, TGI, TensorRT-LLM, SGLang), PagedAttention, continuous batching, prefix caching, KV cache optimization, disaggregated inference, routing"
+          nl: "Inferentie engines (vLLM, TGI, TensorRT-LLM, SGLang), PagedAttention, continuous batching, prefix caching, KV cache optimalisatie, gedisaggregeerde inferentie, routing"
+        stable_id: "DOM-02-SD03"
+        canonical_terms:
+          en:
+            [
+              "Inference Engine",
+              "vLLM",
+              "TGI",
+              "TensorRT-LLM",
+              "SGLang",
+              "PagedAttention",
+              "Continuous Batching",
+              "Prefix Caching",
+              "KV Cache",
+              "Disaggregated Inference",
+              "Model Routing",
+            ]
+          nl:
+            [
+              "Inferentie Engine",
+              "vLLM",
+              "TGI",
+              "TensorRT-LLM",
+              "SGLang",
+              "PagedAttention",
+              "Continuous Batching",
+              "Prefix Caching",
+              "KV Cache",
+              "Gedisaggregeerde Inferentie",
+              "Model Routing",
+            ]
+        source_families:
+          - "inference-engine-repos"
+          - "inference-benchmarks"
+          - "cloud-inference-services"
+          - "arxiv-cs-dc-cs-lg"
+        discovery_methods:
+          - "Inference engine GitHub releases (vllm-project/vllm, huggingface/text-generation-inference, NVIDIA/TensorRT-LLM)"
+          - "LLMPerf, MLPerf Inference results"
+          - "Cloud provider inference blogs (AWS Bedrock, GCP Vertex AI, Azure AI)"
+          - "arXiv cs.DC, cs.LG (systems papers)"
+          - "MLSys, OSDI, SOSP proceedings"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "models-inference-scientific" # Other subdomains
+          - "architecture-security-governance" # Inference security
+          - "economics-business-impact" # Inference cost optimization
+      - id: ai-hardware-accelerators-infrastructure
+        label:
+          en: "AI Hardware, Accelerators & Infrastructure"
+          nl: "AI Hardware, Accelerators & Infrastructuur"
+        description:
+          en: "GPUs (NVIDIA, AMD, Intel), TPUs, custom ASICs (Groq LPU, Cerebras, Tenstorrent, Etched), interconnects (NVLink, InfiniBand, UALink), sovereign AI infrastructure, neoclouds"
+          nl: "GPUs (NVIDIA, AMD, Intel), TPUs, custom ASICs (Groq LPU, Cerebras, Tenstorrent, Etched), interconnects (NVLink, InfiniBand, UALink), soevereine AI infrastructuur, neoclouds"
+        stable_id: "DOM-02-SD04"
+        canonical_terms:
+          en:
+            [
+              "GPU",
+              "TPU",
+              "ASIC",
+              "LPU (Language Processing Unit)",
+              "Interconnect (NVLink, InfiniBand, UALink)",
+              "Sovereign AI",
+              "Neocloud",
+              "H100/H200/B200",
+              "MI300",
+              "Gaudi",
+              "Blackwell",
+            ]
+          nl:
+            [
+              "GPU",
+              "TPU",
+              "ASIC",
+              "LPU (Language Processing Unit)",
+              "Interconnect (NVLink, InfiniBand, UALink)",
+              "Soevereine AI",
+              "Neocloud",
+              "H100/H200/B200",
+              "MI300",
+              "Gaudi",
+              "Blackwell",
+            ]
+        source_families:
+          - "hardware-vendor-blogs"
+          - "mlperf-results"
+          - "semiconductor-news"
+          - "cloud-infrastructure-blogs"
+        discovery_methods:
+          - "NVIDIA, AMD, Intel, Google TPU blogs"
+          - "Groq, Cerebras, Tenstorrent, Etched, Sambanova blogs"
+          - "MLPerf results (mlcommons/results)"
+          - "Cloud provider infrastructure blogs"
+          - "Hot Chips, ISSCC, ISCA proceedings"
+          - "Semiconductor analyst reports (public summaries)"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "models-inference-scientific"
+          - "economics-business-impact" # Hardware economics, TCO
+          - "enterprise-adoption-organizational" # Infrastructure decisions
+      - id: original-research-reproducibility
+        label:
+          en: "Original Scientific Research, Reproducibility & Emerging Paradigms"
+          nl: "Origineel Wetenschappelijk Onderzoek, Reproduceerbaarheid & Opkomende Paradigma's"
+        description:
+          en: "Peer-reviewed venues (NeurIPS, ICML, ICLR, MLSys, OSDI, SOSP), reproducibility studies, artifact evaluation, emerging paradigms (neuro-symbolic, world models, test-time compute, new architectures)"
+          nl: "Peer-reviewed venues (NeurIPS, ICML, ICLR, MLSys, OSDI, SOSP), reproduceerbaarheidsstudies, artefact evaluatie, opkomende paradigma's (neuro-symbolisch, wereldmodellen, test-time compute, nieuwe architecturen)"
+        stable_id: "DOM-02-SD05"
+        canonical_terms:
+          en:
+            [
+              "Peer Review",
+              "Reproducibility",
+              "Artifact Evaluation",
+              "Neuro-symbolic AI",
+              "World Models",
+              "Test-Time Compute",
+              "Emerging Paradigms",
+              "OpenReview",
+              "Distill.pub",
+            ]
+          nl:
+            [
+              "Peer Review",
+              "Reproduceerbaarheid",
+              "Artefact Evaluatie",
+              "Neuro-symbolische AI",
+              "Wereldmodellen",
+              "Test-Time Compute",
+              "Opkomende Paradigma's",
+              "OpenReview",
+              "Distill.pub",
+            ]
+        source_families:
+          - "conference-proceedings"
+          - "openreview"
+          - "distill-pub"
+          - "reproduction-repos"
+          - "arxiv-all-categories"
+        discovery_methods:
+          - "Conference proceedings RSS (NeurIPS, ICML, ICLR, MLSys, OSDI, SOSP, PLDI, ASPLOS)"
+          - "OpenReview API (public reviews, decisions)"
+          - "Distill.pub RSS"
+          - "Papers with Code reproduction tracker"
+          - "GitHub topic: reproduction, replication"
+          - "arXiv daily query (all AI-relevant categories)"
+          - "ML Reproducibility Challenge"
+        ring_affinity: [2]
+        cross_domain_links:
+          - "models-inference-scientific"
+          - "models-inference-scientific"
+          - "architecture-security-governance" # Verification for safety
+          - "independent-research-advisory" # Academic research sources
+
+  # =============================================================================
+  # DOMAIN 3: ARCHITECTURE, SECURITY & GOVERNANCE
+  # =============================================================================
+  - id: architecture-security-governance
+    label:
+      en: "Architecture, Security & Governance"
+      nl: "Architectuur, Beveiliging & Governance"
+    description:
+      en: "Enterprise architecture, distributed systems, open standards, AI security, governance, auditability, reliability, resilience, operational costs"
+      nl: "Enterprise architectuur, gedistribueerde systemen, open standaarden, AI beveiliging, governance, auditabiliteit, betrouwbaarheid, veerkracht, operationele kosten"
+    stable_id: "DOM-03"
+    version: "2.0"
+    subdomains:
+      - id: enterprise-architecture-distributed-systems
+        label:
+          en: "Enterprise Architecture, Distributed Systems & Interoperability"
+          nl: "Enterprise Architectuur, Gedistribueerde Systemen & Interoperabiliteit"
+        description:
+          en: "System architecture patterns, distributed systems design, service mesh, event-driven architecture, API gateways, interoperability standards, cloud-native patterns"
+          nl: "Systeem architectuur patronen, gedistribueerde systeem design, service mesh, event-driven architectuur, API gateways, interoperabiliteitsstandaarden, cloud-native patronen"
+        stable_id: "DOM-03-SD01"
+        canonical_terms:
+          en:
+            [
+              "Enterprise Architecture",
+              "Distributed Systems",
+              "Service Mesh",
+              "Event-Driven Architecture",
+              "API Gateway",
+              "Interoperability",
+              "Cloud-Native",
+              "Microservices",
+              "Modular Monolith",
+            ]
+          nl:
+            [
+              "Enterprise Architectuur",
+              "Gedistribueerde Systemen",
+              "Service Mesh",
+              "Event-Driven Architectuur",
+              "API Gateway",
+              "Interoperabiliteit",
+              "Cloud-Native",
+              "Microservices",
+              "Modulaire Monolith",
+            ]
+        source_families:
+          - "cloud-architecture-blogs"
+          - "cncf-projects"
+          - "architecture-conferences"
+          - "arxiv-cs-dc-cs-se"
+        discovery_methods:
+          - "Cloud provider architecture blogs (AWS, GCP, Azure, Cloudflare)"
+          - "CNCF blog, project graduation announcements"
+          - "ACM Queue, Communications of ACM"
+          - "Conference proceedings (OSDI, SOSP, EuroSys, USENIX ATC)"
+          - "arXiv cs.DC, cs.SE"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "agentic-ai-software-engineering" # Agent architecture
+          - "models-inference-scientific" # Model serving architecture
+          - "enterprise-adoption-organizational" # Architecture decisions
+      - id: open-standards-protocols-portability
+        label:
+          en: "Open Standards, Protocols & Vendor Portability"
+          nl: "Open Standaarden, Protocollen & Vendor Portabiliteit"
+        description:
+          en: "Open standards (ONNX, OpenTelemetry, OpenCost, CNCF projects), protocol specifications, vendor portability, avoiding lock-in, standard compliance"
+          nl: "Open standaarden (ONNX, OpenTelemetry, OpenCost, CNCF projecten), protocol specificaties, vendor portabiliteit, lock-in vermijden, standaard compliance"
+        stable_id: "DOM-03-SD02"
+        canonical_terms:
+          en:
+            [
+              "Open Standard",
+              "ONNX",
+              "OpenTelemetry",
+              "OpenCost",
+              "Vendor Portability",
+              "Lock-in Avoidance",
+              "Standard Compliance",
+              "CNCF Graduation",
+              "Interoperability",
+            ]
+          nl:
+            [
+              "Open Standaard",
+              "ONNX",
+              "OpenTelemetry",
+              "OpenCost",
+              "Vendor Portabiliteit",
+              "Lock-in Vermijden",
+              "Standaard Compliance",
+              "CNCF Graduatie",
+              "Interoperabiliteit",
+            ]
+        source_families:
+          - "standards-bodies"
+          - "cncf-landscape"
+          - "open-standard-repos"
+          - "cloud-provider-standards"
+        discovery_methods:
+          - "Standards bodies (W3C, IETF, ISO/IEC JTC1, OASIS) RSS"
+          - "CNCF landscape API, graduation announcements"
+          - "ONNX, OpenTelemetry, OpenCost GitHub releases"
+          - "Cloud provider standards compliance pages"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "architecture-security-governance" # Other subdomains
+          - "agentic-ai-software-engineering" # MCP as open standard
+          - "models-inference-scientific" # ONNX for model portability
+      - id: ai-security-threat-modeling
+        label:
+          en: "AI Security, Prompt Injection, Data Leakage, Supply-Chain Attacks & Threat Modeling"
+          nl: "AI Beveiliging, Prompt Injection, Datalekkage, Supply-Chain Aanvallen & Threat Modeling"
+        description:
+          en: "Prompt injection, jailbreaks, data exfiltration, model extraction, supply-chain attacks (SLSA, SBOM), threat modeling frameworks (MITRE ATLAS, OWASP LLM Top 10), red teaming"
+          nl: "Prompt injection, jailbreaks, data exfiltratie, model extractie, supply-chain aanvallen (SLSA, SBOM), threat modeling frameworks (MITRE ATLAS, OWASP LLM Top 10), red teaming"
+        stable_id: "DOM-03-SD03"
+        canonical_terms:
+          en:
+            [
+              "Prompt Injection",
+              "Jailbreak",
+              "Data Exfiltration",
+              "Model Extraction",
+              "Supply Chain Attack",
+              "SLSA",
+              "SBOM",
+              "MITRE ATLAS",
+              "OWASP LLM Top 10",
+              "Red Teaming",
+              "Adversarial Robustness",
+            ]
+          nl:
+            [
+              "Prompt Injection",
+              "Jailbreak",
+              "Data Exfiltratie",
+              "Model Extractie",
+              "Supply Chain Aanval",
+              "SLSA",
+              "SBOM",
+              "MITRE ATLAS",
+              "OWASP LLM Top 10",
+              "Red Teaming",
+              "Adversarial Robuustheid",
+            ]
+        source_families:
+          - "security-advisories"
+          - "ai-security-research"
+          - "threat-modeling-frameworks"
+          - "red-teaming-reports"
+        discovery_methods:
+          - "CVE/NVD, GHSA, OSV feeds"
+          - "Cloud provider security bulletins"
+          - "arXiv cs.CR (AI security papers)"
+          - "IEEE S&P, USENIX Security proceedings"
+          - "MITRE ATLAS updates"
+          - "OWASP LLM Top 10 updates"
+          - "AI Safety Institute (UK, US) publications"
+          - "FAR.AI, Goodfire, Transluce research"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "agentic-ai-software-engineering" # Agent security
+          - "models-inference-scientific" # Model security
+          - "agentic-ai-software-engineering" # Supply chain attacks
+          - "independent-research-advisory" # Safety institutes
+      - id: governance-auditability-explainability
+        label:
+          en: "Governance, Auditability, Explainability, Human Oversight & Regulatory Developments"
+          nl: "Governance, Auditabiliteit, Explainability, Menselijke Toezicht & Regulatorische Ontwikkelingen"
+        description:
+          en: "AI governance frameworks, audit trails, explainability (XAI), human-in-the-loop, regulatory compliance (EU AI Act, US EO, UK framework), model cards, system cards, risk classification"
+          nl: "AI governance frameworks, audittrails, explainability (XAI), human-in-the-loop, regulatorische compliance (EU AI Act, US EO, UK framework), model cards, system cards, risicoclassificatie"
+        stable_id: "DOM-03-SD04"
+        canonical_terms:
+          en:
+            [
+              "AI Governance",
+              "Audit Trail",
+              "Explainability (XAI)",
+              "Human-in-the-Loop",
+              "EU AI Act",
+              "US Executive Order",
+              "UK AI Framework",
+              "Model Card",
+              "System Card",
+              "Risk Classification",
+              "Conformity Assessment",
+            ]
+          nl:
+            [
+              "AI Governance",
+              "Audittrail",
+              "Explainability (XAI)",
+              "Human-in-the-Loop",
+              "EU AI Act",
+              "US Executive Order",
+              "UK AI Framework",
+              "Model Card",
+              "System Card",
+              "Risicoclassificatie",
+              "Conformiteitsbeoordeling",
+            ]
+        source_families:
+          - "regulatory-bodies"
+          - "governance-frameworks"
+          - "xai-research"
+          - "policy-institutes"
+        discovery_methods:
+          - "EU AI Act official publications, implementation guides"
+          - "US NIST AI Risk Management Framework"
+          - "UK AI Security Institute blog"
+          - "Stanford HAI, Alan Turing Institute policy feeds"
+          - "arXiv cs.CY, cs.AI (policy papers)"
+          - "MIT Technology Review AI policy feed"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "architecture-security-governance" # Other subdomains
+          - "enterprise-adoption-organizational" # Governance implementation
+          - "independent-research-advisory" # Policy research
+      - id: reliability-resilience-operational-costs
+        label:
+          en: "AI System Reliability, Resilience, Operational Costs & Non-Functional Requirements"
+          nl: "AI Systeem Betrouwbaarheid, Veerkracht, Operationele Kosten & Niet-Functionele Eisen"
+        description:
+          en: "SLO/SLI for AI systems, chaos engineering, fault tolerance, graceful degradation, cost observability (OpenCost, FinOps), capacity planning, non-functional requirements (latency, availability, durability)"
+          nl: "SLO/SLI voor AI systemen, chaos engineering, fouttolerantie, graceful degradation, kostenobservabiliteit (OpenCost, FinOps), capaciteitsplanning, niet-functionele eisen (latentie, beschikbaarheid, duurzaamheid)"
+        stable_id: "DOM-03-SD05"
+        canonical_terms:
+          en:
+            [
+              "SLO/SLI",
+              "Chaos Engineering",
+              "Fault Tolerance",
+              "Graceful Degradation",
+              "Cost Observability",
+              "FinOps",
+              "OpenCost",
+              "Capacity Planning",
+              "Non-Functional Requirements",
+              "Reliability",
+              "Resilience",
+            ]
+          nl:
+            [
+              "SLO/SLI",
+              "Chaos Engineering",
+              "Fouttolerantie",
+              "Graceful Degradation",
+              "Kostenobservabiliteit",
+              "FinOps",
+              "OpenCost",
+              "Capaciteitsplanning",
+              "Niet-Functionele Eisen",
+              "Betrouwbaarheid",
+              "Veerkracht",
+            ]
+        source_families:
+          - "reliability-engineering-blogs"
+          - "finops-foundation"
+          - "cost-observability-tools"
+          - "chaos-engineering-tools"
+        discovery_methods:
+          - "Cloud provider reliability blogs"
+          - "FinOps Foundation blog, OpenCost releases"
+          - "Chaos engineering tools (Litmus, Chaos Mesh, Gremlin) releases"
+          - "SREcon, Velocity conference proceedings"
+          - "arXiv cs.SE, cs.DC (reliability papers)"
+        ring_affinity: [1, 2, 3]
+        cross_domain_links:
+          - "architecture-security-governance" # Other subdomains
+          - "economics-business-impact" # Cost optimization
+          - "models-inference-scientific" # Inference reliability
+
+  # =============================================================================
+  # DOMAIN 4: ENTERPRISE AI ADOPTION & ORGANIZATIONAL TRANSFORMATION
+  # =============================================================================
+  - id: enterprise-adoption-organizational
+    label:
+      en: "Enterprise AI Adoption & Organizational Transformation"
+      nl: "Enterprise AI Adoptie & Organisatie Transformatie"
+    description:
+      en: "Adoption strategies, maturity models, implementation barriers, developer productivity, workforce transformation, skills development, change management, operating models"
+      nl: "Adoptie strategieën, volwassenheidsmodellen, implementatiebarrières, developer productiviteit, workforce transformatie, vaardigheidsontwikkeling, changemanagement, operatiemodellen"
+    stable_id: "DOM-04"
+    version: "2.0"
+    subdomains:
+      - id: adoption-strategies-maturity-barriers
+        label:
+          en: "Adoption Strategies, Maturity Models & Implementation Barriers"
+          nl: "Adoptie Strategieën, Volwassenheidsmodellen & Implementatiebarrières"
+        description:
+          en: "Enterprise AI adoption frameworks, maturity assessments (Gartner, Forrester, custom), pilot-to-production gaps, organizational barriers, technical debt, data readiness"
+          nl: "Enterprise AI adoptie frameworks, volwassenheidsbeoordelingen (Gartner, Forrester, custom), pilot-naar-productie gaps, organisatorische barrières, technische schuld, data gereedheid"
+        stable_id: "DOM-04-SD01"
+        canonical_terms:
+          en:
+            [
+              "AI Adoption Maturity",
+              "Maturity Model",
+              "Pilot-to-Production Gap",
+              "Implementation Barrier",
+              "Data Readiness",
+              "Technical Debt",
+              "Organizational Readiness",
+            ]
+          nl:
+            [
+              "AI Adoptie Volwassenheid",
+              "Volwassenheidsmodel",
+              "Pilot-naar-Productie Gap",
+              "Implementatiebarrière",
+              "Data Gereedheid",
+              "Technische Schuld",
+              "Organisatorische Gereedheid",
+            ]
+        source_families:
+          - "advisory-research-public"
+          - "enterprise-case-studies"
+          - "cloud-provider-adoption-guides"
+        discovery_methods:
+          - "Advisory public feeds (Gartner, McKinsey MGI, Forrester, IDC) - public summaries only"
+          - "Cloud provider adoption guides (AWS, GCP, Azure AI adoption frameworks)"
+          - "Enterprise case study publications (public)"
+          - "arXiv cs.SE, cs.CY (adoption studies)"
+        ring_affinity: [2, 3]
+        cross_domain_links:
+          - "architecture-security-governance" # Governance enables adoption
+          - "economics-business-impact" # ROI drives adoption
+          - "independent-research-advisory" # Advisory sources
+      - id: developer-productivity-delivery-quality
+        label:
+          en: "Developer Productivity, Software Delivery Performance & Quality"
+          nl: "Developer Productiviteit, Software Delivery Prestaties & Kwaliteit"
+        description:
+          en: "Developer productivity metrics (DORA, SPACE), coding assistant impact studies, software delivery performance, code quality impact, review velocity, defect rates, developer experience"
+          nl: "Developer productiviteitsmetrieken (DORA, SPACE), coding assistant impact studies, software delivery prestaties, code kwaliteit impact, review snelheid, defect rates, developer ervaring"
+        stable_id: "DOM-04-SD02"
+        canonical_terms:
+          en:
+            [
+              "Developer Productivity",
+              "DORA Metrics",
+              "SPACE Framework",
+              "Coding Assistant Impact",
+              "Software Delivery Performance",
+              "Code Quality",
+              "Review Velocity",
+              "Defect Rate",
+              "Developer Experience (DevEx)",
+            ]
+          nl:
+            [
+              "Developer Productiviteit",
+              "DORA Metrieken",
+              "SPACE Framework",
+              "Coding Assistant Impact",
+              "Software Delivery Prestaties",
+              "Code Kwaliteit",
+              "Review Snelheid",
+              "Defect Rate",
+              "Developer Experience (DevEx)",
+            ]
+        source_families:
+          - "developer-productivity-research"
+          - "coding-agent-vendor-studies"
+          - "dora-reports"
+          - "github-research"
+        discovery_methods:
+          - "DORA State of DevOps reports"
+          - "GitHub Copilot impact studies (GitHub blog, research)"
+          - "GitLab, Linear, Vercel engineering blogs"
+          - "arXiv cs.SE (productivity papers)"
+          - "IEEE Software, ACM Queue"
+          - "Coding agent vendor research pages"
+        ring_affinity: [2, 3]
+        cross_domain_links:
+          - "agentic-ai-software-engineering" # Coding agents
+          - "economics-business-impact" # Productivity ROI
+          - "independent-research-advisory" # Research sources
+      - id: workforce-transformation-collaboration
+        label:
+          en: "Workforce Transformation, Human-AI Collaboration & Organizational Redesign"
+          nl: "Workforce Transformatie, Mens-AI Collaboratie & Organisatie Herontwerp"
+        description:
+          en: "Role evolution, human-AI teaming patterns, organizational structure changes, new roles (AI engineer, prompt engineer, AI product manager), team topology changes, collaboration models"
+          nl: "Rol evolutie, mens-AI team patronen, organisatiestructuur veranderingen, nieuwe rollen (AI engineer, prompt engineer, AI product manager), team topologie veranderingen, collaboratiemodellen"
+        stable_id: "DOM-04-SD03"
+        canonical_terms:
+          en:
+            [
+              "Workforce Transformation",
+              "Human-AI Collaboration",
+              "Human-AI Teaming",
+              "Organizational Redesign",
+              "AI Engineer",
+              "Prompt Engineer",
+              "AI Product Manager",
+              "Team Topology",
+              "Role Evolution",
+            ]
+          nl:
+            [
+              "Workforce Transformatie",
+              "Mens-AI Collaboratie",
+              "Mens-AI Teaming",
+              "Organisatie Herontwerp",
+              "AI Engineer",
+              "Prompt Engineer",
+              "AI Product Manager",
+              "Team Topologie",
+              "Rol Evolutie",
+            ]
+        source_families:
+          - "workforce-research"
+          - "organizational-design"
+          - "hr-analytics"
+          - "advisory-workforce"
+        discovery_methods:
+          - "McKinsey MGI workforce research (public)"
+          - "World Economic Forum Future of Jobs reports"
+          - "HR analytics vendor research (public)"
+          - "Organizational design conference proceedings"
+          - "arXiv cs.CY, econ.GN (labor economics)"
+        ring_affinity: [2, 3]
+        cross_domain_links:
+          - "enterprise-adoption-organizational" # Other subdomains
+          - "economics-business-impact" # Labor market effects
+          - "independent-research-advisory" # Advisory sources
+      - id: skills-development-roles-knowledge-work
+        label:
+          en: "Skills Development, Professional Roles & Changes in Knowledge Work"
+          nl: "Vaardigheidsontwikkeling, Professionele Rollen & Veranderingen in Kenniswerk"
+        description:
+          en: "AI literacy, upskilling/reskilling programs, certification, new career paths, knowledge work transformation, professional identity, continuous learning"
+          nl: "AI geletterdheid, upskilling/reskilling programma's, certificering, nieuwe carrièrepaden, kenniswerk transformatie, professionele identiteit, continu leren"
+        stable_id: "DOM-04-SD04"
+        canonical_terms:
+          en:
+            [
+              "AI Literacy",
+              "Upskilling",
+              "Reskilling",
+              "Certification",
+              "Career Path",
+              "Knowledge Work",
+              "Professional Identity",
+              "Continuous Learning",
+              "AI Fluency",
+            ]
+          nl:
+            [
+              "AI Geletterdheid",
+              "Upskilling",
+              "Reskilling",
+              "Certificering",
+              "Carrièrepad",
+              "Kenniswerk",
+              "Professionele Identiteit",
+              "Continu Leren",
+              "AI Vloeibaarheid",
+            ]
+        source_families:
+          - "education-training-research"
+          - "certification-bodies"
+          - "professional-associations"
+          - "corporate-learning"
+        discovery_methods:
+          - "Educational institution AI curriculum announcements"
+          - "Certification bodies (Cloud providers, professional orgs)"
+          - "Corporate learning platform research (public)"
+          - "arXiv cs.CY, physics.ed-ph (education papers)"
+        ring_affinity: [2, 3]
+        cross_domain_links:
+          - "enterprise-adoption-organizational" # Other subdomains
+          - "independent-research-advisory" # Academic education research
+      - id: change-management-leadership-operating-models
+        label:
+          en: "Change Management, Leadership & Operating Models"
+          nl: "Changemanagement, Leiderschap & Operatiemodellen"
+        description:
+          en: "AI transformation leadership, change management frameworks, operating model redesign, center of excellence, platform teams, funding models, portfolio management"
+          nl: "AI transformatie leiderschap, changemanagement frameworks, operatiemodel herontwerp, center of excellence, platform teams, financieringsmodellen, portfoliomanagement"
+        stable_id: "DOM-04-SD05"
+        canonical_terms:
+          en:
+            [
+              "Change Management",
+              "AI Leadership",
+              "Operating Model",
+              "Center of Excellence (CoE)",
+              "Platform Team",
+              "Funding Model",
+              "Portfolio Management",
+              "AI Strategy",
+            ]
+          nl:
+            [
+              "Changemanagement",
+              "AI Leiderschap",
+              "Operatiemodel",
+              "Center of Excellence (CoE)",
+              "Platform Team",
+              "Financieringsmodel",
+              "Portfoliomanagement",
+              "AI Strategie",
+            ]
+        source_families:
+          - "leadership-transformation"
+          - "operating-model-frameworks"
+          - "consulting-public-insights"
+        discovery_methods:
+          - "Consulting firm public insights (McKinsey, BCG, Bain public)"
+          - "Enterprise architecture frameworks (TOGAF, SAFe AI extensions)"
+          - "CTO/VP Engineering blogs, conference talks"
+          - "arXiv cs.SE, cs.CY (management papers)"
+        ring_affinity: [2, 3]
+        cross_domain_links:
+          - "enterprise-adoption-organizational" # Other subdomains
+          - "architecture-security-governance" # Governance operating model
+          - "economics-business-impact" # Investment decisions
+
+  # =============================================================================
+  # DOMAIN 5: ECONOMICS, BUSINESS IMPACT & STRATEGIC INTELLIGENCE
+  # =============================================================================
+  - id: economics-business-impact
+    label:
+      en: "Economics, Business Impact & Strategic Intelligence"
+      nl: "Economie, Business Impact & Strategische Intelligence"
+    description:
+      en: "AI investment, infrastructure economics, TCO, productivity measurement, ROI, market structure, competition, industry disruption, macroeconomic implications"
+      nl: "AI investeringen, infrastructuur economie, TCO, productiviteitsmeting, ROI, marktstructuur, concurrentie, industrie disruptie, macroeconomische implicaties"
+    stable_id: "DOM-05"
+    version: "2.0"
+    subdomains:
+      - id: ai-investment-infrastructure-economics-tco
+        label:
+          en: "AI Investment, Infrastructure Economics & Total Cost of Ownership"
+          nl: "AI Investeringen, Infrastructuur Economie & Total Cost of Ownership"
+        description:
+          en: "Capital expenditure (CapEx) for AI infrastructure, operational expenditure (OpEx), TCO models, cloud vs on-prem economics, GPU/accelerator economics, financing models"
+          nl: "Kapitaaluitgaven (CapEx) voor AI infrastructuur, operationele uitgaven (OpEx), TCO modellen, cloud vs on-prem economie, GPU/accelerator economie, financieringsmodellen"
+        stable_id: "DOM-05-SD01"
+        canonical_terms:
+          en:
+            [
+              "CapEx",
+              "OpEx",
+              "Total Cost of Ownership (TCO)",
+              "AI Infrastructure Economics",
+              "GPU Economics",
+              "Accelerator Economics",
+              "Cloud vs On-Prem",
+              "Financing Models",
+            ]
+          nl:
+            [
+              "CapEx",
+              "OpEx",
+              "Total Cost of Ownership (TCO)",
+              "AI Infrastructuur Economie",
+              "GPU Economie",
+              "Accelerator Economie",
+              "Cloud vs On-Prem",
+              "Financieringsmodellen",
+            ]
+        source_families:
+          - "infrastructure-economics"
+          - "cloud-pricing"
+          - "finops"
+          - "investment-analysis"
+        discovery_methods:
+          - "Cloud provider pricing pages, TCO calculators"
+          - "FinOps Foundation, OpenCost"
+          - "Semi-conductor analyst reports (public summaries)"
+          - "Neocloud provider pricing (CoreWeave, Lambda Labs, etc.)"
+          - "arXiv econ.GN, cs.CY (economics papers)"
+        ring_affinity: [2, 3]
+        cross_domain_links:
+          - "models-inference-scientific"
+          - "models-inference-scientific"
+          - "architecture-security-governance"
+          - "enterprise-adoption-organizational"
+      - id: productivity-measurement-roi-value-realization
+        label:
+          en: "Productivity Measurement, ROI, Cost-Benefit Analysis & Value Realization"
+          nl: "Productiviteitsmeting, ROI, Kosten-Baten Analyse & Waarderealisatie"
+        description:
+          en: "Productivity metrics, ROI methodologies, cost-benefit frameworks, value realization tracking, leading/lagging indicators, attribution challenges"
+          nl: "Productiviteitsmetrieken, ROI methodologieën, kosten-baten frameworks, waarderealisatie tracking, leading/lagging indicatoren, toeschrijvingsuitdagingen"
+        stable_id: "DOM-05-SD02"
+        canonical_terms:
+          en:
+            [
+              "Productivity Measurement",
+              "ROI (Return on Investment)",
+              "Cost-Benefit Analysis",
+              "Value Realization",
+              "Leading Indicators",
+              "Lagging Indicators",
+              "Attribution",
+              "Productivity Paradox",
+            ]
+          nl:
+            [
+              "Productiviteitsmeting",
+              "ROI (Return on Investment)",
+              "Kosten-Baten Analyse",
+              "Waarderealisatie",
+              "Leading Indicators",
+              "Lagging Indicators",
+              "Toeschrijving",
+              "Productiviteitsparadoxe",
+            ]
+        source_families:
+          - "productivity-research"
+          - "roi-frameworks"
+          - "vendor-impact-studies"
+          - "academic-economics"
+        discovery_methods:
+          - "McKinsey MGI productivity research (public)"
+          - "NBER working papers (AI productivity)"
+          - "Vendor impact studies (GitHub Copilot, Google, Microsoft public)"
+          - "Academic economics journals (public summaries)"
+          - "arXiv econ.GN, cs.CY"
+        ring_affinity: [2, 3]
+        cross_domain_links:
+          - "enterprise-adoption-organizational"
+          - "economics-business-impact"
+          - "enterprise-adoption-organizational"
+          - "independent-research-advisory"
+      - id: market-structure-competition-pricing
+        label:
+          en: "Market Structure, Competition, Pricing & Business Models"
+          nl: "Marktstructuur, Concurrentie, Pricing & Business Modellen"
+        description:
+          en: "Foundation model market structure, API pricing models, open vs closed dynamics, competitive moats, platform economics, market concentration, regulatory scrutiny"
+          nl: "Foundation model marktstructuur, API pricing modellen, open vs closed dynamiek, competitieve grachten, platform economie, marktconcentratie, regulatorisch toezicht"
+        stable_id: "DOM-05-SD03"
+        canonical_terms:
+          en:
+            [
+              "Market Structure",
+              "API Pricing",
+              "Open vs Closed Models",
+              "Competitive Moat",
+              "Platform Economics",
+              "Market Concentration",
+              "Regulatory Scrutiny",
+              "Foundation Model Market",
+            ]
+          nl:
+            [
+              "Marktstructuur",
+              "API Pricing",
+              "Open vs Closed Modellen",
+              "Competitive Moat",
+              "Platform Economie",
+              "Marktconcentratie",
+              "Regulatorisch Toezicht",
+              "Foundation Model Markt",
+            ]
+        source_families:
+          - "market-analysis"
+          - "pricing-tracking"
+          - "antitrust-regulatory"
+          - "vendor-financials"
+        discovery_methods:
+          - "Public company earnings calls, financial filings"
+          - "IDC, Gartner market forecasts (public summaries)"
+          - "Antitrust filings (DOJ, EC, CMA public)"
+          - "API pricing change announcements (vendor blogs)"
+          - "arXiv econ.GN, cs.CY"
+        ring_affinity: [2, 3]
+        cross_domain_links:
+          - "models-inference-scientific"
+          - "architecture-security-governance"
+          - "architecture-security-governance"
+          - "independent-research-advisory"
+      - id: industry-disruption-competitive-advantage
+        label:
+          en: "Industry Disruption, Competitive Advantage & Strategic Positioning"
+          nl: "Industrie Disruptie, Competitief Voordeel & Strategische Positionering"
+        description:
+          en: "Sector-specific AI disruption (healthcare, finance, legal, manufacturing, creative), competitive advantage sources, strategic positioning, build vs buy vs partner, moat sustainability"
+          nl: "Sector-specifieke AI disruptie (healthcare, finance, legal, manufacturing, creative), competitief voordeel bronnen, strategische positionering, build vs buy vs partner, moat duurzaamheid"
+        stable_id: "DOM-05-SD04"
+        canonical_terms:
+          en:
+            [
+              "Industry Disruption",
+              "Competitive Advantage",
+              "Strategic Positioning",
+              "Build vs Buy vs Partner",
+              "Moat Sustainability",
+              "Vertical AI",
+              "AI-Native",
+              "Incumbent Response",
+            ]
+          nl:
+            [
+              "Industrie Disruptie",
+              "Competitief Voordeel",
+              "Strategische Positionering",
+              "Build vs Buy vs Partner",
+              "Moat Duurzaamheid",
+              "Vertical AI",
+              "AI-Native",
+              "Incumbent Respons",
+            ]
+        source_families:
+          - "vertical-ai-case-studies"
+          - "strategy-frameworks"
+          - "industry-analyst-public"
+          - "startup-ecosystem"
+        discovery_methods:
+          - "Vertical AI startup announcements (TechCrunch, The Information public)"
+          - "Incumbent AI strategy announcements (public)"
+          - "Industry conference proceedings (HLTH, Money20/2, LegalTech, etc.)"
+          - "arXiv cs.CY, econ.GN"
+        ring_affinity: [2, 3]
+        cross_domain_links:
+          - "enterprise-adoption-organizational"
+          - "economics-business-impact"
+          - "independent-research-advisory"
+      - id: macroeconomic-implications-labor-market
+        label:
+          en: "Macroeconomic Implications, Labor Market Effects & Long-Term Economic Consequences"
+          nl: "Macro-economische Implicaties, Arbeidsmarkt Effecten & Lange-Termijn Economische Gevolgen"
+        description:
+          en: "GDP impact, productivity growth, labor displacement/augmentation, wage effects, inequality, geographic concentration, long-term growth trajectories, policy responses"
+          nl: "BBP impact, productiviteitsgroei, arbeidsverplaatsing/augmentatie, looneffecten, ongelijkheid, geografische concentratie, lange-termijn groeitrajecten, beleidsreacties"
+        stable_id: "DOM-05-SD05"
+        canonical_terms:
+          en:
+            [
+              "GDP Impact",
+              "Productivity Growth",
+              "Labor Displacement",
+              "Labor Augmentation",
+              "Wage Effects",
+              "Inequality",
+              "Geographic Concentration",
+              "Long-Term Growth",
+              "Policy Response",
+              "Universal Basic Income",
+            ]
+          nl:
+            [
+              "BBP Impact",
+              "Productiviteitsgroei",
+              "Arbeidsverplaatsing",
+              "Arbeidsaugmentatie",
+              "Looneffecten",
+              "Ongelijkheid",
+              "Geografische Concentratie",
+              "Lange-Termijn Groei",
+              "Beleidsreactie",
+              "Basisinkomen",
+            ]
+        source_families:
+          - "macroeconomic-research"
+          - "labor-economics"
+          - "policy-institutes"
+          - "central-bank-research"
+        discovery_methods:
+          - "IMF, OECD, World Bank AI research (public)"
+          - "Central bank speeches, working papers (Fed, ECB, BoE)"
+          - "NBER working papers (labor, macro)"
+          - "ILO, WEF Future of Work reports"
+          - "arXiv econ.GN, econ.TH, physics.soc-ph"
+        ring_affinity: [2, 3]
+        cross_domain_links:
+          - "enterprise-adoption-organizational"
+          - "economics-business-impact"
+          - "architecture-security-governance" # Policy response
+          - "independent-research-advisory"
+
+  # =============================================================================
+  # DOMAIN 6: INDEPENDENT RESEARCH & ADVISORY INTELLIGENCE
+  # =============================================================================
+  - id: independent-research-advisory
+    label:
+      en: "Independent Research & Advisory Intelligence"
+      nl: "Onafhankelijk Onderzoek & Advies Intelligence"
+    description:
+      en: "Research advisory organizations, academic institutions, independent labs, original surveys, empirical studies, methodology assessment, evidence classification"
+      nl: "Onderzoeksadviesorganisaties, academische instituties, onafhankelijke labs, originele enquêtes, empirische studies, methodologiebeoordeling, bewijsklassificatie"
+    stable_id: "DOM-06"
+    version: "2.0"
+    subdomains:
+      - id: advisory-organizations
+        label:
+          en: "Gartner, McKinsey, Forrester, IDC & Comparable Advisory Organizations"
+          nl: "Gartner, McKinsey, Forrester, IDC & Vergelijkbare Adviesorganisaties"
+        description:
+          en: "Public research outputs from major advisory firms: Magic Quadrants, Hype Cycles, CIO surveys, MGI reports, predictions, market forecasts. Only public content monitored; full reports paywalled."
+          nl: "Publieke onderzoeksoutput van grote adviesfirms: Magic Quadrants, Hype Cycles, CIO enquêtes, MGI rapporten, voorspellingen, marktvoorspellingen. Alleen publieke content gemonitord; volle rapporten paywalled."
+        stable_id: "DOM-06-SD01"
+        canonical_terms:
+          en:
+            [
+              "Gartner",
+              "Magic Quadrant",
+              "Hype Cycle",
+              "McKinsey Global Institute (MGI)",
+              "Forrester",
+              "IDC",
+              "Market Forecast",
+              "CIO Survey",
+              "Predictions",
+              "Consultancy Research",
+            ]
+          nl:
+            [
+              "Gartner",
+              "Magic Quadrant",
+              "Hype Cycle",
+              "McKinsey Global Institute (MGI)",
+              "Forrester",
+              "IDC",
+              "Marktvoorspelling",
+              "CIO Enquête",
+              "Voorspellingen",
+              "Adviesonderzoek",
+            ]
+        source_families:
+          - "gartner-public"
+          - "mckinsey-mgi-public"
+          - "forrester-public"
+          - "idc-public"
+        discovery_methods:
+          - "Gartner newsroom RSS (Cloudflare-protected - browser-like fetcher needed)"
+          - "McKinsey Insights RSS (MGI research)"
+          - "Forrester blogs RSS"
+          - "IDC press releases RSS + category feeds"
+          - "Manual review for Cloudflare-protected sources"
+        ring_affinity: [2]
+        cross_domain_links:
+          - "enterprise-adoption-organizational"
+          - "economics-business-impact"
+          - "economics-business-impact"
+          - "architecture-security-governance"
+      - id: academic-institutions-independent-labs
+        label:
+          en: "Academic Institutions, Independent Research Laboratories & Credible Technical Analysts"
+          nl: "Academische Instellingen, Onafhankelijke Onderzoekslabs & Credibele Technische Analisten"
+        description:
+          en: "Universities (Stanford HAI, MIT, Berkeley BAIR, Mila, Oxford, Cambridge, ETH Zurich), independent labs (Allen Institute, FAR.AI, Transluce, Timaeus, Goodfire, AI Safety Institutes), credible independent analysts"
+          nl: "Universiteiten (Stanford HAI, MIT, Berkeley BAIR, Mila, Oxford, Cambridge, ETH Zurich), onafhankelijke labs (Allen Institute, FAR.AI, Transluce, Timaeus, Goodfire, AI Safety Institutes), credibele onafhankelijke analisten"
+        stable_id: "DOM-06-SD02"
+        canonical_terms:
+          en:
+            [
+              "Stanford HAI",
+              "MIT CSAIL",
+              "Berkeley BAIR",
+              "Mila",
+              "Allen Institute for AI (AI2)",
+              "FAR.AI",
+              "Transluce",
+              "Timaeus",
+              "Goodfire",
+              "AI Safety Institute (UK/US)",
+              "Independent Analyst",
+            ]
+          nl:
+            [
+              "Stanford HAI",
+              "MIT CSAIL",
+              "Berkeley BAIR",
+              "Mila",
+              "Allen Institute for AI (AI2)",
+              "FAR.AI",
+              "Transluce",
+              "Timaeus",
+              "Goodfire",
+              "AI Safety Institute (UK/US)",
+              "Onafhankelijke Analist",
+            ]
+        source_families:
+          - "academic-institutions"
+          - "independent-labs"
+          - "safety-institutes"
+          - "credible-analysts"
+        discovery_methods:
+          - "Institutional RSS feeds (Stanford HAI, MIT, BAIR, Mila, AI2, Turing Institute)"
+          - "Independent lab blogs (FAR.AI, Transluce, Timaeus, Goodfire, Thinking Machines)"
+          - "AI Safety Institute (UK/US) publications"
+          - "Credible analyst Substack/Medium/GitHub (curated list)"
+          - "arXiv author affiliation tracking"
+        ring_affinity: [1, 2]
+        cross_domain_links:
+          - "models-inference-scientific"
+          - "architecture-security-governance"
+          - "architecture-security-governance"
+          - "models-inference-scientific"
+      - id: original-surveys-empirical-studies
+        label:
+          en: "Original Surveys, Empirical Studies, Industry Reports & Systematic Reviews"
+          nl: "Originele Enquêtes, Empirische Studies, Industrie Rapporten & Systematische Reviews"
+        description:
+          en: "Original survey methodology, empirical study design, industry reports with disclosed methodology, systematic reviews, meta-analyses. Distinguish from consultancy opinion."
+          nl: "Originele enquêtemethodologie, empirische studiendesign, industrirapporten gemethodologie, systematische reviews, meta-analyses. onderscheiden van adviesopinie."
+        stable_id: "DOM-06-SD03"
+        canonical_terms:
+          en:
+            [
+              "Original Survey",
+              "Empirical Study",
+              "Systematic Review",
+              "Meta-Analysis",
+              "Methodology Disclosure",
+              "Sample Quality",
+              "Data Availability Statement",
+              "Conflict of Interest",
+            ]
+          nl:
+            [
+              "Originele Enquête",
+              "Empirische Studie",
+              "Systematische Review",
+              "Meta-Analyse",
+              "Methodologie Openbaring",
+              "Steekproef Kwaliteit",
+              "Data Beschikbaarheid Verklaring",
+              "Belangenconflict",
+            ]
+        source_families:
+          - "survey-research"
+          - "empirical-studies"
+          - "systematic-reviews"
+          - "industry-reports-methodology"
+        discovery_methods:
+          - "arXiv cs.CY, cs.SE, stat.AP (methodology papers)"
+          - "Conference proceedings (CHI, CSCW, ICSE, FSE - empirical SE)"
+          - "Journal publications (IEEE Software, ACM TOSEM, EMSE)"
+          - "Pre-registration platforms (OSF, AsPredicted)"
+        ring_affinity: [2]
+        cross_domain_links:
+          - "independent-research-advisory" # Methodology distinction
+          - "enterprise-adoption-organizational"
+          - "enterprise-adoption-organizational"
+          - "models-inference-scientific"
+      - id: research-methodology-evidence-classification
+        label:
+          en: "Research Methodology, Sample Quality, Research Period, Funding & Conflicts of Interest"
+          nl: "Onderzoeksmethodologie, Steekproefkwaliteit, Onderzoeksperiode, Financiering & Belangenconflicten"
+        description:
+          en: "Methodology assessment criteria: sample design, data sources, research period, funding disclosure, conflict of interest, reproducibility artifacts. Applied to all research sources."
+          nl: "Methodologie beoordelingscriteria: steekproefdesign, databronnen, onderzoeksperiode, financieringsopenbaring, belangenconflict, reproduceerbaarheidsartefacten. Toegepast op alle onderzoeksbronnen."
+        stable_id: "DOM-06-SD04"
+        canonical_terms:
+          en:
+            [
+              "Methodology Assessment",
+              "Sample Design",
+              "Research Period",
+              "Funding Disclosure",
+              "Conflict of Interest",
+              "Reproducibility Artifact",
+              "Data Access Path",
+              "Forecast Track Record",
+            ]
+          nl:
+            [
+              "Methodologie Beoordeling",
+              "Steekproefdesign",
+              "Onderzoeksperiode",
+              "Financiering Openbaring",
+              "Belangenconflict",
+              "Reproduceerbaarheidsartefact",
+              "Data Toegangspad",
+              "Voorspelling Track Record",
+            ]
+        source_families:
+          - "methodology-frameworks"
+          - "research-standards"
+        discovery_methods:
+          - "NIST AI RMF, ISO/IEC 42001 methodology guidance"
+          - "ACM/IEEE publication ethics guidelines"
+          - "Transparency checklists (TOP guidelines, CONSORT for AI)"
+          - "Editorial assessment per contract §4.2, §11.3"
+        ring_affinity: [2]
+        cross_domain_links:
+          - "independent-research-advisory"
+          - "independent-research-advisory"
+          - "architecture-security-governance" # Cross-ref to contract §4.1
+      - id: evidence-classification
+        label:
+          en: "Distinction Between Observed Evidence, Statistical Associations, Causal Claims, Forecasts & Consultancy Recommendations"
+          nl: "Ondercheid Tussen Waargenomen Bewijs, Statistische Associaties, Causale Claims, Voorspellingen & Adviesaanbevelingen"
+        description:
+          en: "Evidence hierarchy: observed evidence (measurements, artifacts) > statistical associations (correlations) > causal claims (quasi-experiments, RCTs) > forecasts (model-based) > consultancy recommendations (expert opinion). Mandatory classification in dossiers."
+          nl: "Bewijshierarchie: waargenomen bewijs (metingen, artefacten) > statistische associaties (correlaties) > causale claims (quasi-experimenten, RCTs) > voorspellingen (model-based) > adviesaanbevelingen (expert opinie). Verplichte classificatie in dossiers."
+        stable_id: "DOM-06-SD05"
+        canonical_terms:
+          en:
+            [
+              "Observed Evidence",
+              "Statistical Association",
+              "Causal Claim",
+              "Forecast",
+              "Consultancy Recommendation",
+              "Evidence Hierarchy",
+              "Correlation vs Causation",
+              "Quasi-Experiment",
+              "RCT",
+            ]
+          nl:
+            [
+              "Waargenomen Bewijs",
+              "Statistische Associatie",
+              "Causale Claim",
+              "Voorspelling",
+              "Adviesaanbeveling",
+              "Bewijshierarchie",
+              "Correlatie vs Causaliteit",
+              "Quasi-Experiment",
+              "RCT",
+            ]
+        source_families:
+          - "evidence-frameworks"
+          - "causal-inference"
+          - "forecasting-methods"
+        discovery_methods:
+          - "Causal inference literature (arXiv stat.ME, econ.GN)"
+          - "Forecasting literature (arXiv stat.ME, cs.LG)"
+          - "Evidence-based policy frameworks"
+          - "Editorial classification per contract §6.2"
+        ring_affinity: [2]
+        cross_domain_links:
+          - "independent-research-advisory"
+          - "independent-research-advisory"
+          - "architecture-security-governance" # Contract §4.1
+          - "independent-research-advisory"
+
+# =============================================================================
+# CROSS-DOMAIN RELATIONSHIP MATRIX
+# =============================================================================
+cross_domain_relationships:
+  - domains: ["agentic-ai-software-engineering", "models-inference-scientific"]
+    relationship: "enablement"
+    description:
+      en: "Model capabilities (reasoning, tool use, context windows) directly enable agent architectures"
+      nl: "Model capaciteiten (redenering, tool use, context windows) maken agent architecturen direct mogelijk"
+    strength: "strong"
+  - domains:
+      ["agentic-ai-software-engineering", "architecture-security-governance"]
+    relationship: "constraint"
+    description:
+      en: "Agent systems must operate within architectural, security and governance boundaries"
+      nl: "Agent systemen moeten opereren binnen architecturale, beveiligings- en governance grenzen"
+    strength: "strong"
+  - domains: ["models-inference-scientific", "architecture-security-governance"]
+    relationship: "constraint"
+    description:
+      en: "Model deployment and inference architectures subject to security, governance, reliability requirements"
+      nl: "Model deployment en inferentie architecturen onderworpen aan beveiliging, governance, betrouwbaarheidseisen"
+    strength: "strong"
+  - domains: ["enterprise-adoption-organizational", "economics-business-impact"]
+    relationship: "feedback"
+    description:
+      en: "Adoption decisions driven by economics; adoption outcomes feed economic measurement"
+      nl: "Adoptiebeslissingen gedreven door economie; adoptie-uitkomsten voeden economische meting"
+    strength: "strong"
+  - domains: ["independent-research-advisory", "all"]
+    relationship: "meta"
+    description:
+      en: "Advisory and research sources provide evidence across all domains; methodology assessment applies universally"
+      nl: "Advies- en onderzoeksbronnen leveren bewijs over alle domeinen; methodologiebeoordeling geldt universeel"
+    strength: "meta"
+
+# =============================================================================
+# RING-TO-DOMAIN MAPPING (Integration with Discovery Rings)
+# =============================================================================
+ring_domain_mapping:
+  ring1:
+    description: "Official & Authoritative Sources — Canonical, versioned, traceable disclosures"
+    primary_domains:
+      - "agentic-ai-software-engineering" # Vendor agent/IDE releases, MCP specs
+      - "models-inference-scientific" # Model releases, benchmarks, hardware announcements
+      - "architecture-security-governance" # Standards bodies, cloud API docs, deprecations, security advisories
+    secondary_domains:
+      - "enterprise-adoption-organizational" # Cloud provider adoption guides
+      - "economics-business-impact" # Cloud pricing, vendor financials
+      - "independent-research-advisory" # Advisory org press releases (public)
+    notes:
+      en: "Ring 1 captures originator disclosures. A single source (e.g., AWS blog) may span multiple domains. Classification by content, not source."
+      nl: "Ring 1 vangt oorsprong-openbaringen. Een enkele bron (bijv. AWS blog) kan meerdere domeinen beslaan. Classificatie op inhoud, niet bron."
+  ring2:
+    description: "Scientific Research & Technical Scrutiny — Original research, independent experiments, authoritative advisory"
+    primary_domains:
+      - "models-inference-scientific" # arXiv, conferences, reproducibility
+      - "architecture-security-governance" # Security research, formal methods, governance frameworks
+      - "independent-research-advisory" # Academic institutions, independent labs, methodology assessment
+      - "enterprise-adoption-organizational" # Empirical adoption studies, productivity research
+      - "economics-business-impact" # Economic research, market analysis
+    secondary_domains:
+      - "agentic-ai-software-engineering" # Agent evaluation, benchmark papers
+    notes:
+      en: "Ring 2 is methodology-driven. Advisory content classified Tier 2 only when methodology disclosed; else Tier 3/L0."
+      nl: "Ring 2 is methodologie-gedreven. Adviescontent Tier 2 alleen bij methodologie-openbaring; anders Tier 3/L0."
+  ring3:
+    description: "Practitioner & Community Signal — Operational experience, maintainer insights, community-validated patterns"
+    primary_domains:
+      - "agentic-ai-software-engineering" # Community agent frameworks, practitioner blogs
+      - "enterprise-adoption-organizational" # Practitioner adoption experiences, DevEx posts
+      - "architecture-security-governance" # Incident reports, postmortems, operational patterns
+    secondary_domains:
+      - "models-inference-scientific" # Local LLM runtime experiences, quantization tips
+      - "economics-business-impact" # Practitioner cost optimization posts
+      - "independent-research-advisory" # Credible independent analyst posts
+    notes:
+      en: "Ring 3 requires corroboration. Track record and reproducibility are key signals. No auto-promote."
+      nl: "Ring 3 vereist corroboratie. Track record en reproduceerbaarheid zijn sleutelsignalen. Geen auto-promote."
+
+# =============================================================================
+# SOURCE FAMILY TO DOMAIN MAPPING (For source registry enrichment)
+# =============================================================================
+source_family_domain_map:
+  github-releases-agent-frameworks: ["agentic-ai-software-engineering"]
+  mcp-specifications: ["agentic-ai-software-engineering"]
+  agent-package-manager-repos: ["agentic-ai-software-engineering"]
+  langchain-langgraph-blog: ["agentic-ai-software-engineering"]
+  anthropic-claude-code-releases: ["agentic-ai-software-engineering"]
+  openai-codex-releases: ["agentic-ai-software-engineering"]
+  google-gemini-cli-releases: ["agentic-ai-software-engineering"]
+  coding-agent-vendor-releases: ["agentic-ai-software-engineering"]
+  coding-agent-community-releases: ["agentic-ai-software-engineering"]
+  ai-ide-releases: ["agentic-ai-software-engineering"]
+  havoptic-aggregated: ["agentic-ai-software-engineering"]
+  agentic-index: ["agentic-ai-software-engineering"]
+  devagentradar: ["agentic-ai-software-engineering"]
+  benchmark-repositories:
+    ["agentic-ai-software-engineering", "models-inference-scientific"]
+  agent-evaluation-frameworks: ["agentic-ai-software-engineering"]
+  observability-tools:
+    ["agentic-ai-software-engineering", "architecture-security-governance"]
+  mcp-server-repos: ["agentic-ai-software-engineering"]
+  rag-frameworks: ["agentic-ai-software-engineering"]
+  vector-databases: ["agentic-ai-software-engineering"]
+  memory-architecture-papers: ["agentic-ai-software-engineering"]
+  llm-context-optimization: ["agentic-ai-software-engineering"]
+  agent-security-papers:
+    ["agentic-ai-software-engineering", "architecture-security-governance"]
+  sandbox-technologies:
+    ["agentic-ai-software-engineering", "architecture-security-governance"]
+  capability-security-models:
+    ["agentic-ai-software-engineering", "architecture-security-governance"]
+  cloud-provider-agent-security:
+    ["agentic-ai-software-engineering", "architecture-security-governance"]
+  supply-chain-security:
+    ["agentic-ai-software-engineering", "architecture-security-governance"]
+  sbom-tools:
+    ["agentic-ai-software-engineering", "architecture-security-governance"]
+  package-managers: ["agentic-ai-software-engineering"]
+  reproducible-builds:
+    ["agentic-ai-software-engineering", "architecture-security-governance"]
+  major-ai-lab-blogs: ["models-inference-scientific"]
+  model-release-repos: ["models-inference-scientific"]
+  huggingface-model-cards: ["models-inference-scientific"]
+  arxiv-cs-cl-cs-lg: ["models-inference-scientific"]
+  open-weight-model-repos: ["models-inference-scientific"]
+  quantization-tools: ["models-inference-scientific"]
+  local-llm-runtimes: ["models-inference-scientific"]
+  arxiv-cs-lg: ["models-inference-scientific"]
+  inference-engine-repos: ["models-inference-scientific"]
+  inference-benchmarks: ["models-inference-scientific"]
+  cloud-inference-services: ["models-inference-scientific"]
+  arxiv-cs-dc-cs-lg:
+    ["models-inference-scientific", "architecture-security-governance"]
+  hardware-vendor-blogs: ["models-inference-scientific"]
+  mlperf-results: ["models-inference-scientific"]
+  semiconductor-news: ["models-inference-scientific"]
+  cloud-infrastructure-blogs:
+    ["models-inference-scientific", "architecture-security-governance"]
+  conference-proceedings:
+    ["models-inference-scientific", "independent-research-advisory"]
+  openreview: ["models-inference-scientific", "independent-research-advisory"]
+  distill-pub: ["models-inference-scientific", "independent-research-advisory"]
+  reproduction-repos:
+    ["models-inference-scientific", "independent-research-advisory"]
+  arxiv-all-categories:
+    ["models-inference-scientific", "independent-research-advisory"]
+  cloud-architecture-blogs: ["architecture-security-governance"]
+  cncf-projects: ["architecture-security-governance"]
+  architecture-conferences: ["architecture-security-governance"]
+  arxiv-cs-dc-cs-se:
+    ["architecture-security-governance", "agentic-ai-software-engineering"]
+  standards-bodies: ["architecture-security-governance"]
+  cncf-landscape: ["architecture-security-governance"]
+  open-standard-repos: ["architecture-security-governance"]
+  cloud-provider-standards: ["architecture-security-governance"]
+  security-advisories: ["architecture-security-governance"]
+  ai-security-research:
+    ["architecture-security-governance", "agentic-ai-software-engineering"]
+  threat-modeling-frameworks: ["architecture-security-governance"]
+  red-teaming-reports: ["architecture-security-governance"]
+  regulatory-bodies: ["architecture-security-governance"]
+  governance-frameworks: ["architecture-security-governance"]
+  xai-research: ["architecture-security-governance"]
+  policy-institutes:
+    [
+      "architecture-security-governance",
+      "independent-research-advisory",
+      "economics-business-impact",
+    ]
+  reliability-engineering-blogs: ["architecture-security-governance"]
+  finops-foundation:
+    ["architecture-security-governance", "economics-business-impact"]
+  cost-observability-tools:
+    ["architecture-security-governance", "economics-business-impact"]
+  chaos-engineering-tools: ["architecture-security-governance"]
+  advisory-research-public:
+    [
+      "enterprise-adoption-organizational",
+      "economics-business-impact",
+      "independent-research-advisory",
+    ]
+  enterprise-case-studies: ["enterprise-adoption-organizational"]
+  cloud-provider-adoption-guides: ["enterprise-adoption-organizational"]
+  developer-productivity-research: ["enterprise-adoption-organizational"]
+  coding-agent-vendor-studies:
+    ["enterprise-adoption-organizational", "agentic-ai-software-engineering"]
+  dora-reports: ["enterprise-adoption-organizational"]
+  github-research:
+    ["enterprise-adoption-organizational", "agentic-ai-software-engineering"]
+  workforce-research: ["enterprise-adoption-organizational"]
+  organizational-design: ["enterprise-adoption-organizational"]
+  hr-analytics: ["enterprise-adoption-organizational"]
+  advisory-workforce:
+    ["enterprise-adoption-organizational", "independent-research-advisory"]
+  education-training-research: ["enterprise-adoption-organizational"]
+  certification-bodies: ["enterprise-adoption-organizational"]
+  professional-associations: ["enterprise-adoption-organizational"]
+  corporate-learning: ["enterprise-adoption-organizational"]
+  leadership-transformation: ["enterprise-adoption-organizational"]
+  operating-model-frameworks: ["enterprise-adoption-organizational"]
+  consulting-public-insights:
+    [
+      "enterprise-adoption-organizational",
+      "economics-business-impact",
+      "independent-research-advisory",
+    ]
+  infrastructure-economics: ["economics-business-impact"]
+  cloud-pricing: ["economics-business-impact"]
+  finops: ["economics-business-impact", "architecture-security-governance"]
+  investment-analysis: ["economics-business-impact"]
+  productivity-research:
+    ["economics-business-impact", "enterprise-adoption-organizational"]
+  roi-frameworks: ["economics-business-impact"]
+  vendor-impact-studies:
+    ["economics-business-impact", "enterprise-adoption-organizational"]
+  academic-economics:
+    ["economics-business-impact", "independent-research-advisory"]
+  market-analysis: ["economics-business-impact"]
+  pricing-tracking: ["economics-business-impact"]
+  antitrust-regulatory:
+    ["economics-business-impact", "architecture-security-governance"]
+  vendor-financials: ["economics-business-impact"]
+  vertical-ai-case-studies: ["economics-business-impact"]
+  strategy-frameworks: ["economics-business-impact"]
+  industry-analyst-public:
+    ["economics-business-impact", "independent-research-advisory"]
+  startup-ecosystem: ["economics-business-impact"]
+  macroeconomic-research: ["economics-business-impact"]
+  labor-economics:
+    ["economics-business-impact", "enterprise-adoption-organizational"]
+  central-bank-research: ["economics-business-impact"]
+  gartner-public: ["independent-research-advisory"]
+  mckinsey-mgi-public:
+    [
+      "independent-research-advisory",
+      "enterprise-adoption-organizational",
+      "economics-business-impact",
+    ]
+  forrester-public: ["independent-research-advisory"]
+  idc-public: ["independent-research-advisory", "economics-business-impact"]
+  academic-institutions:
+    ["independent-research-advisory", "models-inference-scientific"]
+  independent-labs:
+    ["independent-research-advisory", "architecture-security-governance"]
+  safety-institutes:
+    ["independent-research-advisory", "architecture-security-governance"]
+  credible-analysts: ["independent-research-advisory"]
+  survey-research: ["independent-research-advisory"]
+  empirical-studies: ["independent-research-advisory"]
+  systematic-reviews: ["independent-research-advisory"]
+  industry-reports-methodology: ["independent-research-advisory"]
+  methodology-frameworks: ["independent-research-advisory"]
+  research-standards: ["independent-research-advisory"]
+  evidence-frameworks: ["independent-research-advisory"]
+  causal-inference: ["independent-research-advisory"]
+  forecasting-methods: ["independent-research-advisory"]
+
+# =============================================================================
+# CANONICAL TERMINOLOGY REGISTRY (Cross-domain deduplication)
+# =============================================================================
+canonical_terminology:
+  # Terms that appear across multiple domains - single authoritative definition
+  - term: "Agent"
+    definition:
+      en: "Autonomous software entity that plans and executes actions toward a goal using tools"
+      nl: "Autonome software-entiteit die plant en acties uitvoert naar een doel met tools"
+    domains: ["agentic-ai-software-engineering"]
+    aliases:
+      en: ["LLM Agent", "Autonomous Agent"]
+      nl: ["LLM Agent", "Autonome Agent"]
+    forbidden:
+      en: ["Bot", "Chatbot"]
+      nl: ["Bot", "Chatbot"]
+    source: "contract-glossary"
+
+  - term: "Capability Token"
+    definition:
+      en: "Unforgeable token granting specific permission (model call, API request, budget)"
+      nl: "Onvervalschbare token die specifieke toestemming geeft (model call, API request, budget)"
+    domains:
+      ["agentic-ai-software-engineering", "architecture-security-governance"]
+    aliases:
+      en: ["Auth Token", "Permission Token"]
+      nl: ["Auth Token", "Permissie Token"]
+    source: "contract-glossary"
+
+  - term: "Model Context Protocol (MCP)"
+    definition:
+      en: "Open standard for connecting AI models to external tools and data sources"
+      nl: "Open standaard voor het verbinden van AI modellen met externe tools en databronnen"
+    domains: ["agentic-ai-software-engineering"]
+    aliases:
+      en: ["MCP"]
+      nl: ["MCP"]
+    source: "mcp-spec"
+
+  - term: "Foundation Model"
+    definition:
+      en: "Large-scale model trained on broad data, adaptable to wide range of downstream tasks"
+      nl: "Grootschalig model getraind op brede data, aanpasbaar aan wijd scala downstream taken"
+    domains: ["models-inference-scientific"]
+    aliases:
+      en: ["Base Model", "Pre-trained Model"]
+      nl: ["Base Model", "Pre-trained Model"]
+    source: "academic-consensus"
+
+  - term: "Open-Weight Model"
+    definition:
+      en: "Model with publicly available weights (may have license restrictions)"
+      nl: "Model met publiek beschikbare gewichten (kan licentiebeperkingen hebben)"
+    domains: ["models-inference-scientific"]
+    aliases:
+      en: ["Open Model", "Weight-Available Model"]
+      nl: ["Open Model", "Gewicht-Beschikbaar Model"]
+    forbidden:
+      en: ["Open Source Model"] # Weights ≠ source
+      nl: ["Open Source Model"]
+    source: "community-consensus"
+
+  - term: "Inference Engine"
+    definition:
+      en: "Software system that executes model inference with optimizations (batching, caching, scheduling)"
+      nl: "Softwaresysteem dat model inferentie uitvoert met optimalisaties (batching, caching, scheduling)"
+    domains: ["models-inference-scientific"]
+    aliases:
+      en: ["Inference Server", "Serving Engine"]
+      nl: ["Inferentie Server", "Serving Engine"]
+    source: "industry-consensus"
+
+  - term: "RAG (Retrieval-Augmented Generation)"
+    definition:
+      en: "Architecture combining retrieval from external knowledge with generative model"
+      nl: "Architectuur die retrieval van externe kennis combineert met generatief model"
+    domains: ["agentic-ai-software-engineering", "models-inference-scientific"]
+    aliases:
+      en: ["Retrieval-Augmented Generation"]
+      nl: ["Retrieval-Augmented Generation"]
+    source: "academic-consensus"
+
+  - term: "Prompt Injection"
+    definition:
+      en: "Attack where malicious input overrides model instructions"
+      nl: "Aanval waarbij kwaadaardige input model instructies overschrijft"
+    domains:
+      ["architecture-security-governance", "agentic-ai-software-engineering"]
+    aliases:
+      en: ["Indirect Prompt Injection"]
+      nl: ["Indirecte Prompt Injection"]
+    source: "security-consensus"
+
+  - term: "SLSA (Supply-chain Levels for Software Artifacts)"
+    definition:
+      en: "Framework for supply chain integrity with progressive levels"
+      nl: "Framework voor supply chain integriteit met progressieve niveaus"
+    domains:
+      ["agentic-ai-software-engineering", "architecture-security-governance"]
+    aliases:
+      en: ["Supply Chain Levels for Software Artifacts"]
+      nl: ["Supply Chain Levels for Software Artifacts"]
+    source: "slsa-framework"
+
+  - term: "SBOM (Software Bill of Materials)"
+    definition:
+      en: "Inventory of components in a software artifact"
+      nl: "Inventaris van componenten in een software-artefact"
+    domains:
+      ["agentic-ai-software-engineering", "architecture-security-governance"]
+    aliases:
+      en: ["Software Bill of Materials"]
+      nl: ["Software Bill of Materials"]
+    source: "ntia-sbom"
+
+  - term: "DORA Metrics"
+    definition:
+      en: "Four key metrics: deployment frequency, lead time for changes, change failure rate, time to restore service"
+      nl: "Vier sleutelmetrieken: deployment frequentie, lead time voor wijzigingen, change failure rate, time to restore service"
+    domains: ["enterprise-adoption-organizational"]
+    aliases:
+      en: ["DevOps Research and Assessment metrics"]
+      nl: ["DevOps Research and Assessment metricen"]
+    source: "dora"
+
+  - term: "SPACE Framework"
+    definition:
+      en: "Developer productivity framework: Satisfaction, Performance, Activity, Communication, Efficiency"
+      nl: "Developer productiviteitsframework: Satisfaction, Performance, Activity, Communication, Efficiency"
+    domains: ["enterprise-adoption-organizational"]
+    aliases:
+      en: ["SPACE"]
+      nl: ["SPACE"]
+    source: "github-research"
+
+  - term: "Total Cost of Ownership (TCO)"
+    definition:
+      en: "Complete cost including acquisition, operation, maintenance, and disposal"
+      nl: "Complete kosten inclusief aanschaffing, exploitatie, onderhoud en afvoer"
+    domains: ["economics-business-impact", "architecture-security-governance"]
+    aliases:
+      en: ["TCO"]
+      nl: ["TCO"]
+    source: "finops"
+
+  - term: "FinOps"
+    definition:
+      en: "Financial operations practice for cloud cost management"
+      nl: "Financiële operaties praktijk voor cloud kostenbeheer"
+    domains: ["economics-business-impact", "architecture-security-governance"]
+    aliases:
+      en: ["Cloud Financial Management"]
+      nl: ["Cloud Financieel Management"]
+    source: "finops-foundation"
+
+  - term: "Magic Quadrant"
+    definition:
+      en: "Gartner vendor evaluation matrix (Leaders, Challengers, Visionaries, Niche Players)"
+      nl: "Gartner vendor evaluatiematrix (Leaders, Challengers, Visionaries, Niche Players)"
+    domains: ["independent-research-advisory"]
+    aliases:
+      en: ["MQ"]
+      nl: ["MQ"]
+    source: "gartner"
+
+  - term: "Hype Cycle"
+    definition:
+      en: "Gartner technology maturity visualization (Innovation Trigger → Plateau of Productivity)"
+      nl: "Gartner technologie volwassenheidsvisualisatie (Innovation Trigger → Plateau of Productivity)"
+    domains: ["independent-research-advisory"]
+    aliases:
+      en: ["Gartner Hype Cycle"]
+      nl: ["Gartner Hype Cycle"]
+    source: "gartner"
+
+  - term: "McKinsey Global Institute (MGI)"
+    definition:
+      en: "McKinsey's business and economics research arm"
+      nl: "McKinsey's business en economie onderzoeksaflaking"
+    domains:
+      [
+        "independent-research-advisory",
+        "enterprise-adoption-organizational",
+        "economics-business-impact",
+      ]
+    aliases:
+      en: ["MGI"]
+      nl: ["MGI"]
+    source: "mckinsey"
+
+  - term: "System-1 / System-2"
+    definition:
+      en: "Dual-process theory: fast/intuitive (System-1) vs slow/deliberate (System-2) reasoning"
+      nl: "Dual-process theorie: snel/intuitief (Systeem-1) vs langzaam/overwogen (Systeem-2) redeneren"
+    domains: ["agentic-ai-software-engineering", "models-inference-scientific"]
+    aliases:
+      en: ["Fast/Slow Thinking", "Dual Process"]
+      nl: ["Snel/Traag Denken", "Dual Process"]
+    source: "kahneman"
+
+# =============================================================================
+# VALIDATION RULES
+# =============================================================================
+validation_rules:
+  - id: "VR-001"
+    name: "All domain IDs follow pattern DOM-NN"
+    check: "domains[*].stable_id matches ^DOM-\\d{2}$"
+    severity: "error"
+  - id: "VR-002"
+    name: "All subdomain IDs follow pattern DOM-NN-SDNN"
+    check: "domains[*].subdomains[*].stable_id matches ^DOM-\\d{2}-SD\\d{2}$"
+    severity: "error"
+  - id: "VR-003"
+    name: "No duplicate stable_ids across domains"
+    check: "unique(domains[*].stable_id)"
+    severity: "error"
+  - id: "VR-004"
+    name: "No duplicate subdomain stable_ids"
+    check: "unique(domains[*].subdomains[*].stable_id)"
+    severity: "error"
+  - id: "VR-005"
+    name: "Every subdomain has at least one source_family"
+    check: "domains[*].subdomains[*].source_families length >= 1"
+    severity: "error"
+  - id: "VR-006"
+    name: "Every subdomain has at least one discovery_method"
+    check: "domains[*].subdomains[*].discovery_methods length >= 1"
+    severity: "error"
+  - id: "VR-007"
+    name: "Every subdomain has ring_affinity specified"
+    check: "domains[*].subdomains[*].ring_affinity exists"
+    severity: "error"
+  - id: "VR-008"
+    name: "Ring affinity values are subset of [1,2,3]"
+    check: "domains[*].subdomains[*].ring_affinity subset of [1,2,3]"
+    severity: "error"
+  - id: "VR-009"
+    name: "Cross-domain links reference valid domain IDs"
+    check: "domains[*].subdomains[*].cross_domain_links all in domains[*].stable_id"
+    severity: "error"
+  - id: "VR-010"
+    name: "Canonical terminology terms are unique"
+    check: "unique(canonical_terminology[*].term)"
+    severity: "error"
+  - id: "VR-011"
+    name: "Source family domain map covers all referenced families"
+    check: "all source_families in subdomains exist as keys in source_family_domain_map"
+    severity: "warning"
+  - id: "VR-012"
+    name: "Ring-domain mapping covers all 6 domains"
+    check: "ring_domain_mapping.ring1.primary_domains + ring2.primary_domains + ring3.primary_domains covers all 6 domain IDs"
+    severity: "error"
+  - id: "VR-013"
+    name: "EN/NL labels present for all domains and subdomains"
+    check: "domains[*].label.en exists && domains[*].label.nl exists && domains[*].subdomains[*].label.en exists && domains[*].subdomains[*].label.nl exists"
+    severity: "error"
+  - id: "VR-014"
+    name: "Canonical terms have EN/NL definitions"
+    check: "canonical_terminology[*].definition.en exists && canonical_terminology[*].definition.nl exists"
+    severity: "error"
+
+# =============================================================================
+# COVERAGE ASSESSMENT (Areas needing attention)
+# =============================================================================
+coverage_assessment:
+  well_covered:
+    - "Agentic AI & Software Engineering (7 subdomains, 40+ source families)"
+    - "Models, Inference & Scientific Research (5 subdomains, 25+ source families)"
+    - "Architecture, Security & Governance (5 subdomains, 25+ source families)"
+    - "Independent Research & Advisory (5 subdomains, 20+ source families)"
+  moderately_covered:
+    - "Enterprise AI Adoption & Organizational Transformation (5 subdomains, 20+ source families) - relies on public advisory summaries"
+    - "Economics, Business Impact & Strategic Intelligence (5 subdomains, 20+ source families) - relies on public financial/analyst data"
+  gaps_needing_attention:
+    - "Non-English sources (Dutch, German, French, Chinese, Japanese AI research)"
+    - "Regulatory primary sources (EU AI Act official journal, US Federal Register, UK legislation.gov.uk)"
+    - "Standards body working drafts (not just published standards)"
+    - "Chinese AI lab primary sources (Baidu, Alibaba, Tencent, Huawei, Zhipu - language/access barriers)"
+    - "Hardware vendor detailed technical specifications (beyond marketing)"
+    - "Independent analyst coverage beyond top-tier (credible niche analysts)"
+    - "Practitioner communities in non-Anglosphere regions"
+    - "Academic research from Global South institutions"
+  mitigation_strategies:
+    - "Monitor translated/English-summary feeds for major non-English sources"
+    - "Track official government publication feeds (EU, US, UK)"
+    - "Engage with standards body public comment periods"
+    - "Use translated abstract services for Chinese research (arXiv, Paper Digest)"
+    - "Curate credible independent analyst list globally"
+    - "Partner with regional AI communities for practitioner signal"
+
+---
+# End of Research Taxonomy v2.0
+# This document extends and validates the existing research taxonomy per user requirements.
+# Integrates with: AI Intelligence Publication Contract, Discovery Rings Specification, Source Registry.

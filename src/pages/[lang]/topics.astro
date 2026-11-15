@@ -1,0 +1,226 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Masthead from "../../components/Masthead.astro";
+import CookieConsent from "../../components/CookieConsent.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import { getTranslation, type Locale } from "../../i18n";
+
+export async function getStaticPaths() {
+	return [
+		{ params: { lang: "en" }, props: { locale: "en" as Locale } },
+		{ params: { lang: "nl" }, props: { locale: "nl" as Locale } },
+	];
+}
+
+const { locale } = Astro.props;
+const t = getTranslation(locale);
+
+const posts = await getCollection("blog");
+
+// Collect all tags with counts
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+	for (const tag of post.data.tags || []) {
+		tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+	}
+}
+
+const sortedTags = Array.from(tagCounts.entries()).sort(
+	(a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+);
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead
+			title={`${SITE_TITLE} — {t.topics.title}`}
+			description={t.topics.description}
+		/>
+	</head>
+	<body>
+		<!-- Skip to main content link -->
+		<a href="#main-content" class="skip-link">
+			Skip to main content
+		</a>
+		<a href="#page-nav" class="skip-link">
+			Skip to navigation
+		</a>
+
+		<Masthead currentPath={Astro.url.pathname} locale={locale} t={t} />
+
+		<main
+			class="reading-column"
+			id="main-content"
+			style="max-width: var(--measure); margin: 0 auto; padding: var(--space-6) var(--margin-page);"
+		>
+			<header style="margin-bottom: var(--space-7); padding-bottom: var(--space-5); border-bottom: 1px solid var(--mountain-light); text-align: center;">
+				<h1 style="font-size: var(--size-3xl); margin-bottom: var(--space-3);">
+					{t.topics.title}
+				</h1>
+				<p style="font-size: var(--size-lg); color: var(--ink-muted); font-style: italic; max-width: 60ch; margin: 0 auto;">
+					{t.topics.browse
+						.replace("{count}", sortedTags.length.toString())
+						.replace("{total}", posts.length.toString())}
+				</p>
+			</header>
+
+			<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; margin-bottom: var(--space-7);">
+				{sortedTags.map(([tag, count]) => (
+					<a
+						href={`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`}
+						style="
+							display: inline-flex;
+							align-items: center;
+							gap: var(--space-1);
+							padding: var(--space-2) var(--space-3);
+							font-family: var(--font-structural);
+							font-size: var(--size-sm);
+							font-weight: 600;
+							color: var(--ink);
+							background: var(--sheet-darker);
+							border: 1px solid var(--mountain-light);
+							border-radius: var(--radius);
+							text-decoration: none;
+							transition: border-color var(--transition-base), color var(--transition-base), background var(--transition-base);
+						"
+						onmouseover="this.style.borderColor='var(--gold)'; this.style.color='var(--gold)'; this.style.background='var(--valley-light)'"
+						onmouseout="this.style.borderColor='var(--mountain-light)'; this.style.color='var(--ink)'; this.style.background='var(--sheet-darker)'"
+					>
+						{tag}
+						<span
+							style="
+							font-family: var(--font-structural);
+							font-size: var(--size-xs);
+							color: var(--ink-muted);
+							background: var(--sheet);
+							padding: 1px 6px;
+							border-radius: 999px;
+						"
+						>
+							{count}
+						</span>
+					</a>
+				))}
+			</div>
+
+			{/* Tag sections with recent articles */}
+			{sortedTags.slice(0, 10).map(([tag, count]) => {
+				const tagPosts = posts
+					.filter((p) => (p.data.tags || []).includes(tag))
+					.sort(
+						(a, b) =>
+							b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+					)
+					.slice(0, 3);
+				return (
+					<section style="margin-bottom: var(--space-7);">
+						<div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-3);">
+							<h2 class="folded-heading" style="margin-left: 0;">
+								<span class="section-number">{count}</span>
+								{tag}
+							</h2>
+							<a
+								href={`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`}
+								style="
+									font-family: var(--font-structural);
+									font-size: var(--size-xs);
+									font-weight: 600;
+									text-transform: uppercase;
+									letter-spacing: 0.05em;
+									color: var(--gold);
+									text-decoration: none;
+									border-bottom: 1px solid var(--gold);
+									padding-bottom: 2px;
+								"
+							>
+								{t.ui.viewAll.replace(
+									"{count}",
+									count.toString(),
+								)}
+							</a>
+						</div>
+						<ul style="list-style: none; padding: 0; display: grid; gap: var(--space-3);">
+							{tagPosts.map((post) => (
+								<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-3); background: var(--sheet);">
+									<a
+										href={`/${locale}/blog/${post.id}/`}
+										style="text-decoration: none; color: inherit; display: block;"
+									>
+										<h3 style="margin: 0 0 var(--space-1); font-size: var(--size-lg); color: var(--ink); transition: color var(--transition-base);">
+											{post.data.title}
+										</h3>
+										<p style="color: var(--ink-muted); margin: 0 0 var(--space-2); font-size: var(--size-sm);">
+											{post.data.description}
+										</p>
+										<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-xs); color: var(--ink-muted); font-family: var(--font-structural); align-items: center;">
+											<time
+												datetime={post.data.pubDate.toISOString()}
+												style="font-variant-numeric: tabular-nums;"
+											>
+												{new Intl.DateTimeFormat(
+													locale === "nl"
+														? "nl-NL"
+														: "en-US",
+													{ dateStyle: "medium" },
+												).format(post.data.pubDate)}
+											</time>
+											<span aria-hidden="true">•</span>
+											<span>
+												{post.data.readingTime || "~"}{" "}
+												min read
+											</span>
+										</div>
+									</a>
+								</li>
+							))}
+						</ul>
+					</section>
+				);
+			})}
+
+			{/* Remaining tags list */}
+			{sortedTags.length > 10 && (
+				<section>
+					<h2 class="folded-heading" style="margin-left: 0;">
+						<span class="section-number">+</span>
+						{t.ui.moreTopics}
+					</h2>
+					<div style="display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: center;">
+						{sortedTags.slice(10).map(([tag, count]) => (
+							<a
+								href={`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`}
+								style="
+									font-family: var(--font-structural);
+									font-size: var(--size-xs);
+									font-weight: 600;
+									color: var(--ink-muted);
+									background: var(--sheet-darker);
+									border: 1px solid var(--mountain-light);
+									border-radius: var(--radius);
+									padding: var(--space-1) var(--space-2);
+									text-decoration: none;
+									transition: color var(--transition-base), border-color var(--transition-base);
+								"
+								onmouseover="this.style.color='var(--gold)'; this.style.borderColor='var(--gold)'"
+								onmouseout="this.style.color='var(--ink-muted)'; this.style.borderColor='var(--mountain-light)'"
+							>
+								{tag}{" "}
+								<span style="color: var(--ink-muted);">
+									({count})
+								</span>
+							</a>
+						))}
+					</div>
+				</section>
+			)}
+		</main>
+
+		<Footer locale={locale} t={t} />
+
+		<!-- Cookie Consent Banner -->
+		<CookieConsent locale={locale} t={t} />
+	</body>
+</html>

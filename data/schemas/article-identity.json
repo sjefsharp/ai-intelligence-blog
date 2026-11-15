@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/article-identity.json",
+  "title": "Article Identity",
+  "description": "Stable article identity used across all language variants. The articleId never changes; locale-specific files reference it.",
+  "type": "object",
+  "properties": {
+    "articleId": {
+      "type": "string",
+      "pattern": "^art_[a-z0-9]{16}$"
+    },
+    "storyId": {
+      "type": "string",
+      "pattern": "^story_[a-z0-9]{16}$"
+    },
+    "candidateIds": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^cand_[a-z0-9]{16}$"
+      }
+    },
+    "claimIds": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^claim_[a-z0-9]{16}$"
+      }
+    },
+    "sourceIds": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      }
+    },
+    "sourceReferences": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "organizations": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "researchDomains": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "discoveryRings": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "number",
+            "const": 1
+          },
+          {
+            "type": "number",
+            "const": 2
+          },
+          {
+            "type": "number",
+            "const": 3
+          }
+        ]
+      }
+    },
+    "materialityScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "materialityLevel": {
+      "type": "string",
+      "enum": ["high", "medium", "low", "unclear"]
+    },
+    "recommendedDepth": {
+      "type": "string",
+      "enum": ["brief", "standard", "deep-dive"]
+    },
+    "explanationOpportunities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "technical-deep-dive",
+          "scientific-explanation",
+          "strategic-interpretation",
+          "accessible-comparison",
+          "diagram",
+          "timeline",
+          "historical-context",
+          "practical-engineering"
+        ]
+      }
+    },
+    "evidenceClassificationSummary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "caveats": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "articleId",
+    "storyId",
+    "candidateIds",
+    "claimIds",
+    "sourceIds",
+    "sourceReferences",
+    "organizations",
+    "researchDomains",
+    "discoveryRings",
+    "materialityScore",
+    "materialityLevel",
+    "recommendedDepth",
+    "explanationOpportunities",
+    "evidenceClassificationSummary",
+    "caveats"
+  ],
+  "additionalProperties": false
+}

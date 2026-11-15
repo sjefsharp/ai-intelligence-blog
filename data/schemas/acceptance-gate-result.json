@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/acceptance-gate-result.json",
+  "title": "Acceptance Gate Result",
+  "description": "Execution result for a single acceptance gate containing status, applicability, severity, blocking conditions, evidence references, artifact hashes, and remediation references.",
+  "type": "object",
+  "properties": {
+    "gateId": {
+      "type": "string",
+      "pattern": "^gate_[a-z0-9_]+$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+    },
+    "applicability": {
+      "type": "string",
+      "enum": ["APPLICABLE", "NOT_APPLICABLE"]
+    },
+    "applicabilityReason": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["CRITICAL", "MAJOR", "MINOR", "ADVISORY"]
+    },
+    "blockingConditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidenceReferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "artifactHashes": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "evaluatorVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "executedAt": {
+      "type": "string"
+    },
+    "remediationReferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "residualUncertainty": {
+      "type": "string"
+    },
+    "humanReviewRequired": {
+      "default": false,
+      "type": "boolean"
+    },
+    "humanReviewStatus": {
+      "default": "not-required",
+      "type": "string",
+      "enum": ["not-required", "pending", "approved", "rejected"]
+    },
+    "mandatory": {
+      "default": true,
+      "type": "boolean"
+    },
+    "satisfiedUpstreamGates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unsatisfiedUpstreamGates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "gateId",
+    "name",
+    "status",
+    "applicability",
+    "blockingConditions",
+    "evidenceReferences",
+    "artifactHashes",
+    "evaluatorVersion",
+    "executedAt",
+    "remediationReferences",
+    "humanReviewRequired",
+    "humanReviewStatus",
+    "mandatory",
+    "satisfiedUpstreamGates",
+    "unsatisfiedUpstreamGates"
+  ],
+  "additionalProperties": false
+}

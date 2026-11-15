@@ -1,0 +1,217 @@
+---
+import BaseHead from "../../../../components/BaseHead.astro";
+import Footer from "../../../../components/Footer.astro";
+import Masthead from "../../../../components/Masthead.astro";
+import CookieConsent from "../../../../components/CookieConsent.astro";
+import ReadAloud from "../../../../components/ReadAloud.astro";
+import { getTranslation, type Locale } from "../../../../i18n";
+import {
+	loadEditionContent,
+	getEditionPaths,
+	getEditionAlternateUrls,
+	formatEditionDate,
+	formatEditionWindow,
+	getReadingTime,
+} from "../../../../lib/publication/astro-adapter.js";
+
+export async function getStaticPaths() {
+	const paths = await getEditionPaths();
+	const result = [];
+
+	for (const path of paths) {
+		const edition = await loadEditionContent(path.props.editionDate);
+		if (
+			edition?.researchAudit?.metadata.lifecycleStatus === "VALIDATED" ||
+			edition?.researchAudit?.metadata.lifecycleStatus === "PUBLISHED"
+		) {
+			result.push({
+				params: {
+					lang: path.params.lang,
+					edition: path.params.edition,
+				},
+				props: {
+					editionDate: path.props.editionDate,
+					locale: path.props.locale,
+				},
+			});
+		}
+	}
+
+	return result;
+}
+
+const { locale, editionDate } = Astro.props;
+const t = getTranslation(locale);
+
+const edition = await loadEditionContent(editionDate);
+
+if (!edition || !edition.researchAudit) {
+	return Astro.redirect(`/${locale}/404`);
+}
+
+const audit = edition.researchAudit;
+const isPublic =
+	audit.metadata.lifecycleStatus === "VALIDATED" ||
+	audit.metadata.lifecycleStatus === "PUBLISHED";
+
+if (!isPublic) {
+	return Astro.redirect(`/${locale}/404`);
+}
+
+const pageTitle = audit.metadata.title;
+const pageDescription = audit.metadata.description;
+
+const canonicalURL = Astro.site
+	? new URL(Astro.url.pathname, Astro.site)
+	: new URL(Astro.url.pathname, "https://example.com");
+const alternateUrls = getEditionAlternateUrls(
+	editionDate,
+	Astro.url.pathname,
+	Astro.site,
+);
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+		<link rel="canonical" href={canonicalURL} />
+		{alternateUrls.map((alt) => (
+			<link rel="alternate" hreflang={alt.lang} href={alt.url} />
+		))}
+		<link
+			rel="alternate"
+			hreflang="x-default"
+			href={
+				alternateUrls.find((a) => a.lang === "en")?.url ||
+				`/en/edition/${editionDate}/research-audit/`
+			}
+		/>
+	</head>
+	<body>
+		<a href="#main-content" class="skip-link">
+			Skip to main content
+		</a>
+		<a href="#page-nav" class="skip-link">
+			Skip to navigation
+		</a>
+
+		<Masthead currentPath={Astro.url.pathname} locale={locale} t={t} />
+
+		<div class="article-layout">
+			<aside class="fold-margin" aria-hidden="true">
+				<div class="fold-margin-line"></div>
+			</aside>
+
+			<main class="reading-column" id="main-content" role="main">
+				<article class="prose">
+					<header class="article-header">
+						<div class="article-meta">
+							<time datetime={editionDate}>
+								{formatEditionDate(editionDate, locale)}
+							</time>
+							<span class="meta-separator" aria-hidden="true">
+								•
+							</span>
+							<span>{getReadingTime(audit)} min leestijd</span>
+						</div>
+						<h1 class="article-title">{audit.metadata.title}</h1>
+						<p class="article-abstract">
+							{audit.metadata.description}
+						</p>
+					</header>
+
+					<div class="article-content">
+						<slot>{audit.content}</slot>
+					</div>
+
+					<ReadAloud
+						locale={locale}
+						t={t}
+						articleSelector=".article-content"
+					/>
+
+					<footer class="footnotes" aria-label={t.ui.references}>
+						<h2>{t.ui.references}</h2>
+						<dl style="font-size: var(--size-sm); color: var(--ink-muted);">
+							<dt style="font-family: var(--font-structural); font-weight: 700; color: var(--ink);">
+								Fact Dossier
+							</dt>
+							<dd style="margin: 0 0 var(--space-3); font-family: var(--font-structural);">
+								{
+									edition.canonicalReferences.factDossier
+										.dossierId
+								}{" "}
+								—{" "}
+								{
+									edition.canonicalReferences.factDossier
+										.contentHash
+								}
+							</dd>
+
+							<dt style="font-family: var(--font-structural); font-weight: 700; color: var(--ink);">
+								Editoriële Selectie
+							</dt>
+							<dd style="margin: 0 0 var(--space-3); font-family: var(--font-structural);">
+								{
+									edition.canonicalReferences
+										.editorialSelection.manifestId
+								}{" "}
+								—{" "}
+								{
+									edition.canonicalReferences
+										.editorialSelection.contentHash
+								}
+							</dd>
+
+							{edition.canonicalReferences.historicalRegression
+								.referenced && (
+								<>
+									<dt style="font-family: var(--font-structural); font-weight: 700; color: var(--ink);">
+										Historische Regressie
+									</dt>
+									<dd style="margin: 0 0 var(--space-3); font-family: var(--font-structural);">
+										{
+											edition.canonicalReferences
+												.historicalRegression.reportId
+										}{" "}
+										—{" "}
+										{
+											edition.canonicalReferences
+												.historicalRegression
+												.contentHash
+										}
+									</dd>
+								</>
+							)}
+
+							{edition.canonicalReferences.omissionReview
+								.referenced && (
+								<>
+									<dt style="font-family: var(--font-structural); font-weight: 700; color: var(--ink);">
+										Omissie Review
+									</dt>
+									<dd style="margin: 0 0 var(--space-3); font-family: var(--font-structural);">
+										{
+											edition.canonicalReferences
+												.omissionReview.reportId
+										}{" "}
+										(exec:{" "}
+										{
+											edition.canonicalReferences
+												.omissionReview.executionId
+										}
+										)
+									</dd>
+								</>
+							)}
+						</dl>
+					</footer>
+				</article>
+			</main>
+		</div>
+
+		<Footer locale={locale} t={t} />
+		<CookieConsent locale={locale} t={t} />
+	</body>
+</html>

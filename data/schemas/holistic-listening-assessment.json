@@ -1,0 +1,820 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/holistic-listening-assessment.json",
+  "title": "Holistic Listening Assessment",
+  "description": "Holistic assessment of the complete listening experience across Audio A-G criteria, evaluating the narrative as an integrated whole rather than isolated criteria.",
+  "type": "object",
+  "properties": {
+    "openingEstablishesContext": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["deterministic", "model-assisted", "evidence-based"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "passageReferences": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "characterOffset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "lineNumber": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "sectionHeading": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": "string",
+                      "maxLength": 500
+                    },
+                    "storyId": {
+                      "type": "string",
+                      "pattern": "^story_[a-z0-9]{16}$"
+                    }
+                  },
+                  "required": ["characterOffset", "quote"],
+                  "additionalProperties": false
+                }
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "type",
+              "description",
+              "passageReferences",
+              "claimIds",
+              "sourceIds"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["status", "summary", "rationale", "evidence"],
+      "additionalProperties": false
+    },
+    "progressionIntelligible": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["deterministic", "model-assisted", "evidence-based"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "passageReferences": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "characterOffset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "lineNumber": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "sectionHeading": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": "string",
+                      "maxLength": 500
+                    },
+                    "storyId": {
+                      "type": "string",
+                      "pattern": "^story_[a-z0-9]{16}$"
+                    }
+                  },
+                  "required": ["characterOffset", "quote"],
+                  "additionalProperties": false
+                }
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "type",
+              "description",
+              "passageReferences",
+              "claimIds",
+              "sourceIds"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["status", "summary", "rationale", "evidence"],
+      "additionalProperties": false
+    },
+    "informationDensityAppropriate": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["deterministic", "model-assisted", "evidence-based"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "passageReferences": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "characterOffset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "lineNumber": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "sectionHeading": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": "string",
+                      "maxLength": 500
+                    },
+                    "storyId": {
+                      "type": "string",
+                      "pattern": "^story_[a-z0-9]{16}$"
+                    }
+                  },
+                  "required": ["characterOffset", "quote"],
+                  "additionalProperties": false
+                }
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "type",
+              "description",
+              "passageReferences",
+              "claimIds",
+              "sourceIds"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["status", "summary", "rationale", "evidence"],
+      "additionalProperties": false
+    },
+    "transitionsProvideReorientation": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["deterministic", "model-assisted", "evidence-based"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "passageReferences": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "characterOffset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "lineNumber": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "sectionHeading": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": "string",
+                      "maxLength": 500
+                    },
+                    "storyId": {
+                      "type": "string",
+                      "pattern": "^story_[a-z0-9]{16}$"
+                    }
+                  },
+                  "required": ["characterOffset", "quote"],
+                  "additionalProperties": false
+                }
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "type",
+              "description",
+              "passageReferences",
+              "claimIds",
+              "sourceIds"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["status", "summary", "rationale", "evidence"],
+      "additionalProperties": false
+    },
+    "contentDepthAppropriate": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["deterministic", "model-assisted", "evidence-based"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "passageReferences": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "characterOffset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "lineNumber": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "sectionHeading": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": "string",
+                      "maxLength": 500
+                    },
+                    "storyId": {
+                      "type": "string",
+                      "pattern": "^story_[a-z0-9]{16}$"
+                    }
+                  },
+                  "required": ["characterOffset", "quote"],
+                  "additionalProperties": false
+                }
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "type",
+              "description",
+              "passageReferences",
+              "claimIds",
+              "sourceIds"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["status", "summary", "rationale", "evidence"],
+      "additionalProperties": false
+    },
+    "factualIntegrityMaintained": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["deterministic", "model-assisted", "evidence-based"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "passageReferences": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "characterOffset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "lineNumber": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "sectionHeading": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": "string",
+                      "maxLength": 500
+                    },
+                    "storyId": {
+                      "type": "string",
+                      "pattern": "^story_[a-z0-9]{16}$"
+                    }
+                  },
+                  "required": ["characterOffset", "quote"],
+                  "additionalProperties": false
+                }
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "type",
+              "description",
+              "passageReferences",
+              "claimIds",
+              "sourceIds"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["status", "summary", "rationale", "evidence"],
+      "additionalProperties": false
+    },
+    "conclusionNatural": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["deterministic", "model-assisted", "evidence-based"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "passageReferences": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "characterOffset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "lineNumber": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "sectionHeading": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": "string",
+                      "maxLength": 500
+                    },
+                    "storyId": {
+                      "type": "string",
+                      "pattern": "^story_[a-z0-9]{16}$"
+                    }
+                  },
+                  "required": ["characterOffset", "quote"],
+                  "additionalProperties": false
+                }
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "type",
+              "description",
+              "passageReferences",
+              "claimIds",
+              "sourceIds"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["status", "summary", "rationale", "evidence"],
+      "additionalProperties": false
+    },
+    "screenIndependentUnderstanding": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["deterministic", "model-assisted", "evidence-based"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "passageReferences": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "characterOffset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "lineNumber": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "sectionHeading": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": "string",
+                      "maxLength": 500
+                    },
+                    "storyId": {
+                      "type": "string",
+                      "pattern": "^story_[a-z0-9]{16}$"
+                    }
+                  },
+                  "required": ["characterOffset", "quote"],
+                  "additionalProperties": false
+                }
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "type",
+              "description",
+              "passageReferences",
+              "claimIds",
+              "sourceIds"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["status", "summary", "rationale", "evidence"],
+      "additionalProperties": false
+    },
+    "conceptsRemainUnderstandable": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["deterministic", "model-assisted", "evidence-based"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "passageReferences": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "characterOffset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "lineNumber": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "sectionHeading": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": "string",
+                      "maxLength": 500
+                    },
+                    "storyId": {
+                      "type": "string",
+                      "pattern": "^story_[a-z0-9]{16}$"
+                    }
+                  },
+                  "required": ["characterOffset", "quote"],
+                  "additionalProperties": false
+                }
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "type",
+              "description",
+              "passageReferences",
+              "claimIds",
+              "sourceIds"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["status", "summary", "rationale", "evidence"],
+      "additionalProperties": false
+    },
+    "tradeoffs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "criteria": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["CRITICAL", "MAJOR", "MINOR", "ADVISORY"]
+          },
+          "recommendation": {
+            "type": "string"
+          }
+        },
+        "required": ["criteria", "description", "severity", "recommendation"],
+        "additionalProperties": false
+      }
+    },
+    "overallStatus": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+    },
+    "overallSummary": {
+      "type": "string"
+    },
+    "residualUncertainty": {
+      "type": "string"
+    },
+    "evaluatedAt": {
+      "type": "string"
+    },
+    "evaluatedBy": {
+      "type": "string"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["deterministic", "model-assisted", "evidence-based"]
+    }
+  },
+  "required": [
+    "openingEstablishesContext",
+    "progressionIntelligible",
+    "informationDensityAppropriate",
+    "transitionsProvideReorientation",
+    "contentDepthAppropriate",
+    "factualIntegrityMaintained",
+    "conclusionNatural",
+    "screenIndependentUnderstanding",
+    "conceptsRemainUnderstandable",
+    "tradeoffs",
+    "overallStatus",
+    "overallSummary",
+    "evaluatedAt",
+    "evaluatedBy",
+    "method"
+  ],
+  "additionalProperties": false
+}

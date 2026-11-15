@@ -1,0 +1,169 @@
+---
+/**
+ * Masthead — the "packet" in Miura-fold terminology.
+ * Compact, sticky, contains site title, navigation, language switcher, theme toggle, reading mode, and focus mode.
+ */
+import { SITE_TITLE } from "../consts";
+import { getAlternateLocales, type Locale } from "../i18n";
+import type { TranslationKeys } from "../i18n";
+import ThemeToggle from "./ThemeToggle.astro";
+import ReadingMode from "./ReadingMode.astro";
+import FocusReadingMode from "./FocusReadingMode.astro";
+
+interface Props {
+	currentPath: string;
+	locale: Locale;
+	t: TranslationKeys;
+}
+
+const { currentPath, locale, t } = Astro.props;
+
+// Generate alternate locale URLs for hreflang
+const alternateLocales = getAlternateLocales(currentPath);
+
+// Navigation items - using translated labels
+const navItems = [
+	{ href: "/", label: t.nav.home },
+	{ href: "/blog", label: t.nav.essays },
+	{ href: "/topics", label: t.nav.topics },
+	{ href: "/search", label: t.nav.search },
+	{ href: "/about", label: t.nav.about },
+];
+---
+
+<header class="masthead">
+	<!-- Hreflang alternate links for SEO -->
+	{alternateLocales.map((alt) => (
+		<link rel="alternate" hreflang={alt.lang} href={alt.url} />
+	))}
+	<link
+		rel="alternate"
+		hreflang="x-default"
+		href={alternateLocales.find((a) => a.lang === "en")?.url || "/en/"}
+	/>
+
+	<div class="masthead-inner">
+		<a
+			href={locale === "en" ? "/en/" : "/nl/"}
+			class="site-title"
+			aria-label={`${SITE_TITLE} — {t.nav.home}`}
+		>
+			{SITE_TITLE}
+		</a>
+
+		<nav class="masthead-nav" id="page-nav" aria-label={t.nav.home}>
+			{navItems.map((item) => (
+				<a
+					href={
+						locale === "en" ? `/en${item.href}` : `/nl${item.href}`
+					}
+					aria-current={
+						currentPath.startsWith(item.href) && item.href !== "/"
+							? "page"
+							: undefined
+					}
+				>
+					{item.label}
+				</a>
+			))}
+		</nav>
+
+		<div
+			class="masthead-tools"
+			style="display: flex; align-items: center; gap: var(--space-3);"
+		>
+			<!-- Theme toggle — keyboard accessible, persists preference -->
+			<ThemeToggle locale={locale} t={t} />
+
+			<!-- Reading mode — adjustable text presentation -->
+			<ReadingMode locale={locale} t={t} />
+
+			<!-- Focus mode — distraction-free reading -->
+			<FocusReadingMode locale={locale} t={t} />
+
+			<!-- Language switcher — keyboard accessible, preserves current page -->
+			<div
+				class="lang-toggle"
+				role="group"
+				aria-label={t.lang.label || "Language"}
+			>
+				{alternateLocales.map((alt) => (
+					<a
+						href={alt.url}
+						class="lang-btn"
+						aria-current={alt.lang === locale ? "true" : undefined}
+						aria-label={alt.lang === "en" ? t.lang.en : t.lang.nl}
+						data-locale={alt.lang}
+					>
+						{alt.lang === "en" ? t.lang.en : t.lang.nl}
+					</a>
+				))}
+			</div>
+		</div>
+	</div>
+</header>
+
+<style>
+	.masthead-tools {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+	}
+
+	.lang-toggle {
+		display: flex;
+		gap: var(--space-1);
+		background: var(--sheet-darker);
+		border-radius: var(--radius);
+		padding: var(--space-1);
+		border: 1px solid var(--mountain-light);
+	}
+
+	.lang-btn {
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		font-weight: 600;
+		padding: var(--space-1) var(--space-2);
+		background: transparent;
+		border: none;
+		border-radius: calc(var(--radius) - 1px);
+		color: var(--ink-muted);
+		cursor: pointer;
+		text-decoration: none;
+		transition:
+			color var(--transition-base),
+			background var(--transition-base);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 44px; /* Touch target */
+	}
+
+	.lang-btn:hover,
+	.lang-btn:focus {
+		color: var(--gold);
+		background: var(--valley-light);
+		outline: none;
+	}
+
+	.lang-btn:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+	}
+
+	.lang-btn[aria-current="locale"] {
+		color: var(--ink);
+		background: var(--gold);
+	}
+
+	/* Responsive: hide nav on mobile, keep tools visible */
+	@media (max-width: 720px) {
+		.masthead-nav {
+			display: none;
+		}
+
+		.masthead-inner {
+			justify-content: space-between;
+		}
+	}
+</style>

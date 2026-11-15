@@ -1,0 +1,204 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/quality-report.json",
+  "title": "Quality Report",
+  "description": "Automated and manual quality gate results per publication per contract §8",
+  "type": "object",
+  "required": [
+    "id",
+    "publicationId",
+    "generatedAt",
+    "gateResults",
+    "overallStatus"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^qr_[a-z0-9]{16}$",
+      "description": "Unique quality report ID"
+    },
+    "publicationId": {
+      "type": "string",
+      "description": "Related publication history entry"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Report generation timestamp"
+    },
+    "generatedBy": {
+      "type": "string",
+      "enum": ["ci", "manual", "scheduled"],
+      "description": "How report was generated"
+    },
+    "gateResults": {
+      "type": "object",
+      "description": "Results per quality gate per contract §8.1",
+      "required": [
+        "typescriptCheck",
+        "build",
+        "wcag",
+        "links",
+        "dossier",
+        "verification",
+        "temporal",
+        "bilingual",
+        "editorial",
+        "readability",
+        "glossary"
+      ],
+      "properties": {
+        "typescriptCheck": {
+          "type": "object",
+          "properties": {
+            "passed": { "type": "boolean" },
+            "errors": { "type": "array", "items": { "type": "string" } },
+            "durationMs": { "type": "integer" }
+          },
+          "required": ["passed"]
+        },
+        "build": {
+          "type": "object",
+          "properties": {
+            "passed": { "type": "boolean" },
+            "durationMs": { "type": "integer" },
+            "pagesGenerated": { "type": "integer" }
+          },
+          "required": ["passed"]
+        },
+        "wcag": {
+          "type": "object",
+          "properties": {
+            "passed": { "type": "boolean" },
+            "violations": { "type": "integer" },
+            "details": { "type": "array", "items": { "type": "string" } },
+            "level": { "type": "string", "enum": ["A", "AA", "AAA"] }
+          },
+          "required": ["passed"]
+        },
+        "links": {
+          "type": "object",
+          "properties": {
+            "passed": { "type": "boolean" },
+            "checked": { "type": "integer" },
+            "broken": { "type": "integer" },
+            "brokenUrls": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["passed"]
+        },
+        "dossier": {
+          "type": "object",
+          "properties": {
+            "passed": { "type": "boolean" },
+            "schemaValid": { "type": "boolean" },
+            "completenessScore": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "missingFields": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["passed"]
+        },
+        "verification": {
+          "type": "object",
+          "properties": {
+            "passed": { "type": "boolean" },
+            "totalClaims": { "type": "integer" },
+            "verifiedClaims": { "type": "integer" },
+            "minLevel": { "type": "string", "enum": ["L1", "L2", "L3"] },
+            "downgraded": { "type": "integer" }
+          },
+          "required": ["passed"]
+        },
+        "temporal": {
+          "type": "object",
+          "properties": {
+            "passed": { "type": "boolean" },
+            "maxAgeDays": { "type": "integer" },
+            "oldestSourceAgeDays": { "type": "integer" },
+            "expiredSources": { "type": "integer" }
+          },
+          "required": ["passed"]
+        },
+        "bilingual": {
+          "type": "object",
+          "properties": {
+            "passed": { "type": "boolean" },
+            "localesPresent": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "keyParity": { "type": "boolean" },
+            "glossaryCompliant": { "type": "boolean" }
+          },
+          "required": ["passed"]
+        },
+        "editorial": {
+          "type": "object",
+          "properties": {
+            "passed": { "type": "boolean" },
+            "reviewedBy": { "type": "string" },
+            "blufPresent": { "type": "boolean" },
+            "structureScore": { "type": "number", "minimum": 0, "maximum": 1 }
+          },
+          "required": ["passed"]
+        },
+        "readability": {
+          "type": "object",
+          "properties": {
+            "passed": { "type": "boolean" },
+            "maxSentenceLength": { "type": "integer" },
+            "avgSentenceLength": { "type": "number" },
+            "maxParagraphSentences": { "type": "integer" },
+            "avgParagraphSentences": { "type": "number" },
+            "passiveVoiceRatio": { "type": "number" },
+            "jargonDensity": { "type": "number" },
+            "headingFrequencyWords": { "type": "integer" }
+          },
+          "required": ["passed"]
+        },
+        "glossary": {
+          "type": "object",
+          "properties": {
+            "passed": { "type": "boolean" },
+            "termsChecked": { "type": "integer" },
+            "violations": { "type": "array", "items": { "type": "string" } },
+            "forbiddenTermsUsed": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "required": ["passed"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "overallStatus": {
+      "type": "string",
+      "enum": ["pass", "fail", "conditional"],
+      "description": "Overall quality gate result"
+    },
+    "blockingFailures": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Gate IDs that failed and block publication"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Non-blocking warnings"
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Quantitative metrics for trending",
+      "properties": {
+        "totalViolations": { "type": "integer" },
+        "totalWarnings": { "type": "integer" },
+        "buildTimeMs": { "type": "integer" },
+        "testDurationMs": { "type": "integer" }
+      }
+    }
+  },
+  "additionalProperties": false
+}

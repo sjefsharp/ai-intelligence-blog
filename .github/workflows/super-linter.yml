@@ -18,27 +18,30 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v7.0.1
         with:
           fetch-depth: 0
 
       - name: Super-Linter
-        uses: super-linter/super-linter@v7
+        uses: super-linter/super-linter@4ce20838b8ab83717e78138c5b3a1407148e0918 # v8.7.0
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_TYPESCRIPT_ES: true
-          VALIDATE_JAVASCRIPT_ES: true
-          VALIDATE_JSON: true
+          # Super-Linter pins ESLint 8, which cannot consume this repo's ESLint 10
+          # flat config. The CI "Lint & TypeCheck" job runs ESLint authoritatively,
+          # so the JS/TS linters are simply not enabled here. Super-Linter forbids
+          # mixing VALIDATE=true and VALIDATE=false, so unset linters stay off.
+          # MARKDOWN and JSON are also left unset: Super-Linter cannot resolve the
+          # repo's dotfile markdown config, and its JSON linter (ESLint 8 ESM)
+          # fails on its own default config. The CI markdownlint gate owns markdown.
           VALIDATE_YAML: true
-          VALIDATE_MARKDOWN: true
           VALIDATE_HTML: true
           VALIDATE_BASH: true
-          VALIDATE_DOCKERFILE: false
           VALIDATE_GITHUB_ACTIONS: true
-          MARKDOWN_CONFIG_FILE: .markdownlint.json
-          YAML_CONFIG_FILE: .yamllint.yml
-          TYPESCRIPT_ES_CONFIG_FILE: eslint.config.mjs
-          JAVASCRIPT_ES_CONFIG_FILE: eslint.config.mjs
+          # Super-Linter formats its step summary with the repo's Prettier config,
+          # which needs prettier-plugin-astro (not installed in its container).
+          # We do not use the step summary or PR comments, so keep both off.
+          ENABLE_GITHUB_ACTIONS_STEP_SUMMARY: false
+          ENABLE_GITHUB_PULL_REQUEST_SUMMARY_COMMENT: false
           FILTER_REGEX_EXCLUDE: .*dist/.*|.*\.astro/.*|.*node_modules/.*|.*coverage/.*|.*data/.*

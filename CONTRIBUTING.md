@@ -47,7 +47,7 @@ We follow [Trunk-Based Development](https://trunkbaseddevelopment.com/):
 
 Follow [Conventional Branch](https://conventionalbranch.org/):
 
-```
+```text
 <type>/<short-description>
 ```
 
@@ -63,7 +63,7 @@ Examples:
 
 Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) with [Gitmoji](https://github.com/carloscuesta/gitmoji/blob/master/packages/gitmojis/src/gitmojis.json):
 
-```
+```text
 <type>(<scope>): <gitmoji> <imperative summary>
 
 [optional body: motivation, context, breaking changes]
@@ -79,7 +79,7 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) wi
 
 Examples:
 
-```
+```text
 feat(editorial): ✨ implement provenance validation
 fix(accessibility): ♿ correct keyboard focus order
 chore(ci): 👷 configure quality checks
@@ -93,7 +93,7 @@ Validate locally: `pnpm exec commitlint --edit`
 
 For parallel development, use the shared sibling worktree container:
 
-```
+```text
 ~/projects/
 ├── ai-intelligence-blog/           # Main worktree (main)
 └── ai-intelligence-blog.worktrees/ # Sibling container
@@ -132,7 +132,7 @@ For changes that can be reviewed and integrated independently:
 
 Use `gh stack` only when changes have actual dependencies:
 
-```
+```text
 main
   |
   +-- chore/repository-standards
@@ -250,8 +250,8 @@ Validate with: `pnpm exec playwright test`
 
 ## Release Conventions
 
-- **Semantic Versioning** (https://semver.org/)
-- **Keep a Changelog** (https://keepachangelog.com/en/1.1.0/)
+- **Semantic Versioning** (<https://semver.org/>)
+- **Keep a Changelog** (<https://keepachangelog.com/en/1.1.0/>)
 - Human approval required for releases
 - Tag format: `v<major>.<minor>.<patch>`
 - Release notes from CHANGELOG

@@ -1,4 +1,4 @@
-# pnpm settings — pnpm >= 11 reads settings here, not from package.json.
+# pnpm workspace settings (pnpm 12 reads settings here, not from package.json)
 # https://pnpm.io/settings/build
 
 allowBuilds:

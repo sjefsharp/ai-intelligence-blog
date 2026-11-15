@@ -1,0 +1,874 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/editorial-selection.json",
+  "title": "Editorial Selection Manifest",
+  "description": "Structured per-edition editorial selection manifest. Records eligibility, evidence-backed assessments, selection/merge/exclusion/deferral decisions, final story ordering, relationships, concentration and blind-spot review results, caveats and readiness status for downstream publication generators.",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "manifestId": {
+      "type": "string",
+      "pattern": "^esm_[a-z0-9]{16}$"
+    },
+    "editionId": {
+      "type": "string",
+      "pattern": "^edition_\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "editionDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "editionWindow": {
+      "type": "object",
+      "properties": {
+        "editionDate": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "start": {
+          "type": "string"
+        },
+        "end": {
+          "type": "string"
+        },
+        "timezone": {
+          "type": "string",
+          "const": "Europe/Amsterdam"
+        },
+        "durationHours": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": ["editionDate", "start", "end", "timezone", "durationHours"],
+      "additionalProperties": false
+    },
+    "generatedAt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generatedBy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "inputDossier": {
+      "type": "object",
+      "properties": {
+        "dossierId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contentHash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "editionDate": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "candidateCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": ["dossierId", "contentHash", "editionDate", "candidateCount"],
+      "additionalProperties": false
+    },
+    "omissionReview": {
+      "type": "object",
+      "properties": {
+        "reportId": {
+          "type": "string"
+        },
+        "executionId": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "executedAt": {
+          "type": "string"
+        },
+        "criticalOmissions": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "materialOmissions": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "unresolvedRepairs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "referenced": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "criticalOmissions",
+        "materialOmissions",
+        "unresolvedRepairs",
+        "referenced"
+      ],
+      "additionalProperties": false
+    },
+    "historicalRegression": {
+      "type": "object",
+      "properties": {
+        "reportId": {
+          "type": "string"
+        },
+        "contentHash": {
+          "type": "string"
+        },
+        "finalStatus": {
+          "type": "string"
+        },
+        "relationshipsReferenced": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "referenced": {
+          "type": "boolean"
+        }
+      },
+      "required": ["relationshipsReferenced", "referenced"],
+      "additionalProperties": false
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "candidateId": {
+            "type": "string",
+            "pattern": "^cand_[a-z0-9]{16}$"
+          },
+          "factualHeadline": {
+            "type": "string"
+          },
+          "exactStatement": {
+            "type": "string"
+          },
+          "organizations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "technologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "researchDomains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "discoveryRings": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "const": 1
+                },
+                {
+                  "type": "number",
+                  "const": 2
+                },
+                {
+                  "type": "number",
+                  "const": 3
+                }
+              ]
+            }
+          },
+          "eligibility": {
+            "type": "object",
+            "properties": {
+              "candidateId": {
+                "type": "string",
+                "pattern": "^cand_[a-z0-9]{16}$"
+              },
+              "state": {
+                "type": "string",
+                "enum": [
+                  "ELIGIBLE",
+                  "ELIGIBLE_CATCH_UP",
+                  "CONDITIONAL",
+                  "INELIGIBLE_TEMPORAL",
+                  "INELIGIBLE_EVIDENCE",
+                  "INELIGIBLE_DUPLICATE"
+                ]
+              },
+              "temporalStatus": {
+                "type": "string",
+                "enum": ["NEW_PASS", "NEW_FAIL", "TIME_UNVERIFIED", "CATCH_UP"]
+              },
+              "evidenceSufficiency": {
+                "type": "string",
+                "enum": ["STRONG", "ADEQUATE", "WEAK"]
+              },
+              "hasBlockingUncertainty": {
+                "type": "boolean"
+              },
+              "noveltyStatementPresent": {
+                "type": "boolean"
+              },
+              "historicalRelationship": {
+                "type": "string",
+                "enum": [
+                  "NEW_DEVELOPMENT",
+                  "PREVIOUSLY_COVERED",
+                  "SUBSTANTIVE_UPDATE",
+                  "REPEATED_REPORTING",
+                  "RELATED_CONTEXT",
+                  "POTENTIAL_HISTORICAL_OMISSION",
+                  "HISTORY_UNVERIFIED"
+                ]
+              },
+              "historicalConfidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "omissionReviewFlags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "duplicateOf": {
+                "type": "string",
+                "pattern": "^cand_[a-z0-9]{16}$"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "traceableTo": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "candidateId",
+              "state",
+              "temporalStatus",
+              "evidenceSufficiency",
+              "hasBlockingUncertainty",
+              "noveltyStatementPresent",
+              "omissionReviewFlags",
+              "reasons",
+              "traceableTo"
+            ],
+            "additionalProperties": false
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "dimension": {
+                  "type": "string",
+                  "enum": [
+                    "material-novelty",
+                    "scientific-technical-significance",
+                    "real-world-consequences",
+                    "strategic-economic-significance",
+                    "evidence-strength",
+                    "generalizability-learning-value",
+                    "engineering-architectural-relevance",
+                    "availability-maturity"
+                  ]
+                },
+                "level": {
+                  "type": "string",
+                  "enum": ["high", "medium", "low", "unclear"]
+                },
+                "score": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "traceableTo": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "weight": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "role": {
+                  "type": "string",
+                  "enum": ["primary", "secondary", "contextual"]
+                }
+              },
+              "required": [
+                "dimension",
+                "level",
+                "score",
+                "evidence",
+                "traceableTo",
+                "weight",
+                "role"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "materialityScore": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "materialityLevel": {
+            "type": "string",
+            "enum": ["high", "medium", "low", "unclear"]
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "SELECTED",
+              "MERGED",
+              "EXCLUDED_LOW_MATERIALITY",
+              "EXCLUDED_REPEATED",
+              "EXCLUDED_TEMPORAL",
+              "DEFERRED_UNVERIFIED",
+              "CATCH_UP_SELECTED",
+              "REVIEW_REQUIRED"
+            ]
+          },
+          "decisionReasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "decisionTraceableTo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mergedInto": {
+            "type": "string",
+            "pattern": "^cand_[a-z0-9]{16}$"
+          },
+          "originalPublicationDate": {
+            "type": "string"
+          },
+          "catchUpReason": {
+            "type": "string"
+          },
+          "reviewReason": {
+            "type": "string"
+          },
+          "uncertainty": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourceReferences": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "claimIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^claim_[a-z0-9]{16}$"
+            }
+          }
+        },
+        "required": [
+          "candidateId",
+          "factualHeadline",
+          "exactStatement",
+          "organizations",
+          "products",
+          "technologies",
+          "researchDomains",
+          "discoveryRings",
+          "eligibility",
+          "dimensions",
+          "materialityScore",
+          "materialityLevel",
+          "decision",
+          "decisionReasons",
+          "decisionTraceableTo",
+          "uncertainty",
+          "sourceReferences",
+          "sourceIds",
+          "claimIds"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "stories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "storyId": {
+            "type": "string",
+            "pattern": "^story_[a-z0-9]{16}$"
+          },
+          "order": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "candidateId": {
+            "type": "string",
+            "pattern": "^cand_[a-z0-9]{16}$"
+          },
+          "mergedCandidateIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^cand_[a-z0-9]{16}$"
+            }
+          },
+          "claimIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^claim_[a-z0-9]{16}$"
+            }
+          },
+          "sourceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "organizations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "researchDomains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "discoveryRings": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "const": 1
+                },
+                {
+                  "type": "number",
+                  "const": 2
+                },
+                {
+                  "type": "number",
+                  "const": 3
+                }
+              ]
+            }
+          },
+          "materialityScore": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "materialityLevel": {
+            "type": "string",
+            "enum": ["high", "medium", "low", "unclear"]
+          },
+          "decision": {
+            "type": "string",
+            "enum": ["SELECTED", "CATCH_UP_SELECTED"]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "recommendedDepth": {
+            "type": "string",
+            "enum": ["brief", "standard", "deep-dive"]
+          },
+          "explanationOpportunities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "technical-deep-dive",
+                "scientific-explanation",
+                "strategic-interpretation",
+                "accessible-comparison",
+                "diagram",
+                "timeline",
+                "historical-context",
+                "practical-engineering"
+              ]
+            }
+          },
+          "caveats": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidenceClassificationSummary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "storyId",
+          "order",
+          "title",
+          "candidateId",
+          "mergedCandidateIds",
+          "claimIds",
+          "sourceIds",
+          "organizations",
+          "researchDomains",
+          "discoveryRings",
+          "materialityScore",
+          "materialityLevel",
+          "decision",
+          "summary",
+          "recommendedDepth",
+          "explanationOpportunities",
+          "caveats",
+          "evidenceClassificationSummary"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "relationshipId": {
+            "type": "string",
+            "pattern": "^esrel_[a-z0-9]{16}$"
+          },
+          "storyIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^story_[a-z0-9]{16}$"
+            }
+          },
+          "candidateIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^cand_[a-z0-9]{16}$"
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "same-development",
+              "related-development",
+              "background-context",
+              "contradicts",
+              "extends"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidenceTraceableTo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "relationshipId",
+          "storyIds",
+          "candidateIds",
+          "type",
+          "description",
+          "evidenceTraceableTo"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "concentrationReview": {
+      "type": "object",
+      "properties": {
+        "reviewedAt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selectedStoryCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "organizationDistribution": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "ringDistribution": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "claimTypeDistribution": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "consistencyChecks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "check": {
+                "type": "string",
+                "minLength": 1
+              },
+              "passed": {
+                "type": "boolean"
+              },
+              "detail": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": ["check", "passed", "detail"],
+            "additionalProperties": false
+          }
+        },
+        "strongestExcluded": {
+          "type": "object",
+          "properties": {
+            "candidateId": {
+              "type": "string",
+              "pattern": "^cand_[a-z0-9]{16}$"
+            },
+            "materialityScore": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "decision": {
+              "type": "string",
+              "enum": [
+                "SELECTED",
+                "MERGED",
+                "EXCLUDED_LOW_MATERIALITY",
+                "EXCLUDED_REPEATED",
+                "EXCLUDED_TEMPORAL",
+                "DEFERRED_UNVERIFIED",
+                "CATCH_UP_SELECTED",
+                "REVIEW_REQUIRED"
+              ]
+            }
+          },
+          "required": ["candidateId", "materialityScore", "decision"],
+          "additionalProperties": false
+        },
+        "weakestSelected": {
+          "type": "object",
+          "properties": {
+            "candidateId": {
+              "type": "string",
+              "pattern": "^cand_[a-z0-9]{16}$"
+            },
+            "materialityScore": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "decision": {
+              "type": "string",
+              "enum": [
+                "SELECTED",
+                "MERGED",
+                "EXCLUDED_LOW_MATERIALITY",
+                "EXCLUDED_REPEATED",
+                "EXCLUDED_TEMPORAL",
+                "DEFERRED_UNVERIFIED",
+                "CATCH_UP_SELECTED",
+                "REVIEW_REQUIRED"
+              ]
+            }
+          },
+          "required": ["candidateId", "materialityScore", "decision"],
+          "additionalProperties": false
+        },
+        "rankingInconsistenciesFound": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "correctionsApplied": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "residualRisks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "modelAssisted": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "reviewedAt",
+        "selectedStoryCount",
+        "organizationDistribution",
+        "ringDistribution",
+        "claimTypeDistribution",
+        "findings",
+        "consistencyChecks",
+        "rankingInconsistenciesFound",
+        "correctionsApplied",
+        "residualRisks",
+        "modelAssisted",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "caveats": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unresolvedIssues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "readinessStatus": {
+      "type": "string",
+      "enum": ["READY", "READY_WITH_CAVEATS", "BLOCKED"]
+    },
+    "inferenceUsed": {
+      "type": "boolean"
+    },
+    "inferenceNote": {
+      "type": "string"
+    },
+    "weightingAssumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "manifestId",
+    "editionId",
+    "editionDate",
+    "editionWindow",
+    "generatedAt",
+    "generatedBy",
+    "inputDossier",
+    "omissionReview",
+    "historicalRegression",
+    "candidates",
+    "stories",
+    "relationships",
+    "concentrationReview",
+    "caveats",
+    "unresolvedIssues",
+    "readinessStatus",
+    "inferenceUsed",
+    "weightingAssumptions",
+    "contentHash"
+  ],
+  "additionalProperties": false
+}

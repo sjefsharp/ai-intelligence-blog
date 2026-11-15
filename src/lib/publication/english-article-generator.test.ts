@@ -1,0 +1,813 @@
+/**
+ * English Article Generator — Validation Tests
+ *
+ * ⚠️  All edition, candidate, claim and source data used here is SYNTHETIC
+ * FIXTURE DATA from the fact-dossier and editorial-selection fixtures.
+ * No test below represents actually retrieved evidence, and no assertion
+ * should be read as a real editorial or research finding.
+ *
+ * These tests validate the English article generator output against the
+ * publication contract requirements for the English derivative artifact.
+ */
+
+import { describe, it, expect, vi } from "vitest";
+
+// Mock the LLM client
+vi.mock("../free-llm-client.js", () => ({
+	createFreeLLMClient: () => ({
+		validate: vi
+			.fn()
+			.mockResolvedValue({ valid: true, errors: [], warnings: [] }),
+		setValidationMode: vi.fn(),
+		request: vi.fn().mockResolvedValue({
+			content: "Synthetic LLM response for testing.",
+			provider: "openrouter-primary",
+			model: "nvidia/nemotron-3-ultra-550b-a55b:free",
+			tokensUsed: { prompt: 100, completion: 200, total: 300 },
+			cached: false,
+			requestId: "test-req-1",
+		}),
+		config: {
+			budget: { maxRequests: 50, maxTokens: 100000, maxCostUsd: 0 },
+			deterministic: true,
+			enableCache: true,
+			enableCheckpoints: true,
+		},
+	}),
+}));
+
+import type {
+	EnglishArticleGenerationInput,
+	EnglishArticleStoryContext,
+} from "./english-article-generator.js";
+import type {
+	EditorialStory,
+	EditorialCandidateAssessment,
+} from "../editorial-selection/schema.js";
+import type {
+	CanonicalCandidate,
+	ConsolidatedClaim,
+	VerificationLevel,
+} from "../fact-dossier/schema.js";
+import type { HistoricalRelationship } from "../historical-regression/schema.js";
+
+const createMockCandidate = (
+	overrides: Partial<CanonicalCandidate> = {},
+): CanonicalCandidate => ({
+	candidateId: "cand_0000000000000001",
+	editionId: "edition_2025-01-15",
+	editionDate: "2025-01-15",
+	factualHeadline: "Synthetic AI model release with new capabilities",
+	exactStatement:
+		"A synthetic AI model release introduces new reasoning capabilities and extended context window.",
+	researchDomains: ["models-inference-scientific"],
+	subdomainTags: ["DOM-02-SD01"],
+	discoveryRings: [1],
+	organizations: ["Synthetic AI Lab"],
+	products: ["Synthetic Model v2"],
+	technologies: ["reasoning", "extended context"],
+	researchProjects: ["synthetic-model-v2"],
+	sources: [
+		{
+			sourceId: "synthetic-arxiv",
+			canonicalUrl: "https://arxiv.org/abs/2501.12345",
+			discoveryIds: ["disc_0000000000000001"],
+			retrievalStatus: "CHECKED_FOUND",
+			accessedAt: "2025-01-15T06:00:00Z",
+		},
+	],
+	timestamps: {
+		originalPublicationTimestamp:
+			"2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+		earliestSupportedPublicDisclosureTimestamp:
+			"2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+		retrievalTimestamp: "2025-01-15T06:00:00Z",
+		timezone: "Europe/Amsterdam",
+		timestampConfidence: 0.95,
+		timestampPrecision: "exact",
+		timestampAvailability: "available",
+	},
+	temporalEligibility: {
+		status: "NEW_PASS",
+		rationale: "New development within window.",
+		noveltyClassification: {
+			classification: "NEW",
+			editionDate: "2025-01-15",
+			inWindow: true,
+			evidence: [],
+			reasoning: "New development.",
+			primaryPublicationTimestamp:
+				"2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+			isSubstantiveUpdate: false,
+			isNewlyRevealedFact: true,
+			confidence: 0.9,
+		},
+		editionBoundary: {
+			start: "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+			end: "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+			timezone: "Europe/Amsterdam",
+		},
+		derivedFrom: "novelty-classification",
+		derivedAt: "2025-01-15T06:00:00Z",
+	},
+	previousCoverage: [],
+	sourceAccessibility: [
+		{
+			sourceId: "synthetic-arxiv",
+			canonicalUrl: "https://arxiv.org/abs/2501.12345",
+			retrievalStatus: "CHECKED_FOUND",
+			accessible: true,
+			limitations: [],
+		},
+	],
+	claims: [
+		{
+			claimId: "claim_0000000000000001",
+			candidateId: "cand_0000000000000001",
+			claimStatement:
+				"The synthetic model achieves 15% better reasoning benchmarks.",
+			claimType: "benchmark-result",
+			evidenceClassification: "RESEARCH_FINDING",
+			supportingEvidenceUrls: ["https://arxiv.org/abs/2501.12345"],
+			independentCorroboration: {
+				established: false,
+				sourceIds: [],
+				urls: [],
+				note: "No independent corroboration.",
+			},
+			contradictoryEvidence: [],
+			limitingEvidence: [],
+			technicalContext: {
+				mechanism:
+					"Enhanced chain-of-thought with synthetic reasoning tokens.",
+				capabilities: ["reasoning", "extended context"],
+				architecture: ["dense transformer"],
+				limitations: ["Requires 2x compute for inference."],
+				releaseMaturity: "ga",
+				implementationStatus: "released",
+			},
+			confidence: 0.85,
+			verificationLevel: "L1",
+			verificationStatus: "verified",
+			verificationRationale:
+				"Methodology reviewed, benchmarks reproducible.",
+			verificationMethods: ["methodology-review"],
+			uncertainty: {
+				unresolved: [],
+				assumptions: ["Benchmark conditions match production."],
+				falsificationCriteria: ["Independent replication fails."],
+			},
+			sourceProvenance: {
+				sourceId: "synthetic-arxiv",
+				url: "https://arxiv.org/abs/2501.12345",
+				title: "Synthetic Model v2 Paper",
+				publicationTimestamp:
+					"2025-01-14T12:00:00+01:00[Europe/Amsterdam]",
+				retrievedAt: "2025-01-15T06:00:00Z",
+				verificationTimestamp: "2025-01-15T06:00:00Z",
+				verifiedBy: "synthetic-verifier",
+			},
+			inclusionNote: "Synthetic fixture for testing.",
+		},
+	],
+	unresolvedQuestions: [],
+	evidenceGaps: [],
+	editorialReadiness: {
+		materialNovelty: {
+			level: "high",
+			evidence: ["New model release."],
+			traceableTo: ["claim_0000000000000001"],
+		},
+		technicalScientificSignificance: {
+			level: "high",
+			evidence: ["Benchmark improvements."],
+			traceableTo: ["claim_0000000000000001"],
+		},
+		realWorldConsequences: {
+			level: "medium",
+			evidence: ["Impacts inference architectures."],
+			traceableTo: ["claim_0000000000000001"],
+		},
+		enterpriseEconomicImplications: {
+			level: "medium",
+			evidence: ["Compute cost implications."],
+			traceableTo: ["claim_0000000000000001"],
+		},
+		generalizability: {
+			level: "medium",
+			evidence: ["Single model family."],
+			traceableTo: ["claim_0000000000000001"],
+		},
+		evidenceStrength: {
+			level: "high",
+			evidence: ["L1 verification."],
+			traceableTo: ["claim_0000000000000001"],
+		},
+		evidenceLimitations: {
+			level: "low",
+			evidence: ["No independent replication."],
+			traceableTo: ["claim_0000000000000001"],
+		},
+		practicalEngineeringRelevance: {
+			level: "high",
+			evidence: ["Direct engineering impact."],
+			traceableTo: ["claim_0000000000000001"],
+		},
+		availabilityMaturity: {
+			level: "high",
+			evidence: ["GA release."],
+			traceableTo: ["claim_0000000000000001"],
+		},
+		potentialOverlap: {
+			level: "low",
+			evidence: ["No overlap detected."],
+			traceableTo: [],
+		},
+		selectionNote:
+			"Descriptive indicators only — no editorial ranking, quotas, topic weights or publication decisions are made at this stage.",
+	},
+	processingStatus: "consolidated",
+	audit: {
+		discoveredAt: "2025-01-15T06:00:00Z",
+		retrievedAt: "2025-01-15T06:00:00Z",
+		noveltyClassifiedAt: "2025-01-15T06:00:00Z",
+		consolidatedAt: "2025-01-15T06:00:00Z",
+		consolidatedBy: "synthetic-consolidator",
+		revision: 1,
+	},
+	provenance: {
+		discoveryIds: ["disc_0000000000000001"],
+		candidateStableId: "cand_0000000000000001",
+		pipeline: [
+			"source-discovery",
+			"retrieval",
+			"temporal-classification",
+			"claim-verification",
+			"canonical-fact-dossier",
+		],
+		consumedFrom: [
+			"candidate-news",
+			"novelty-classification",
+			"evidence-verification",
+		],
+	},
+	...overrides,
+});
+
+const createMockAssessment = (
+	overrides: Partial<EditorialCandidateAssessment> = {},
+): EditorialCandidateAssessment => ({
+	candidateId: "cand_0000000000000001",
+	factualHeadline: "Synthetic AI model release with new capabilities",
+	exactStatement:
+		"A synthetic AI model release introduces new reasoning capabilities and extended context window.",
+	organizations: ["Synthetic AI Lab"],
+	products: ["Synthetic Model v2"],
+	technologies: ["reasoning", "extended context"],
+	researchDomains: ["models-inference-scientific"],
+	discoveryRings: [1],
+	eligibility: {
+		candidateId: "cand_0000000000000001",
+		state: "ELIGIBLE",
+		temporalStatus: "NEW_PASS",
+		evidenceSufficiency: "STRONG",
+		hasBlockingUncertainty: false,
+		noveltyStatementPresent: true,
+		historicalRelationship: undefined,
+		historicalConfidence: undefined,
+		omissionReviewFlags: [],
+		reasons: ["New model release with benchmark improvements."],
+		traceableTo: ["claim_0000000000000001"],
+	},
+	dimensions: [
+		{
+			dimension: "material-novelty",
+			level: "high",
+			score: 0.85,
+			evidence: ["New model."],
+			traceableTo: ["claim_0000000000000001"],
+			weight: 0.2,
+			role: "primary",
+		},
+		{
+			dimension: "scientific-technical-significance",
+			level: "high",
+			score: 0.8,
+			evidence: ["Benchmark gains."],
+			traceableTo: ["claim_0000000000000001"],
+			weight: 0.2,
+			role: "primary",
+		},
+		{
+			dimension: "real-world-consequences",
+			level: "medium",
+			score: 0.6,
+			evidence: ["Inference impact."],
+			traceableTo: ["claim_0000000000000001"],
+			weight: 0.15,
+			role: "primary",
+		},
+		{
+			dimension: "strategic-economic-significance",
+			level: "medium",
+			score: 0.55,
+			evidence: ["Compute cost."],
+			traceableTo: ["claim_0000000000000001"],
+			weight: 0.15,
+			role: "primary",
+		},
+		{
+			dimension: "evidence-strength",
+			level: "high",
+			score: 0.8,
+			evidence: ["L1 verified."],
+			traceableTo: ["claim_0000000000000001"],
+			weight: 0.15,
+			role: "primary",
+		},
+		{
+			dimension: "generalizability-learning-value",
+			level: "medium",
+			score: 0.6,
+			evidence: ["Single family."],
+			traceableTo: ["claim_0000000000000001"],
+			weight: 0.1,
+			role: "primary",
+		},
+		{
+			dimension: "engineering-architectural-relevance",
+			level: "high",
+			score: 0.75,
+			evidence: ["Architecture relevant."],
+			traceableTo: ["claim_0000000000000001"],
+			weight: 0,
+			role: "secondary",
+		},
+		{
+			dimension: "availability-maturity",
+			level: "high",
+			score: 0.8,
+			evidence: ["GA."],
+			traceableTo: ["claim_0000000000000001"],
+			weight: 0,
+			role: "contextual",
+		},
+	],
+	materialityScore: 0.75,
+	materialityLevel: "high",
+	decision: "SELECTED",
+	decisionReasons: ["High materiality, strong evidence."],
+	decisionTraceableTo: ["claim_0000000000000001"],
+	uncertainty: [],
+	sourceReferences: ["https://arxiv.org/abs/2501.12345"],
+	sourceIds: ["synthetic-arxiv"],
+	claimIds: ["claim_0000000000000001"],
+	...overrides,
+});
+
+const createMockStory = (
+	overrides: Partial<EditorialStory> = {},
+): EditorialStory => ({
+	storyId: "story_0000000000000001",
+	order: 1,
+	title: "Synthetic AI Lab — Models, Inference & Scientific Research",
+	candidateId: "cand_0000000000000001",
+	mergedCandidateIds: [],
+	claimIds: ["claim_0000000000000001"],
+	sourceIds: ["synthetic-arxiv"],
+	organizations: ["Synthetic AI Lab"],
+	researchDomains: ["models-inference-scientific"],
+	discoveryRings: [1],
+	materialityScore: 0.75,
+	materialityLevel: "high",
+	decision: "SELECTED",
+	summary: "Synthetic model release with reasoning improvements.",
+	recommendedDepth: "deep-dive",
+	explanationOpportunities: ["technical-deep-dive", "scientific-explanation"],
+	caveats: [
+		"No independent replication yet.",
+		"Compute requirements doubled.",
+	],
+	evidenceClassificationSummary: "RESEARCH_FINDING (L1), VERIFIED_FACT (L2)",
+	...overrides,
+});
+
+const createMockInput = (
+	stories: EnglishArticleStoryContext[] = [],
+): EnglishArticleGenerationInput => ({
+	editionDate: "2025-01-15",
+	editionWindow: {
+		start: "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+		end: "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+		timezone: "Europe/Amsterdam",
+	},
+	factDossier: {
+		schemaVersion: "1.0.0",
+		dossierId: "fd_0000000000000001",
+		editionId: "edition_2025-01-15",
+		editionDate: "2025-01-15",
+		editionWindow: {
+			editionDate: "2025-01-15",
+			start: "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+			end: "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+			timezone: "Europe/Amsterdam",
+			durationHours: 24,
+		},
+		status: "complete",
+		createdAt: "2025-01-15T06:00:00Z",
+		updatedAt: "2025-01-15T06:00:00Z",
+		generatedBy: "test",
+		candidates: stories.map((s) => s.candidate),
+		editionSummary: {
+			totalCandidates: stories.length,
+			byTemporalEligibility: { NEW_PASS: stories.length },
+			byEvidenceClassification: { RESEARCH_FINDING: stories.length },
+			byVerificationStatus: { verified: stories.length },
+			byResearchDomain: { "models-inference-scientific": stories.length },
+			totalClaims: stories.reduce(
+				(sum, s) => sum + s.candidate.claims.length,
+				0,
+			),
+			claimsWithCounterevidence: 0,
+			claimsWithUnresolvedUncertainties: 0,
+			candidatesWithEvidenceGaps: 0,
+			averageClaimConfidence: 0.85,
+			strategicResearchCandidates: 0,
+			technicalCandidates: stories.length,
+		},
+		uncertaintyRegister: [],
+		historicalContinuity: [],
+		processingAudit: {
+			startedAt: "2025-01-15T06:00:00Z",
+			completedAt: "2025-01-15T06:00:00Z",
+			durationMs: 0,
+			steps: [],
+			completedCandidateIds: [],
+			failedCandidateIds: [],
+			skippedCandidateIds: [],
+			inferenceUsed: false,
+		},
+		contentHash:
+			"sha256:0000000000000000000000000000000000000000000000000000000000000000",
+	} as any,
+	editorialManifest: {
+		schemaVersion: "1.0.0",
+		manifestId: "esm_0000000000000001",
+		editionId: "edition_2025-01-15",
+		editionDate: "2025-01-15",
+		editionWindow: {
+			editionDate: "2025-01-15",
+			start: "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+			end: "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+			timezone: "Europe/Amsterdam",
+			durationHours: 24,
+		},
+		generatedAt: "2025-01-15T06:00:00Z",
+		generatedBy: "test",
+		inputDossier: {
+			dossierId: "fd_0000000000000001",
+			contentHash:
+				"sha256:0000000000000000000000000000000000000000000000000000000000000000",
+			editionDate: "2025-01-15",
+			candidateCount: stories.length,
+		},
+		omissionReview: {
+			reportId: "",
+			executionId: "",
+			version: "",
+			executedAt: "",
+			criticalOmissions: 0,
+			materialOmissions: 0,
+			unresolvedRepairs: 0,
+			referenced: false,
+		},
+		historicalRegression: {
+			reportId: "",
+			contentHash: "",
+			finalStatus: "",
+			relationshipsReferenced: 0,
+			referenced: false,
+		},
+		candidates: stories.map((s) => s.assessment),
+		stories: stories.map((s) => s.story),
+		relationships: [],
+		concentrationReview: {
+			reviewedAt: "2025-01-15T06:00:00Z",
+			selectedStoryCount: stories.length,
+			organizationDistribution: {},
+			ringDistribution: {},
+			claimTypeDistribution: {},
+			findings: [],
+			consistencyChecks: [],
+			strongestExcluded: undefined,
+			weakestSelected: undefined,
+			rankingInconsistenciesFound: 0,
+			correctionsApplied: [],
+			residualRisks: [],
+			modelAssisted: false,
+			note: "Test",
+		},
+		caveats: [],
+		unresolvedIssues: [],
+		readinessStatus: "READY",
+		inferenceUsed: false,
+		weightingAssumptions: [],
+		contentHash:
+			"sha256:0000000000000000000000000000000000000000000000000000000000000000",
+	} as any,
+	historicalRegression: null,
+	stories,
+});
+
+describe("English Article Generator — Output Validation", () => {
+	it("generates valid markdown structure with required sections", async () => {
+		const { generateEnglishArticleMarkdown } =
+			await import("./english-article-generator.js");
+
+		const candidate = createMockCandidate();
+		const assessment = createMockAssessment();
+		const story = createMockStory();
+
+		const input = createMockInput([
+			{
+				story,
+				candidate,
+				assessment,
+				historicalRelationship: null,
+				historicalClassification: null,
+			},
+		]);
+
+		const result = await generateEnglishArticleMarkdown(input, {
+			validateOnly: true,
+		});
+
+		expect(result.markdown).toContain("# AI Intelligence —");
+		expect(result.markdown).toContain("## Further Reading");
+		expect(result.markdown).toContain("## References");
+		expect(result.markdown).not.toContain("${editionDate}");
+		expect(result.validation.valid).toBe(true);
+	});
+
+	it("validates output correctly - detects missing title", async () => {
+		const { validateEnglishArticleOutput } =
+			await import("./english-article-generator.js");
+		const validation = validateEnglishArticleOutput(
+			"Invalid content without title.",
+			createMockInput(),
+		);
+		expect(validation.valid).toBe(false);
+		expect(validation.errors.some((e) => e.includes("title"))).toBe(true);
+	});
+
+	it("validates output correctly - warns on citation identifiers in narrative", async () => {
+		const { validateEnglishArticleOutput } =
+			await import("./english-article-generator.js");
+		const markdown = `# AI Intelligence — Wednesday 15 January 2025\n\n## Some Section\n\nClaim claim_0000000000000001 is verified.`;
+		const validation = validateEnglishArticleOutput(
+			markdown,
+			createMockInput(),
+		);
+		expect(
+			validation.warnings.some((w) => w.includes("Citation identifiers")),
+		).toBe(true);
+	});
+
+	it("checks heading hierarchy", async () => {
+		const { validateEnglishArticleOutput } =
+			await import("./english-article-generator.js");
+		const markdown = `# AI Intelligence — Wednesday 15 January 2025\n\n## Section\n\n##### Level 5 heading directly under level 2`;
+		const validation = validateEnglishArticleOutput(
+			markdown,
+			createMockInput(),
+		);
+		expect(
+			validation.warnings.some((w) => w.includes("Heading level jump")),
+		).toBe(true);
+	});
+
+	it("checks all selected stories are represented", async () => {
+		const { validateEnglishArticleOutput } =
+			await import("./english-article-generator.js");
+		const candidate = createMockCandidate({
+			organizations: ["Missing Org"],
+		});
+		const assessment = createMockAssessment({
+			organizations: ["Missing Org"],
+		});
+		const story = createMockStory({ organizations: ["Missing Org"] });
+		const input = createMockInput([
+			{
+				story,
+				candidate,
+				assessment,
+				historicalRelationship: null,
+				historicalClassification: null,
+			},
+		]);
+
+		const markdown = `# AI Intelligence — Wednesday 15 January 2025\n\n## Some Section\n\nSome other org mentioned.`;
+		const validation = validateEnglishArticleOutput(markdown, input);
+		expect(validation.warnings.some((w) => w.includes("Missing Org"))).toBe(
+			true,
+		);
+	});
+
+	it("validates template variable replacement", async () => {
+		const { validateEnglishArticleOutput } =
+			await import("./english-article-generator.js");
+		const markdown = `# AI Intelligence — ${"${editionDate}"}\n\n## Section\n\nTest.`;
+		const validation = validateEnglishArticleOutput(
+			markdown,
+			createMockInput(),
+		);
+		expect(validation.valid).toBe(false);
+		expect(
+			validation.errors.some((e) => e.includes("Template variable")),
+		).toBe(true);
+	});
+
+	it("produces traceability metadata", async () => {
+		const { generateEnglishArticleMarkdown } =
+			await import("./english-article-generator.js");
+
+		const candidate = createMockCandidate();
+		const assessment = createMockAssessment();
+		const story = createMockStory();
+
+		const input = createMockInput([
+			{
+				story,
+				candidate,
+				assessment,
+				historicalRelationship: null,
+				historicalClassification: null,
+			},
+		]);
+
+		const result = await generateEnglishArticleMarkdown(input, {
+			validateOnly: true,
+		});
+
+		expect(result.traceability).toBeDefined();
+		expect(result.traceability.claimCoverage).toContain(
+			"claim_0000000000000001",
+		);
+		expect(result.traceability.sourceCoverage).toContain("synthetic-arxiv");
+		expect(result.traceability.storyCoverage).toContain(
+			"story_0000000000000001",
+		);
+		expect(result.traceability.segments.length).toBeGreaterThan(0);
+	});
+
+	it("produces metadata with content hash and reading time", async () => {
+		const { generateEnglishArticleMarkdown } =
+			await import("./english-article-generator.js");
+
+		const candidate = createMockCandidate();
+		const assessment = createMockAssessment();
+		const story = createMockStory();
+
+		const input = createMockInput([
+			{
+				story,
+				candidate,
+				assessment,
+				historicalRelationship: null,
+				historicalClassification: null,
+			},
+		]);
+
+		const result = await generateEnglishArticleMarkdown(input, {
+			validateOnly: true,
+		});
+
+		expect(result.metadata.contentHash).toMatch(/^sha256:[a-f0-9]{64}$/);
+		expect(result.metadata.artifactId).toMatch(/^pubart_[a-f0-9]{16}$/);
+		expect(result.metadata.readingTimeMinutes).toBeGreaterThan(0);
+		expect(result.metadata.wordCount).toBeGreaterThan(0);
+		expect(result.metadata.storiesCovered).toBe(1);
+	});
+
+	it("handles empty edition (no stories)", async () => {
+		const { generateEnglishArticleMarkdown } =
+			await import("./english-article-generator.js");
+		const input = createMockInput([]);
+		const result = await generateEnglishArticleMarkdown(input, {
+			validateOnly: true,
+		});
+		expect(result.markdown).toContain(
+			"No developments were selected that meet the materiality threshold",
+		);
+		expect(result.metadata.storiesCovered).toBe(0);
+	});
+
+	it("generates lead, stories, and crosslinks segments", async () => {
+		const { generateEnglishArticleMarkdown } =
+			await import("./english-article-generator.js");
+
+		const candidate1 = createMockCandidate({
+			candidateId: "cand_0000000000000001",
+			organizations: ["Org A"],
+		});
+		const assessment1 = createMockAssessment({
+			candidateId: "cand_0000000000000001",
+			organizations: ["Org A"],
+		});
+		const story1 = createMockStory({
+			storyId: "story_0000000000000001",
+			organizations: ["Org A"],
+		});
+
+		const candidate2 = createMockCandidate({
+			candidateId: "cand_0000000000000002",
+			organizations: ["Org B"],
+		});
+		const assessment2 = createMockAssessment({
+			candidateId: "cand_0000000000000002",
+			organizations: ["Org B"],
+		});
+		const story2 = createMockStory({
+			storyId: "story_0000000000000002",
+			order: 2,
+			organizations: ["Org B"],
+		});
+
+		const input = createMockInput([
+			{
+				story: story1,
+				candidate: candidate1,
+				assessment: assessment1,
+				historicalRelationship: null,
+				historicalClassification: null,
+			},
+			{
+				story: story2,
+				candidate: candidate2,
+				assessment: assessment2,
+				historicalRelationship: null,
+				historicalClassification: null,
+			},
+		]);
+
+		const result = await generateEnglishArticleMarkdown(input, {
+			validateOnly: true,
+		});
+
+		expect(result.metadata.segmentCount).toBeGreaterThanOrEqual(3); // lead + 2 stories + crosslinks
+		expect(result.markdown).toContain("## Further Reading");
+		expect(result.markdown).toContain("## References");
+		expect(result.markdown).toContain("Canonical Dutch publications");
+	});
+});
+
+describe("English Article Generator — Helper Functions", () => {
+	it("formats English date correctly", async () => {
+		const { formatDateEN } = await import("./english-article-generator.js");
+		const result = formatDateEN("2025-01-15");
+		expect(result).toContain("Wednesday");
+		expect(result).toContain("15");
+		expect(result).toContain("January");
+		expect(result).toContain("2025");
+	});
+
+	it("formats edition window correctly", async () => {
+		const { formatWindowEN } =
+			await import("./english-article-generator.js");
+		const result = formatWindowEN({
+			start: "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
+			end: "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
+			timezone: "Europe/Amsterdam",
+		});
+		expect(result).toContain("05:00");
+		expect(result).toContain("Europe/Amsterdam");
+	});
+
+	it("translates research domains to English", async () => {
+		const { translateDomainEN } =
+			await import("./english-article-generator.js");
+		expect(translateDomainEN("models-inference-scientific")).toBe(
+			"Models, Inference & Scientific Research",
+		);
+		expect(translateDomainEN("agentic-ai-software-engineering")).toBe(
+			"Agentic AI & Software Engineering",
+		);
+		expect(translateDomainEN("unknown-domain")).toBe("unknown-domain");
+	});
+
+	it("computes max verification level correctly", async () => {
+		const { getMaxVerificationLevel } =
+			await import("./english-article-generator.js");
+		expect(getMaxVerificationLevel(["L0", "L1", "L2"])).toBe("L2");
+		expect(getMaxVerificationLevel(["L0"])).toBe("L0");
+		expect(getMaxVerificationLevel(["L3", "L1"])).toBe("L3");
+	});
+
+	it("computes content hash deterministically", async () => {
+		const { computeContentHash } = await import("./metadata.js");
+		const hash1 = computeContentHash("test content");
+		const hash2 = computeContentHash("test content");
+		expect(hash1).toBe(hash2);
+		expect(hash1).toMatch(/^sha256:[a-f0-9]{64}$/);
+	});
+});

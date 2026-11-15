@@ -1,0 +1,226 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-intelligence-blog/schemas/contributor-registry.json",
+  "title": "Signal Desk Contributor Registry Entry",
+  "description": "Registry of verified expert contributors with identity, channels, domain mapping, and lifecycle status. Per Signal Desk Specification v1.0.",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "verified",
+    "verificationDate",
+    "verificationMethod",
+    "canonicalProfiles",
+    "sourceChannels",
+    "researchDomains",
+    "subdomainTags",
+    "ringAffinity",
+    "mandatory",
+    "status",
+    "addedDate",
+    "lastReviewed"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique kebab-case identifier (stable, never changes)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Full name of contributor"
+    },
+    "verified": {
+      "type": "boolean",
+      "description": "Identity verification confirmed (true/false)"
+    },
+    "verificationDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When identity was last verified"
+    },
+    "verificationMethod": {
+      "type": "string",
+      "description": "How identity was verified (e.g., 'github-profile + employer-page + blog-byline + rss-validation')"
+    },
+    "canonicalProfiles": {
+      "type": "object",
+      "description": "Verified canonical profile URLs",
+      "properties": {
+        "github": { "type": "string", "format": "uri" },
+        "x": { "type": "string", "format": "uri" },
+        "blog": { "type": "string", "format": "uri" },
+        "youtube": { "type": "string", "format": "uri" },
+        "employer": { "type": "string", "format": "uri" },
+        "linkedin": { "type": "string", "format": "uri" }
+      },
+      "additionalProperties": { "type": "string", "format": "uri" }
+    },
+    "sourceChannels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "url",
+          "status",
+          "lastFetched",
+          "accessNotes",
+          "cadence",
+          "contentTypes"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "rss",
+              "github",
+              "youtube",
+              "x",
+              "linkedin",
+              "podcast",
+              "arxiv",
+              "other"
+            ],
+            "description": "Channel type / platform"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Channel URL (RSS feed, GitHub profile, YouTube channel, etc.)"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["active", "limited", "degraded", "inactive"],
+            "description": "Current accessibility status"
+          },
+          "lastFetched": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last successful fetch timestamp"
+          },
+          "accessNotes": {
+            "type": "string",
+            "description": "Access method, limitations, authentication requirements"
+          },
+          "cadence": {
+            "type": "string",
+            "enum": [
+              "daily",
+              "weekly",
+              "bi-weekly",
+              "monthly",
+              "quarterly",
+              "manual"
+            ],
+            "description": "Expected publication/fetch cadence"
+          },
+          "contentTypes": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Types of content on this channel"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "researchDomains": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "agentic-ai-software-engineering",
+          "models-inference-scientific",
+          "architecture-security-governance",
+          "enterprise-adoption-organizational",
+          "economics-business-impact",
+          "independent-research-advisory"
+        ]
+      },
+      "description": "Research domains this contributor covers (per Research Taxonomy v2.0)"
+    },
+    "subdomainTags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^DOM-\\d{2}-SD\\d{2}$"
+      },
+      "description": "Specific subdomain identifiers (e.g., DOM-01-SD03)"
+    },
+    "ringAffinity": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "integer",
+        "enum": [1, 2, 3]
+      },
+      "description": "Primary discovery rings this contributor feeds"
+    },
+    "mandatory": {
+      "type": "boolean",
+      "description": "Whether this is a designated mandatory expert (Signal Desk §2)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "watchlisted", "archived", "retired"],
+      "description": "Lifecycle status"
+    },
+    "watchlistDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When added to watchlist (if watchlisted)"
+    },
+    "addedDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When contributor was added to registry"
+    },
+    "lastReviewed": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last editorial review timestamp"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Editorial notes, context, promotion rationale"
+    },
+    "classificationHistory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "date",
+          "fromStatus",
+          "toStatus",
+          "authority",
+          "rationale"
+        ],
+        "properties": {
+          "date": { "type": "string", "format": "date-time" },
+          "fromStatus": {
+            "type": "string",
+            "enum": ["active", "watchlisted", "archived", "retired"]
+          },
+          "toStatus": {
+            "type": "string",
+            "enum": ["active", "watchlisted", "archived", "retired"]
+          },
+          "authority": {
+            "type": "string",
+            "description": "Who authorized the change"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Reason for status change"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Provenance of status changes"
+    }
+  },
+  "additionalProperties": false
+}

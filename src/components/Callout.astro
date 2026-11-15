@@ -1,0 +1,102 @@
+---
+/**
+ * Callout / Admonition component for MDX content.
+ * Variants: evidence (blue), failure (red), migration (green), decision (gold)
+ */
+interface Props {
+	type?: "evidence" | "failure" | "migration" | "decision";
+	children: any;
+}
+
+const { type = "decision", children } = Astro.props;
+
+const labels = {
+	evidence: "Evidence",
+	failure: "Failure Mode",
+	migration: "Migration Path",
+	decision: "Decision",
+};
+const label = labels[type];
+---
+
+<div class="callout" data-type={type} role="note" aria-label={label}>
+	<div class="callout-label" aria-hidden="true">
+		{label}
+	</div>
+	<div class="callout-content">
+		<slot />
+	</div>
+</div>
+
+<style>
+	.callout {
+		border-left: 3px solid var(--gold);
+		background: var(--sheet-darker);
+		padding: var(--space-4) var(--space-5);
+		margin: var(--space-5) 0;
+		border-radius: 0 var(--radius) var(--radius) 0;
+		position: relative;
+	}
+
+	.callout-label {
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--gold);
+		margin-bottom: var(--space-2);
+	}
+
+	.callout[data-type="evidence"] {
+		border-color: var(--valley);
+	}
+	.callout[data-type="evidence"] .callout-label {
+		color: var(--valley);
+	}
+	.callout[data-type="failure"] {
+		border-color: #c0392b;
+	}
+	.callout[data-type="failure"] .callout-label {
+		color: #c0392b;
+	}
+	.callout[data-type="migration"] {
+		border-color: #27ae60;
+	}
+	.callout[data-type="migration"] .callout-label {
+		color: #27ae60;
+	}
+	.callout[data-type="decision"] {
+		border-color: var(--gold);
+	}
+	.callout[data-type="decision"] .callout-label {
+		color: var(--gold);
+	}
+
+	.callout-content > *:first-child {
+		margin-top: 0;
+	}
+	.callout-content > *:last-child {
+		margin-bottom: 0;
+	}
+
+	/* High contrast */
+	@media (prefers-contrast: high) {
+		.callout {
+			border-color: currentColor;
+			background: transparent;
+		}
+	}
+
+	/* Print */
+	@media print {
+		.callout {
+			break-inside: avoid;
+			border-color: #000;
+			background: #f9f9f9;
+		}
+		.callout-label {
+			color: #000;
+		}
+	}
+</style>

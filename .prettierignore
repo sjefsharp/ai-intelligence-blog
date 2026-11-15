@@ -1,0 +1,18 @@
+# Build output
+dist/
+
+# Generated Astro types
+.astro/
+
+# Generated lockfile (pnpm manages its own formatting)
+pnpm-lock.yaml
+
+# Generated pipeline data
+data/
+
+# Ad-hoc scratch probes (not part of the test suite)
+test-*.mjs
+
+# Playwright output
+test-results/
+playwright-report/

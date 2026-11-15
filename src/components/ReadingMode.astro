@@ -1,0 +1,886 @@
+---
+/**
+ * ReadingMode — distraction-free focus mode with adjustable text presentation.
+ * Provides font size, line height, column width, and theme controls.
+ */
+import { getTranslation, type Locale } from "../i18n";
+import type { TranslationKeys } from "../i18n";
+
+interface Props {
+	locale: Locale;
+	t: TranslationKeys;
+}
+
+const { locale, t } = Astro.props;
+---
+
+<div
+	class="reading-mode-toggle"
+	role="region"
+	aria-label={t.ui.readingMode || "Reading mode"}
+>
+	<button
+		type="button"
+		class="reading-mode-btn"
+		id="reading-mode-trigger"
+		aria-expanded="false"
+		aria-controls="reading-mode-panel"
+		aria-haspopup="dialog"
+		aria-label={t.ui.readingMode || "Reading mode"}
+		title={t.ui.readingMode || "Reading mode"}
+	>
+		<span class="reading-mode-icon" aria-hidden="true">
+			👁
+		</span>
+		<span class="reading-mode-label">{t.ui.readingMode || "Focus"}</span>
+	</button>
+
+	<div
+		class="reading-mode-panel"
+		id="reading-mode-panel"
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby="reading-mode-title"
+		hidden
+	>
+		<div class="reading-mode-header">
+			<h3 id="reading-mode-title">
+				{t.ui.readingModeSettings || "Reading Settings"}
+			</h3>
+			<button
+				type="button"
+				class="reading-mode-close"
+				aria-label={t.ui.close || "Close"}
+			>
+				✕
+			</button>
+		</div>
+
+		<div class="reading-mode-options">
+			<!-- Font Size -->
+			<div class="reading-mode-option">
+				<label for="font-size-slider">
+					{t.ui.fontSize || "Font Size"}
+				</label>
+				<div class="slider-group">
+					<button
+						type="button"
+						class="slider-btn"
+						id="font-size-decrease"
+						aria-label={t.ui.decrease || "Decrease"}
+						data-target="font-size"
+					>
+						−
+					</button>
+					<input
+						type="range"
+						id="font-size-slider"
+						min="0.875"
+						max="1.5"
+						step="0.0625"
+						value="1"
+						aria-label={t.ui.fontSize || "Font Size"}
+					/>
+					<button
+						type="button"
+						class="slider-btn"
+						id="font-size-increase"
+						aria-label={t.ui.increase || "Increase"}
+						data-target="font-size"
+					>
+						+
+					</button>
+					<span class="slider-value" id="font-size-value">
+						100%
+					</span>
+				</div>
+			</div>
+
+			<!-- Line Height -->
+			<div class="reading-mode-option">
+				<label for="line-height-slider">
+					{t.ui.lineHeight || "Line Height"}
+				</label>
+				<div class="slider-group">
+					<button
+						type="button"
+						class="slider-btn"
+						id="line-height-decrease"
+						aria-label={t.ui.decrease || "Decrease"}
+						data-target="line-height"
+					>
+						−
+					</button>
+					<input
+						type="range"
+						id="line-height-slider"
+						min="1.4"
+						max="2.2"
+						step="0.1"
+						value="1.7"
+						aria-label={t.ui.lineHeight || "Line Height"}
+					/>
+					<button
+						type="button"
+						class="slider-btn"
+						id="line-height-increase"
+						aria-label={t.ui.increase || "Increase"}
+						data-target="line-height"
+					>
+						+
+					</button>
+					<span class="slider-value" id="line-height-value">
+						1.7
+					</span>
+				</div>
+			</div>
+
+			<!-- Column Width -->
+			<div class="reading-mode-option">
+				<label for="column-width-slider">
+					{t.ui.columnWidth || "Column Width"}
+				</label>
+				<div class="slider-group">
+					<button
+						type="button"
+						class="slider-btn"
+						id="column-width-decrease"
+						aria-label={t.ui.decrease || "Decrease"}
+						data-target="column-width"
+					>
+						−
+					</button>
+					<input
+						type="range"
+						id="column-width-slider"
+						min="45"
+						max="90"
+						step="5"
+						value="68"
+						aria-label={t.ui.columnWidth || "Column Width"}
+					/>
+					<button
+						type="button"
+						class="slider-btn"
+						id="column-width-increase"
+						aria-label={t.ui.increase || "Increase"}
+						data-target="column-width"
+					>
+						+
+					</button>
+					<span class="slider-value" id="column-width-value">
+						68ch
+					</span>
+				</div>
+			</div>
+
+			<!-- Theme Quick Toggle -->
+			<div class="reading-mode-option">
+				<fieldset>
+					<legend>{t.theme.label || "Theme"}</legend>
+					<div
+						class="theme-quick-toggle"
+						role="radiogroup"
+						aria-label={t.theme.label || "Theme"}
+					>
+						<label>
+							<input
+								type="radio"
+								name="reading-theme"
+								value="system"
+								checked
+							/>
+							<span>💻 {t.theme.system}</span>
+						</label>
+						<label>
+							<input
+								type="radio"
+								name="reading-theme"
+								value="light"
+							/>
+							<span>☀️ {t.theme.light}</span>
+						</label>
+						<label>
+							<input
+								type="radio"
+								name="reading-theme"
+								value="dark"
+							/>
+							<span>🌙 {t.theme.dark}</span>
+						</label>
+					</div>
+				</fieldset>
+			</div>
+
+			<!-- Reset Button -->
+			<div class="reading-mode-option">
+				<button type="button" class="reset-btn" id="reading-mode-reset">
+					{t.ui.resetToDefaults || "Reset to defaults"}
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	(function () {
+		const STORAGE_KEY = "reading-preferences";
+		const DEFAULTS = {
+			fontSize: 1,
+			lineHeight: 1.7,
+			columnWidth: 68,
+			theme: "system",
+		};
+
+		// DOM elements
+		const trigger = document.getElementById("reading-mode-trigger");
+		const panel = document.getElementById("reading-mode-panel");
+		const closeBtn = panel?.querySelector(".reading-mode-close");
+		const fontSizeSlider = document.getElementById(
+			"font-size-slider",
+		) as HTMLInputElement | null;
+		const lineHeightSlider = document.getElementById(
+			"line-height-slider",
+		) as HTMLInputElement | null;
+		const columnWidthSlider = document.getElementById(
+			"column-width-slider",
+		) as HTMLInputElement | null;
+		const themeRadios = document.querySelectorAll<HTMLInputElement>(
+			'input[name="reading-theme"]',
+		);
+		const resetBtn = document.getElementById(
+			"reading-mode-reset",
+		) as HTMLElement | null;
+
+		// Value displays
+		const fontSizeValue = document.getElementById("font-size-value");
+		const lineHeightValue = document.getElementById("line-height-value");
+		const columnWidthValue = document.getElementById("column-width-value");
+
+		// Decrease/increase buttons
+		const decreaseBtns: Record<string, HTMLElement | null> = {
+			"font-size": document.getElementById("font-size-decrease"),
+			"line-height": document.getElementById("line-height-decrease"),
+			"column-width": document.getElementById("column-width-decrease"),
+		};
+		const increaseBtns: Record<string, HTMLElement | null> = {
+			"font-size": document.getElementById("font-size-increase"),
+			"line-height": document.getElementById("line-height-increase"),
+			"column-width": document.getElementById("column-width-increase"),
+		};
+
+		// State
+		type ReadingState = {
+			fontSize: number;
+			lineHeight: number;
+			columnWidth: number;
+			theme: string;
+		};
+		type SettingKey = keyof ReadingState;
+		let state: ReadingState = {
+			...DEFAULTS,
+			// Preserve the theme chosen in the masthead instead of clobbering it.
+			theme:
+				document.documentElement.getAttribute("data-theme") ?? "system",
+		};
+
+		// Initialize from localStorage
+		function loadState() {
+			try {
+				const saved = localStorage.getItem("reading-preferences");
+				if (saved) {
+					state = {
+						...DEFAULTS,
+						...(JSON.parse(saved) as Partial<ReadingState>),
+					};
+				}
+			} catch (e) {
+				console.warn("Failed to load reading preferences:", e);
+			}
+			applyState();
+			updateUI();
+		}
+
+		// Save to localStorage
+		function saveState() {
+			try {
+				localStorage.setItem(
+					"reading-preferences",
+					JSON.stringify(state),
+				);
+			} catch (e) {
+				console.warn("Failed to save reading preferences:", e);
+			}
+		}
+
+		// Apply state to document
+		function applyState() {
+			const root = document.documentElement;
+			root.style.setProperty(
+				"--reading-font-size",
+				`${state.fontSize}rem`,
+			);
+			root.style.setProperty(
+				"--reading-line-height",
+				String(state.lineHeight),
+			);
+			root.style.setProperty(
+				"--reading-measure",
+				`${state.columnWidth}ch`,
+			);
+
+			// Apply theme
+			if (state.theme === "system") {
+				root.removeAttribute("data-theme");
+			} else {
+				root.setAttribute("data-theme", state.theme);
+			}
+		}
+
+		// Update UI controls
+		function updateUI() {
+			if (fontSizeSlider) fontSizeSlider.value = String(state.fontSize);
+			if (lineHeightSlider)
+				lineHeightSlider.value = String(state.lineHeight);
+			if (columnWidthSlider)
+				columnWidthSlider.value = String(state.columnWidth);
+
+			if (fontSizeValue)
+				fontSizeValue.textContent = `${Math.round(state.fontSize * 100)}%`;
+			if (lineHeightValue)
+				lineHeightValue.textContent = state.lineHeight.toFixed(1);
+			if (columnWidthValue)
+				columnWidthValue.textContent = `${state.columnWidth}ch`;
+
+			themeRadios.forEach((radio) => {
+				radio.checked = radio.value === state.theme;
+			});
+		}
+
+		// Update a single setting
+		function updateSetting(key: SettingKey, value: number | string) {
+			(state as Record<SettingKey, number | string>)[key] = value;
+			applyState();
+			saveState();
+			updateUI();
+		}
+
+		// Increment/decrement helpers
+		function adjustSetting(
+			key: "fontSize" | "lineHeight" | "columnWidth",
+			delta: number,
+			min: number,
+			max: number,
+			step: number,
+		) {
+			const newValue =
+				Math.round(
+					Math.min(max, Math.max(min, state[key] + delta)) / step,
+				) * step;
+			updateSetting(key, newValue);
+		}
+
+		// Event listeners
+		function setupEvents() {
+			// Toggle panel
+			trigger?.addEventListener("click", () => {
+				const isHidden = panel?.hasAttribute("hidden");
+				if (isHidden) {
+					panel?.removeAttribute("hidden");
+					trigger?.setAttribute("aria-expanded", "true");
+					// Focus first focusable element
+					setTimeout(() => fontSizeSlider?.focus(), 0);
+				} else {
+					panel?.setAttribute("hidden", "");
+					trigger?.setAttribute("aria-expanded", "false");
+				}
+			});
+
+			// Close panel
+			closeBtn?.addEventListener("click", () => {
+				panel?.setAttribute("hidden", "");
+				trigger?.setAttribute("aria-expanded", "false");
+			});
+
+			// Close on outside click
+			document.addEventListener("click", (e) => {
+				const target = e.target as Node | null;
+				if (
+					panel &&
+					target &&
+					!panel.contains(target) &&
+					target !== trigger
+				) {
+					panel.setAttribute("hidden", "");
+					trigger?.setAttribute("aria-expanded", "false");
+				}
+			});
+
+			// Escape key
+			document.addEventListener("keydown", (e) => {
+				if (
+					e.key === "Escape" &&
+					panel &&
+					!panel.hasAttribute("hidden")
+				) {
+					panel.setAttribute("hidden", "");
+					trigger?.setAttribute("aria-expanded", "false");
+					trigger?.focus();
+				}
+			});
+
+			// Sliders
+			const sliders: Record<
+				string,
+				{
+					slider: HTMLInputElement | null;
+					min: number;
+					max: number;
+					step: number;
+				}
+			> = {
+				"font-size": {
+					slider: fontSizeSlider,
+					min: 0.875,
+					max: 1.5,
+					step: 0.0625,
+				},
+				"line-height": {
+					slider: lineHeightSlider,
+					min: 1.4,
+					max: 2.2,
+					step: 0.1,
+				},
+				"column-width": {
+					slider: columnWidthSlider,
+					min: 45,
+					max: 90,
+					step: 5,
+				},
+			};
+			const sliderKeyMap: Record<
+				string,
+				"fontSize" | "lineHeight" | "columnWidth"
+			> = {
+				"font-size": "fontSize",
+				"line-height": "lineHeight",
+				"column-width": "columnWidth",
+			};
+
+			Object.entries(sliders).forEach(([key, config]) => {
+				const settingKey = sliderKeyMap[key];
+				config.slider?.addEventListener("input", () => {
+					updateSetting(
+						settingKey,
+						parseFloat(config.slider?.value ?? ""),
+					);
+				});
+				config.slider?.addEventListener("change", () => {
+					saveState();
+				});
+
+				decreaseBtns[key]?.addEventListener("click", () => {
+					adjustSetting(
+						settingKey,
+						-config.step,
+						config.min,
+						config.max,
+						config.step,
+					);
+				});
+
+				increaseBtns[key]?.addEventListener("click", () => {
+					adjustSetting(
+						settingKey,
+						config.step,
+						config.min,
+						config.max,
+						config.step,
+					);
+				});
+			});
+
+			// Theme radios
+			themeRadios.forEach((radio) => {
+				radio.addEventListener("change", () => {
+					updateSetting("theme", radio.value);
+				});
+			});
+
+			// Reset button
+			resetBtn?.addEventListener("click", () => {
+				state = { ...DEFAULTS };
+				applyState();
+				updateUI();
+				saveState();
+			});
+
+			// Trap focus in panel when open
+			panel?.addEventListener("keydown", (e) => {
+				if (e.key === "Tab") {
+					const focusable = panel.querySelectorAll<HTMLElement>(
+						'button, input, [href], select, textarea, [tabindex]:not([tabindex="-1"])',
+					);
+					const first = focusable[0];
+					const last = focusable[focusable.length - 1];
+
+					if (e.shiftKey && document.activeElement === first) {
+						e.preventDefault();
+						last.focus();
+					} else if (!e.shiftKey && document.activeElement === last) {
+						e.preventDefault();
+						first.focus();
+					}
+				}
+			});
+		}
+
+		// Initialize
+		loadState();
+		setupEvents();
+	})();
+</script>
+
+<style>
+	.reading-mode-toggle {
+		position: relative;
+		display: inline-flex;
+	}
+
+	.reading-mode-btn {
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		font-weight: 600;
+		padding: var(--space-1) var(--space-2);
+		background: transparent;
+		border: 1px solid var(--mountain-light);
+		border-radius: var(--radius);
+		color: var(--ink-muted);
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--space-1);
+		min-width: 44px;
+		transition:
+			color var(--transition-base),
+			background var(--transition-base),
+			border-color var(--transition-base);
+	}
+
+	.reading-mode-btn:hover,
+	.reading-mode-btn:focus {
+		color: var(--gold);
+		background: var(--valley-light);
+		border-color: var(--gold);
+		outline: none;
+	}
+
+	.reading-mode-btn:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+	}
+
+	.reading-mode-btn[aria-expanded="true"] {
+		color: var(--ink);
+		background: var(--gold);
+		border-color: var(--gold);
+	}
+
+	.reading-mode-panel {
+		position: fixed;
+		top: calc(var(--space-4) + 60px); /* Below masthead */
+		right: var(--margin-page);
+		z-index: 1000;
+		background: var(--sheet);
+		border: 1px solid var(--mountain-light);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-packet);
+		padding: var(--space-4);
+		min-width: 280px;
+		max-width: 320px;
+		animation: reading-mode-slide-in var(--transition-fold) ease-out;
+	}
+
+	@keyframes reading-mode-slide-in {
+		from {
+			opacity: 0;
+			transform: translateY(-0.5rem);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.reading-mode-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: var(--space-3);
+		padding-bottom: var(--space-2);
+		border-bottom: 1px solid var(--mountain-light);
+	}
+
+	.reading-mode-header h3 {
+		font-family: var(--font-display);
+		font-size: var(--size-sm);
+		font-weight: 700;
+		color: var(--ink);
+		margin: 0;
+	}
+
+	.reading-mode-close {
+		background: none;
+		border: none;
+		font-size: var(--size-lg);
+		line-height: 1;
+		color: var(--ink-muted);
+		cursor: pointer;
+		padding: 0;
+		width: 28px;
+		height: 28px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: var(--radius);
+		transition:
+			color var(--transition-base),
+			background var(--transition-base);
+	}
+
+	.reading-mode-close:hover {
+		color: var(--gold);
+		background: var(--valley-light);
+	}
+
+	.reading-mode-close:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+	}
+
+	.reading-mode-options {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+	}
+
+	.reading-mode-option {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.reading-mode-option label,
+	.reading-mode-option legend {
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--ink-muted);
+	}
+
+	.slider-group {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	.slider-btn {
+		background: var(--sheet-darker);
+		border: 1px solid var(--mountain-light);
+		border-radius: var(--radius);
+		width: 28px;
+		height: 28px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: var(--size-base);
+		color: var(--ink);
+		cursor: pointer;
+		transition:
+			color var(--transition-base),
+			background var(--transition-base),
+			border-color var(--transition-base);
+	}
+
+	.slider-btn:hover {
+		color: var(--gold);
+		border-color: var(--gold);
+	}
+
+	.slider-btn:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+	}
+
+	.slider-group input[type="range"] {
+		flex: 1;
+		height: 4px;
+		-webkit-appearance: none;
+		appearance: none;
+		background: var(--mountain-light);
+		border-radius: 2px;
+		outline: none;
+	}
+
+	.slider-group input[type="range"]::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		appearance: none;
+		width: 16px;
+		height: 16px;
+		background: var(--gold);
+		border-radius: 50%;
+		cursor: pointer;
+		transition: transform var(--transition-base);
+	}
+
+	.slider-group input[type="range"]::-webkit-slider-thumb:hover {
+		transform: scale(1.2);
+	}
+
+	.slider-group input[type="range"]::-moz-range-thumb {
+		width: 16px;
+		height: 16px;
+		background: var(--gold);
+		border: none;
+		border-radius: 50%;
+		cursor: pointer;
+	}
+
+	.slider-value {
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		font-weight: 600;
+		color: var(--ink);
+		min-width: 3.5ch;
+		text-align: right;
+	}
+
+	.theme-quick-toggle {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.theme-quick-toggle label {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-2) var(--space-3);
+		background: var(--sheet-darker);
+		border: 1px solid var(--mountain-light);
+		border-radius: var(--radius);
+		cursor: pointer;
+		transition:
+			border-color var(--transition-base),
+			background var(--transition-base);
+	}
+
+	.theme-quick-toggle label:hover {
+		border-color: var(--gold);
+		background: var(--valley-light);
+	}
+
+	.theme-quick-toggle label:focus-within {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+		border-radius: var(--radius);
+	}
+
+	.theme-quick-toggle input[type="radio"] {
+		appearance: none;
+		width: 16px;
+		height: 16px;
+		border: 2px solid var(--mountain);
+		border-radius: 50%;
+		margin: 0;
+		position: relative;
+		flex-shrink: 0;
+	}
+
+	.theme-quick-toggle input[type="radio"]:checked {
+		border-color: var(--gold);
+	}
+
+	.theme-quick-toggle input[type="radio"]:checked::after {
+		content: "";
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 8px;
+		height: 8px;
+		background: var(--gold);
+		border-radius: 50%;
+	}
+
+	.theme-quick-toggle input[type="radio"]:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+	}
+
+	.theme-quick-toggle span {
+		font-family: var(--font-reading);
+		font-size: var(--size-sm);
+		color: var(--ink);
+	}
+
+	.reset-btn {
+		font-family: var(--font-structural);
+		font-size: var(--size-xs);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		padding: var(--space-2) var(--space-3);
+		background: transparent;
+		border: 1px solid var(--mountain-light);
+		border-radius: var(--radius);
+		color: var(--ink-muted);
+		cursor: pointer;
+		transition:
+			color var(--transition-base),
+			border-color var(--transition-base);
+		align-self: flex-start;
+	}
+
+	.reset-btn:hover {
+		color: var(--gold);
+		border-color: var(--gold);
+	}
+
+	.reset-btn:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+	}
+
+	/* Responsive */
+	@media (max-width: 720px) {
+		.reading-mode-panel {
+			right: var(--space-2);
+			left: var(--space-2);
+			min-width: auto;
+			max-width: none;
+		}
+	}
+
+	/* Reduced motion */
+	@media (prefers-reduced-motion: reduce) {
+		.reading-mode-panel {
+			animation: none;
+		}
+	}
+
+	/* High contrast */
+	@media (prefers-contrast: high) {
+		.reading-mode-panel {
+			border-color: currentColor;
+		}
+		.slider-btn,
+		.reading-mode-btn,
+		.reset-btn {
+			border-color: currentColor;
+		}
+	}
+</style>

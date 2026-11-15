@@ -1,0 +1,699 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../../components/BaseHead.astro";
+import Footer from "../../../components/Footer.astro";
+import Masthead from "../../../components/Masthead.astro";
+import CookieConsent from "../../../components/CookieConsent.astro";
+import ReadAloud from "../../../components/ReadAloud.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../../consts";
+import {
+	getTranslation,
+	type Locale,
+	type TranslationKeys,
+} from "../../../i18n";
+import {
+	loadEditionContent,
+	getEditionPaths,
+	getAdjacentEditions,
+	hasEnglishCounterpart,
+	getEditionUrl,
+	getEditionAlternateUrls,
+	getPublicArtifacts,
+	getReadingTime,
+	getListeningDuration,
+	formatEditionDate,
+	formatEditionWindow,
+	type EditionContent,
+	type EditionArtifact,
+} from "../../../lib/publication/astro-adapter.js";
+import {
+	PublicationContentTypeSchema,
+	type PublicationLifecycleStatus,
+} from "../../../lib/publication/schema.js";
+
+export async function getStaticPaths() {
+	return getEditionPaths();
+}
+
+const { locale, editionDate } = Astro.props;
+const t = getTranslation(locale);
+
+// Load edition content
+const edition = await loadEditionContent(editionDate);
+
+if (!edition) {
+	return Astro.redirect(`/${locale}/404`);
+}
+
+// Get adjacent editions for navigation
+const adjacent = await getAdjacentEditions(editionDate);
+
+// Get public artifacts for this language
+const nlNewsletter = edition.newsletter;
+const nlResearchAudit = edition.researchAudit;
+const nlListening = edition.listeningNarrative;
+const enArticles = edition.englishArticles;
+const enListening = edition.englishListening;
+
+// Determine which artifacts to show based on language and lifecycle status
+const showNewsletter =
+	locale === "nl" &&
+	nlNewsletter &&
+	(nlNewsletter.metadata.lifecycleStatus === "VALIDATED" ||
+		nlNewsletter.metadata.lifecycleStatus === "PUBLISHED");
+const showResearchAudit =
+	locale === "nl" &&
+	nlResearchAudit &&
+	(nlResearchAudit.metadata.lifecycleStatus === "VALIDATED" ||
+		nlResearchAudit.metadata.lifecycleStatus === "PUBLISHED");
+const showListening =
+	locale === "nl" &&
+	nlListening &&
+	(nlListening.metadata.lifecycleStatus === "VALIDATED" ||
+		nlListening.metadata.lifecycleStatus === "PUBLISHED");
+const showEnglishArticles =
+	locale === "en" &&
+	enArticles.filter(
+		(a) =>
+			a.metadata.lifecycleStatus === "VALIDATED" ||
+			a.metadata.lifecycleStatus === "PUBLISHED",
+	).length > 0;
+const showEnglishListening =
+	locale === "en" &&
+	enListening.filter(
+		(a) =>
+			a.metadata.lifecycleStatus === "VALIDATED" ||
+			a.metadata.lifecycleStatus === "PUBLISHED",
+	).length > 0;
+
+// Check for English counterparts
+const newsletterEnCounterpart = nlNewsletter
+	? hasEnglishCounterpart(nlNewsletter, enArticles)
+	: null;
+const listeningEnCounterpart = nlListening
+	? hasEnglishCounterpart(nlListening, enListening)
+	: null;
+
+// Page metadata
+const pageTitle =
+	locale === "nl"
+		? `AI Intelligence — ${formatEditionDate(editionDate, locale)}`
+		: `AI Intelligence — ${formatEditionDate(editionDate, locale)}`;
+
+const pageDescription =
+	locale === "nl"
+		? `Dagelijkse technische nieuwsbrief over AI-ontwikkelingen voor ${formatEditionDate(editionDate, locale)}`
+		: `Daily technical briefing on AI developments for ${formatEditionDate(editionDate, locale)}`;
+
+// Canonical and alternate URLs
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const alternateUrls = getEditionAlternateUrls(
+	editionDate,
+	Astro.url.pathname,
+	Astro.site,
+);
+
+// Current lifecycle status for display
+const editionStatus = nlNewsletter?.metadata.lifecycleStatus ?? "DRAFT";
+const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead title={pageTitle} description={pageDescription} />
+		<link rel="canonical" href={canonicalURL} />
+		{alternateUrls.map((alt) => (
+			<link rel="alternate" hreflang={alt.lang} href={alt.url} />
+		))}
+		<link
+			rel="alternate"
+			hreflang="x-default"
+			href={
+				alternateUrls.find((a) => a.lang === "en")?.url ||
+				`/en/edition/${editionDate}/`
+			}
+		/>
+	</head>
+	<body>
+		<!-- Skip links -->
+		<a href="#main-content" class="skip-link">
+			Skip to main content
+		</a>
+		<a href="#page-nav" class="skip-link">
+			Skip to navigation
+		</a>
+
+		<Masthead currentPath={Astro.url.pathname} locale={locale} t={t} />
+
+		<main
+			class="reading-column"
+			id="main-content"
+			style="max-width: var(--measure); margin: 0 auto; padding: var(--space-6) var(--margin-page);"
+		>
+			<!-- Edition Header -->
+			<header style="margin-bottom: var(--space-7); padding-bottom: var(--space-5); border-bottom: 1px solid var(--mountain-light); text-align: center;">
+				<div style="display: inline-flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); font-family: var(--font-structural); font-size: var(--size-sm); color: var(--ink-muted);">
+					<time
+						datetime={editionDate}
+						style="font-variant-numeric: tabular-nums;"
+					>
+						{formatEditionDate(editionDate, locale)}
+					</time>
+					<span aria-hidden="true">•</span>
+					<span>
+						{formatEditionWindow(edition.editionIdentity, locale)}
+					</span>
+					{!isPublic && (
+						<span style="background: var(--valley-light); color: var(--valley); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+							{editionStatus}
+						</span>
+					)}
+				</div>
+
+				<h1 style="font-size: var(--size-3xl); margin-bottom: var(--space-3);">
+					{SITE_TITLE}
+				</h1>
+				<p style="font-size: var(--size-lg); color: var(--ink-muted); font-style: italic; max-width: 60ch; margin: 0 auto;">
+					{pageDescription}
+				</p>
+			</header>
+
+			<!-- Edition Navigation -->
+			<nav
+				style="margin-bottom: var(--space-6); padding: var(--space-3); background: var(--sheet-darker); border-radius: var(--radius); border: 1px solid var(--mountain-light);"
+				aria-label="Edition navigation"
+			>
+				<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3); font-family: var(--font-structural); font-size: var(--size-sm);">
+					{adjacent.prev && (
+						<a
+							href={getEditionUrl(adjacent.prev, locale)}
+							style="color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 2px;"
+						>
+							← {t.ui.recentArticles}: {adjacent.prev}
+						</a>
+					)}
+					{adjacent.next && (
+						<a
+							href={getEditionUrl(adjacent.next, locale)}
+							style="color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 2px;"
+						>
+							{t.ui.recentArticles}: {adjacent.next} →
+						</a>
+					)}
+					{!adjacent.prev && !adjacent.next && (
+						<span style="color: var(--ink-muted);">
+							{t.ui.noResults}
+						</span>
+					)}
+				</div>
+			</nav>
+
+			<!-- Available Formats -->
+			<section style="margin-bottom: var(--space-7);">
+				<h2 class="folded-heading" style="margin-left: 0;">
+					<span class="section-number">01</span>
+					{t.ui.latestEssays}
+				</h2>
+
+				<ul style="list-style: none; padding: 0; display: grid; gap: var(--space-4);">
+					{showNewsletter && (
+						<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker);">
+							<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-start;">
+								<div style="flex: 1; min-width: 280px;">
+									<h3 style="margin: 0 0 var(--space-1); font-size: var(--size-lg); color: var(--ink);">
+										{nlNewsletter!.metadata.title}
+									</h3>
+									<p style="color: var(--ink-muted); margin: 0 0 var(--space-2);">
+										{nlNewsletter!.metadata.description}
+									</p>
+									<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-sm); color: var(--ink-muted); font-family: var(--font-structural); align-items: center;">
+										<span>
+											📖 {getReadingTime(nlNewsletter!)}{" "}
+											min leestijd
+										</span>
+										{nlNewsletter!.metadata.topics.length >
+											0 && (
+											<span style="color: var(--gold);">
+												{nlNewsletter!.metadata.topics
+													.slice(0, 3)
+													.join(", ")}
+												{nlNewsletter!.metadata.topics
+													.length > 3
+													? "…"
+													: ""}
+											</span>
+										)}
+									</div>
+								</div>
+								<div style="display: flex; flex-direction: column; gap: var(--space-2);">
+									<a
+										href={`/${locale}/edition/${editionDate}/newsletter/`}
+										style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px; text-align: center; padding: var(--space-2) var(--space-3); background: var(--valley-light); border-radius: var(--radius);"
+									>
+										{t.nav.essays} →
+									</a>
+									{newsletterEnCounterpart &&
+										locale === "nl" && (
+											<a
+												href={`/en/edition/${editionDate}/newsletter/`}
+												style="font-family: var(--font-structural); font-size: var(--size-sm); font-weight: 600; text-decoration: none; color: var(--valley); border-bottom: 1px dotted var(--valley); text-align: center; padding: var(--space-1) var(--space-2);"
+											>
+												{t.lang.switchTo.replace(
+													"{lang}",
+													t.lang.en,
+												)}
+											</a>
+										)}
+								</div>
+							</div>
+						</li>
+					)}
+
+					{showResearchAudit && (
+						<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker);">
+							<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-start;">
+								<div style="flex: 1; min-width: 280px;">
+									<h3 style="margin: 0 0 var(--space-1); font-size: var(--size-lg); color: var(--ink);">
+										{nlResearchAudit!.metadata.title}
+									</h3>
+									<p style="color: var(--ink-muted); margin: 0 0 var(--space-2);">
+										{nlResearchAudit!.metadata.description}
+									</p>
+									<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-sm); color: var(--ink-muted); font-family: var(--font-structural); align-items: center;">
+										<span>
+											📋{" "}
+											{getReadingTime(nlResearchAudit!)}{" "}
+											min leestijd
+										</span>
+									</div>
+								</div>
+								<div style="display: flex; flex-direction: column; gap: var(--space-2);">
+									<a
+										href={`/${locale}/edition/${editionDate}/research-audit/`}
+										style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px; text-align: center; padding: var(--space-2) var(--space-3); background: var(--valley-light); border-radius: var(--radius);"
+									>
+										{t.ui.aboutThisPublication} →
+									</a>
+								</div>
+							</div>
+						</li>
+					)}
+
+					{showListening && (
+						<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker);">
+							<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-start;">
+								<div style="flex: 1; min-width: 280px;">
+									<h3 style="margin: 0 0 var(--space-1); font-size: var(--size-lg); color: var(--ink);">
+										{nlListening!.metadata.title}
+									</h3>
+									<p style="color: var(--ink-muted); margin: 0 0 var(--space-2);">
+										{nlListening!.metadata.description}
+									</p>
+									<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-sm); color: var(--ink-muted); font-family: var(--font-structural); align-items: center;">
+										<span>
+											🔊{" "}
+											{getListeningDuration(nlListening!)}{" "}
+											min luisterduur
+										</span>
+									</div>
+								</div>
+								<div style="display: flex; flex-direction: column; gap: var(--space-2);">
+									<a
+										href={`/${locale}/edition/${editionDate}/listening/`}
+										style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px; text-align: center; padding: var(--space-2) var(--space-3); background: var(--valley-light); border-radius: var(--radius);"
+									>
+										{t.ui.readAloud.label} →
+									</a>
+									{listeningEnCounterpart &&
+										locale === "nl" && (
+											<a
+												href={`/en/edition/${editionDate}/listening/`}
+												style="font-family: var(--font-structural); font-size: var(--size-sm); font-weight: 600; text-decoration: none; color: var(--valley); border-bottom: 1px dotted var(--valley); text-align: center; padding: var(--space-1) var(--space-2);"
+											>
+												{t.lang.switchTo.replace(
+													"{lang}",
+													t.lang.en,
+												)}
+											</a>
+										)}
+								</div>
+							</div>
+						</li>
+					)}
+
+					{showEnglishArticles && (
+						<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker);">
+							<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-start;">
+								<div style="flex: 1; min-width: 280px;">
+									<h3 style="margin: 0 0 var(--space-1); font-size: var(--size-lg); color: var(--ink);">
+										{t.ui.latestEssays} (English)
+									</h3>
+									<p style="color: var(--ink-muted); margin: 0 0 var(--space-2);">
+										Individual technical articles derived
+										from the Dutch canonical publication.
+									</p>
+									<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-sm); color: var(--ink-muted); font-family: var(--font-structural); align-items: center;">
+										<span>
+											{
+												enArticles.filter(
+													(a) =>
+														a.metadata
+															.lifecycleStatus ===
+															"VALIDATED" ||
+														a.metadata
+															.lifecycleStatus ===
+															"PUBLISHED",
+												).length
+											}{" "}
+											articles
+										</span>
+									</div>
+								</div>
+								<div style="display: flex; flex-direction: column; gap: var(--space-2);">
+									<a
+										href={`/${locale}/edition/${editionDate}/articles/`}
+										style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px; text-align: center; padding: var(--space-2) var(--space-3); background: var(--valley-light); border-radius: var(--radius);"
+									>
+										{t.nav.essays} →
+									</a>
+								</div>
+							</div>
+						</li>
+					)}
+
+					{showEnglishListening && (
+						<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker);">
+							<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-start;">
+								<div style="flex: 1; min-width: 280px;">
+									<h3 style="margin: 0 0 var(--space-1); font-size: var(--size-lg); color: var(--ink);">
+										{t.ui.readAloud.label} (English)
+									</h3>
+									<p style="color: var(--ink-muted); margin: 0 0 var(--space-2);">
+										Independent English listening narratives
+										derived from the canonical Dutch
+										narratives.
+									</p>
+									<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-sm); color: var(--ink-muted); font-family: var(--font-structural); align-items: center;">
+										<span>
+											{
+												enListening.filter(
+													(a) =>
+														a.metadata
+															.lifecycleStatus ===
+															"VALIDATED" ||
+														a.metadata
+															.lifecycleStatus ===
+															"PUBLISHED",
+												).length
+											}{" "}
+											narratives
+										</span>
+									</div>
+								</div>
+								<div style="display: flex; flex-direction: column; gap: var(--space-2);">
+									<a
+										href={`/${locale}/edition/${editionDate}/listening/`}
+										style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px; text-align: center; padding: var(--space-2) var(--space-3); background: var(--valley-light); border-radius: var(--radius);"
+									>
+										{t.ui.readAloud.label} →
+									</a>
+								</div>
+							</div>
+						</li>
+					)}
+
+					{!showNewsletter &&
+						!showResearchAudit &&
+						!showListening &&
+						!showEnglishArticles &&
+						!showEnglishListening && (
+							<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker); text-align: center; color: var(--ink-muted);">
+								{locale === "nl"
+									? "Deze editie is nog niet gepubliceerd. Alleen VALIDATED of PUBLISHED edities zijn publiek zichtbaar."
+									: "This edition is not yet published. Only VALIDATED or PUBLISHED editions are publicly visible."}
+							</li>
+						)}
+				</ul>
+			</section>
+
+			<!-- Edition Metadata -->
+			<details style="margin-bottom: var(--space-7); border: 1px solid var(--mountain-light); border-radius: var(--radius); background: var(--sheet-darker);">
+				<summary style="padding: var(--space-3) var(--space-4); cursor: pointer; font-family: var(--font-structural); font-weight: 600; color: var(--ink); list-style: none;">
+					{locale === "nl"
+						? "Publicatie metadata"
+						: "Publication metadata"}
+				</summary>
+				<div style="padding: 0 var(--space-4) var(--space-4); font-size: var(--size-sm); font-family: var(--font-structural); color: var(--ink-muted);">
+					<dl style="display: grid; grid-template-columns: auto 1fr; gap: var(--space-2) var(--space-4); margin: 0;">
+						<dt>Editie ID</dt>
+						<dd style="margin: 0; font-family: var(--font-structural);">
+							{edition.editionId}
+						</dd>
+
+						<dt>Datum</dt>
+						<dd style="margin: 0;">
+							{formatEditionDate(editionDate, locale)}
+						</dd>
+
+						<dt>Rapportagevenster</dt>
+						<dd style="margin: 0;">
+							{formatEditionWindow(
+								edition.editionIdentity,
+								locale,
+							)}
+						</dd>
+
+						<dt>Status</dt>
+						<dd style="margin: 0; text-transform: uppercase;">
+							{editionStatus}
+						</dd>
+
+						<dt>Fact Dossier</dt>
+						<dd style="margin: 0; font-family: var(--font-structural);">
+							{edition.canonicalReferences.factDossier.dossierId}{" "}
+							(
+							{edition.canonicalReferences.factDossier.contentHash.slice(
+								0,
+								16,
+							)}
+							…)
+						</dd>
+
+						<dt>Editoriële Selectie</dt>
+						<dd style="margin: 0; font-family: var(--font-structural);">
+							{
+								edition.canonicalReferences.editorialSelection
+									.manifestId
+							}{" "}
+							(
+							{edition.canonicalReferences.editorialSelection.contentHash.slice(
+								0,
+								16,
+							)}
+							…)
+						</dd>
+
+						{edition.canonicalReferences.historicalRegression
+							.referenced && (
+							<>
+								<dt>Historische Regressie</dt>
+								<dd style="margin: 0; font-family: var(--font-structural);">
+									{
+										edition.canonicalReferences
+											.historicalRegression.reportId
+									}{" "}
+									(
+									{edition.canonicalReferences.historicalRegression.contentHash.slice(
+										0,
+										16,
+									)}
+									…)
+								</dd>
+							</>
+						)}
+
+						{edition.canonicalReferences.omissionReview
+							.referenced && (
+							<>
+								<dt>Omissie Review</dt>
+								<dd style="margin: 0; font-family: var(--font-structural);">
+									{
+										edition.canonicalReferences
+											.omissionReview.reportId
+									}
+								</dd>
+							</>
+						)}
+
+						<dt>Canonieke publicaties</dt>
+						<dd style="margin: 0;">
+							3 (newsletter, research-audit, listening-narrative)
+						</dd>
+
+						<dt>Engelse derivaten</dt>
+						<dd style="margin: 0;">
+							{enArticles.length} artikelen, {enListening.length}{" "}
+							luisternarratieven
+						</dd>
+					</dl>
+				</div>
+			</details>
+
+			<!-- Navigation Index -->
+			<section style="margin-bottom: var(--space-7);">
+				<h2 class="folded-heading" style="margin-left: 0;">
+					<span class="section-number">02</span>
+					{t.ui.aboutThisPublication}
+				</h2>
+
+				<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-4);">
+					{edition.navigation.byTopic.length > 0 && (
+						<article style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet);">
+							<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-lg); color: var(--ink);">
+								{t.topics.title}
+							</h3>
+							<ul style="margin: 0; padding-left: var(--space-4); font-size: var(--size-sm); color: var(--ink-muted);">
+								{edition.navigation.byTopic.map((topic) => (
+									<li style="margin-bottom: var(--space-1);">
+										<a
+											href={`/${locale}/topics/${topic.topic.toLowerCase().replace(/\s+/g, "-")}/`}
+											style="color: var(--valley); text-decoration: none; border-bottom: 1px dotted var(--valley);"
+										>
+											{topic.topic} (
+											{topic.articleIds.length})
+										</a>
+									</li>
+								))}
+							</ul>
+						</article>
+					)}
+
+					{edition.navigation.byOrganization.length > 0 && (
+						<article style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet);">
+							<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-lg); color: var(--ink);">
+								{locale === "nl"
+									? "Organisaties"
+									: "Organizations"}
+							</h3>
+							<ul style="margin: 0; padding-left: var(--space-4); font-size: var(--size-sm); color: var(--ink-muted);">
+								{edition.navigation.byOrganization.map(
+									(org) => (
+										<li style="margin-bottom: var(--space-1);">
+											<a
+												href={`/${locale}/topics/${org.organization.toLowerCase().replace(/\s+/g, "-")}/`}
+												style="color: var(--valley); text-decoration: none; border-bottom: 1px dotted var(--valley);"
+											>
+												{org.organization} (
+												{org.articleIds.length})
+											</a>
+										</li>
+									),
+								)}
+							</ul>
+						</article>
+					)}
+
+					{edition.navigation.byResearchDomain.length > 0 && (
+						<article style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet);">
+							<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-lg); color: var(--ink);">
+								{locale === "nl"
+									? "Onderzoeksdomeinen"
+									: "Research Domains"}
+							</h3>
+							<ul style="margin: 0; padding-left: var(--space-4); font-size: var(--size-sm); color: var(--ink-muted);">
+								{edition.navigation.byResearchDomain.map(
+									(domain) => (
+										<li style="margin-bottom: var(--space-1);">
+											<a
+												href={`/${locale}/topics/${domain.domain.toLowerCase().replace(/\s+/g, "-")}/`}
+												style="color: var(--valley); text-decoration: none; border-bottom: 1px dotted var(--valley);"
+											>
+												{domain.domain} (
+												{domain.articleIds.length})
+											</a>
+										</li>
+									),
+								)}
+							</ul>
+						</article>
+					)}
+
+					{edition.navigation.bySource.length > 0 && (
+						<article style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet);">
+							<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-lg); color: var(--ink);">
+								{locale === "nl" ? "Bronnen" : "Sources"}
+							</h3>
+							<ul style="margin: 0; padding-left: var(--space-4); font-size: var(--size-sm); color: var(--ink-muted);">
+								{edition.navigation.bySource.map((src) => (
+									<li style="margin-bottom: var(--space-1);">
+										<code style="font-family: var(--font-structural); font-size: var(--size-xs);">
+											{src.sourceId}
+										</code>{" "}
+										({src.articleIds.length})
+									</li>
+								))}
+							</ul>
+						</article>
+					)}
+				</div>
+			</section>
+
+			<!-- Missing Artifacts Notice -->
+			{edition.missingArtifacts.length > 0 && (
+				<section style="margin-bottom: var(--space-7); padding: var(--space-4); background: var(--valley-light); border: 1px solid var(--valley); border-radius: var(--radius);">
+					<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-lg); color: var(--valley);">
+						{locale === "nl"
+							? "Ontbrekende publicaties"
+							: "Missing publications"}
+					</h3>
+					<ul style="margin: 0; padding-left: var(--space-4); font-size: var(--size-sm); color: var(--ink-muted);">
+						{edition.missingArtifacts.map((missing) => (
+							<li style="margin-bottom: var(--space-1);">
+								<strong>{missing.contentType}</strong> (
+								{missing.language}) — {missing.reason}
+							</li>
+						))}
+					</ul>
+				</section>
+			)}
+
+			<footer style="border-top: 1px solid var(--mountain-light); padding-top: var(--space-6); text-align: center;">
+				<p style="max-width: 50ch; margin: 0 auto; color: var(--ink-muted); font-size: var(--size-sm);">
+					{locale === "nl"
+						? "Deze publicatie is gegenereerd vanuit het canoniek feiten dossier en de editoriële selectie manifest. Feitelijke claims zijn traceerbaar naar bronnen via claim-identificaties."
+						: "This publication is generated from the canonical fact dossier and editorial selection manifest. Factual claims are traceable to sources via claim identifiers."}
+				</p>
+			</footer>
+		</main>
+
+		<Footer locale={locale} t={t} />
+		<CookieConsent locale={locale} t={t} />
+	</body>
+</html>
+
+<style>
+	/* Edition-specific styles */
+	details summary::-webkit-details-marker {
+		display: none;
+	}
+
+	details summary::before {
+		content: "▶";
+		display: inline-block;
+		margin-right: var(--space-2);
+		font-size: var(--size-xs);
+		transform: rotate(0deg);
+		transition: transform var(--transition-base);
+	}
+
+	details[open] summary::before {
+		transform: rotate(90deg);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		details summary::before {
+			transition: none;
+		}
+	}
+</style>

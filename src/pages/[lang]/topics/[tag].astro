@@ -1,0 +1,178 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../../components/BaseHead.astro";
+import Footer from "../../../components/Footer.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import Masthead from "../../../components/Masthead.astro";
+import CookieConsent from "../../../components/CookieConsent.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../../consts";
+import { getTranslation, type Locale } from "../../../i18n";
+
+export async function getStaticPaths() {
+	const posts = await getCollection("blog");
+	const tagSet = new Set<string>();
+
+	for (const post of posts) {
+		for (const tag of post.data.tags || []) {
+			tagSet.add(tag);
+		}
+	}
+
+	const paths = [];
+	for (const tag of tagSet) {
+		for (const locale of ["en", "nl"] as const) {
+			paths.push({
+				params: {
+					lang: locale,
+					tag: tag.toLowerCase().replace(/\s+/g, "-"),
+				},
+				props: {
+					tag,
+					tagSlug: tag.toLowerCase().replace(/\s+/g, "-"),
+					locale,
+				},
+			});
+		}
+	}
+	return paths;
+}
+
+const { tag, tagSlug, locale } = Astro.props;
+const t = getTranslation(locale);
+
+const posts = await getCollection("blog");
+const tagPosts = posts
+	.filter((p) =>
+		(p.data.tags || []).some(
+			(t) => t.toLowerCase().replace(/\s+/g, "-") === tagSlug,
+		),
+	)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<BaseHead
+			title={`${tag} — ${SITE_TITLE}`}
+			description={`${t.ui.articlesTagged.replace("{tag}", tag)}`}
+		/>
+	</head>
+	<body>
+		<!-- Skip to main content link -->
+		<a href="#main-content" class="skip-link">
+			Skip to main content
+		</a>
+		<a href="#page-nav" class="skip-link">
+			Skip to navigation
+		</a>
+
+		<Masthead currentPath={Astro.url.pathname} locale={locale} t={t} />
+
+		<main
+			class="reading-column"
+			id="main-content"
+			style="max-width: var(--measure); margin: 0 auto; padding: var(--space-6) var(--margin-page);"
+		>
+			<header style="margin-bottom: var(--space-7); padding-bottom: var(--space-5); border-bottom: 1px solid var(--mountain-light);">
+				<div style="display: inline-flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3);">
+					<span
+						style="
+						font-family: var(--font-structural);
+						font-size: var(--size-xs);
+						font-weight: 600;
+						text-transform: uppercase;
+						letter-spacing: 0.05em;
+						color: var(--gold);
+						background: var(--valley-light);
+						padding: var(--space-1) var(--space-2);
+						border-radius: var(--radius);
+					"
+					>
+						{t.topics.title}
+					</span>
+					<h1 style="font-size: var(--size-3xl); margin: 0;">
+						{tag}
+					</h1>
+				</div>
+				<p style="font-size: var(--size-lg); color: var(--ink-muted); font-style: italic; max-width: 60ch;">
+					{tagPosts.length === 1
+						? t.ui.articleTagged.replace("{tag}", tag)
+						: t.ui.articlesTagged.replace("{tag}", tag)}
+				</p>
+			</header>
+
+			{tagPosts.length === 0 ? (
+				<p style="text-align: center; color: var(--ink-muted); font-style: italic;">
+					{t.ui.noArticlesForTopic}
+				</p>
+			) : (
+				<ul style="list-style: none; padding: 0; display: grid; gap: var(--space-4);">
+					{tagPosts.map((post) => (
+						<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker); transition: border-color var(--transition-base);">
+							<a
+								href={`/${locale}/blog/${post.id}/`}
+								style="text-decoration: none; color: inherit; display: block;"
+							>
+								{post.data.heroImage && (
+									<div style="margin: calc(var(--space-4) * -1) calc(var(--space-4) * -1) var(--space-4); border-radius: var(--radius) var(--radius) 0 0; overflow: hidden;">
+										<img
+											src={post.data.heroImage.src}
+											alt={post.data.description}
+											style="width: 100%; height: auto; display: block; aspect-ratio: 16/9; object-fit: cover;"
+										/>
+									</div>
+								)}
+								<h2 style="margin: 0 0 var(--space-2); font-size: var(--size-xl); color: var(--ink); transition: color var(--transition-base);">
+									{post.data.title}
+								</h2>
+								<p style="color: var(--ink-muted); margin: 0 0 var(--space-2);">
+									{post.data.description}
+								</p>
+								<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-sm); color: var(--ink-muted); font-family: var(--font-structural); align-items: center;">
+									<time
+										datetime={post.data.pubDate.toISOString()}
+										style="font-variant-numeric: tabular-nums;"
+									>
+										{new Intl.DateTimeFormat(
+											locale === "nl" ? "nl-NL" : "en-US",
+											{ dateStyle: "medium" },
+										).format(post.data.pubDate)}
+									</time>
+									<span aria-hidden="true">•</span>
+									<span>
+										{post.data.readingTime || "~"} min read
+									</span>
+									{post.data.tags.length > 1 && (
+										<span style="color: var(--gold);">
+											{post.data.tags
+												.filter(
+													(t) =>
+														t
+															.toLowerCase()
+															.replace(
+																/\s+/g,
+																"-",
+															) !== tagSlug,
+												)
+												.slice(0, 2)
+												.join(", ")}
+											{post.data.tags.length > 3
+												? "…"
+												: ""}
+										</span>
+									)}
+								</div>
+							</a>
+						</li>
+					))}
+				</ul>
+			)}
+		</main>
+
+		<Footer locale={locale} t={t} />
+
+		<!-- Cookie Consent Banner -->
+		<CookieConsent locale={locale} t={t} />
+	</body>
+</html>

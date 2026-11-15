@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Generated Astro types
+.astro/
+
+# Agent tool state
+.hermes/
+.impeccable/
+
+# Agent instruction files (not published documentation)
+**/AGENTS.md
+
+# Generated pipeline data
+data/

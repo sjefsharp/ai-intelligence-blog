@@ -25,26 +25,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v7.0.1
 
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@3ea37a44b6e4e6847c46edae209410d258d548d1 # main (2025-11-15)
         with:
           languages: ${{ matrix.language }}
           queries: +security-and-quality
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@9bbca1e9dc2902adb87e8780fe5c98796985a62d # v6.1.1
-        with:
-          version: 12
-          run_install: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: "22"
-          cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@3ea37a44b6e4e6847c46edae209410d258d548d1 # main (2025-11-15)

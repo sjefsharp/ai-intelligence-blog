@@ -13,6 +13,10 @@ concurrency:
 permissions:
   contents: read
 
+# pnpm comes from corepack via the packageManager field in package.json, so
+# setup-node's `cache: "pnpm"` cannot be used (it needs pnpm on PATH already).
+# See https://pnpm.io/settings and https://nodejs.org/api/corepack.html.
+
 jobs:
   lint-and-typecheck:
     name: Lint & TypeCheck
@@ -22,17 +26,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v7.0.1
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@9bbca1e9dc2902adb87e8780fe5c98796985a62d # v6.1.1
-        with:
-          version: 12
-          run_install: false
-
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "22"
-          cache: "pnpm"
+
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -41,7 +41,7 @@ jobs:
         run: pnpm exec prettier --check .
 
       - name: Run ESLint
-        run: pnpm exec eslint . --max-warnings 0
+        run: pnpm exec eslint . --ext .ts,.tsx,.js,.jsx,.astro --max-warnings 0
 
       - name: Run Markdownlint
         run: pnpm exec markdownlint .
@@ -57,17 +57,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v7.0.1
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@9bbca1e9dc2902adb87e8780fe5c98796985a62d # v6.1.1
-        with:
-          version: 12
-          run_install: false
-
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "22"
-          cache: "pnpm"
+
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -84,17 +80,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v7.0.1
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@9bbca1e9dc2902adb87e8780fe5c98796985a62d # v6.1.1
-        with:
-          version: 12
-          run_install: false
-
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "22"
-          cache: "pnpm"
+
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -118,17 +110,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v7.0.1
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@9bbca1e9dc2902adb87e8780fe5c98796985a62d # v6.1.1
-        with:
-          version: 12
-          run_install: false
-
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "22"
-          cache: "pnpm"
+
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -168,23 +156,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v7.0.1
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@9bbca1e9dc2902adb87e8780fe5c98796985a62d # v6.1.1
-        with:
-          version: 12
-          run_install: false
-
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "22"
-          cache: "pnpm"
+
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Audit production dependencies
         run: pnpm audit --prod --audit-level=high
+        continue-on-error: false
 
       - name: Audit dev dependencies (warn only)
         run: pnpm audit --dev --audit-level=high || true
@@ -216,17 +201,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@9bbca1e9dc2902adb87e8780fe5c98796985a62d # v6.1.1
-        with:
-          version: 12
-          run_install: false
-
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "22"
-          cache: "pnpm"
+
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

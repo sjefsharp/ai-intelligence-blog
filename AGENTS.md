@@ -95,6 +95,8 @@ pnpm run lint
 - ❌ Editing `pnpm-lock.yaml` manually
 - ❌ Adding dependencies without `pnpm add <pkg>`
 - ❌ Using `npx` — use `pnpm exec` or `pnpm dlx` instead
+- ❌ Symlink hacks or hard-coded `node_modules/.bin` paths — let the package manager link and resolve its own binaries (`pnpm exec`)
+- ❌ Reward hacking in any form — no gaming checks, metrics, rate limits, or tool output; fix the root cause instead
 
 ### 3.3 Dependency Policy
 
@@ -360,6 +362,7 @@ When an agent works in this repo:
 6. **Report real output** — never fabricate tool results
 7. **Respect boundaries** — no paid services, no secrets, no npm/yarn
 8. **Look up current docs** — Context7 first, plus web search/fetch for the authoritative pages (see §11)
+9. **Follow documented defaults** — implement fixes exactly as the official documentation and language/tool defaults prescribe; never invent workarounds (symlink hacks, check-gaming, fabricated output). If the documented path cannot work, stop and ask the user before deviating
 
 ---
 
@@ -404,7 +407,9 @@ When an agent works in this repo:
 | 2026-11-08 | Initial AGENTS.md created from repo inspection                                                                                                                                                                                                                                              | Agent  |
 | 2026-11-11 | Added the Seven-Day Historical Regression stage (`src/lib/historical-regression/`, `scripts/run-historical-regression.ts`, `data/schemas/historical-regression.json`, `docs/historical-regression.md`) between Omission Review and Editorial Selection; see `docs/historical-regression.md` | Agent  |
 | 2026-11-13 | Implemented Book Delta capability (`src/lib/book-delta/`, `scripts/run-book-delta.ts`, `docs/book-delta.md`) within Knowledge Continuity gate; cleared pre-existing `astro check` backlog (596 → 0 errors), all gates green; see `docs/book-delta.md`                                       | Agent  |
-| 2026-11-14 | Added §11 "Documentation Lookup — Context7 + Web Sources" (Context7 MCP plus web search/fetch for authoritative docs, with mandatory procedure and source hierarchy) and §10 item 8                                                                                                         | Agent  |
+
+| 2026-11-14 | Added §11 "Documentation Lookup — Context7 + Web Sources" (Context7 MCP plus web search/fetch for authoritative docs, with mandatory procedure and source hierarchy) and §10 item 8 | Agent |
+| 2026-11-14 | Added the "no symlink hacks / no reward hacking / follow documented defaults, ask before deviating" rule to §3.2 and §10; CI now installs with corepack + pnpm instead of the deleted `scripts/ci-setup.sh` symlink hack | Agent |
 
 ---
 

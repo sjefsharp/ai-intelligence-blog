@@ -1,105 +1,27 @@
-# AGENTS.md — Content Collection Guidelines
+# Astro content collection — scoped instructions
 
-This file contains scoped engineering rules for `src/content/`. Load only when working in this directory.
+Scope: `src/content/**`; inherit root `AGENTS.md`. Applies to blog Markdown/MDX, frontmatter and content metadata, **not** directly to canonical daily `editions/**` output.
 
-## Content Collections
+## Repository facts
 
-### Blog Collection (`src/content/blog/`)
+- `src/content.config.ts` defines the Astro `blog` collection with Zod. Existing required fields: `title`, `description`, `pubDate`; existing optional/default fields: `updatedDate`, `heroImage`, `sourceUrl`, `readingTime`, `tags`.
+- Do not claim the current schema enforces HTTPS-only URLs, a description length cap, tag normalization, future-date exclusion or `updatedDate >= pubDate`; those would need explicit schema rules and tests.
+- Canonical daily artifacts are generated under `editions/edition_YYYY-MM-DD/` by the pipeline. Example blog posts and demos are **not** validated daily publications.
 
-- **Format**: Markdown (`.md`) or MDX (`.mdx`)
-- **Schema**: Defined in `src/content.config.ts` (Zod)
-- **Frontmatter**: Type-safe via Content Collections
+## Trigger → action → verification
 
-### Frontmatter Schema
+| Trigger                      | Action                                                                                             | Verification                                                               |
+| ---------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Frontmatter edited           | Compare `src/content.config.ts`, existing post formats and route consumers                         | Schema parses; RSS/routes/build remain valid                               |
+| Source claim added           | Verify linked source, date, citation and any provenance metadata                                   | No unsupported or falsely verified statement                               |
+| Language content changed     | Follow the artifact's locale and source contract, check Dutch/English derivatives where applicable | Facts, uncertainty and dates agree across locales                          |
+| Canonical artifact requested | Use domain generator/acceptance workflow, not manual modification in `src/content/`                | Complete provenance-bearing `editions/**` output or explicit blocked state |
+| Page/content ready           | Run targeted content check and `pnpm run build`; use existing hooks/CI                             | Exit statuses recorded; no broken route or link                            |
 
-```ts
-{
-  title: string;                    // Required
-  description: string;              // Required
-  pubDate: Date;                    // Required (coerced from string)
-  updatedDate?: Date;               // Optional
-  heroImage?: ImageMetadata;        // Optional (Astro Image)
-  tags: string[];                   // Default: []
-  sourceUrl?: string;               // Optional (validated URL)
-  readingTime?: number;             // Optional (positive integer, minutes)
-}
-```
+## Specific safeguards
 
-### Validation Rules
-
-- `title`: Non-empty, descriptive
-- `description`: Non-empty, ≤ 300 chars (for SEO/meta)
-- `pubDate`: Valid date, not in future (enforced at build)
-- `updatedDate`: If present, ≥ `pubDate`
-- `sourceUrl`: Valid HTTPS URL if present
-- `tags`: Lowercase, kebab-case, no duplicates
-- `readingTime`: Calculated at build if omitted
-
-### File Organization
-
-```
-src/content/blog/
-├── first-post.md
-├── second-post.md
-├── third-post.md
-├── using-mdx.mdx
-└── markdown-style-guide.md
-```
-
-### Naming Convention
-
-- Kebab-case filenames: `my-blog-post.md`
-- Matches URL slug: `/blog/my-blog-post/`
-- No date prefix in filename (date in frontmatter)
-
-### Content Guidelines
-
-- Write in English by default
-- Dutch translations: separate file with `-nl.md` suffix (future)
-- Use semantic Markdown: headings, lists, code blocks, blockquotes
-- Embed components via MDX when needed: `<Callout type="evidence" />`
-- Images in `src/assets/` or `public/`, referenced via Astro `Image` component
-
-### Publication Lifecycle
-
-1. **Draft**: Local only, not committed
-2. **Ready**: PR opened, CI passes
-3. **Published**: Merged to `main`, deployed
-4. **Updated**: `updatedDate` added, PR for changes
-
-### SEO & Metadata
-
-- `title` → `<title>`, Open Graph `og:title`, Twitter `twitter:title`
-- `description` → `<meta name="description">`, `og:description`, `twitter:description`
-- `pubDate` → `<time datetime>`, `article:published_time`
-- `updatedDate` → `article:modified_time`
-- `tags` → `article:tag`, topic pages
-- `heroImage` → `og:image`, `twitter:image`
-
-### RSS & Sitemap
-
-- Auto-generated via `@astrojs/rss` and `@astrojs/sitemap`
-- All blog entries included
-- `<lastmod>` from `updatedDate` or `pubDate`
-- `<changefreq>` weekly for blog index
-
-### Accessibility
-
-- Heading hierarchy: Single `<h1>` (title), then `<h2>`+
-- Code blocks: language specified for syntax highlighting
-- Images: descriptive `alt` text
-- Links: descriptive text, `rel="noopener noreferrer"` for external
-
-### Internationalization
-
-- Blog posts currently English only
-- Future: Dutch translations in `src/content/blog/nl/`
-- Language routing: `/en/blog/...`, `/nl/blog/...`
-
-## Editing Workflow
-
-1. Create/edit `.md` file in `src/content/blog/`
-2. Validate frontmatter: `pnpm astro check`
-3. Preview: `astro dev`
-4. Commit with conventional commit: `feat(content): add blog post "..."`
-5. PR review and merge
+- Use stable slugs and canonical URLs; avoid silently renaming published identity.
+- Escape/validate untrusted Markdown/MDX, hyperlinks, interpolated tables and metadata. A link to a claim is not proof it was verified.
+- Preserve Dutch canonical readable/listening output semantics when producing English derivatives; do not silently reclassify facts during translation.
+- When changing content schemas, add tests for malformed dates, invalid URLs, missing required fields and compatibility with existing content.
+- Daily publication date window and schedule belong to `src/lib/editorial-window.ts` and the publication contract. The **intended** 05:00 Amsterdam schedule is not proof of a running scheduler.

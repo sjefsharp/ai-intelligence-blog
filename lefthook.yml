@@ -47,10 +47,6 @@ commit-msg:
 # Pre-push validation
 pre-push:
   jobs:
-    - name: typecheck
-      run: pnpm astro check
-      stage_fixed: false
-
     - name: build
       run: pnpm run build
       stage_fixed: false

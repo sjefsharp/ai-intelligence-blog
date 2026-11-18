@@ -47,22 +47,35 @@ function parseCliArgs(): CliOptions {
 			mode: { type: "string", short: "m" },
 			config: { type: "string", short: "c" },
 			resumeFrom: { type: "string", short: "r" },
+			"resume-from": { type: "string" },
 			forceResume: { type: "boolean" },
+			"force-resume": { type: "boolean" },
 			dryRunFixtures: { type: "string" },
+			"dry-run-fixtures": { type: "string" },
 			outputDir: { type: "string", short: "o" },
+			"output-dir": { type: "string" },
 			verbose: { type: "boolean", short: "v" },
 			dryRun: { type: "boolean" },
+			"dry-run": { type: "boolean" },
 			noPersist: { type: "boolean" },
+			"no-persist": { type: "boolean" },
 			skipStages: { type: "string" },
+			"skip-stages": { type: "string" },
 			onlyStages: { type: "string" },
+			"only-stages": { type: "string" },
 			maxParallelism: { type: "string" },
+			"max-parallelism": { type: "string" },
 			budgetOverride: { type: "string" },
+			"budget-override": { type: "string" },
 			timeoutMs: { type: "string" },
+			"timeout-ms": { type: "string" },
 			help: { type: "boolean", short: "h" },
 			version: { type: "boolean", short: "V" },
 			graph: { type: "boolean" },
 			listStages: { type: "boolean" },
+			"list-stages": { type: "boolean" },
 			listPhases: { type: "boolean" },
+			"list-phases": { type: "boolean" },
 		},
 		allowPositionals: true,
 	});
@@ -95,11 +108,11 @@ function parseCliArgs(): CliOptions {
 		printGraph();
 		process.exit(0);
 	}
-	if (values.listStages) {
+	if (values.listStages || values["list-stages"]) {
 		listStages();
 		process.exit(0);
 	}
-	if (values.listPhases) {
+	if (values.listPhases || values["list-phases"]) {
 		listPhases();
 		process.exit(0);
 	}
@@ -109,22 +122,33 @@ function parseCliArgs(): CliOptions {
 		edition: values.edition,
 		mode,
 		config: values.config,
-		resumeFrom: values.resumeFrom,
-		forceResume: values.forceResume ?? false,
-		dryRunFixtures: values.dryRunFixtures,
-		outputDir: values.outputDir,
+		resumeFrom: values.resumeFrom ?? values["resume-from"],
+		forceResume: values.forceResume ?? values["force-resume"] ?? false,
+		dryRunFixtures: values.dryRunFixtures ?? values["dry-run-fixtures"],
+		outputDir: values.outputDir ?? values["output-dir"],
 		verbose: values.verbose ?? false,
-		dryRun: values.dryRun ?? false,
-		noPersist: values.noPersist ?? false,
-		skipStages: values.skipStages ? values.skipStages.split(",") : [],
-		onlyStages: values.onlyStages ? values.onlyStages.split(",") : [],
-		maxParallelism: values.maxParallelism
-			? parseInt(values.maxParallelism, 10)
-			: 1,
-		budgetOverride: values.budgetOverride,
-		timeoutMs: values.timeoutMs
-			? parseInt(values.timeoutMs, 10)
-			: undefined,
+		dryRun: values.dryRun ?? values["dry-run"] ?? false,
+		noPersist: values.noPersist ?? values["no-persist"] ?? false,
+		skipStages:
+			(values.skipStages ?? values["skip-stages"])
+				? (values.skipStages ?? values["skip-stages"]!).split(",")
+				: [],
+		onlyStages:
+			(values.onlyStages ?? values["only-stages"])
+				? (values.onlyStages ?? values["only-stages"]!).split(",")
+				: [],
+		maxParallelism:
+			(values.maxParallelism ?? values["max-parallelism"])
+				? parseInt(
+						values.maxParallelism ?? values["max-parallelism"]!,
+						10,
+					)
+				: 1,
+		budgetOverride: values.budgetOverride ?? values["budget-override"],
+		timeoutMs:
+			(values.timeoutMs ?? values["timeout-ms"])
+				? parseInt(values.timeoutMs ?? values["timeout-ms"]!, 10)
+				: undefined,
 	};
 }
 

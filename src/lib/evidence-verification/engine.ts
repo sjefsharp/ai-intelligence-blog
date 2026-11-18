@@ -2280,11 +2280,24 @@ export async function verifyClaim(
 
 /** Batch verify multiple claims */
 export async function verifyClaims(
-	inputs: ClaimVerificationInput[],
+	input:
+		| {
+				editionDate: string;
+				editionContext?: Record<string, unknown>;
+				cliOptions?: Record<string, unknown>;
+				llmClient?: unknown;
+				candidates?: unknown[];
+				items?: unknown[];
+		  }
+		| unknown[],
 ): Promise<ClaimVerificationRecord[]> {
+	// Handle both array input (direct) and object input (from workflow engine)
+	const items = Array.isArray(input)
+		? input
+		: input.candidates || input["candidates"] || input.items || [];
 	const results: ClaimVerificationRecord[] = [];
-	for (const input of inputs) {
-		results.push(await verifyClaim(input));
+	for (const inputItem of items) {
+		results.push(await verifyClaim(inputItem as ClaimVerificationInput));
 	}
 	return results;
 }

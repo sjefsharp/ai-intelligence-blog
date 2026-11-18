@@ -35,6 +35,9 @@ export * from "./cross-language-validator.js";
 // Astro adapter for static website rendering
 export * from "./astro-adapter.js";
 
+// Research audit generation (third canonical publication)
+export * from "./research-audit-generator.js";
+
 // Resolve ambiguous re-exports between canonical and derivative generators.
 export { computeContentHash } from "./metadata.js";
 export {

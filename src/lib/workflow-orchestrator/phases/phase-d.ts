@@ -5,16 +5,21 @@
  * unresolved issues, and all editorial dependencies are resolved.
  */
 
-import { validateSelectionCompleteness, resolveEditorialDependencies } from "../../editorial-selection/index.js";
+import {
+	validateSelectionCompleteness,
+	resolveEditorialDependencies,
+} from "../../editorial-selection/index.js";
 
 /**
  * Validate Selection Completeness (D02_VALIDATE_SELECTION_COMPLETENESS).
  * Entry point for workflow stage D02.
  * Verifies that all selected stories have complete evidence and no blocking unresolved issues.
  */
-export async function validateSelectionCompletenessWrapper(input: any): Promise<any> {
+export async function validateSelectionCompletenessWrapper(
+	input: any,
+): Promise<any> {
 	const result = await validateSelectionCompleteness(input);
-	
+
 	return {
 		...result,
 		validated: true,
@@ -28,9 +33,11 @@ export async function validateSelectionCompletenessWrapper(input: any): Promise<
  * Entry point for workflow stage D03.
  * Applies existing contracts to resolve any remaining editorial dependencies.
  */
-export async function resolveEditorialDependenciesWrapper(input: any): Promise<any> {
+export async function resolveEditorialDependenciesWrapper(
+	input: any,
+): Promise<any> {
 	const result = await resolveEditorialDependencies(input);
-	
+
 	return {
 		...result,
 		resolved: true,

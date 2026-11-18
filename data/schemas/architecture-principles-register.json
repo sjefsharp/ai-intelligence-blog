@@ -45,7 +45,10 @@
                 "minLength": 1
               }
             },
-            "required": ["en", "nl"],
+            "required": [
+              "en",
+              "nl"
+            ],
             "additionalProperties": false
           },
           "statement": {
@@ -60,7 +63,10 @@
                 "minLength": 1
               }
             },
-            "required": ["en", "nl"],
+            "required": [
+              "en",
+              "nl"
+            ],
             "additionalProperties": false
           },
           "concern": {
@@ -75,7 +81,10 @@
                 "minLength": 1
               }
             },
-            "required": ["en", "nl"],
+            "required": [
+              "en",
+              "nl"
+            ],
             "additionalProperties": false
           },
           "rationale": {
@@ -90,7 +99,10 @@
                 "minLength": 1
               }
             },
-            "required": ["en", "nl"],
+            "required": [
+              "en",
+              "nl"
+            ],
             "additionalProperties": false
           },
           "applicability": {
@@ -222,7 +234,11 @@
                 },
                 "automationFeasibility": {
                   "type": "string",
-                  "enum": ["fully-automated", "semi-automated", "manual-review"]
+                  "enum": [
+                    "fully-automated",
+                    "semi-automated",
+                    "manual-review"
+                  ]
                 },
                 "exampleScenario": {
                   "type": "string"
@@ -321,7 +337,11 @@
                 "residualRisk": {
                   "default": "medium",
                   "type": "string",
-                  "enum": ["low", "medium", "high"]
+                  "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                  ]
                 },
                 "decisionGuidance": {
                   "type": "string",
@@ -444,7 +464,12 @@
                     },
                     "verificationLevel": {
                       "type": "string",
-                      "enum": ["L0", "L1", "L2", "L3"]
+                      "enum": [
+                        "L0",
+                        "L1",
+                        "L2",
+                        "L3"
+                      ]
                     },
                     "claimSupported": {
                       "type": "string",
@@ -592,7 +617,12 @@
                     },
                     "verificationLevel": {
                       "type": "string",
-                      "enum": ["L0", "L1", "L2", "L3"]
+                      "enum": [
+                        "L0",
+                        "L1",
+                        "L2",
+                        "L3"
+                      ]
                     },
                     "claimSupported": {
                       "type": "string",
@@ -740,7 +770,12 @@
                     },
                     "verificationLevel": {
                       "type": "string",
-                      "enum": ["L0", "L1", "L2", "L3"]
+                      "enum": [
+                        "L0",
+                        "L1",
+                        "L2",
+                        "L3"
+                      ]
                     },
                     "claimSupported": {
                       "type": "string",
@@ -1093,7 +1128,12 @@
           },
           "lifecycleStatus": {
             "type": "string",
-            "enum": ["CANDIDATE", "ESTABLISHED", "REVISED", "SUPERSEDED"]
+            "enum": [
+              "CANDIDATE",
+              "ESTABLISHED",
+              "REVISED",
+              "SUPERSEDED"
+            ]
           },
           "firstVerifiedObservationDate": {
             "type": "string",
@@ -1149,11 +1189,21 @@
                 },
                 "previousLifecycleStatus": {
                   "type": "string",
-                  "enum": ["CANDIDATE", "ESTABLISHED", "REVISED", "SUPERSEDED"]
+                  "enum": [
+                    "CANDIDATE",
+                    "ESTABLISHED",
+                    "REVISED",
+                    "SUPERSEDED"
+                  ]
                 },
                 "newLifecycleStatus": {
                   "type": "string",
-                  "enum": ["CANDIDATE", "ESTABLISHED", "REVISED", "SUPERSEDED"]
+                  "enum": [
+                    "CANDIDATE",
+                    "ESTABLISHED",
+                    "REVISED",
+                    "SUPERSEDED"
+                  ]
                 },
                 "fieldsChanged": {
                   "type": "array",
@@ -1557,7 +1607,11 @@
                     "residualRisk": {
                       "default": "medium",
                       "type": "string",
-                      "enum": ["low", "medium", "high"]
+                      "enum": [
+                        "low",
+                        "medium",
+                        "high"
+                      ]
                     },
                     "decisionGuidance": {
                       "type": "string",
@@ -1577,7 +1631,12 @@
               },
               "lifecycleRecommendation": {
                 "type": "string",
-                "enum": ["CANDIDATE", "ESTABLISHED", "REVISED", "SUPERSEDED"]
+                "enum": [
+                  "CANDIDATE",
+                  "ESTABLISHED",
+                  "REVISED",
+                  "SUPERSEDED"
+                ]
               },
               "changeClassification": {
                 "type": "string",
@@ -1688,14 +1747,24 @@
           "type": "object",
           "propertyNames": {
             "type": "string",
-            "enum": ["CANDIDATE", "ESTABLISHED", "REVISED", "SUPERSEDED"]
+            "enum": [
+              "CANDIDATE",
+              "ESTABLISHED",
+              "REVISED",
+              "SUPERSEDED"
+            ]
           },
           "additionalProperties": {
             "type": "integer",
             "minimum": 0,
             "maximum": 9007199254740991
           },
-          "required": ["CANDIDATE", "ESTABLISHED", "REVISED", "SUPERSEDED"]
+          "required": [
+            "CANDIDATE",
+            "ESTABLISHED",
+            "REVISED",
+            "SUPERSEDED"
+          ]
         },
         "byDomain": {
           "type": "object",
@@ -1781,7 +1850,10 @@
             }
           }
         },
-        "required": ["rule", "passed"],
+        "required": [
+          "rule",
+          "passed"
+        ],
         "additionalProperties": false
       }
     },
@@ -1790,7 +1862,12 @@
       "properties": {
         "gateStatus": {
           "type": "string",
-          "enum": ["PASS", "FAIL", "UNVERIFIED", "NOT_ASSESSABLE"]
+          "enum": [
+            "PASS",
+            "FAIL",
+            "UNVERIFIED",
+            "NOT_ASSESSABLE"
+          ]
         },
         "registerAvailable": {
           "type": "boolean"

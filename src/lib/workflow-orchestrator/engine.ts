@@ -9,6 +9,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";
+import os from "os";
 import { Temporal } from "@js-temporal/polyfill";
 
 // Fix for NodeJS namespace
@@ -136,7 +137,8 @@ export class WorkflowOrchestrator {
 		this.cliOptions = CliOptionsSchema.parse(cliOptions);
 		this.manifestDir = cliOptions.outputDir || DEFAULT_MANIFEST_DIR;
 		this.lockDir = DEFAULT_LOCK_DIR;
-		this.reportDir = DEFAULT_REPORT_DIR;
+		// Use manifestDir as base for reports to respect --output-dir
+		this.reportDir = path.join(this.manifestDir, "workflow-reports");
 		this.evidenceDir = DEFAULT_EVIDENCE_DIR;
 	}
 
@@ -299,7 +301,7 @@ export class WorkflowOrchestrator {
 			acquiredAt,
 			acquiredBy: {
 				processId: process.pid,
-				hostname: require("os").hostname(),
+				hostname: os.hostname(),
 				user: process.env.USER || "unknown",
 			},
 			expiresAt,
@@ -631,10 +633,18 @@ export class WorkflowOrchestrator {
 		// Prepare input
 		const input = await this.prepareStageInput(stageDef, stageRecord);
 
-		// Create checkpoint if enabled
+		// Create checkpoint if enabled (including in DRY_RUN for testing)
 		let checkpointId: string | undefined;
 		if (stageDef.checkpointPolicy.enabled) {
 			checkpointId = generateId("cp_");
+			// Persist checkpoint in DRY_RUN mode as well
+			if (this.cliOptions.mode === "DRY_RUN") {
+				await this.persistCheckpoint(
+					checkpointId,
+					stageDef,
+					stageRecord,
+				);
+			}
 		}
 
 		// Execute based on mode
@@ -738,14 +748,21 @@ export class WorkflowOrchestrator {
 		);
 		console.log(`  [DRY_RUN] Input keys: ${Object.keys(input).join(", ")}`);
 
+		// Determine output base path - use rehearsal directory for DRY_RUN
+		const isRehearsal =
+			this.cliOptions.outputDir?.includes("rehearsal") ?? false;
+		const editionPath = isRehearsal
+			? `editions/rehearsal/${input.editionDate}`
+			: `editions/edition_${input.editionDate}`;
+
 		// Return mock output matching output contract
 		const mockOutputs: ArtifactRef[] =
 			stageDef.outputContract.producedArtifacts.map((a) => ({
 				...a,
-				path: a.path.replace(
-					"{edition}",
-					input.editionDate || "YYYY-MM-DD",
-				),
+				path: a.path
+					.replace("{edition}", input.editionDate || "YYYY-MM-DD")
+					.replace("editions/edition_${edition}", editionPath)
+					.replace("editions/edition_{edition}", editionPath),
 			}));
 
 		return {
@@ -1340,6 +1357,54 @@ export class WorkflowOrchestrator {
 			resumePossible: validCheckpoints > 0,
 			lastValidCheckpoint: lastValid?.checkpointId,
 		};
+	}
+
+	private async persistCheckpoint(
+		checkpointId: string,
+		stageDef: StageDefinition,
+		stageRecord: StageExecutionRecord,
+	): Promise<void> {
+		if (!this.manifest) return;
+
+		const checkpointDir = path.join(this.manifestDir, "checkpoints");
+		await fs.mkdir(checkpointDir, { recursive: true });
+
+		const checkpoint = {
+			checkpointId,
+			stageId: stageDef.stageId,
+			stageName: stageDef.name,
+			step: this.manifest.stageOrder.indexOf(stageDef.stageId),
+			timestamp: nowISO(),
+			stageRecord: {
+				stageId: stageRecord.stageId,
+				attempt: stageRecord.attempt,
+				state: stageRecord.state,
+				inputArtifacts: stageRecord.inputArtifacts,
+				outputArtifacts: stageRecord.outputArtifacts,
+				resourcesUsed: stageRecord.resourcesUsed,
+				validationResults: stageRecord.validationResults,
+			},
+			valid: true,
+		};
+
+		const checkpointPath = path.join(
+			checkpointDir,
+			`${this.manifest.edition.editionId}_${checkpointId}.json`,
+		);
+
+		await fs.writeFile(
+			checkpointPath,
+			JSON.stringify(checkpoint, null, 2),
+			"utf-8",
+		);
+
+		// Add to manifest checkpoints
+		this.manifest.checkpoints.push(checkpoint);
+		await this.persistManifest();
+
+		console.log(
+			`  [CHECKPOINT] Created: ${checkpointId} for ${stageDef.name}`,
+		);
 	}
 
 	private collectUnresolvedDefects(): WorkflowReport["unresolvedDefects"] {

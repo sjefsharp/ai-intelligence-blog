@@ -15,7 +15,7 @@ import { verifyMandatoryCoverage } from "../../discovery-ledger/index.js";
  */
 export async function verifyMandatoryCoverageWrapper(input: any): Promise<any> {
 	const result = await verifyMandatoryCoverage(input);
-	
+
 	return {
 		...result,
 		verified: true,

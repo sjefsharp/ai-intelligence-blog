@@ -372,9 +372,11 @@ export async function generateResearchAuditMarkdown(
 
 	const dateFormatted = formatDateNL(editionDate);
 	const window = factDossier.editionWindow || {
-		start: "2026-11-16T05:00:00+01:00[Europe/Amsterdam]",
-		end: "2026-11-17T05:00:00+01:00[Europe/Amsterdam]",
+		editionDate,
+		start: `${editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+		end: `${editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
 		timezone: "Europe/Amsterdam",
+		durationHours: 24,
 	};
 
 	const traceability = buildTraceabilitySection(

@@ -1624,7 +1624,10 @@ const E02b_GENERATE_RESEARCH_AUDIT: StageDefinitionInput = {
 			},
 		],
 		optionalArtifacts: [],
-		configurationRefs: ["research-audit-template", "evidence-citation-rules"],
+		configurationRefs: [
+			"research-audit-template",
+			"evidence-citation-rules",
+		],
 		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
 	},
 	outputContract: {
@@ -1632,7 +1635,8 @@ const E02b_GENERATE_RESEARCH_AUDIT: StageDefinitionInput = {
 			{
 				artifactId: "research-audit-md",
 				path: "editions/edition_{edition}/canonical/research-audit.md",
-				description: "Research audit — technical evidence & editorial accountability",
+				description:
+					"Research audit — technical evidence & editorial accountability",
 				required: true,
 			},
 			{
@@ -1672,7 +1676,13 @@ const E02b_GENERATE_RESEARCH_AUDIT: StageDefinitionInput = {
 	modulePath: "../publication/index.ts",
 	entryPoint: "generateResearchAuditWrapper",
 	version: "1.0.0",
-	tags: ["publication", "research-audit", "evidence", "editorial-accountability", "canonical"],
+	tags: [
+		"publication",
+		"research-audit",
+		"evidence",
+		"editorial-accountability",
+		"canonical",
+	],
 };
 
 const E03_GENERATE_EN_ARTICLES: StageDefinitionInput = {

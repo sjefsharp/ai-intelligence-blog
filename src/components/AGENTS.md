@@ -1,109 +1,37 @@
-# AGENTS.md — Frontend Component Guidelines
+# Astro components — scoped instructions
 
-This file contains scoped engineering rules for `src/components/`. Load only when working in this directory.
+Scope: `src/components/**`; inherit root `AGENTS.md`. Applicable to component markup, styles, client behavior, accessibility and localized interface text.
 
-## Component Conventions
+## Read when relevant
 
-### File Structure
+- `DESIGN.md`, `src/styles/global.css` for design tokens and layouts.
+- `src/i18n/{nl,en}.ts` and `src/i18n/index.ts` for localization.
+- `src/layouts/BlogPost.astro` and actual page for landmark and heading hierarchy.
+- `tests/accessibility*.spec.ts` and `playwright.config.ts` for current browser/axe coverage.
 
-- One component per `.astro` file
-- PascalCase filenames: `Header.astro`, `ThemeToggle.astro`
-- Co-locate component-specific styles in `<style>` block or use global CSS custom properties
+## Operational rules
 
-### Semantic HTML Requirements
+- When adding an interaction, use native semantics (`button` for actions, `a` for navigation), visible focus, keyboard access, correct state and appropriate accessible labels. Check manually; axe alone is not proof of WCAG compliance.
+- When changing layout/headings, inspect the containing page to avoid duplicate `<main>`/`h1`, broken heading hierarchy or hidden critical caveats.
+- When changing a graphic, include correct labels, units, provenance and an accessible text equivalent. Never use fabricated data or unlabelled placeholders as published evidence.
+- When changing displayed strings, update both supported locales where applicable; verify correct `lang`, URLs, date formatting and evidence links.
+- When handling untrusted metadata, use safe Astro rendering and sanitize URL values. Escape untrusted content in HTML/Markdown contexts.
+- Reuse existing CSS custom properties and components. Keep static HTML by default; add client JS only for necessary interaction and preserve reduced-motion behavior.
+- For reading/listening changes, test small screens, zoom/reflow, reduced motion, keyboard navigation and state across route transitions.
 
-- Use proper landmarks: `<header>`, `<nav>`, `<main>`, `<article>`, `<aside>`, `<footer>`
-- Single `<h1>` per page; no skipped heading levels
-- Interactive elements: `<button>`, `<a>`, `<input>`, `<select>` — never `<div>`/`<span>` with `onclick`
+## Trigger → action → verification
 
-### Accessibility (WCAG 2.2 AA)
+| Trigger                    | Action                                                                             | Verification                                                |
+| -------------------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `.astro` / props edited    | Inspect callers, run relevant Prettier/ESLint and `pnpm exec astro check`          | Correct types and no new errors                             |
+| Visible interaction edited | Run relevant `pnpm exec playwright test` suite and manually inspect keyboard/focus | Expected state/interaction and accessible behavior          |
+| Translation or link edited | Compare `src/i18n/` and rendered route metadata                                    | Both locales coherent, links and lang attributes valid      |
+| UI change is ready         | Run `pnpm run build`; keep hooks and CI enabled                                    | Real exit status and applicable screenshots/traces supplied |
 
-- Focus visible: `:focus-visible` outlines on all interactive elements
-- Keyboard navigation: Tab/Enter/Space operable
-- ARIA only when native HTML insufficient
-- Images: meaningful `alt` (empty `alt=""` for decorative)
-- Color contrast: ≥ 4.5:1 text, ≥ 3:1 large text/UI against `--sheet`/`--sheet-dark`
+## Refactoring caution
 
-### Styling
+`ReadingMode.astro`, `ReadAloud.astro` and `CookieConsent.astro` are relatively large. Inspect shared state and listener cleanup **before** proposing splitting; do not change the framework or add dependencies merely to lower file length.
 
-- Use CSS custom properties from `global.css`: `--ink`, `--gold`, `--sheet`, `--valley`, `--mountain`, `--focus`
-- No hardcoded colors, spacing, or font sizes
-- Respect `prefers-reduced-motion: reduce` and `prefers-contrast: high`
-- Fluid typography: `clamp()` for responsive sizes
-- Dark theme via `[data-theme="dark"]` selector
-
-### Internationalization
-
-- All user-facing strings via `getTranslation(locale)` from `src/i18n`
-- HTML `lang` attribute set on root element
-- Language toggle component in masthead
-
-### Props Interface
-
-```ts
-interface Props {
-  // Required props first
-  requiredProp: string;
-  // Optional props with defaults
-  optionalProp?: number;
-  // Slots for composition
-  children?: never; // Use <slot /> in template
-}
 ```
 
-### Testing
-
-- Component visual regression via Playwright screenshots
-- Accessibility tested in `tests/accessibility.spec.ts`
-- Unit tests for pure logic in `src/lib/` (not in components)
-
-## Component Checklist (apply to every new/modified component)
-
-- [ ] Semantic landmark structure
-- [ ] Heading order validated
-- [ ] Interactive elements have focus styles
-- [ ] Images have `alt` (or `alt=""` + `role="presentation"`)
-- [ ] Color contrast verified against CSS custom properties
-- [ ] No `onclick` on non-interactive elements
-- [ ] Forms: `<label>` associated, error messages via `aria-describedby`
-- [ ] Reduced motion supported
-- [ ] Dark theme works
-- [ ] Dutch translations added to `src/i18n/nl.ts`
-
-## Common Patterns
-
-### Button/Link
-
-```astro
-<a href="/path" class="button">
-  Label
-</a>
-<button class="button" aria-pressed="false">
-  Toggle
-</button>
-```
-
-### Skip Link (required on all pages)
-
-```astro
-<a href="#main-content" class="skip-link">
-  Skip to main content
-</a>
-```
-
-### Theme-Aware Colors
-
-```css
-color: var(--ink);
-background: var(--sheet);
-border-color: var(--mountain-light);
-```
-
-### Focus Styles
-
-```css
-:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
-}
 ```

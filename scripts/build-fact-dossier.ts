@@ -22,17 +22,19 @@ import { parse, parseAllDocuments } from "yaml";
 
 import {
 	buildDossier,
-	createFactDossierStore,
-	validateFactDossier,
-	enrichDossier,
-	createFreeLlmEnrichmentProvider,
-	hasInferenceCredentials,
 	type CandidateConsolidationInput,
 	type ConsolidationContext,
 	type PreviousEditionCandidateSummary,
 	type PreviousEditionIndex,
 	type SourceRegistryEntry,
-} from "../src/lib/fact-dossier/index.js";
+} from "../src/lib/fact-dossier/consolidator.js";
+import { createFactDossierStore } from "../src/lib/fact-dossier/store.js";
+import { validateFactDossier } from "../src/lib/fact-dossier/validate.js";
+import {
+	enrichDossier,
+	createFreeLlmEnrichmentProvider,
+	hasInferenceCredentials,
+} from "../src/lib/fact-dossier/enrichment.js";
 import { getEditorialWindow } from "../src/lib/editorial-window.js";
 import { EvidenceVerificationStore } from "../src/lib/evidence-verification/index.js";
 import type {

@@ -11,12 +11,10 @@
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 import { randomBytes, createHash } from "crypto";
-import {
-	type CanonicalFactDossier,
-	type EditorialSelectionManifest,
-	type HistoricalRegressionReport,
-	type PublicationMetadata,
-} from "./schema.js";
+import { type CanonicalFactDossier } from "../fact-dossier/schema.js";
+import { type EditorialSelectionManifest } from "../editorial-selection/schema.js";
+import { type HistoricalRegressionReport } from "../historical-regression/schema.js";
+import { type PublicationMetadata } from "./schema.js";
 import {
 	generateArtifactId,
 	createCanonicalPublicationMetadata,

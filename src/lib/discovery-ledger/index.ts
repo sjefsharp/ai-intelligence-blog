@@ -22,9 +22,7 @@ function getLedger(input: any): DiscoveryLedger {
  */
 export async function runRing1Discovery(input: any): Promise<any> {
 	const ledger = getLedger(input);
-	const execution = await ledger.startExecution(input.editionDate, [1], {
-		sourceFilter: "ring1",
-	});
+	const execution = await ledger.startExecution(input.editionDate, [1], []);
 	// Simulate discovery - in real implementation, this would fetch from sources
 	await ledger.completeExecution();
 	return { success: true };
@@ -36,9 +34,7 @@ export async function runRing1Discovery(input: any): Promise<any> {
  */
 export async function runRing2Discovery(input: any): Promise<any> {
 	const ledger = getLedger(input);
-	const execution = await ledger.startExecution(input.editionDate, [2], {
-		sourceFilter: "ring2",
-	});
+	const execution = await ledger.startExecution(input.editionDate, [2], []);
 	await ledger.completeExecution();
 	return { success: true };
 }
@@ -49,9 +45,7 @@ export async function runRing2Discovery(input: any): Promise<any> {
  */
 export async function runRing3Discovery(input: any): Promise<any> {
 	const ledger = getLedger(input);
-	const execution = await ledger.startExecution(input.editionDate, [3], {
-		sourceFilter: "ring3",
-	});
+	const execution = await ledger.startExecution(input.editionDate, [3], []);
 	await ledger.completeExecution();
 	return { success: true };
 }

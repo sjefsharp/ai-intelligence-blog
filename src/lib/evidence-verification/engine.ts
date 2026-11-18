@@ -2297,7 +2297,7 @@ export async function verifyClaims(
 		: input.candidates || input["candidates"] || input.items || [];
 	const results: ClaimVerificationRecord[] = [];
 	for (const inputItem of items) {
-		results.push(await verifyClaim(inputItem));
+		results.push(await verifyClaim(inputItem as ClaimVerificationInput));
 	}
 	return results;
 }

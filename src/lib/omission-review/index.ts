@@ -8,6 +8,7 @@ export * from "./types.js";
 export * from "./engine.js";
 
 import { createOmissionReviewEngine } from "./engine.js";
+import { FACT_DOSSIER_SCHEMA_VERSION } from "../fact-dossier/schema.js";
 
 /**
  * Execute the omission review.
@@ -47,7 +48,7 @@ export async function executeOmissionReview(input: any): Promise<any> {
 	};
 
 	const fullCanonicalDossier = {
-		schemaVersion: "1.0.0",
+		schemaVersion: FACT_DOSSIER_SCHEMA_VERSION as "1.0.0",
 		dossierId: canonicalDossier.dossierId || `fd_${editionDate}`,
 		editionId: `edition_${editionDate}`,
 		editionDate,

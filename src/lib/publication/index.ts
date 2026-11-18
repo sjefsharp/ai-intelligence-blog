@@ -102,7 +102,8 @@ export async function generateNewsletterMarkdownWrapper(
 			end:
 				loadedInput.editionWindow?.end ||
 				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
-			timezone: loadedInput.editionWindow?.timezone || "Europe/Amsterdam",
+			timezone: (loadedInput.editionWindow?.timezone ||
+				"Europe/Amsterdam") as "Europe/Amsterdam",
 			durationHours: loadedInput.editionWindow?.durationHours || 24,
 		},
 		reportingWindow: {
@@ -112,15 +113,33 @@ export async function generateNewsletterMarkdownWrapper(
 			end:
 				loadedInput.editionWindow?.end ||
 				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
-			timezone: loadedInput.editionWindow?.timezone || "Europe/Amsterdam",
+			timezone: (loadedInput.editionWindow?.timezone ||
+				"Europe/Amsterdam") as "Europe/Amsterdam",
 		},
 	};
 
 	const canonicalReferences = {
-		factDossierId: loadedInput.factDossier?.contentHash || "",
-		editorialManifestId: loadedInput.editorialManifest?.manifestId || "",
-		historicalRegressionId:
-			loadedInput.historicalRegression?.reportId || "",
+		factDossier: {
+			dossierId: loadedInput.factDossier?.dossierId || "",
+			editionId: loadedInput.factDossier?.editionId || "",
+			contentHash: loadedInput.factDossier?.contentHash || "",
+		},
+		editorialSelection: {
+			manifestId: loadedInput.editorialManifest?.manifestId || "",
+			editionId: loadedInput.editorialManifest?.editionId || "",
+			contentHash: loadedInput.editorialManifest?.contentHash || "",
+		},
+		historicalRegression: {
+			reportId: loadedInput.historicalRegression?.reportId || "",
+			editionId: loadedInput.historicalRegression?.editionId || "",
+			contentHash: loadedInput.historicalRegression?.contentHash || "",
+			referenced: !!loadedInput.historicalRegression,
+		},
+		omissionReview: {
+			reportId: "",
+			executionId: "",
+			referenced: false,
+		},
 	};
 
 	const articleIdentity = {
@@ -199,7 +218,8 @@ export async function generateListeningNarrativeMarkdownWrapper(
 			end:
 				loadedInput.editionWindow?.end ||
 				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
-			timezone: loadedInput.editionWindow?.timezone || "Europe/Amsterdam",
+			timezone: (loadedInput.editionWindow?.timezone ||
+				"Europe/Amsterdam") as "Europe/Amsterdam",
 			durationHours: loadedInput.editionWindow?.durationHours || 24,
 		},
 		reportingWindow: {
@@ -209,15 +229,33 @@ export async function generateListeningNarrativeMarkdownWrapper(
 			end:
 				loadedInput.editionWindow?.end ||
 				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
-			timezone: loadedInput.editionWindow?.timezone || "Europe/Amsterdam",
+			timezone: (loadedInput.editionWindow?.timezone ||
+				"Europe/Amsterdam") as "Europe/Amsterdam",
 		},
 	};
 
 	const canonicalReferences = {
-		factDossierId: loadedInput.factDossier?.contentHash || "",
-		editorialManifestId: loadedInput.editorialManifest?.manifestId || "",
-		historicalRegressionId:
-			loadedInput.historicalRegression?.reportId || "",
+		factDossier: {
+			dossierId: loadedInput.factDossier?.dossierId || "",
+			editionId: loadedInput.factDossier?.editionId || "",
+			contentHash: loadedInput.factDossier?.contentHash || "",
+		},
+		editorialSelection: {
+			manifestId: loadedInput.editorialManifest?.manifestId || "",
+			editionId: loadedInput.editorialManifest?.editionId || "",
+			contentHash: loadedInput.editorialManifest?.contentHash || "",
+		},
+		historicalRegression: {
+			reportId: loadedInput.historicalRegression?.reportId || "",
+			editionId: loadedInput.historicalRegression?.editionId || "",
+			contentHash: loadedInput.historicalRegression?.contentHash || "",
+			referenced: !!loadedInput.historicalRegression,
+		},
+		omissionReview: {
+			reportId: "",
+			executionId: "",
+			referenced: false,
+		},
 	};
 
 	const articleIdentity = {

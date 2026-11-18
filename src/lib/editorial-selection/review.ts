@@ -306,8 +306,8 @@ export function performConcentrationReview(
 	const strongestExcluded: RankedCandidateSummary | undefined =
 		excluded.length === 0
 			? undefined
-			: [...excluded]
-					.sort((a, b) => b.materialityScore - a.materialityScore)
+			: excluded
+					.toSorted((a, b) => b.materialityScore - a.materialityScore)
 					.map((assessment) => ({
 						candidateId: assessment.candidateId,
 						materialityScore: assessment.materialityScore,
@@ -316,8 +316,8 @@ export function performConcentrationReview(
 	const weakestSelected: RankedCandidateSummary | undefined =
 		selected.length === 0
 			? undefined
-			: [...selected]
-					.sort((a, b) => a.materialityScore - b.materialityScore)
+			: selected
+					.toSorted((a, b) => a.materialityScore - b.materialityScore)
 					.map((assessment) => ({
 						candidateId: assessment.candidateId,
 						materialityScore: assessment.materialityScore,

@@ -154,7 +154,7 @@ pnpm exec playwright test --project=accessibility
 
 - **`main`** — protected, deployable, linear history
 - **Feature branches** — `feat/<short-name>`, `fix/<short-name>`, `chore/<short-name>`
-- **No long-lived branches** — merge or rebase within 2 days
+- **No long-lived branches** — sync with `main` via merge within 2 days (see §5.4)
 
 ### 5.2 Commit Conventions
 
@@ -180,13 +180,60 @@ Examples: `feature/add-login-page`, `bugfix/fix-header-overflow`, `release/v1.2.
 
 When you create a branch yourself rather than at a person's direction, prefix it with your own agent name instead — `claude/`, `codex/`, `copilot/`, `cursor/`, or the vendor-neutral `ai/` — so the branch records who wrote it.
 
-### 5.4 Required Hooks (configure via `pnpm exec husky install` if added)
+### 5.4 Keeping a Branch Current — Merge, Never Rewrite
+
+- When a PR branch is behind `main`, sync it with a merge so history is never rewritten:
+  ```bash
+  git fetch origin main
+  git merge origin/main
+  ```
+- A merge preserves GitHub/GitLab review diffs and inline comments; do not rebase just to "clean up" a stale branch.
+- **Rebase or amend only when explicitly requested**, and only after checking for other authors:
+  ```bash
+  git log -n 5 --format='%h %an %s'
+  ```
+  If any commit in that range is authored by someone else, stop and ask — never rewrite shared history solo.
+
+### 5.5 Conflict Resolution
+
+Resolve conflicts by understanding, never by discarding:
+
+- **Read the surrounding context from both sides** before editing, so the intended logic of both the PR and `main` survives.
+- **Lockfiles** (`pnpm-lock.yaml` in this repo): accept `main`'s version, then re-run the package manager so it regenerates cleanly:
+  ```bash
+  git restore --source=origin/main -- pnpm-lock.yaml
+  pnpm install
+  ```
+- ❌ **Never** run `git checkout --ours` or `git checkout --theirs` on source files — teammate changes must never be silently wiped out.
+- **Escalate instead of guessing** when conflicts touch database migrations, authentication, billing, or more than 5 files with heavy overlap:
+  ```bash
+  git merge --abort
+  ```
+  then hand the conflict to a human before a critical path breaks.
+- **Verify before pushing**:
+  ```bash
+  git diff --check
+  grep -rn '<<<<<<<\|>>>>>>>' --exclude-dir=node_modules --exclude-dir=.git .
+  pnpm run lint
+  pnpm astro check
+  pnpm test
+  ```
+  Only passing code gets pushed.
+
+### 5.6 Push Policy
+
+- After a standard `git merge`, push normally (`git push`) so review diffs and inline comments stay intact.
+- After an **approved** rebase or amend, use `git push --force-with-lease` — never `--force` or `-f`.
+- If `--force-with-lease` fails with `stale info`, **stop immediately**. Do not fetch and retry; a human must review the newly arrived commits.
+- ❌ Never force-push (`--force`, `--force-with-lease`, `-f`) against `main`, `master`, `develop`, or any release branch.
+
+### 5.7 Required Hooks (configure via `pnpm exec husky install` if added)
 
 - **pre-commit**: `pnpm astro check`, `pnpm run lint` (if exists), staged files only
 - **commit-msg**: Conventional Commits validation
 - **pre-push**: `pnpm run build` must pass
 
-### 5.5 PR / Merge Rules
+### 5.8 PR / Merge Rules
 
 - Squash merge to `main` (one commit per logical change)
 - Delete branch after merge
@@ -363,6 +410,7 @@ When an agent works in this repo:
 7. **Respect boundaries** — no paid services, no secrets, no npm/yarn
 8. **Look up current docs** — Context7 first, plus web search/fetch for the authoritative pages (see §11)
 9. **Follow documented defaults** — implement fixes exactly as the official documentation and language/tool defaults prescribe; never invent workarounds (symlink hacks, check-gaming, fabricated output). If the documented path cannot work, stop and ask the user before deviating
+10. **Merge and push per §5.4–5.6** — merge (never rewrite) to sync, resolve conflicts by reading both sides, push normally unless a rebase/amend was approved
 
 ---
 
@@ -410,6 +458,7 @@ When an agent works in this repo:
 
 | 2026-11-14 | Added §11 "Documentation Lookup — Context7 + Web Sources" (Context7 MCP plus web search/fetch for authoritative docs, with mandatory procedure and source hierarchy) and §10 item 8 | Agent |
 | 2026-11-14 | Added the "no symlink hacks / no reward hacking / follow documented defaults, ask before deviating" rule to §3.2 and §10; CI now installs with corepack + pnpm instead of the deleted `scripts/ci-setup.sh` symlink hack | Agent |
+| 2026-11-18 | Added §5.4–5.6 (merge-not-rewrite sync, conflict resolution with lockfile/escalation/verification rules, push policy with `--force-with-lease` and shared-branch protection); renumbered §5.7–5.8; §10 item 10 | Agent |
 
 ---
 

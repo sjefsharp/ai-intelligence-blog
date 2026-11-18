@@ -692,22 +692,12 @@ export class GitHubAdapter implements SourceAdapter {
 			Object.assign(headers, config.headers);
 		}
 
-		const controller = new AbortController();
-		const timeoutId = setTimeout(
-			() => controller.abort(),
-			config.timeoutMs || 30000,
-		);
-
-		try {
-			return await fetch(`${this.baseUrl}/${endpoint}`, {
-				method: "GET",
-				headers,
-				signal: controller.signal,
-				redirect: "follow",
-			});
-		} finally {
-			clearTimeout(timeoutId);
-		}
+		return await fetch(`${this.baseUrl}/${endpoint}`, {
+			method: "GET",
+			headers,
+			signal: AbortSignal.timeout(config.timeoutMs || 30000),
+			redirect: "follow",
+		});
 	}
 
 	private async graphql(
@@ -724,23 +714,13 @@ export class GitHubAdapter implements SourceAdapter {
 			headers["Authorization"] = `Bearer ${this.token}`;
 		}
 
-		const controller = new AbortController();
-		const timeoutId = setTimeout(
-			() => controller.abort(),
-			config.timeoutMs || 30000,
-		);
-
-		try {
-			const response = await fetch(`${this.baseUrl}/graphql`, {
-				method: "POST",
-				headers,
-				body: JSON.stringify({ query, variables }),
-				signal: controller.signal,
-			});
-			return await response.json();
-		} finally {
-			clearTimeout(timeoutId);
-		}
+		const response = await fetch(`${this.baseUrl}/graphql`, {
+			method: "POST",
+			headers,
+			body: JSON.stringify({ query, variables }),
+			signal: AbortSignal.timeout(config.timeoutMs || 30000),
+		});
+		return await response.json();
 	}
 
 	private generateHash(content: string): string {

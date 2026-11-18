@@ -28,48 +28,80 @@ import { readFileSync } from "fs";
  */
 export async function executeHistoricalRegression(input: any): Promise<any> {
 	// Build the expected input structure from workflow artifacts
-	const factDossierArtifact = input["canonical-fact-dossier"] || input.canonicalFactDossier || input;
-	
-	console.log(`[HistoricalRegression] Input keys: ${Object.keys(input).join(", ")}`);
-	console.log(`[HistoricalRegression] factDossierArtifact type: ${typeof factDossierArtifact}, value:`, factDossierArtifact);
-	
+	const factDossierArtifact =
+		input["canonical-fact-dossier"] || input.canonicalFactDossier || input;
+
+	console.log(
+		`[HistoricalRegression] Input keys: ${Object.keys(input).join(", ")}`,
+	);
+	console.log(
+		`[HistoricalRegression] factDossierArtifact type: ${typeof factDossierArtifact}, value:`,
+		factDossierArtifact,
+	);
+
 	let canonicalDossier = factDossierArtifact;
 	// If artifact is a path string, load the dossier from file
 	if (typeof factDossierArtifact === "string") {
 		// Substitute edition template if present
 		const editionDate = input.editionDate;
-		const resolvedPath = factDossierArtifact.replace("{edition}", editionDate).replace("${edition}", editionDate);
+		const resolvedPath = factDossierArtifact
+			.replace("{edition}", editionDate)
+			.replace("${edition}", editionDate);
 		try {
 			canonicalDossier = JSON.parse(readFileSync(resolvedPath, "utf-8"));
-			console.log(`[HistoricalRegression] Loaded fact dossier from ${resolvedPath}, candidates: ${canonicalDossier.candidates?.length || 0}`);
+			console.log(
+				`[HistoricalRegression] Loaded fact dossier from ${resolvedPath}, candidates: ${canonicalDossier.candidates?.length || 0}`,
+			);
 		} catch (e) {
-			console.error(`[HistoricalRegression] Failed to load fact dossier from ${resolvedPath}:`, e);
+			console.error(
+				`[HistoricalRegression] Failed to load fact dossier from ${resolvedPath}:`,
+				e,
+			);
 			canonicalDossier = { candidates: [] };
 		}
 	} else if (factDossierArtifact && typeof factDossierArtifact === "object") {
 		// Check if it's an artifact object with a path property
-		if (factDossierArtifact.path && typeof factDossierArtifact.path === "string") {
+		if (
+			factDossierArtifact.path &&
+			typeof factDossierArtifact.path === "string"
+		) {
 			const editionDate = input.editionDate;
-			const resolvedPath = factDossierArtifact.path.replace("{edition}", editionDate).replace("${edition}", editionDate);
+			const resolvedPath = factDossierArtifact.path
+				.replace("{edition}", editionDate)
+				.replace("${edition}", editionDate);
 			try {
-				canonicalDossier = JSON.parse(readFileSync(resolvedPath, "utf-8"));
-				console.log(`[HistoricalRegression] Loaded fact dossier from artifact path ${resolvedPath}, candidates: ${canonicalDossier.candidates?.length || 0}`);
+				canonicalDossier = JSON.parse(
+					readFileSync(resolvedPath, "utf-8"),
+				);
+				console.log(
+					`[HistoricalRegression] Loaded fact dossier from artifact path ${resolvedPath}, candidates: ${canonicalDossier.candidates?.length || 0}`,
+				);
 			} catch (e) {
-				console.error(`[HistoricalRegression] Failed to load fact dossier from artifact path:`, e);
+				console.error(
+					`[HistoricalRegression] Failed to load fact dossier from artifact path:`,
+					e,
+				);
 				canonicalDossier = { candidates: [] };
 			}
 		} else {
 			canonicalDossier = factDossierArtifact;
-			console.log(`[HistoricalRegression] Received fact dossier object, candidates: ${canonicalDossier.candidates?.length || 0}`);
+			console.log(
+				`[HistoricalRegression] Received fact dossier object, candidates: ${canonicalDossier.candidates?.length || 0}`,
+			);
 		}
 	} else {
-		console.warn(`[HistoricalRegression] Unexpected fact dossier artifact type: ${typeof factDossierArtifact}, value:`, factDossierArtifact);
+		console.warn(
+			`[HistoricalRegression] Unexpected fact dossier artifact type: ${typeof factDossierArtifact}, value:`,
+			factDossierArtifact,
+		);
 		canonicalDossier = { candidates: [] };
 	}
-	
+
 	// Ensure candidates array exists
-	const candidates = Array.isArray(canonicalDossier.candidates) ? canonicalDossier.candidates : [];
-	
+	const candidates = Array.isArray(canonicalDossier.candidates)
+		? canonicalDossier.candidates
+		: [];
+
 	const regressionInput = {
 		editionDate: input.editionDate,
 		canonicalDossier: {
@@ -81,9 +113,9 @@ export async function executeHistoricalRegression(input: any): Promise<any> {
 		now: new Date().toISOString(),
 		generatedBy: "historical-regression-engine",
 	};
-	
+
 	const result = await runHistoricalRegression(regressionInput);
-	
+
 	// Return the report which has the relationships array that editorial selection expects
 	const report = result.report;
 	// Ensure relationships is an array
@@ -93,6 +125,6 @@ export async function executeHistoricalRegression(input: any): Promise<any> {
 	// Ensure required properties exist
 	if (!report.reportId) report.reportId = `hr_${Date.now()}`;
 	if (!report.contentHash) report.contentHash = `sha256:${Date.now()}`;
-	if (!report.finalStatus) report.finalStatus = "AVAILABLE";
+	if (!report.finalStatus) report.finalStatus = "COMPLETE";
 	return report;
 }

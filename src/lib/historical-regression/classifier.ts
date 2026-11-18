@@ -737,7 +737,7 @@ export function pickPrimaryMatch(
 ): HistoricalMatchEvidence | null {
 	const matched = matches.filter((match) => match.matched);
 	if (matched.length === 0) return null;
-	return matched.slice().sort((a, b) => {
+	return matched.toSorted((a, b) => {
 		const priority =
 			MATCH_TYPE_PRIORITY[a.matchType] - MATCH_TYPE_PRIORITY[b.matchType];
 		if (priority !== 0) return priority;
@@ -1538,9 +1538,9 @@ function buildRelationship(
 	params: BuildRelationshipParams,
 ): HistoricalRelationship {
 	const { current, matches, classification, confidence, primary } = params;
-	const sortedMatches = matches
-		.slice()
-		.sort((a, b) => b.editionDate.localeCompare(a.editionDate));
+	const sortedMatches = matches.toSorted((a, b) =>
+		b.editionDate.localeCompare(a.editionDate),
+	);
 	return {
 		candidateId: current.candidateId,
 		editionDate: current.editionDate,

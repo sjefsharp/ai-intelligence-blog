@@ -781,7 +781,7 @@ function generateEntryMarkdown(entry: TerminologyEntry): string[] {
 	if (entry.revisionHistory.length > 0) {
 		lines.push("#### Revision History");
 		lines.push("");
-		for (const rev of entry.revisionHistory.slice().reverse()) {
+		for (const rev of entry.revisionHistory.toReversed()) {
 			lines.push(
 				`- **${rev.changeType}** at ${rev.revisedAt} by ${rev.revisedBy}`,
 			);

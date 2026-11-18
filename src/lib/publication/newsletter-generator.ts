@@ -52,7 +52,13 @@ export interface NewsletterStoryContext {
  */
 export interface NewsletterGenerationInput {
 	editionDate: string;
-	editionWindow: { start: string; end: string; timezone: string };
+	editionWindow: {
+		editionDate: string;
+		start: string;
+		end: string;
+		timezone: string;
+		durationHours: number;
+	};
 	factDossier: CanonicalFactDossier;
 	editorialManifest: EditorialSelectionManifest;
 	historicalRegression: HistoricalRegressionReport | null;
@@ -106,7 +112,13 @@ export function generateNewsletterMarkdown(
  */
 function generateIntroduction(
 	editionDate: string,
-	editionWindow: { start: string; end: string; timezone: string },
+	editionWindow: {
+		editionDate: string;
+		start: string;
+		end: string;
+		timezone: string;
+		durationHours: number;
+	},
 	stories: NewsletterStoryContext[],
 ): string {
 	if (stories.length === 0) {
@@ -939,9 +951,11 @@ export async function loadNewsletterGenerationInput(
 
 	// Edition window
 	const editionWindow = {
+		editionDate: factDossier.editionDate,
 		start: factDossier.editionWindow.start,
 		end: factDossier.editionWindow.end,
 		timezone: factDossier.editionWindow.timezone,
+		durationHours: factDossier.editionWindow.durationHours || 24,
 	};
 
 	return {

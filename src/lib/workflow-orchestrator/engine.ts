@@ -703,6 +703,7 @@ export class WorkflowOrchestrator {
 		} catch (err) {
 			throw new Error(
 				`Failed to load module ${modulePath}: ${(err as Error).message}`,
+				{ cause: err },
 			);
 		}
 	}

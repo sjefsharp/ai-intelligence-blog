@@ -53,7 +53,7 @@ export function orderStories(
 	);
 
 	// --- 1. Materiality ordering with engineering-relevance tiebreaker ------
-	const ordered = [...selected].sort((a, b) => {
+	const ordered = selected.toSorted((a, b) => {
 		const delta = b.materialityScore - a.materialityScore;
 		if (Math.abs(delta) > TIEBREAKER_WINDOW) return delta;
 		// Secondary consideration only: engineering relevance breaks near-ties.
@@ -187,8 +187,8 @@ function buildStory(
 		title: assessment.factualHeadline,
 		candidateId: assessment.candidateId,
 		mergedCandidateIds,
-		claimIds: [...assessment.claimIds].sort(),
-		sourceIds: [...assessment.sourceIds].sort(),
+		claimIds: assessment.claimIds.toSorted(),
+		sourceIds: assessment.sourceIds.toSorted(),
 		organizations: assessment.organizations,
 		researchDomains: assessment.researchDomains,
 		discoveryRings: assessment.discoveryRings,

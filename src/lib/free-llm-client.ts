@@ -643,51 +643,36 @@ export class FreeLLMClient {
 			...provider.headers,
 		};
 
-		const controller = new AbortController();
-		const timeoutId = setTimeout(
-			() => controller.abort(),
-			provider.timeoutMs,
-		);
+		const response = await fetch(`${provider.baseUrl}/chat/completions`, {
+			method: "POST",
+			headers,
+			body: JSON.stringify(body),
+			signal: AbortSignal.timeout(provider.timeoutMs),
+		});
 
-		try {
-			const response = await fetch(
-				`${provider.baseUrl}/chat/completions`,
-				{
-					method: "POST",
-					headers,
-					body: JSON.stringify(body),
-					signal: controller.signal,
-				},
+		if (!response.ok) {
+			const errorText = await response.text();
+			throw new Error(
+				`Provider ${provider.name} returned ${response.status}: ${errorText}`,
 			);
-
-			clearTimeout(timeoutId);
-
-			if (!response.ok) {
-				const errorText = await response.text();
-				throw new Error(
-					`Provider ${provider.name} returned ${response.status}: ${errorText}`,
-				);
-			}
-
-			const data = await response.json();
-			const content = data.choices?.[0]?.message?.content ?? "";
-			const tokensUsed = data.usage ?? {
-				prompt_tokens: 0,
-				completion_tokens: 0,
-				total_tokens: 0,
-			};
-
-			return {
-				content,
-				tokensUsed: {
-					prompt: tokensUsed.prompt_tokens ?? 0,
-					completion: tokensUsed.completion_tokens ?? 0,
-					total: tokensUsed.total_tokens ?? 0,
-				},
-			};
-		} finally {
-			clearTimeout(timeoutId);
 		}
+
+		const data = await response.json();
+		const content = data.choices?.[0]?.message?.content ?? "";
+		const tokensUsed = data.usage ?? {
+			prompt_tokens: 0,
+			completion_tokens: 0,
+			total_tokens: 0,
+		};
+
+		return {
+			content,
+			tokensUsed: {
+				prompt: tokensUsed.prompt_tokens ?? 0,
+				completion: tokensUsed.completion_tokens ?? 0,
+				total: tokensUsed.total_tokens ?? 0,
+			},
+		};
 	}
 
 	/**
@@ -892,6 +877,7 @@ export class FreeLLMClient {
 		} catch (error) {
 			throw new Error(
 				`Structured output validation failed: ${error instanceof Error ? error.message : String(error)}`,
+				{ cause: error },
 			);
 		}
 	}

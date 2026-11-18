@@ -732,7 +732,7 @@ Example: ["claim_abc123", "claim_def456"]
 		for (const [concept, conceptFindings] of Object.entries(grouped)) {
 			const candidate = await this.formulateProposal(
 				concept,
-				conceptFindings,
+				conceptFindings ?? [],
 			);
 			if (candidate) {
 				candidates.push(candidate);
@@ -747,19 +747,11 @@ Example: ["claim_abc123", "claim_def456"]
 	 */
 	private groupFindingsByConcept(
 		findings: CandidateFinding[],
-	): Record<string, CandidateFinding[]> {
-		const groups: Record<string, CandidateFinding[]> = {};
-
-		for (const finding of findings) {
-			// Extract key concept from claim statement and research domains
-			const concept = this.extractKeyConcept(finding);
-			if (!groups[concept]) {
-				groups[concept] = [];
-			}
-			groups[concept].push(finding);
-		}
-
-		return groups;
+	): Partial<Record<string, CandidateFinding[]>> {
+		// Group by key concept extracted from claim statement and research domains.
+		return Object.groupBy(findings, (finding) =>
+			this.extractKeyConcept(finding),
+		);
 	}
 
 	/**

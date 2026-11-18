@@ -241,22 +241,12 @@ export class RssAdapter implements SourceAdapter {
 		config: SourceConfig,
 		options: RequestInit,
 	): Promise<Response> {
-		const controller = new AbortController();
-		const timeoutId = setTimeout(
-			() => controller.abort(),
-			config.timeoutMs || 30000,
-		);
-
-		try {
-			const response = await fetch(config.url, {
-				...options,
-				signal: controller.signal,
-				redirect: config.followRedirects ? "follow" : "manual",
-			});
-			return response;
-		} finally {
-			clearTimeout(timeoutId);
-		}
+		const response = await fetch(config.url, {
+			...options,
+			signal: AbortSignal.timeout(config.timeoutMs || 30000),
+			redirect: config.followRedirects ? "follow" : "manual",
+		});
+		return response;
 	}
 
 	private isRetryableStatus(status: number): boolean {

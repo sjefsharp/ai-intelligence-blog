@@ -35,7 +35,7 @@ export function renderProcessDiagram(
 	spec: VisualizationSpecification,
 ): string {
 	const { steps, orientation, showDecisions } = data;
-	const sortedSteps = [...steps].sort((a, b) => a.order - b.order);
+	const sortedSteps = steps.toSorted((a, b) => a.order - b.order);
 
 	// Build SVG
 	const nodeWidth = 200;
@@ -580,7 +580,7 @@ export function renderTimeline(
 	spec: VisualizationSpecification,
 ): string {
 	const { events, orientation, showGaps, granularity } = data;
-	const sortedEvents = [...events].sort(
+	const sortedEvents = events.toSorted(
 		(a, b) =>
 			new Date(a.displayDate).getTime() -
 			new Date(b.displayDate).getTime(),

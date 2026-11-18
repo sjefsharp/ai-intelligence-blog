@@ -46,56 +46,112 @@ export {
 } from "./listening-narrative-generator.js";
 export { countWords } from "./english-article-generator.js";
 
-import { generateNewsletterMarkdown, loadNewsletterGenerationInput } from "./newsletter-generator.js";
-import { generateListeningNarrativeMarkdown, loadListeningNarrativeGenerationInput } from "./listening-narrative-generator.js";
-import { generateEnglishArticleMarkdown, loadEnglishArticleGenerationInput } from "./english-article-generator.js";
-import { generateEnglishListeningNarrativeMarkdown, loadEnglishListeningNarrativeGenerationInput } from "./english-listening-narrative-generator.js";
+import {
+	generateNewsletterMarkdown,
+	loadNewsletterGenerationInput,
+} from "./newsletter-generator.js";
+import {
+	generateListeningNarrativeMarkdown,
+	loadListeningNarrativeGenerationInput,
+} from "./listening-narrative-generator.js";
+import {
+	generateEnglishArticleMarkdown,
+	loadEnglishArticleGenerationInput,
+} from "./english-article-generator.js";
+import {
+	generateEnglishListeningNarrativeMarkdown,
+	loadEnglishListeningNarrativeGenerationInput,
+} from "./english-listening-narrative-generator.js";
 import { validateCrossLanguageConsistency } from "./cross-language-validator.js";
-import { generateResearchAudit, loadResearchAuditGenerationInput } from "./research-audit-generator.js";
+import {
+	generateResearchAudit,
+	loadResearchAuditGenerationInput,
+} from "./research-audit-generator.js";
 import { persistPublicationArtifact } from "./store.js";
+import type { CanonicalReferences, EditionIdentity } from "./schema.js";
 
 /**
  * Generate Dutch Technical Newsletter (E01_GENERATE_NL_NEWSLETTER).
  * Entry point for workflow stage E01.
  */
-export async function generateNewsletterMarkdownWrapper(input: any): Promise<any> {
+export async function generateNewsletterMarkdownWrapper(
+	input: any,
+): Promise<any> {
 	// Use the existing loader that loads everything from filesystem
 	const loadedInput = await loadNewsletterGenerationInput(
 		input.editionDate,
-		"data"
+		"data",
 	);
-	
+
 	const markdown = generateNewsletterMarkdown(loadedInput);
-	
+
 	// Create proper publication metadata
-	const { createCanonicalPublicationMetadata, generateArticleId, computeContentHash } = await import("./metadata.js");
-	
-	const editionIdentity = {
+	const { createCanonicalPublicationMetadata, computeContentHash } =
+		await import("./metadata.js");
+
+	const editionIdentity: EditionIdentity = {
 		editionId: `edition_${input.editionDate}`,
 		editionDate: input.editionDate,
-		editionWindow: loadedInput.editionWindow,
-		reportingWindow: loadedInput.editionWindow,
+		editionWindow: {
+			editionDate: input.editionDate,
+			start:
+				loadedInput.editionWindow?.start ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			end:
+				loadedInput.editionWindow?.end ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			timezone: "Europe/Amsterdam",
+			durationHours:
+				loadedInput.factDossier.editionWindow.durationHours || 24,
+		},
+		reportingWindow: {
+			start:
+				loadedInput.editionWindow?.start ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			end:
+				loadedInput.editionWindow?.end ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			timezone: "Europe/Amsterdam",
+		},
 	};
-	
-	const canonicalReferences = {
-		factDossierId: loadedInput.factDossier?.contentHash || "",
-		editorialManifestId: loadedInput.editorialManifest?.manifestId || "",
-		historicalRegressionId: loadedInput.historicalRegression?.reportId || "",
+
+	const canonicalReferences: CanonicalReferences = {
+		factDossier: {
+			dossierId: loadedInput.factDossier.dossierId || "",
+			editionId: loadedInput.factDossier.editionId || "",
+			contentHash: loadedInput.factDossier.contentHash || "",
+		},
+		editorialSelection: {
+			manifestId: loadedInput.editorialManifest.manifestId || "",
+			editionId: loadedInput.editorialManifest.editionId || "",
+			contentHash: loadedInput.editorialManifest.contentHash || "",
+		},
+		historicalRegression: loadedInput.historicalRegression
+			? {
+					reportId: loadedInput.historicalRegression.reportId || "",
+					editionId: loadedInput.historicalRegression.editionId || "",
+					contentHash:
+						loadedInput.historicalRegression.contentHash || "",
+					referenced: true,
+				}
+			: {
+					reportId: "",
+					editionId: "",
+					contentHash: "",
+					referenced: false,
+				},
+		omissionReview: {
+			reportId: "",
+			executionId: "",
+			referenced: false,
+		},
 	};
-	
-	const articleIdentity = {
-		articleId: generateArticleId(),
-		sourceReferences: [],
-		claimIds: [],
-		researchDomains: [],
-		organizations: [],
-	};
-	
+
 	const metadata = createCanonicalPublicationMetadata(
 		editionIdentity,
 		canonicalReferences,
 		"newsletter",
-		articleIdentity,
+		null, // edition-level digest, no single article
 		`AI Intelligence — ${input.editionDate}`,
 		"Dutch technical newsletter for AI Intelligence",
 		"newsletter-generator",
@@ -103,9 +159,9 @@ export async function generateNewsletterMarkdownWrapper(input: any): Promise<any
 			lifecycleStatus: "DRAFT",
 			validationStatus: "pending",
 			readingTimeMinutes: Math.ceil(markdown.split(/\s+/).length / 200),
-		}
+		},
 	);
-	
+
 	// Persist the artifact
 	const artifactPath = `editions/edition_${input.editionDate}/canonical/publication.md`;
 	const { persistPublicationArtifact } = await import("./store.js");
@@ -113,9 +169,9 @@ export async function generateNewsletterMarkdownWrapper(input: any): Promise<any
 		input.editionDate,
 		artifactPath,
 		markdown,
-		metadata
+		metadata,
 	);
-	
+
 	return {
 		markdown,
 		metadata: {
@@ -129,55 +185,97 @@ export async function generateNewsletterMarkdownWrapper(input: any): Promise<any
  * Generate Dutch Listening Narrative (E02_GENERATE_NL_LISTENING).
  * Entry point for workflow stage E02.
  */
-export async function generateListeningNarrativeMarkdownWrapper(input: any): Promise<any> {
+export async function generateListeningNarrativeMarkdownWrapper(
+	input: any,
+): Promise<any> {
 	// Load input using the existing loader (loads from filesystem)
 	const loadedInput = await loadListeningNarrativeGenerationInput(
 		input.editionDate,
-		"data"
+		"data",
 	);
-	
+
 	const result = await generateListeningNarrativeMarkdown(loadedInput);
 	const markdown = result.markdown;
-	
+
 	// Create proper publication metadata
-	const { createCanonicalPublicationMetadata, generateArticleId, computeContentHash } = await import("./metadata.js");
-	
-	const editionIdentity = {
+	const { createCanonicalPublicationMetadata, computeContentHash } =
+		await import("./metadata.js");
+
+	const editionIdentity: EditionIdentity = {
 		editionId: `edition_${input.editionDate}`,
 		editionDate: input.editionDate,
-		editionWindow: loadedInput.editionWindow,
-		reportingWindow: loadedInput.editionWindow,
+		editionWindow: {
+			editionDate: input.editionDate,
+			start:
+				loadedInput.editionWindow?.start ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			end:
+				loadedInput.editionWindow?.end ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			timezone: "Europe/Amsterdam",
+			durationHours:
+				loadedInput.factDossier.editionWindow.durationHours || 24,
+		},
+		reportingWindow: {
+			start:
+				loadedInput.editionWindow?.start ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			end:
+				loadedInput.editionWindow?.end ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			timezone: "Europe/Amsterdam",
+		},
 	};
-	
-	const canonicalReferences = {
-		factDossierId: loadedInput.factDossier?.contentHash || "",
-		editorialManifestId: loadedInput.editorialManifest?.manifestId || "",
-		historicalRegressionId: loadedInput.historicalRegression?.reportId || "",
+
+	const canonicalReferences: CanonicalReferences = {
+		factDossier: {
+			dossierId: loadedInput.factDossier.dossierId || "",
+			editionId: loadedInput.factDossier.editionId || "",
+			contentHash: loadedInput.factDossier.contentHash || "",
+		},
+		editorialSelection: {
+			manifestId: loadedInput.editorialManifest.manifestId || "",
+			editionId: loadedInput.editorialManifest.editionId || "",
+			contentHash: loadedInput.editorialManifest.contentHash || "",
+		},
+		historicalRegression: loadedInput.historicalRegression
+			? {
+					reportId: loadedInput.historicalRegression.reportId || "",
+					editionId: loadedInput.historicalRegression.editionId || "",
+					contentHash:
+						loadedInput.historicalRegression.contentHash || "",
+					referenced: true,
+				}
+			: {
+					reportId: "",
+					editionId: "",
+					contentHash: "",
+					referenced: false,
+				},
+		omissionReview: {
+			reportId: "",
+			executionId: "",
+			referenced: false,
+		},
 	};
-	
-	const articleIdentity = {
-		articleId: generateArticleId(),
-		sourceReferences: [],
-		claimIds: [],
-		researchDomains: [],
-		organizations: [],
-	};
-	
+
 	const metadata = createCanonicalPublicationMetadata(
 		editionIdentity,
 		canonicalReferences,
 		"listening-narrative",
-		articleIdentity,
+		null, // edition-level digest, no single article
 		`AI Daily Intelligence — ${input.editionDate}`,
 		"Dutch independent listening narrative for AI Intelligence",
 		"listening-narrative-generator",
 		{
 			lifecycleStatus: "DRAFT",
 			validationStatus: "pending",
-			estimatedListeningDurationMinutes: Math.ceil(markdown.split(/\s+/).length / 130),
-		}
+			estimatedListeningDurationMinutes: Math.ceil(
+				markdown.split(/\s+/).length / 130,
+			),
+		},
 	);
-	
+
 	// Persist the artifact
 	const artifactPath = `editions/edition_${input.editionDate}/canonical/AI Daily Intelligence — ${input.editionDate}.md`;
 	const { persistPublicationArtifact } = await import("./store.js");
@@ -185,9 +283,9 @@ export async function generateListeningNarrativeMarkdownWrapper(input: any): Pro
 		input.editionDate,
 		artifactPath,
 		markdown,
-		metadata
+		metadata,
 	);
-	
+
 	return {
 		markdown,
 		metadata: {
@@ -206,11 +304,11 @@ export async function generateResearchAuditWrapper(input: any): Promise<any> {
 	// Load input using the existing loader (loads from filesystem)
 	const loadedInput = await loadResearchAuditGenerationInput(
 		input.editionDate,
-		"data"
+		"data",
 	);
-	
+
 	const result = await generateResearchAudit(loadedInput);
-	
+
 	// The generateResearchAudit function already persists the artifact
 	// and returns the result with metadata
 	return result;
@@ -224,16 +322,17 @@ export async function generateEnglishArticles(input: any): Promise<any> {
 	// Load input using the existing loader (loads from filesystem)
 	const loadedInput = await loadEnglishArticleGenerationInput(
 		input.editionDate,
-		"data"
+		"data",
 	);
-	
+
 	// Generate all English articles
 	const result = await generateEnglishArticleMarkdown(loadedInput);
 	const markdown = result.markdown;
-	
+
 	// Create proper publication metadata for English derivative
-	const { generateArticleId, generateArtifactId, computeContentHash } = await import("./metadata.js");
-	
+	const { generateArticleId, generateArtifactId, computeContentHash } =
+		await import("./metadata.js");
+
 	const metadata = {
 		artifactId: generateArtifactId(),
 		editionId: `edition_${input.editionDate}`,
@@ -259,7 +358,7 @@ export async function generateEnglishArticles(input: any): Promise<any> {
 		schemaVersion: "1.0.0" as const,
 		contentHash: computeContentHash(markdown),
 	};
-	
+
 	// Persist the artifact
 	const artifactPath = `editions/edition_${input.editionDate}/derivatives/english-articles/article.md`;
 	const { persistPublicationArtifact } = await import("./store.js");
@@ -267,9 +366,9 @@ export async function generateEnglishArticles(input: any): Promise<any> {
 		input.editionDate,
 		artifactPath,
 		markdown,
-		metadata as any
+		metadata as any,
 	);
-	
+
 	return {
 		markdown,
 		metadata,
@@ -282,20 +381,23 @@ export async function generateEnglishArticles(input: any): Promise<any> {
  * Generate English Listening Narratives (E04_GENERATE_EN_LISTENING).
  * Entry point for workflow stage E04.
  */
-export async function generateEnglishListeningNarratives(input: any): Promise<any> {
+export async function generateEnglishListeningNarratives(
+	input: any,
+): Promise<any> {
 	// Load input using the existing loader (loads from filesystem)
 	const loadedInput = await loadEnglishListeningNarrativeGenerationInput(
 		input.editionDate,
-		"data"
+		"data",
 	);
-	
+
 	// Generate all English listening narratives
 	const result = await generateEnglishListeningNarrativeMarkdown(loadedInput);
 	const markdown = result.markdown;
-	
+
 	// Create proper publication metadata for English listening derivative
-	const { generateArticleId, generateArtifactId, computeContentHash } = await import("./metadata.js");
-	
+	const { generateArticleId, generateArtifactId, computeContentHash } =
+		await import("./metadata.js");
+
 	const metadata = {
 		artifactId: generateArtifactId(),
 		editionId: `edition_${input.editionDate}`,
@@ -304,11 +406,14 @@ export async function generateEnglishListeningNarratives(input: any): Promise<an
 		language: "en" as const,
 		canonicalFilename: "listening.md",
 		title: `AI Daily Intelligence — ${input.editionDate} (English)`,
-		description: "English independent listening narrative for AI Intelligence",
+		description:
+			"English independent listening narrative for AI Intelligence",
 		articleId: generateArticleId(),
 		publicationTimestamp: new Date().toISOString(),
 		lastSubstantiveUpdateTimestamp: new Date().toISOString(),
-		estimatedListeningDurationMinutes: Math.ceil(markdown.split(/\s+/).length / 130),
+		estimatedListeningDurationMinutes: Math.ceil(
+			markdown.split(/\s+/).length / 130,
+		),
 		sourceReferences: [],
 		claimReferences: [],
 		topics: [],
@@ -321,7 +426,7 @@ export async function generateEnglishListeningNarratives(input: any): Promise<an
 		schemaVersion: "1.0.0" as const,
 		contentHash: computeContentHash(markdown),
 	};
-	
+
 	// Persist the artifact
 	const artifactPath = `editions/edition_${input.editionDate}/derivatives/english-listening/listening.md`;
 	const { persistPublicationArtifact } = await import("./store.js");
@@ -329,9 +434,9 @@ export async function generateEnglishListeningNarratives(input: any): Promise<an
 		input.editionDate,
 		artifactPath,
 		markdown,
-		metadata as any
+		metadata as any,
 	);
-	
+
 	return {
 		markdown,
 		metadata,
@@ -347,14 +452,18 @@ export async function generateEnglishListeningNarratives(input: any): Promise<an
 export async function validatePublicationArtifacts(input: any): Promise<any> {
 	const artifacts = input.artifacts || input;
 	const editionDate = input.editionDate;
-	
+
 	// Read fact dossier and editorial manifest from standard locations
 	const { readFileSync, readdirSync } = await import("fs");
 	const { join } = await import("path");
-	
-	let factDossier = input["canonical-fact-dossier"] || input.canonicalFactDossier || input;
-	let editorialManifest = input["resolved-editorial-manifest"] || input.resolvedEditorialManifest || input;
-	
+
+	let factDossier =
+		input["canonical-fact-dossier"] || input.canonicalFactDossier || input;
+	let editorialManifest =
+		input["resolved-editorial-manifest"] ||
+		input.resolvedEditorialManifest ||
+		input;
+
 	// Helper to load JSON from file if input is an artifact reference or string path
 	const loadFromFile = (obj: any, defaultPath: string): any => {
 		if (!obj) return null;
@@ -385,29 +494,51 @@ export async function validatePublicationArtifacts(input: any): Promise<any> {
 			return null;
 		}
 	};
-	
-	factDossier = loadFromFile(factDossier, join("data", "fact-dossiers", `edition_${editionDate}.json`));
-	editorialManifest = loadFromFile(editorialManifest, (() => {
-		try {
-			const editorialDir = join("data", "editorial-selection");
-			const files = readdirSync(editorialDir)
-				.filter((f) => f.startsWith(`${editionDate}_`) && f.endsWith(".json"))
-				.sort();
-			if (files.length > 0) {
-				return join(editorialDir, files[files.length - 1]);
-			}
-		} catch {}
-		return "";
-	})());
-	
+
+	factDossier = loadFromFile(
+		factDossier,
+		join("data", "fact-dossiers", `edition_${editionDate}.json`),
+	);
+	editorialManifest = loadFromFile(
+		editorialManifest,
+		(() => {
+			try {
+				const editorialDir = join("data", "editorial-selection");
+				const files = readdirSync(editorialDir)
+					.filter(
+						(f) =>
+							f.startsWith(`${editionDate}_`) &&
+							f.endsWith(".json"),
+					)
+					.sort();
+				if (files.length > 0) {
+					return join(editorialDir, files[files.length - 1]);
+				}
+			} catch {}
+			return "";
+		})(),
+	);
+
 	// Ensure we have valid objects with required arrays
-	factDossier = factDossier || { candidates: [], editionDate, editionWindow: { start: "", end: "", timezone: "Europe/Amsterdam" } };
-	editorialManifest = editorialManifest || { stories: [], candidates: [], editionDate };
-	
+	factDossier = factDossier || {
+		candidates: [],
+		editionDate,
+		editionWindow: { start: "", end: "", timezone: "Europe/Amsterdam" },
+	};
+	editorialManifest = editorialManifest || {
+		stories: [],
+		candidates: [],
+		editionDate,
+	};
+
 	// Debug logging
-	console.log(`[validatePublicationArtifacts] factDossier.candidates: ${factDossier.candidates?.length ?? 'undefined'}`);
-	console.log(`[validatePublicationArtifacts] editorialManifest.stories: ${editorialManifest.stories?.length ?? 'undefined'}`);
-	
+	console.log(
+		`[validatePublicationArtifacts] factDossier.candidates: ${factDossier.candidates?.length ?? "undefined"}`,
+	);
+	console.log(
+		`[validatePublicationArtifacts] editorialManifest.stories: ${editorialManifest.stories?.length ?? "undefined"}`,
+	);
+
 	// Read artifact content from file paths
 	const getContent = (artifact: any): string => {
 		if (!artifact) return "";
@@ -430,12 +561,20 @@ export async function validatePublicationArtifacts(input: any): Promise<any> {
 		// If artifact has markdown/content property
 		return artifact.markdown || artifact.content || "";
 	};
-	
-	const dutchNewsletter = getContent(artifacts["newsletter-md"] || artifacts.newsletterMd);
-	const dutchListening = getContent(artifacts["listening-nl-md"] || artifacts.listeningNlMd);
-	const englishArticles = getContent(artifacts["english-articles"] || artifacts.englishArticles);
-	const englishListening = getContent(artifacts["english-listening"] || artifacts.englishListening);
-	
+
+	const dutchNewsletter = getContent(
+		artifacts["newsletter-md"] || artifacts.newsletterMd,
+	);
+	const dutchListening = getContent(
+		artifacts["listening-nl-md"] || artifacts.listeningNlMd,
+	);
+	const englishArticles = getContent(
+		artifacts["english-articles"] || artifacts.englishArticles,
+	);
+	const englishListening = getContent(
+		artifacts["english-listening"] || artifacts.englishListening,
+	);
+
 	// Create minimal traceability objects
 	const emptyTraceability = {
 		segments: [],
@@ -443,7 +582,7 @@ export async function validatePublicationArtifacts(input: any): Promise<any> {
 		sourceCoverage: [],
 		storyCoverage: [],
 	};
-	
+
 	// Validate cross-language consistency
 	try {
 		const validation = await validateCrossLanguageConsistency(
@@ -462,16 +601,19 @@ export async function validatePublicationArtifacts(input: any): Promise<any> {
 				englishListeningTraceability: emptyTraceability,
 			},
 			factDossier,
-			editorialManifest
+			editorialManifest,
 		);
-		
+
 		return {
 			...validation,
 			validated: validation.overallStatus === "consistent",
 			validationTimestamp: new Date().toISOString(),
 		};
 	} catch (err) {
-		console.error("[validatePublicationArtifacts] Error in validateCrossLanguageConsistency:", err);
+		console.error(
+			"[validatePublicationArtifacts] Error in validateCrossLanguageConsistency:",
+			err,
+		);
 		throw err;
 	}
 }
@@ -485,12 +627,12 @@ export async function validatePublicationArtifacts(input: any): Promise<any> {
 export async function assembleCanonicalDocuments(input: any): Promise<any> {
 	const editionDate = input.editionDate;
 	const editionId = `edition_${editionDate}`;
-	
+
 	// Load the three canonical publications
 	const { readFileSync, writeFileSync, readdirSync } = await import("fs");
 	const { join } = await import("path");
 	const { computeContentHash } = await import("./metadata.js");
-	
+
 	// Load newsletter (publication.md)
 	const newsletterPath = `editions/edition_${editionDate}/canonical/publication.md`;
 	const newsletterMetaPath = `${newsletterPath}.meta.json`;
@@ -500,7 +642,7 @@ export async function assembleCanonicalDocuments(input: any): Promise<any> {
 		newsletterContent = readFileSync(newsletterPath, "utf-8");
 		newsletterMeta = JSON.parse(readFileSync(newsletterMetaPath, "utf-8"));
 	} catch {}
-	
+
 	// Load listening narrative
 	const listeningPath = `editions/edition_${editionDate}/canonical/AI Daily Intelligence — ${editionDate}.md`;
 	const listeningMetaPath = `${listeningPath}.meta.json`;
@@ -510,7 +652,7 @@ export async function assembleCanonicalDocuments(input: any): Promise<any> {
 		listeningContent = readFileSync(listeningPath, "utf-8");
 		listeningMeta = JSON.parse(readFileSync(listeningMetaPath, "utf-8"));
 	} catch {}
-	
+
 	// Load research audit
 	const auditPath = `editions/edition_${editionDate}/canonical/research-audit.md`;
 	const auditMetaPath = `${auditPath}.meta.json`;
@@ -520,48 +662,72 @@ export async function assembleCanonicalDocuments(input: any): Promise<any> {
 		auditContent = readFileSync(auditPath, "utf-8");
 		auditMeta = JSON.parse(readFileSync(auditMetaPath, "utf-8"));
 	} catch {}
-	
+
 	// Update metadata to VALIDATED status
 	const now = new Date().toISOString();
-	
+
 	if (newsletterMeta.artifactId) {
 		newsletterMeta.lifecycleStatus = "VALIDATED";
 		newsletterMeta.validationStatus = "passed";
 		newsletterMeta.lastSubstantiveUpdateTimestamp = now;
 		newsletterMeta.contentHash = computeContentHash(newsletterContent);
-		writeFileSync(newsletterMetaPath, JSON.stringify(newsletterMeta, null, 2), "utf-8");
+		writeFileSync(
+			newsletterMetaPath,
+			JSON.stringify(newsletterMeta, null, 2),
+			"utf-8",
+		);
 	}
-	
+
 	if (listeningMeta.artifactId) {
 		listeningMeta.lifecycleStatus = "VALIDATED";
 		listeningMeta.validationStatus = "passed";
 		listeningMeta.lastSubstantiveUpdateTimestamp = now;
 		listeningMeta.contentHash = computeContentHash(listeningContent);
-		writeFileSync(listeningMetaPath, JSON.stringify(listeningMeta, null, 2), "utf-8");
+		writeFileSync(
+			listeningMetaPath,
+			JSON.stringify(listeningMeta, null, 2),
+			"utf-8",
+		);
 	}
-	
+
 	if (auditMeta.artifactId) {
 		auditMeta.lifecycleStatus = "VALIDATED";
 		auditMeta.validationStatus = "passed";
 		auditMeta.lastSubstantiveUpdateTimestamp = now;
 		auditMeta.contentHash = computeContentHash(auditContent);
-		writeFileSync(auditMetaPath, JSON.stringify(auditMeta, null, 2), "utf-8");
+		writeFileSync(
+			auditMetaPath,
+			JSON.stringify(auditMeta, null, 2),
+			"utf-8",
+		);
 	}
-	
+
 	// Verify all three have VALIDATED status
-	const allValidated = 
+	const allValidated =
 		newsletterMeta.lifecycleStatus === "VALIDATED" &&
 		listeningMeta.lifecycleStatus === "VALIDATED" &&
 		auditMeta.lifecycleStatus === "VALIDATED";
-	
+
 	return {
 		assembled: allValidated,
 		editionDate,
 		editionId,
 		canonicalDocuments: [
-			{ artifactId: newsletterMeta.artifactId, path: newsletterPath, status: newsletterMeta.lifecycleStatus },
-			{ artifactId: listeningMeta.artifactId, path: listeningPath, status: listeningMeta.lifecycleStatus },
-			{ artifactId: auditMeta.artifactId, path: auditPath, status: auditMeta.lifecycleStatus },
+			{
+				artifactId: newsletterMeta.artifactId,
+				path: newsletterPath,
+				status: newsletterMeta.lifecycleStatus,
+			},
+			{
+				artifactId: listeningMeta.artifactId,
+				path: listeningPath,
+				status: listeningMeta.lifecycleStatus,
+			},
+			{
+				artifactId: auditMeta.artifactId,
+				path: auditPath,
+				status: auditMeta.lifecycleStatus,
+			},
 		],
 		assembledAt: new Date().toISOString(),
 		assembledBy: "canonical-assembler",
@@ -577,18 +743,20 @@ export async function assembleCanonicalDocuments(input: any): Promise<any> {
 export async function assembleWebsiteDerivatives(input: any): Promise<any> {
 	const editionDate = input.editionDate;
 	const editionId = `edition_${editionDate}`;
-	
+
 	// Load the website derivatives
 	const { readFileSync, writeFileSync, readdirSync } = await import("fs");
 	const { join } = await import("path");
 	const { computeContentHash } = await import("./metadata.js");
-	
+
 	// Load English articles
 	const englishArticlesDir = `editions/edition_${editionDate}/derivatives/english-articles`;
 	let englishArticlesContent = "";
 	let englishArticlesMeta: any = {};
 	try {
-		const files = readdirSync(englishArticlesDir).filter(f => f.endsWith(".md"));
+		const files = readdirSync(englishArticlesDir).filter((f) =>
+			f.endsWith(".md"),
+		);
 		for (const file of files) {
 			const filePath = join(englishArticlesDir, file);
 			englishArticlesContent += readFileSync(filePath, "utf-8") + "\n\n";
@@ -599,13 +767,15 @@ export async function assembleWebsiteDerivatives(input: any): Promise<any> {
 			} catch {}
 		}
 	} catch {}
-	
+
 	// Load English listening narratives
 	const englishListeningDir = `editions/edition_${editionDate}/derivatives/english-listening`;
 	let englishListeningContent = "";
 	let englishListeningMeta: any = {};
 	try {
-		const files = readdirSync(englishListeningDir).filter(f => f.endsWith(".md"));
+		const files = readdirSync(englishListeningDir).filter((f) =>
+			f.endsWith(".md"),
+		);
 		for (const file of files) {
 			const filePath = join(englishListeningDir, file);
 			englishListeningContent += readFileSync(filePath, "utf-8") + "\n\n";
@@ -616,7 +786,7 @@ export async function assembleWebsiteDerivatives(input: any): Promise<any> {
 			} catch {}
 		}
 	} catch {}
-	
+
 	// Load daily index
 	const indexPath = `editions/edition_${editionDate}/index.md`;
 	const indexMetaPath = `${indexPath}.meta.json`;
@@ -626,7 +796,7 @@ export async function assembleWebsiteDerivatives(input: any): Promise<any> {
 		indexContent = readFileSync(indexPath, "utf-8");
 		indexMeta = JSON.parse(readFileSync(indexMetaPath, "utf-8"));
 	} catch {}
-	
+
 	// Verify cross-references and relative link integrity
 	// (Simple check: ensure all relative links point to existing files)
 	const verifyLinks = (content: string, baseDir: string): boolean => {
@@ -635,7 +805,12 @@ export async function assembleWebsiteDerivatives(input: any): Promise<any> {
 		let allValid = true;
 		while ((match = linkRegex.exec(content)) !== null) {
 			const link = match[2];
-			if (link.startsWith("http://") || link.startsWith("https://") || link.startsWith("mailto:") || link.startsWith("#")) {
+			if (
+				link.startsWith("http://") ||
+				link.startsWith("https://") ||
+				link.startsWith("mailto:") ||
+				link.startsWith("#")
+			) {
 				continue; // External or anchor links are OK
 			}
 			// Check relative link
@@ -649,54 +824,84 @@ export async function assembleWebsiteDerivatives(input: any): Promise<any> {
 		}
 		return allValid;
 	};
-	
-	const linksValid = 
+
+	const linksValid =
 		verifyLinks(englishArticlesContent, englishArticlesDir) &&
 		verifyLinks(englishListeningContent, englishListeningDir) &&
 		verifyLinks(indexContent, `editions/edition_${editionDate}`);
-	
+
 	// Update metadata to VALIDATED status
 	const now = new Date().toISOString();
-	
+
 	if (englishArticlesMeta.artifactId) {
 		englishArticlesMeta.lifecycleStatus = "VALIDATED";
 		englishArticlesMeta.validationStatus = "passed";
 		englishArticlesMeta.lastSubstantiveUpdateTimestamp = now;
 		const metaPath = `editions/edition_${editionDate}/derivatives/english-articles/article.md.meta.json`;
-		try { writeFileSync(metaPath, JSON.stringify(englishArticlesMeta, null, 2), "utf-8"); } catch {}
+		try {
+			writeFileSync(
+				metaPath,
+				JSON.stringify(englishArticlesMeta, null, 2),
+				"utf-8",
+			);
+		} catch {}
 	}
-	
+
 	if (englishListeningMeta.artifactId) {
 		englishListeningMeta.lifecycleStatus = "VALIDATED";
 		englishListeningMeta.validationStatus = "passed";
 		englishListeningMeta.lastSubstantiveUpdateTimestamp = now;
 		const metaPath = `editions/edition_${editionDate}/derivatives/english-listening/listening.md.meta.json`;
-		try { writeFileSync(metaPath, JSON.stringify(englishListeningMeta, null, 2), "utf-8"); } catch {}
+		try {
+			writeFileSync(
+				metaPath,
+				JSON.stringify(englishListeningMeta, null, 2),
+				"utf-8",
+			);
+		} catch {}
 	}
-	
+
 	if (indexMeta.artifactId) {
 		indexMeta.lifecycleStatus = "VALIDATED";
 		indexMeta.validationStatus = "passed";
 		indexMeta.lastSubstantiveUpdateTimestamp = now;
 		indexMeta.contentHash = computeContentHash(indexContent);
-		try { writeFileSync(indexMetaPath, JSON.stringify(indexMeta, null, 2), "utf-8"); } catch {}
+		try {
+			writeFileSync(
+				indexMetaPath,
+				JSON.stringify(indexMeta, null, 2),
+				"utf-8",
+			);
+		} catch {}
 	}
-	
+
 	// Verify all three have VALIDATED status
-	const allValidated = 
+	const allValidated =
 		englishArticlesMeta.lifecycleStatus === "VALIDATED" &&
 		englishListeningMeta.lifecycleStatus === "VALIDATED" &&
 		indexMeta.lifecycleStatus === "VALIDATED" &&
 		linksValid;
-	
+
 	return {
 		assembled: allValidated,
 		editionDate,
 		editionId,
 		websiteDerivatives: [
-			{ artifactId: englishArticlesMeta.artifactId, path: `editions/edition_${editionDate}/derivatives/english-articles/`, status: englishArticlesMeta.lifecycleStatus },
-			{ artifactId: englishListeningMeta.artifactId, path: `editions/edition_${editionDate}/derivatives/english-listening/`, status: englishListeningMeta.lifecycleStatus },
-			{ artifactId: indexMeta.artifactId, path: `editions/edition_${editionDate}/index.md`, status: indexMeta.lifecycleStatus },
+			{
+				artifactId: englishArticlesMeta.artifactId,
+				path: `editions/edition_${editionDate}/derivatives/english-articles/`,
+				status: englishArticlesMeta.lifecycleStatus,
+			},
+			{
+				artifactId: englishListeningMeta.artifactId,
+				path: `editions/edition_${editionDate}/derivatives/english-listening/`,
+				status: englishListeningMeta.lifecycleStatus,
+			},
+			{
+				artifactId: indexMeta.artifactId,
+				path: `editions/edition_${editionDate}/index.md`,
+				status: indexMeta.lifecycleStatus,
+			},
 		],
 		linksValid,
 		assembledAt: new Date().toISOString(),

@@ -362,9 +362,11 @@ export async function generateResearchAuditMarkdown(
 
 	const dateFormatted = formatDateNL(editionDate);
 	const window = factDossier.editionWindow || {
-		start: "2026-11-16T05:00:00+01:00[Europe/Amsterdam]",
-		end: "2026-11-17T05:00:00+01:00[Europe/Amsterdam]",
+		editionDate,
+		start: `${editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+		end: `${editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
 		timezone: "Europe/Amsterdam",
+		durationHours: 24,
 	};
 
 	const traceability = buildTraceabilitySection(
@@ -430,9 +432,11 @@ export async function generateResearchAuditMarkdown(
 		editionId: `edition_${editionDate}`,
 		editionDate,
 		editionWindow: {
+			editionDate,
 			start: window.start,
 			end: window.end,
 			timezone: window.timezone,
+			durationHours: window.durationHours,
 		},
 		reportingWindow: {
 			start: window.start,
@@ -442,9 +446,23 @@ export async function generateResearchAuditMarkdown(
 	};
 
 	const canonicalReferences = {
-		factDossierId: factDossier.contentHash || "",
-		editorialManifestId: editorialManifest.manifestId || "",
-		historicalRegressionId: historicalRegression?.reportId || "",
+		factDossier: {
+			dossierId: factDossier.dossierId || "",
+			editionId: factDossier.editionId || "",
+			contentHash: factDossier.contentHash || "",
+		},
+		editorialSelection: {
+			manifestId: editorialManifest.manifestId || "",
+			editionId: editorialManifest.editionId || "",
+			contentHash: editorialManifest.contentHash || "",
+		},
+		historicalRegression: historicalRegression
+			? {
+					reportId: historicalRegression.reportId || "",
+					editionId: historicalRegression.editionId || "",
+					contentHash: historicalRegression.contentHash || "",
+				}
+			: null,
 	};
 
 	const articleIdentity = {
@@ -467,7 +485,7 @@ export async function generateResearchAuditMarkdown(
 		editionIdentity,
 		canonicalReferences,
 		"research-audit",
-		articleIdentity as any,
+		articleIdentity,
 		`Research Audit — ${dateFormatted}`,
 		"Technisch bewijs en editoriële verantwoording voor AI Intelligence",
 		generatedBy,

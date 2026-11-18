@@ -9,7 +9,7 @@ export * from "./store.js";
 export * from "./engine.js";
 
 import { processChangeProposals } from "./engine.js";
-import type { TerminologyChangeProposal } from "./engine.js";
+import type { TerminologyChangeProposal } from "./schema.js";
 import { readFileSync, writeFileSync, mkdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";

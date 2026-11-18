@@ -125,6 +125,6 @@ export async function executeHistoricalRegression(input: any): Promise<any> {
 	// Ensure required properties exist
 	if (!report.reportId) report.reportId = `hr_${Date.now()}`;
 	if (!report.contentHash) report.contentHash = `sha256:${Date.now()}`;
-	if (!report.finalStatus) report.finalStatus = "AVAILABLE";
+	if (!report.finalStatus) report.finalStatus = "COMPLETE";
 	return report;
 }

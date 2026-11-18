@@ -32,6 +32,101 @@ import {
 import { writeFileSync, mkdirSync, readFileSync, readdirSync } from "fs";
 import { join, dirname } from "path";
 import { computeContentHash } from "../publication/metadata.js";
+import type {
+	VisualizationLanguageVariant,
+	VisualizationRendering,
+	VisualizationSpecification,
+	ProcessDiagramData,
+	ArchitectureDiagramData,
+	TimelineData,
+	ComparisonTableData,
+	QuantitativeChartData,
+	ConceptMapData,
+} from "./schema.js";
+
+// Helper to create default rendering config
+function createDefaultRendering(): VisualizationRendering {
+	return {
+		outputFormats: ["SVG", "HTML_TABLE"],
+		primaryFormat: "SVG",
+		responsive: true,
+		minReadableWidth: 320,
+		reducedMotion: true,
+		colorScheme: {
+			contrastAA: true,
+			noColorOnly: true,
+			highContrast: true,
+		},
+		themes: ["light", "dark"],
+	};
+}
+
+// Helper to create default language variant
+function createDefaultLanguageVariant(
+	title: string,
+	description: string,
+	language: "nl" | "en" = "nl",
+): VisualizationLanguageVariant {
+	return {
+		language,
+		title,
+		caption: description,
+		altText: description,
+		longDescription: description,
+		localizedLabels: {},
+	};
+}
+
+// Helper to create minimal spec for rendering
+function createMinimalSpec(
+	editionDate: string,
+	visualizationId: string,
+	type: string,
+): VisualizationSpecification {
+	return {
+		schemaVersion: "1.0.0",
+		visualizationId,
+		editionId: `edition_${editionDate}`,
+		editionDate,
+		articleId: `art_${visualizationId}`,
+		candidateIds: [`cand_${visualizationId}`],
+		claimIds: [`claim_${visualizationId}`],
+		sourceIds: [`source_${visualizationId}`],
+		explanatoryPurpose: `Visual explanation for ${type}`,
+		type: type as any,
+		data: {} as any,
+		languageVariants: [
+			createDefaultLanguageVariant(
+				`${type} visualization`,
+				`Visual explanation for ${type}`,
+			),
+		],
+		accessibility: {
+			targetLevel: "AA",
+			hasAccessibleTable: true,
+			hasLongDescription: true,
+			keyboardAccessible: false,
+			focusManagement: false,
+		},
+		uncertainty: {
+			assumptions: [],
+			limitations: [],
+			unsupportedInferences: [],
+			evidenceGaps: [],
+			causalityRisk: false,
+			colorOnlyRisk: false,
+			boundarySimplificationRisk: false,
+		},
+		rendering: createDefaultRendering(),
+		evidenceLinks: [],
+		provenance: {
+			generatedBy: "visualization-engine",
+			generatedAt: new Date().toISOString(),
+			contentHash: `sha256:${Date.now()}`,
+			derivedFrom: [],
+		},
+	};
+}
 
 /**
  * Generate Optional Evidence-Backed Visual Explanations (E05_GENERATE_VISUALS).
@@ -71,78 +166,271 @@ export async function generateVisualizations(input: any): Promise<any> {
 				let svg = "";
 				let type = "diagram";
 
+				// Generate artifactId early for spec creation
+				const artifactId = `vis_${editionDate}_${story.candidateId || story.id}_${opportunity.type || "diagram"}`;
+
 				// Generate appropriate visualization based on opportunity type
 				if (
 					opportunity.type === "process" ||
 					opportunity.type === "workflow"
 				) {
-					svg = renderProcessDiagram({
-						title: opportunity.title || `Process: ${story.title}`,
-						steps: opportunity.steps || [],
-						decisionPoints: opportunity.decisionPoints || [],
-					});
+					const data: ProcessDiagramData = {
+						steps: (opportunity.steps || []).map(
+							(s: any, i: number) => ({
+								id: s.id || `step_${i}`,
+								label: s.label || s.title || `Step ${i + 1}`,
+								type: s.type || "action",
+								order: s.order ?? i,
+								nextStepIds: s.nextStepIds || [],
+								evidenceLinks: s.evidenceLinks || [],
+							}),
+						),
+						orientation: opportunity.orientation || "top-to-bottom",
+						showDecisions: opportunity.showDecisions ?? true,
+					};
+					const variant = createDefaultLanguageVariant(
+						opportunity.title || `Process: ${story.title}`,
+						opportunity.description ||
+							`Process diagram for ${story.title}`,
+					);
+					const rendering = createDefaultRendering();
+					const spec = createMinimalSpec(
+						editionDate,
+						artifactId,
+						"process-diagram",
+					);
+					svg = renderProcessDiagram(data, variant, rendering, spec);
 					type = "process";
 				} else if (
 					opportunity.type === "architecture" ||
 					opportunity.type === "system"
 				) {
-					svg = renderArchitectureDiagram({
-						title:
-							opportunity.title || `Architecture: ${story.title}`,
-						components: opportunity.components || [],
-						connections: opportunity.connections || [],
-					});
+					const data: ArchitectureDiagramData = {
+						components: (opportunity.components || []).map(
+							(c: any, i: number) => ({
+								id: c.id || `comp_${i}`,
+								label:
+									c.label || c.name || `Component ${i + 1}`,
+								type: c.type || "service",
+								trustZone: c.trustZone || "internal",
+								evidenceLinks: c.evidenceLinks || [],
+							}),
+						),
+						connections: (opportunity.connections || []).map(
+							(conn: any, i: number) => ({
+								id: conn.id || `conn_${i}`,
+								from: conn.from || "",
+								to: conn.to || "",
+								type: conn.type || "sync",
+								protocol: conn.protocol,
+								evidenceLinks: conn.evidenceLinks || [],
+							}),
+						),
+						trustBoundaries: opportunity.trustBoundaries || [],
+						layout: opportunity.layout || "auto",
+					};
+					const variant = createDefaultLanguageVariant(
+						opportunity.title || `Architecture: ${story.title}`,
+						opportunity.description ||
+							`Architecture diagram for ${story.title}`,
+					);
+					const rendering = createDefaultRendering();
+					const spec = createMinimalSpec(
+						editionDate,
+						artifactId,
+						"architecture-diagram",
+					);
+					svg = renderArchitectureDiagram(
+						data,
+						variant,
+						rendering,
+						spec,
+					);
 					type = "architecture";
 				} else if (
 					opportunity.type === "timeline" ||
 					opportunity.type === "temporal"
 				) {
-					svg = renderTimeline({
-						title: opportunity.title || `Timeline: ${story.title}`,
-						events: opportunity.events || [],
-					});
+					const data: TimelineData = {
+						events: (opportunity.events || []).map(
+							(e: any, i: number) => ({
+								id: e.id || `evt_${i}`,
+								displayDate:
+									e.date ||
+									e.timestamp ||
+									new Date().toISOString().split("T")[0],
+								label: e.label || e.title || `Event ${i + 1}`,
+								description: e.description,
+								type: e.type || "milestone",
+								timestampType:
+									e.timestampType || "original-event",
+								evidenceLinks: e.evidenceLinks || [],
+								previouslyCovered: e.previouslyCovered ?? false,
+							}),
+						),
+						orientation: opportunity.orientation || "horizontal",
+						granularity: opportunity.granularity || "day",
+						showGaps: true,
+					};
+					const variant = createDefaultLanguageVariant(
+						opportunity.title || `Timeline: ${story.title}`,
+						opportunity.description ||
+							`Timeline for ${story.title}`,
+					);
+					const rendering = createDefaultRendering();
+					const spec = createMinimalSpec(
+						editionDate,
+						artifactId,
+						"timeline",
+					);
+					svg = renderTimeline(data, variant, rendering, spec);
 					type = "timeline";
 				} else if (
 					opportunity.type === "comparison" ||
 					opportunity.type === "compare"
 				) {
-					svg = renderComparisonTable({
-						title:
-							opportunity.title || `Comparison: ${story.title}`,
-						items: opportunity.items || [],
-						criteria: opportunity.criteria || [],
-					});
+					const data: ComparisonTableData = {
+						columns: (opportunity.criteria || []).map((c: any) => ({
+							id: c.key || c.name || "",
+							header: c.label || c.name || "",
+							type: c.type || "text",
+							unit: c.unit,
+							higherIsBetter: c.higherIsBetter,
+							evidenceLinks: c.evidenceLinks || [],
+						})),
+						rows: (opportunity.items || []).map(
+							(item: any, i: number) => ({
+								id: item.id || `item_${i}`,
+								label:
+									item.label || item.name || `Item ${i + 1}`,
+								cells: item.values || {},
+								evidenceLinks: item.evidenceLinks || [],
+							}),
+						),
+						sortBy: opportunity.sortBy,
+						sortOrder: opportunity.sortOrder || "asc",
+					};
+					const variant = createDefaultLanguageVariant(
+						opportunity.title || `Comparison: ${story.title}`,
+						opportunity.description ||
+							`Comparison table for ${story.title}`,
+					);
+					const rendering = createDefaultRendering();
+					const spec = createMinimalSpec(
+						editionDate,
+						artifactId,
+						"comparison-table",
+					);
+					svg = renderComparisonTable(data, variant, rendering, spec);
 					type = "comparison";
 				} else if (
 					opportunity.type === "chart" ||
 					opportunity.type === "quantitative"
 				) {
-					svg = renderQuantitativeChart({
-						title: opportunity.title || `Chart: ${story.title}`,
-						data: opportunity.data || [],
-						chartType: opportunity.chartType || "bar",
-					});
+					const data: QuantitativeChartData = {
+						chartType: (opportunity.chartType || "bar") as any,
+						series: (opportunity.data || []).map(
+							(ds: any, i: number) => ({
+								id: ds.id || `series_${i}`,
+								label: ds.label || `Dataset ${i + 1}`,
+								data: (ds.data || []).map((d: any) => ({
+									x: d.x || d.label || "",
+									y: d.y || d.value || 0,
+								})),
+								measurement: ds.measurement,
+								evidenceLinks: ds.evidenceLinks || [],
+							}),
+						),
+						xAxis: {
+							label: opportunity.xAxis || "X",
+							type: "category",
+						},
+						yAxis: {
+							label: opportunity.yAxis || "Y",
+							scale: "linear",
+							includeZero: true,
+						},
+						accessibleTable: {
+							columns: [],
+							rows: [],
+							caption: "Accessible data table",
+						},
+						showUncertainty: false,
+					};
+					const variant = createDefaultLanguageVariant(
+						opportunity.title || `Chart: ${story.title}`,
+						opportunity.description || `Chart for ${story.title}`,
+					);
+					const rendering = createDefaultRendering();
+					const spec = createMinimalSpec(
+						editionDate,
+						artifactId,
+						"quantitative-chart",
+					);
+					svg = renderQuantitativeChart(
+						data,
+						variant,
+						rendering,
+						spec,
+					);
 					type = "chart";
 				} else if (
 					opportunity.type === "concept" ||
 					opportunity.type === "concept-map"
 				) {
-					svg = renderConceptMap({
-						title:
-							opportunity.title || `Concept Map: ${story.title}`,
-						concepts: opportunity.concepts || [],
-						relationships: opportunity.relationships || [],
-					});
+					const data: ConceptMapData = {
+						nodes: (opportunity.concepts || []).map(
+							(c: any, i: number) => ({
+								id: c.id || `concept_${i}`,
+								label: c.label || c.name || `Concept ${i + 1}`,
+								category: c.category || "term",
+								definition: c.definition,
+								evidenceLinks: c.evidenceLinks || [],
+							}),
+						),
+						edges: (opportunity.relationships || []).map(
+							(r: any, i: number) => ({
+								id: r.id || `rel_${i}`,
+								from: r.from || "",
+								to: r.to || "",
+								type: r.type || "related",
+								label: r.label,
+								evidenceLinks: r.evidenceLinks || [],
+							}),
+						),
+						layout: opportunity.layout || "force-directed",
+						clusterByCategory: true,
+					};
+					const variant = createDefaultLanguageVariant(
+						opportunity.title || `Concept Map: ${story.title}`,
+						opportunity.description ||
+							`Concept map for ${story.title}`,
+					);
+					const rendering = createDefaultRendering();
+					const spec = createMinimalSpec(
+						editionDate,
+						artifactId,
+						"concept-map",
+					);
+					svg = renderConceptMap(data, variant, rendering, spec);
 					type = "concept-map";
 				} else {
 					// Default to generic visualization
-					svg = renderVisualization({
-						title:
-							opportunity.title ||
-							`Visualization: ${story.title}`,
-						type: "diagram",
+					const data: any = {
 						elements: opportunity.elements || [],
-					});
+					};
+					const variant = createDefaultLanguageVariant(
+						opportunity.title || `Visualization: ${story.title}`,
+						opportunity.description ||
+							`Visualization for ${story.title}`,
+					);
+					const rendering = createDefaultRendering();
+					const spec = createMinimalSpec(
+						editionDate,
+						artifactId,
+						"process-diagram",
+					);
+					svg = renderVisualization(data, variant, rendering, spec);
 					type = "diagram";
 				}
 

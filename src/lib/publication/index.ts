@@ -94,8 +94,26 @@ export async function generateNewsletterMarkdownWrapper(
 	const editionIdentity = {
 		editionId: `edition_${input.editionDate}`,
 		editionDate: input.editionDate,
-		editionWindow: loadedInput.editionWindow,
-		reportingWindow: loadedInput.editionWindow,
+		editionWindow: {
+			editionDate: input.editionDate,
+			start:
+				loadedInput.editionWindow?.start ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			end:
+				loadedInput.editionWindow?.end ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			timezone: loadedInput.editionWindow?.timezone || "Europe/Amsterdam",
+			durationHours: loadedInput.editionWindow?.durationHours || 24,
+		},
+		reportingWindow: {
+			start:
+				loadedInput.editionWindow?.start ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			end:
+				loadedInput.editionWindow?.end ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			timezone: loadedInput.editionWindow?.timezone || "Europe/Amsterdam",
+		},
 	};
 
 	const canonicalReferences = {
@@ -173,8 +191,26 @@ export async function generateListeningNarrativeMarkdownWrapper(
 	const editionIdentity = {
 		editionId: `edition_${input.editionDate}`,
 		editionDate: input.editionDate,
-		editionWindow: loadedInput.editionWindow,
-		reportingWindow: loadedInput.editionWindow,
+		editionWindow: {
+			editionDate: input.editionDate,
+			start:
+				loadedInput.editionWindow?.start ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			end:
+				loadedInput.editionWindow?.end ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			timezone: loadedInput.editionWindow?.timezone || "Europe/Amsterdam",
+			durationHours: loadedInput.editionWindow?.durationHours || 24,
+		},
+		reportingWindow: {
+			start:
+				loadedInput.editionWindow?.start ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			end:
+				loadedInput.editionWindow?.end ||
+				`${input.editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+			timezone: loadedInput.editionWindow?.timezone || "Europe/Amsterdam",
+		},
 	};
 
 	const canonicalReferences = {

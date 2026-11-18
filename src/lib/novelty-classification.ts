@@ -375,12 +375,13 @@ export function classifyNoveltyBatch(
 	input:
 		| {
 				editionDate: string;
-				editionContext?: any;
-				cliOptions?: any;
-				llmClient?: any;
-				"consolidated-discovery"?: any[];
+				editionContext?: Record<string, unknown>;
+				cliOptions?: Record<string, unknown>;
+				llmClient?: unknown;
+				"consolidated-discovery"?: NoveltyClassificationInput[];
+				items?: NoveltyClassificationInput[];
 		  }
-		| any[],
+		| NoveltyClassificationInput[],
 ): NoveltyClassificationResult[] {
 	// Handle both array input (direct) and object input (from workflow engine)
 	const items = Array.isArray(input)

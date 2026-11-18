@@ -2283,12 +2283,13 @@ export async function verifyClaims(
 	input:
 		| {
 				editionDate: string;
-				editionContext?: any;
-				cliOptions?: any;
-				llmClient?: any;
-				candidates?: any[];
+				editionContext?: Record<string, unknown>;
+				cliOptions?: Record<string, unknown>;
+				llmClient?: unknown;
+				candidates?: unknown[];
+				items?: unknown[];
 		  }
-		| any[],
+		| unknown[],
 ): Promise<ClaimVerificationRecord[]> {
 	// Handle both array input (direct) and object input (from workflow engine)
 	const items = Array.isArray(input)

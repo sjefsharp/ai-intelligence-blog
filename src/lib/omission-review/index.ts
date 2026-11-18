@@ -31,17 +31,69 @@ export async function executeOmissionReview(input: any): Promise<any> {
 				? discoveryLedger.items
 				: [];
 
+	// Build a complete CanonicalFactDossier object with all required fields
+	const editionDate = canonicalDossier.editionDate || input.editionDate;
+	const now = new Date().toISOString();
+	const editionWindow = {
+		editionDate,
+		start:
+			canonicalDossier.editionWindow?.start ||
+			`${editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+		end:
+			canonicalDossier.editionWindow?.end ||
+			`${editionDate}T05:00:00+01:00[Europe/Amsterdam]`,
+		timezone: "Europe/Amsterdam",
+		durationHours: 24,
+	};
+
+	const fullCanonicalDossier = {
+		schemaVersion: "1.0.0",
+		dossierId: canonicalDossier.dossierId || `fd_${editionDate}`,
+		editionId: `edition_${editionDate}`,
+		editionDate,
+		editionWindow,
+		status: canonicalDossier.status || "ready-for-omission-review",
+		createdAt: canonicalDossier.createdAt || now,
+		updatedAt: canonicalDossier.updatedAt || now,
+		generatedBy: canonicalDossier.generatedBy || "omission-review",
+		candidates: Array.isArray(canonicalDossier.candidates)
+			? canonicalDossier.candidates
+			: [],
+		editionSummary: canonicalDossier.editionSummary || {
+			totalCandidates: 0,
+			byTemporalEligibility: {},
+			byEvidenceClassification: {},
+			byVerificationStatus: {},
+			byResearchDomain: {},
+			totalClaims: 0,
+			claimsWithCounterevidence: 0,
+			claimsWithUnresolvedUncertainties: 0,
+			candidatesWithEvidenceGaps: 0,
+			averageClaimConfidence: 0,
+			strategicResearchCandidates: 0,
+			technicalCandidates: 0,
+		},
+		uncertaintyRegister: canonicalDossier.uncertaintyRegister || [],
+		historicalContinuity: canonicalDossier.historicalContinuity || [],
+		processingAudit: canonicalDossier.processingAudit || {
+			startedAt: now,
+			completedAt: now,
+			durationMs: 0,
+			steps: [],
+			completedCandidateIds: [],
+			failedCandidateIds: [],
+			skippedCandidateIds: [],
+			inferenceUsed: false,
+			inferenceNote:
+				"No model inference was required for deterministic consolidation.",
+		},
+		contentHash: canonicalDossier.contentHash || `sha256:${Date.now()}`,
+		previousVersionHash: canonicalDossier.previousVersionHash,
+	};
+
 	const omissionInput = {
 		editionDate: input.editionDate,
-		canonicalDossier: {
-			dossierId:
-				canonicalDossier.dossierId ||
-				`fd_${canonicalDossier.editionDate || input.editionDate}`,
-			candidates: Array.isArray(canonicalDossier.candidates)
-				? canonicalDossier.candidates
-				: [],
-			editionDate: canonicalDossier.editionDate || input.editionDate,
-		},
+		canonicalDossier: fullCanonicalDossier,
 		discoveryLedgerRecords,
 		sourceRegistry:
 			sourceRegistry instanceof Map ? sourceRegistry : new Map(),

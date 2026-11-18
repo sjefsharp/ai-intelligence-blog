@@ -61,3 +61,79 @@ The hook design may need optimization, but **never weaken a gate just to acceler
 ## Finish a task
 
 Report changed paths, baseline SHA, tests actually run (commands, exit codes), expected versus observed behavior, remaining risks, and PR/CI state. Do not claim a run, approval, deployment or successful model call that did not occur.
+
+## Clean Code Principles
+
+The following principles apply to all code in this repository. Each is a mandatory rule, not a suggestion.
+
+### KISS — Keep It Simple, Stupid
+
+Prefer the simplest solution that works. Avoid unnecessary abstraction, indirection, or cleverness. Code should be boring and obvious.
+
+### DRY — Don't Repeat Yourself
+
+Extract repeated logic into a single, well-named function or module. Duplication is a bug waiting to happen. When you see the same pattern three times, abstract it.
+
+### YAGNI — You Aren't Gonna Need It
+
+Do not add code for hypothetical future requirements. Build only what is needed now. Remove unused code immediately — dead code is technical debt.
+
+### Principle of Least Surprise
+
+Code should behave as a reasonable developer expects. No hidden side effects, magic globals, or unexpected mutations. Function names must match their behavior exactly.
+
+### SOLID Principles
+
+- **S**ingle Responsibility: A function/class/module does one thing and has one reason to change.
+- **O**pen/Closed: Extend behavior via composition or new implementations, not by modifying stable code.
+- **L**iskov Substitution: Subtypes must be substitutable for their base types without breaking callers.
+- **I**nterface Segregation: Many small, focused interfaces beat one large interface.
+- **D**ependency Inversion: Depend on abstractions (interfaces), not concretions. Inject dependencies.
+
+### Meaningful Naming
+
+Names reveal intent. No single-letter variables (except loop indices), no abbreviations, no Hungarian notation. A name answers "what", "why", and "how" without reading the body.
+
+### Single Responsibility — Functions Do One Thing
+
+A function performs one logical operation at one level of abstraction. If you can describe it with "and" or "or", split it.
+
+### Minimal Function Arguments
+
+Prefer 0–2 parameters. Three is a warning; four or more is a design smell. Use an options object or context for related parameters.
+
+### Avoid Side Effects
+
+Pure functions by default. Side effects (I/O, mutation, clock, randomness) belong at the boundary (CLI, handlers, orchestrators). Mark impure functions explicitly.
+
+### Fail Fast and Return Early
+
+Validate inputs at the top. Return/throw immediately on invalid state. No deep nesting of happy-path code behind guard clauses.
+
+### Single Level of Abstraction (SLAP)
+
+Each function operates at one abstraction level. Mixing high-level orchestration with low-level detail in the same function is a refactor signal.
+
+### Vertical Density
+
+Related code stays close. Group by feature/concern, not by type. A reader should scroll, not jump across files, to understand a flow.
+
+### Consistent Formatting
+
+Follow the project's Prettier, ESLint, and markdownlint configuration. Do not debate style; enforce it mechanically. Local consistency > personal preference.
+
+### Self-Documenting Code (Minimal Comments)
+
+Code explains _what_ and _how_; comments explain _why_ (non-obvious decisions, external constraints, regex explanations). Delete comments that restate the code.
+
+### No Dead Code
+
+Unused functions, variables, imports, branches, and files are removed, not commented out. Version control preserves history; the working tree does not.
+
+### Boy Scout Rule — Leave Code Cleaner Than You Found It
+
+Every touch improves the file: fix a warning, rename a variable, extract a helper, add a missing test. No drive-by refactors — only the area you are changing.
+
+---
+
+**Enforcement**: These principles are verified in code review and by existing tooling (TypeScript strict mode, ESLint, Prettier, markdownlint). Violations block merge.

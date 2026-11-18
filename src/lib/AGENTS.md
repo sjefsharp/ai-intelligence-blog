@@ -47,3 +47,4 @@ Scope: `src/lib/**`; inherit root `AGENTS.md`. Use for changes to the domain pip
 - Validate untrusted boundaries with the existing Zod schemas; avoid `any` and unchecked casts for evidence. Use explicit errors and diagnostics for mandatory gate failures.
 - Keep pure calculation separate from networking, clock, filesystem, model and rendering effects where it demonstrably improves testability.
 - Tests are colocated `*.test.ts`. Use existing Vitest command (`pnpm exec vitest run`), selecting affected test files first; run full CI before merge.
+- **Clean Code Principles** (root `AGENTS.md`) apply: KISS, DRY, YAGNI, Least Surprise, SOLID, Meaningful Naming, Single Responsibility, Minimal Arguments, No Side Effects, Fail Fast, SLAP, Vertical Density, Consistent Formatting, Self-Documenting Code, No Dead Code, Boy Scout Rule.

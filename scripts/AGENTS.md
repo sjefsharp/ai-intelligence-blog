@@ -28,6 +28,7 @@ Scope: `scripts/**`; inherit root `AGENTS.md`. Use this when changing commands t
 - Respect the current shared inference client (`src/lib/free-llm-client.ts`); **do not modify providers, fallback order, terms or payment settings** as part of an agent-instructions review.
 - No raw `process.exit` in domain utilities; choose CLI exit code after resource cleanup. Prefer atomic persistence for canonical artifacts.
 - **Pipeline scripts that emit generated artifacts (editions/, docs/, data/) must run markdownlint, prettier, and schema validation as part of their execution.** Failed validation = nonzero exit; do not write invalid artifacts.
+- **Clean Code Principles** (root `AGENTS.md`) apply: KISS, DRY, YAGNI, Least Surprise, SOLID, Meaningful Naming, Single Responsibility, Minimal Arguments, No Side Effects, Fail Fast, SLAP, Vertical Density, Consistent Formatting, Self-Documenting Code, No Dead Code, Boy Scout Rule.
 
 ## Consult only when relevant
 

@@ -1,119 +1,37 @@
-# AGENTS.md — GitHub Configuration Guidelines
+# GitHub automation — scoped instructions
 
-This file contains scoped engineering rules for `.github/`. Load only when working in this directory.
+Scope: `.github/**`; inherit repository root `AGENTS.md`. Applicable when changing workflows, branch rules, CODEOWNERS or PR automation.
 
-## Workflow Principles
+## Source map
 
-### Least Privilege
+- `.github/workflows/ci.yml`: full repository checks and stable job names.
+- `.github/workflows/super-linter.yml`: complementary linting; do not overlap incompatible ESLint/Markdownlint owners.
+- `.github/workflows/codeql.yml`: security analysis; `.github/workflows/sonarcloud.yml`: external advisory scan if configured.
+- `.github/commit-check.toml`: branch-name rules; `commitlint.config.cjs`: actual commit grammar.
+- `.github/conventional-branch-ruleset.json`: **proposal** only; effective rules live in GitHub repository settings.
+- `.github/CODEOWNERS` and `.github/pull_request_template.md`: declared ownership and review evidence, not proof of enforced Code Owner approval.
 
-- `permissions:` block on every job — minimal required
-- `contents: read` default, add `security-events: write` only for CodeQL
-- No `pull-requests: write` unless bot automation requires it
-- Secrets: only in repository settings, never in workflow files
+## Operational checks
 
-### Action Pinning
+1. **Before editing any workflow:** inspect workflow on PR head and base, the actual status-check names, effective ruleset, event filters and failing run logs.
+2. **If Actions appear missing:** inspect PR mergeability first. At reviewed PR #20 SHA `d13daa6`, GitHub reported merge conflicts; `pull_request` workflows may not run until those are resolved. Do not weaken triggers before testing that hypothesis.
+3. **If adopting stacked PRs:** `pull_request` filtered to `main` does **not** cover upper PRs targeting feature branches. Require CI for each layer, verify actual run creation, and review trigger permissions before broadening filters.
+4. **For a workflow change:** run applicable syntax/static checks, open a scoped PR, then verify an actual event creates the intended job(s). Record run URL, SHA, job conclusion and any missing status context. A valid YAML file alone is not an acceptance test.
+5. **Before merge/release:** compare all required check names with the _current_ GitHub ruleset; all must be green for the final SHA and human review must satisfy the enforced policy.
 
-- Pin to full SHA for immutability (e.g., `actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683`)
-- Exception: Major version tags for official actions (`actions/checkout@v4`) when SHA tracking is impractical
-- Dependabot configured for weekly updates
+## Invariants
 
-### Concurrency Control
+- Minimal `permissions`, vetted immutable action SHAs, bounded `timeout-minutes`, no exposed tokens or secrets in logs. Avoid `pull_request_target` for executing untrusted PR code.
+- Do not use `continue-on-error` or shell masking to turn a required failure green. Differentiate required from optional SonarQube/other checks.
+- Do not rename required job contexts without updating and testing the GitHub ruleset.
+- Keep branch prefix policies consistent across `.github/commit-check.toml`, `lefthook.yml`, `CONTRIBUTING.md` and effective remote settings; validator allowlists **currently differ**.
+- Commit/branch checks are enforced by tools, not by prose. Dependabot/bot branch behavior requires a real test, not an assumption.
+- Daily schedule target is **05:00 Europe/Amsterdam**, but a fixed UTC cron cannot meet that time in both CET and CEST. Discover the actual scheduler before proposing changes; verify one publication per local edition, including DST and late runs.
 
-- Cancel in-progress runs for same ref: `concurrency: group: ${{ github.workflow }}-${{ github.ref }}`
-- Prevents queue buildup and resource waste
+## Review hotspots
 
-### Timeout Limits
+- The reviewed `main` ruleset required five CI status checks and one approval, but **not** Code Owner approval. Report the difference from committed guidance; do not change GitHub settings without approval.
+- `ci.yml` currently has `pull_request.branches: [main]`; check actual stack-layer coverage before using `gh stack`.
+- `sonarcloud.yml` relies on `SONAR_TOKEN`; credential availability and advisory status are not proved by workflow presence.
 
-- Every job has `timeout-minutes:` (default 15-30 min)
-- Prevents runaway workflows consuming free minutes
-
-## Workflow Structure
-
-### CI Pipeline (`.github/workflows/ci.yml`)
-
-Jobs (in dependency order):
-
-1. `lint-and-typecheck` — Prettier, ESLint, Markdownlint, Astro Check
-2. `test` — Vitest unit tests
-3. `build` — Production build (needs lint + test)
-4. `accessibility` — Playwright + axe-core (needs build)
-5. `dependency-audit` — pnpm audit (independent)
-6. `secret-scan` — Gitleaks (independent)
-7. `commitlint` — PR commit messages (PR only)
-8. `branch-name` — PR branch validation (PR only)
-
-### Security Scanning (`.github/workflows/codeql.yml`)
-
-- Matrix: TypeScript, JavaScript
-- Queries: `security-and-quality` extended
-- Schedule: Weekly Monday 06:00 UTC
-- Permissions: `security-events: write`
-
-### Super-Linter (`.github/workflows/super-linter.yml`)
-
-- `VALIDATE_ALL_CODEBASE: false` (changed files only)
-- Config files: `.markdownlint.json`, `.yamllint.yml`, `eslint.config.js`
-- Excludes: `dist/`, `.astro/`, `node_modules/`, `data/`
-
-### SonarCloud (`.github/workflows/sonarcloud.yml`)
-
-- Placeholders: `SONAR_PROJECT_KEY`, `SONAR_ORGANIZATION` (GitHub Secrets)
-- Requires: `SONAR_TOKEN` secret
-- Not mandatory until project connected
-
-## Required Status Checks (Branch Protection)
-
-When branch protection is enabled, these checks must pass:
-
-- `Lint & TypeCheck`
-- `Unit Tests`
-- `Build`
-- `Accessibility Tests`
-- `Dependency Audit`
-
-## Dependabot (`.github/dependabot.yml`)
-
-- Weekly Monday 06:00 Europe/Amsterdam
-- Groups: `astro-ecosystem`, `dev-tools`, `linting`
-- Labels: `dependencies`, `pnpm` / `github-actions`
-- Commit prefix: `chore(deps)` / `chore(ci)`
-
-## PR Template (`.github/pull_request_template.md`)
-
-Required sections:
-
-- Description & scope
-- Related area (checkboxes)
-- Changes made
-- Architecture impact
-- Security impact
-- Validation evidence (checkboxes)
-- Accessibility impact
-- Breaking changes
-- Stack dependencies
-- Changelog impact
-- Reviewer checklist
-
-## CODEOWNERS (`.github/CODEOWNERS`)
-
-- Global: `@sjefsharp`
-- Per-directory ownership matching bounded contexts
-- All PRs require review from code owner
-
-## Repository Settings (Manual Configuration)
-
-- **Branch protection**: `main` — require PR, require status checks, require linear history
-- **Rulesets**: Import `.github/conventional-branch-ruleset.json` via **Settings → Rules → Rulesets → New ruleset → Import a ruleset** (or `gh api repos/OWNER/REPO/rulesets --method POST --input .github/conventional-branch-ruleset.json`). Start with `"enforcement": "evaluate"` to audit, then switch to `"active"`. Rulesets are available on public repositories with every plan, and on private repositories with GitHub Pro, Team, and Enterprise Cloud.
-- **Secrets**: `OPENROUTER_API_KEY`, `NOUS_API_KEY`, `SONAR_TOKEN`, `SONAR_PROJECT_KEY`, `SONAR_ORGANIZATION`
-- **Environments**: `production` (for deployment)
-- **Actions permissions**: Allow all actions (verified creators only)
-
-## Forbidden Patterns
-
-- ❌ `pull_request_target` without explicit justification
-- ❌ Self-hosted runners without approval
-- ❌ Secrets in workflow files or logs
-- ❌ Unpinned action versions (except major tags)
-- ❌ Workflows without `timeout-minutes`
-- ❌ `permissions: write-all` or broad permissions
-- ❌ Paid GitHub features without approval
+Reference: `https://docs.github.com/en/actions`; `https://github.com/github/gh-stack`.

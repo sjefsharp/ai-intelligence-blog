@@ -1,140 +1,37 @@
-# AGENTS.md — Scripts Guidelines
+# CLI adapters — scoped instructions
 
-This file contains scoped engineering rules for `scripts/`. Load only when working in this directory.
+Scope: `scripts/**`; inherit root `AGENTS.md`. Use this when changing commands that invoke domain processing, verification or publication.
 
-## Script Conventions
+## Discover the existing interface
 
-### Language & Runtime
+- `package.json` defines supported command names; the specific `scripts/*.ts` parser defines arguments. **Do not invent flags or substitute a similarly named command.**
+- Workflow entry: `scripts/run-workflow.ts`; acceptance entry: `scripts/run-acceptance.ts`.
+- Publication: `scripts/build-publication.ts`, `scripts/validate-publication.ts`; domain validation and evaluation scripts are also listed in `package.json`.
+- `src/lib/workflow-orchestrator/graph.ts` defines stage dependencies; do not maintain a parallel stage registry in scripts.
 
-- **TypeScript** (`.ts`) with `tsx` executor
-- **Node.js ≥ 22.23.4** (ESM only)
-- Shebang not needed — run via `pnpm tsx scripts/name.ts`
+## Trigger → action → verification
 
-### Entry Points
+| Trigger                           | Action                                                                      | Verification                                                                    |
+| --------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| CLI flag/interface changes        | Read current argument parser and `package.json`; update both where required | Assert successful and invalid-argument outcomes in a targeted CLI test          |
+| PLAN / VALIDATE / DRY_RUN touched | Inspect supported mode contract and call paths before modifying             | No unapproved inference, canonical publication or external side effects         |
+| EXECUTE/resume touched            | Preserve stable edition/run IDs, checkpoints, and expected output paths     | Re-run same edition safely; no duplicate or partial canonical publication       |
+| Provider/network unavailable      | Return structured failure, preserve checkpoints and respect retry budget    | Nonzero exit for blocking failures; no fabricated output or unapproved fallback |
+| Command ready for commit          | Run affected unit/CLI tests and existing hooks                              | Report exact command, exit code, output and remaining blockers                  |
 
-Each script is a CLI command registered in `package.json`:
+## Boundaries
 
-```json
-"run:workflow": "tsx scripts/run-workflow.ts",
-"run:workflow:plan": "tsx scripts/run-workflow.ts --mode PLAN"
-```
+- Keep input parsing, logging, command exit status and side effects in CLI adapters; editorial classification, source validation, selection and publication rules belong to `src/lib/`.
+- Node >=22.23.4, TypeScript ESM. Invoke the **existing** `pnpm run <script>` or `pnpm exec tsx scripts/<file>.ts` only after checking its declaration and flags.
+- Apply schemas to inputs/outputs; use Amsterdam-aware edition dates from existing domain code. Never convert invalid data into success defaults.
+- Retry only transient failures with bounded attempts; no retry loop for deterministic schema failures. Preserve actionable error context, no credentials in logs.
+- Respect the current shared inference client (`src/lib/free-llm-client.ts`); **do not modify providers, fallback order, terms or payment settings** as part of an agent-instructions review.
+- No raw `process.exit` in domain utilities; choose CLI exit code after resource cleanup. Prefer atomic persistence for canonical artifacts.
 
-### Argument Parsing
+## Consult only when relevant
 
-Use `commander` for CLI interfaces:
-
-```ts
-import { Command } from "commander";
-
-const program = new Command();
-program
-  .name("run-workflow")
-  .option("--mode <mode>", "Execution mode", "EXECUTE")
-  .option("--edition <date>", "Edition date (YYYY-MM-DD)")
-  .option("--demo", "Run with demo data")
-  .parse();
-```
-
-### Exit Codes
-
-- `0` — Success
-- `1` — General error
-- `2` — Invalid arguments
-- `3` — Validation failed
-- `4` — External dependency unavailable (rate limit, auth)
-
-### Logging
-
-- Structured JSON logs to stdout for CI parsing
-- Human-readable summary to stderr
-- Progress indicators for long-running operations
-- Verbose mode: `--verbose` or `DEBUG=1`
-
-### Error Handling
-
-- Typed error classes with `code`, `message`, `retryable`
-- Graceful degradation: preserve progress, exit cleanly
-- No unhandled promise rejections
-- Cleanup on SIGINT/SIGTERM
-
-### Determinism
-
-- Fixed seeds for any randomness
-- Temperature = 0 for LLM calls
-- Cached responses (SHA-256 keyed)
-- Checkpoint persistence for resumable ops
-
-### Free-Tier Only
-
-- LLM calls via `createFreeLLMClient()` from `src/lib/free-llm-client.ts`
-- Request budgets: max requests, tokens, cost ($0)
-- Automatic fallback through configured free providers
-- Stop gracefully when all exhausted
-
-### Testing
-
-- Unit tests: `*.test.ts` alongside script (Vitest)
-- Integration tests: `--demo` mode with fixture data
-- Dry-run mode: `--mode DRY_RUN` or `--validate-only`
-- No network calls in unit tests
-
-## Script Categories
-
-### Editorial Pipeline
-
-| Script                                | Purpose                       | Key Flags                                 |
-| ------------------------------------- | ----------------------------- | ----------------------------------------- |
-| `run-workflow.ts`                     | Full pipeline orchestration   | `--mode PLAN\|VALIDATE\|DRY_RUN\|EXECUTE` |
-| `run-acceptance.ts`                   | Multi-gate quality acceptance | `--mode PLAN\|VALIDATE\|DRY_RUN\|EXECUTE` |
-| `run-editorial-selection.ts`          | Story curation                | `--demo`, `--validate-only`               |
-| `run-historical-regression.ts`        | 7-day regression              | `--demo`                                  |
-| `run-omission-review.ts`              | Coverage gap detection        | —                                         |
-| `build-fact-dossier.ts`               | Evidence compilation          | `--demo`                                  |
-| `build-publication.ts`                | Edition assembly              | `--demo`                                  |
-| `validate-publication.ts`             | Publication validation        | —                                         |
-| `run-book-delta.ts`                   | Knowledge continuity          | —                                         |
-| `run-listening-quality-evaluation.ts` | Audio quality eval            | `--demo`, `--validate-only`, `--repair`   |
-| `run-audio-evaluation.ts`             | Audio evaluation              | `--demo`                                  |
-| `run-listening-narrative.ts`          | Listening narrative gen       | —                                         |
-
-### Utility Scripts
-
-| Script                     | Purpose                             |
-| -------------------------- | ----------------------------------- |
-| `validate-data.ts`         | Data integrity checks               |
-| `validate-fact-dossier.ts` | Fact dossier validation             |
-| `validate-llm-config.ts`   | LLM configuration validation        |
-| `generate-schemas.ts`      | JSON Schema generation              |
-| `init-thesaurus.js`        | Thesaurus initialization (CommonJS) |
-
-## Configuration
-
-### Environment Variables (via `.env.local`)
-
-```env
-OPENROUTER_API_KEY=sk-or-v1-...
-OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
-OPENROUTER_MODEL=nvidia/nemotron-3-ultra-550b-a55b:free
-NOUS_API_KEY=...
-NOUS_BASE_URL=https://inference.nousresearch.com/v1
-```
-
-### Data Directories
-
-- `data/schemas/` — JSON schemas (versioned)
-- `data/dossiers/` — Fact dossiers
-- `data/publications/` — Edition artifacts
-- `data/checkpoints/` — Workflow checkpoints
-- `data/llm-cache/` — LLM response cache
-- `data/evidence-packages/` — Evidence packages
-
-## Forbidden Patterns
-
-- ❌ `npm`/`yarn` commands (use `pnpm`)
-- ❌ Paid LLM models or endpoints
-- ❌ Hardcoded secrets or API keys
-- ❌ Unbounded loops or recursion
-- ❌ Mutable global state across runs
-- ❌ Synchronous I/O in hot paths
-- ❌ Network calls without timeout/retry
-- ❌ `console.log` for structured output (use JSON)
+- `docs/ai-intelligence-contract.md`: publication outputs and acceptance; note the **unresolved** schedule mismatch in that file.
+- `src/lib/workflow-orchestrator/{graph,engine,schema}.ts`: phase/execution contracts.
+- `src/lib/publication/{schema,store,paths}.ts`: publication format and identity.
+- `src/lib/editorial-window.ts`: time boundaries and DST.
+- Tests colocated under `src/lib/**` and `package.json` for actual runnable commands.

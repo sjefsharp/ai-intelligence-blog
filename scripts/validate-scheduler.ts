@@ -40,43 +40,55 @@ function validateConfigFile(): ValidationResult {
 			const cfg = validation.config!;
 
 			// Additional runtime checks
-			if (cfg.state !== "DISABLED") {
+			if (cfg.state !== "DISABLED" && cfg.state !== "ENABLED") {
 				result.warnings.push(
-					`Scheduler state is ${cfg.state}, expected DISABLED for step 108`,
+					`Scheduler state is ${cfg.state}, expected DISABLED or ENABLED`,
 				);
 			}
 
 			if (cfg.activationGuard.schedulerEnabled) {
-				result.errors.push(
-					"Activation guard schedulerEnabled is true — must be false for step 108",
-				);
-				result.valid = false;
+				if (cfg.state !== "ENABLED") {
+					result.errors.push(
+						"Activation guard schedulerEnabled is true but state is not ENABLED",
+					);
+					result.valid = false;
+				}
 			}
 
 			if (cfg.activationGuard.publicationAuthorized) {
-				result.errors.push(
-					"Activation guard publicationAuthorized is true — must be false for step 108",
-				);
-				result.valid = false;
+				if (cfg.state !== "ENABLED") {
+					result.errors.push(
+						"Activation guard publicationAuthorized is true but state is not ENABLED",
+					);
+					result.valid = false;
+				}
 			}
 
 			if (cfg.activationGuard.deploymentAuthorized) {
+				if (cfg.state !== "ENABLED") {
+					result.errors.push(
+						"Activation guard deploymentAuthorized is true but state is not ENABLED",
+					);
+					result.valid = false;
+				}
+			}
+
+			if (
+				cfg.deploymentAuthorization !== "NOT_GRANTED" &&
+				cfg.deploymentAuthorization !== "GRANTED"
+			) {
 				result.errors.push(
-					"Activation guard deploymentAuthorized is true — must be false for step 108",
+					`Deployment authorization is ${cfg.deploymentAuthorization}, expected NOT_GRANTED or GRANTED`,
 				);
 				result.valid = false;
 			}
 
-			if (cfg.deploymentAuthorization !== "NOT_GRANTED") {
+			if (
+				cfg.publicationAuthorization !== "NOT_GRANTED" &&
+				cfg.publicationAuthorization !== "GRANTED"
+			) {
 				result.errors.push(
-					`Deployment authorization is ${cfg.deploymentAuthorization}, expected NOT_GRANTED`,
-				);
-				result.valid = false;
-			}
-
-			if (cfg.publicationAuthorization !== "NOT_GRANTED") {
-				result.errors.push(
-					`Publication authorization is ${cfg.publicationAuthorization}, expected NOT_GRANTED`,
+					`Publication authorization is ${cfg.publicationAuthorization}, expected NOT_GRANTED or GRANTED`,
 				);
 				result.valid = false;
 			}
@@ -248,21 +260,40 @@ async function validateSystemdUnits(): Promise<ValidationResult> {
 	// Validate service unit
 	try {
 		const serviceContent = readFileSync(servicePath, "utf-8");
-		if (!serviceContent.includes("EDITION_SCHEDULER_ENABLED=false")) {
+		const schedulerEnabled = serviceContent.includes(
+			"EDITION_SCHEDULER_ENABLED=true",
+		);
+		const schedulerEnabledFalse = serviceContent.includes(
+			"EDITION_SCHEDULER_ENABLED=false",
+		);
+		const deploymentAuthorized = serviceContent.includes(
+			"EDITION_DEPLOYMENT_AUTHORIZED=true",
+		);
+		const deploymentAuthorizedFalse = serviceContent.includes(
+			"EDITION_DEPLOYMENT_AUTHORIZED=false",
+		);
+		const publicationAuthorized = serviceContent.includes(
+			"EDITION_PUBLICATION_AUTHORIZED=true",
+		);
+		const publicationAuthorizedFalse = serviceContent.includes(
+			"EDITION_PUBLICATION_AUTHORIZED=false",
+		);
+
+		if (!schedulerEnabled && !schedulerEnabledFalse) {
 			result.errors.push(
-				"Service unit does not have EDITION_SCHEDULER_ENABLED=false",
+				"Service unit does not have EDITION_SCHEDULER_ENABLED",
 			);
 			result.valid = false;
 		}
-		if (!serviceContent.includes("EDITION_DEPLOYMENT_AUTHORIZED=false")) {
+		if (!deploymentAuthorized && !deploymentAuthorizedFalse) {
 			result.errors.push(
-				"Service unit does not have EDITION_DEPLOYMENT_AUTHORIZED=false",
+				"Service unit does not have EDITION_DEPLOYMENT_AUTHORIZED",
 			);
 			result.valid = false;
 		}
-		if (!serviceContent.includes("EDITION_PUBLICATION_AUTHORIZED=false")) {
+		if (!publicationAuthorized && !publicationAuthorizedFalse) {
 			result.errors.push(
-				"Service unit does not have EDITION_PUBLICATION_AUTHORIZED=false",
+				"Service unit does not have EDITION_PUBLICATION_AUTHORIZED",
 			);
 			result.valid = false;
 		}

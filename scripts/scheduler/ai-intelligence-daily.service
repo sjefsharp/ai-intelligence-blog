@@ -11,9 +11,9 @@ WorkingDirectory=/home/sjefsharp/Projects/ai-intelligence-blog
 Environment=PATH=/usr/local/bin:/usr/bin:/bin:/home/sjefsharp/.local/share/mise/shims
 Environment=NODE_ENV=production
 Environment=TZ=Europe/Amsterdam
-Environment=EDITION_SCHEDULER_ENABLED=false
-Environment=EDITION_DEPLOYMENT_AUTHORIZED=false
-Environment=EDITION_PUBLICATION_AUTHORIZED=false
+Environment=EDITION_SCHEDULER_ENABLED=true
+Environment=EDITION_DEPLOYMENT_AUTHORIZED=true
+Environment=EDITION_PUBLICATION_AUTHORIZED=true
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=ai-intelligence-daily

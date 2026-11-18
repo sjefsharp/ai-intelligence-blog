@@ -191,7 +191,7 @@ describe("Scheduler Configuration", () => {
 	});
 
 	describe("Systemd Service Configuration", () => {
-		it("should have scheduler disabled via environment", () => {
+		it("should have scheduler enabled via environment", () => {
 			const servicePath = join(
 				PROJECT_ROOT,
 				"scripts",
@@ -199,10 +199,10 @@ describe("Scheduler Configuration", () => {
 				"ai-intelligence-daily.service",
 			);
 			const content = readFileSync(servicePath, "utf-8");
-			expect(content).toContain("EDITION_SCHEDULER_ENABLED=false");
+			expect(content).toContain("EDITION_SCHEDULER_ENABLED=true");
 		});
 
-		it("should have publication unauthorized via environment", () => {
+		it("should have publication authorized via environment", () => {
 			const servicePath = join(
 				PROJECT_ROOT,
 				"scripts",
@@ -210,10 +210,10 @@ describe("Scheduler Configuration", () => {
 				"ai-intelligence-daily.service",
 			);
 			const content = readFileSync(servicePath, "utf-8");
-			expect(content).toContain("EDITION_PUBLICATION_AUTHORIZED=false");
+			expect(content).toContain("EDITION_PUBLICATION_AUTHORIZED=true");
 		});
 
-		it("should have deployment unauthorized via environment", () => {
+		it("should have deployment authorized via environment", () => {
 			const servicePath = join(
 				PROJECT_ROOT,
 				"scripts",
@@ -221,7 +221,7 @@ describe("Scheduler Configuration", () => {
 				"ai-intelligence-daily.service",
 			);
 			const content = readFileSync(servicePath, "utf-8");
-			expect(content).toContain("EDITION_DEPLOYMENT_AUTHORIZED=false");
+			expect(content).toContain("EDITION_DEPLOYMENT_AUTHORIZED=true");
 		});
 
 		it("should have security hardening", () => {

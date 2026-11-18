@@ -4,6 +4,11 @@ import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 import { randomBytes, createHash } from "crypto";
 
+interface ArtifactRef {
+	path?: string;
+	[key: string]: unknown;
+}
+
 interface KnowledgeContinuityResult {
 	validationId: string;
 	editionDate: string;
@@ -40,9 +45,9 @@ interface KnowledgeContinuityResult {
 
 interface PhaseGInput {
 	editionDate: string;
-	thesaurus?: { path?: string } | string | object;
-	"architecture-principles"?: { path?: string } | string | object;
-	"book-delta"?: { path?: string } | string | object;
+	thesaurus?: ArtifactRef;
+	"architecture-principles"?: ArtifactRef;
+	"book-delta"?: ArtifactRef;
 }
 
 /**

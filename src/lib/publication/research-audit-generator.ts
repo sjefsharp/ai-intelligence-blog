@@ -183,9 +183,7 @@ function buildEditorialAccountabilitySection(
 	return md;
 }
 
-function buildOmissionReviewSection(
-	omissionReview: any, // OmissionReviewReport
-): string {
+function buildOmissionReviewSection(omissionReview: any): string {
 	let md = "## Omissiereview\n\n";
 
 	if (!omissionReview) {
@@ -392,15 +390,9 @@ export async function generateResearchAuditMarkdown(
 		"\n",
 		buildEditorialAccountabilitySection(editorialManifest, factDossier),
 		"\n",
-		buildOmissionReviewSection(
-			// omissionReview is not directly in input, would need to be loaded
-			null,
-		),
+		buildOmissionReviewSection(null),
 		"\n",
-		buildHistoricalRegressionSection(
-			// historicalRegression is in input
-			historicalRegression,
-		),
+		buildHistoricalRegressionSection(historicalRegression),
 		"\n",
 		buildCrossReferenceSection(factDossier, editorialManifest),
 		"\n",

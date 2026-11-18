@@ -1,0 +1,34 @@
+[Unit]
+Description=AI Daily Intelligence — Daily Workflow Execution
+Documentation=https://github.com/sjefsharp/ai-intelligence-blog/docs/scheduler.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/sjefsharp/Projects/ai-intelligence-blog/scripts/scheduler/run-daily-edition.sh
+WorkingDirectory=/home/sjefsharp/Projects/ai-intelligence-blog
+Environment=PATH=/usr/local/bin:/usr/bin:/bin:/home/sjefsharp/.local/share/mise/shims
+Environment=NODE_ENV=production
+Environment=TZ=Europe/Amsterdam
+Environment=EDITION_SCHEDULER_ENABLED=false
+Environment=EDITION_DEPLOYMENT_AUTHORIZED=false
+Environment=EDITION_PUBLICATION_AUTHORIZED=false
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ai-intelligence-daily
+TimeoutSec=7200
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=5
+MemoryMax=2G
+CPUQuota=200%
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/sjefsharp/Projects/ai-intelligence-blog/data /home/sjefsharp/Projects/ai-intelligence-blog/editions /home/sjefsharp/.cache
+PrivateTmp=true
+NoNewPrivileges=true
+CapabilityBoundingSet=
+
+[Install]
+WantedBy=default.target

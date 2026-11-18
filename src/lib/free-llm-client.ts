@@ -27,6 +27,7 @@ import {
 	existsSync,
 	mkdirSync,
 	readdirSync,
+	unlinkSync,
 } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
@@ -440,7 +441,7 @@ export class CheckpointManager {
 			const filePath = join(this.checkpointDir, `${id}.json`);
 			if (existsSync(filePath)) {
 				try {
-					require("fs").unlinkSync(filePath);
+					unlinkSync(filePath);
 				} catch {}
 			}
 		}

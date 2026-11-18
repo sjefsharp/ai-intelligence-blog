@@ -1,0 +1,15 @@
+[Unit]
+Description=Daily timer for AI Daily Intelligence workflow at 05:00 Europe/Amsterdam
+Documentation=https://github.com/sjefsharp/ai-intelligence-blog/docs/scheduler.md
+Requires=ai-intelligence-daily.service
+
+[Timer]
+OnCalendar=*-*-* 05:00:00 Europe/Amsterdam
+Persistent=false
+WakeSystem=false
+AccuracySec=1min
+RandomizedDelaySec=0
+Unit=ai-intelligence-daily.service
+
+[Install]
+WantedBy=timers.target

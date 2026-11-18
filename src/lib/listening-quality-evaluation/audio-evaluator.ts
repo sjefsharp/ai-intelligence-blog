@@ -87,6 +87,162 @@ const DATA_DIR = join(PROJECT_ROOT, "data");
 const AUDIO_EVALUATION_DIR = join(DATA_DIR, "audio-evaluations");
 const CHECKPOINT_DIR = join(DATA_DIR, "checkpoints", "audio-evaluation");
 
+/**
+ * Coerce evaluation report to match strict Zod schemas.
+ * Free-tier models often return strings where objects are expected.
+ * This normalizes passageReferences, evidence, and other structured fields.
+ */
+function coerceEvaluationReport(report: any): any {
+	if (!report || typeof report !== "object") return report;
+
+	// Handle arrays
+	if (Array.isArray(report)) {
+		return report.map(coerceEvaluationReport);
+	}
+
+	// Handle passageReferences - convert strings to PassageReference objects
+	if (report.passageReferences && Array.isArray(report.passageReferences)) {
+		report.passageReferences = report.passageReferences.map((ref: any) => {
+			if (typeof ref === "string") {
+				return {
+					characterOffset: 0,
+					lineNumber: 1,
+					sectionHeading: undefined,
+					quote: ref.slice(0, 500),
+					storyId: undefined,
+				};
+			}
+			if (ref && typeof ref === "object") {
+				return {
+					characterOffset: ref.characterOffset ?? 0,
+					lineNumber: ref.lineNumber ?? 1,
+					sectionHeading: ref.sectionHeading ?? undefined,
+					quote: ref.quote ?? "",
+					storyId: ref.storyId ?? undefined,
+				};
+			}
+			return {
+				characterOffset: 0,
+				lineNumber: 1,
+				sectionHeading: undefined,
+				quote: "",
+				storyId: undefined,
+			};
+		});
+	}
+
+	// Handle evidence array - ensure passageReferences in each evidence item
+	if (report.evidence && Array.isArray(report.evidence)) {
+		report.evidence = report.evidence.map((ev: any) => {
+			if (ev && typeof ev === "object") {
+				if (
+					ev.passageReferences &&
+					Array.isArray(ev.passageReferences)
+				) {
+					ev.passageReferences = ev.passageReferences.map(
+						(ref: any) => {
+							if (typeof ref === "string") {
+								return {
+									characterOffset: 0,
+									lineNumber: 1,
+									sectionHeading: undefined,
+									quote: ref.slice(0, 500),
+									storyId: undefined,
+								};
+							}
+							if (ref && typeof ref === "object") {
+								return {
+									characterOffset: ref.characterOffset ?? 0,
+									lineNumber: ref.lineNumber ?? 1,
+									sectionHeading:
+										ref.sectionHeading ?? undefined,
+									quote: ref.quote ?? "",
+									storyId: ref.storyId ?? undefined,
+								};
+							}
+							return {
+								characterOffset: 0,
+								lineNumber: 1,
+								sectionHeading: undefined,
+								quote: "",
+								storyId: undefined,
+							};
+						},
+					);
+				}
+			}
+			return ev;
+		});
+	}
+
+	// Handle affectedPassage in repair actions
+	if (report.affectedPassage) {
+		if (typeof report.affectedPassage === "string") {
+			report.affectedPassage = {
+				characterOffset: 0,
+				lineNumber: 1,
+				sectionHeading: undefined,
+				quote: report.affectedPassage.slice(0, 500),
+				storyId: undefined,
+			};
+		} else if (
+			report.affectedPassage &&
+			typeof report.affectedPassage === "object"
+		) {
+			report.affectedPassage = {
+				characterOffset: report.affectedPassage.characterOffset ?? 0,
+				lineNumber: report.affectedPassage.lineNumber ?? 1,
+				sectionHeading:
+					report.affectedPassage.sectionHeading ?? undefined,
+				quote: report.affectedPassage.quote ?? "",
+				storyId: report.affectedPassage.storyId ?? undefined,
+			};
+		}
+	}
+
+	// Handle criterionEvaluations array
+	if (
+		report.criterionEvaluations &&
+		Array.isArray(report.criterionEvaluations)
+	) {
+		report.criterionEvaluations = report.criterionEvaluations.map(
+			(ce: any) => coerceEvaluationReport(ce),
+		);
+	}
+
+	// Handle holisticListeningAssessment
+	if (report.holisticListeningAssessment) {
+		report.holisticListeningAssessment = coerceEvaluationReport(
+			report.holisticListeningAssessment,
+		);
+	}
+
+	// Handle repairActions array
+	if (report.repairActions && Array.isArray(report.repairActions)) {
+		report.repairActions = report.repairActions.map((ra: any) =>
+			coerceEvaluationReport(ra),
+		);
+	}
+
+	// Recursively process all object properties
+	for (const key of Object.keys(report)) {
+		if (
+			![
+				"passageReferences",
+				"evidence",
+				"affectedPassage",
+				"criterionEvaluations",
+				"holisticListeningAssessment",
+				"repairActions",
+			].includes(key)
+		) {
+			report[key] = coerceEvaluationReport(report[key]);
+		}
+	}
+
+	return report;
+}
+
 // ============================================================================
 // Helper Types
 // ============================================================================
@@ -2186,9 +2342,12 @@ export async function evaluateAudioQuality(
 		contentHash,
 	};
 
-	ListeningQualityEvaluationReportSchema.parse(evaluationReport);
+	// Coerce LLM output to match strict schemas before validation
+	const coercedReport = coerceEvaluationReport(evaluationReport);
 
-	return { evaluationReport, holisticAssessment };
+	ListeningQualityEvaluationReportSchema.parse(coercedReport);
+
+	return { evaluationReport: coercedReport, holisticAssessment };
 }
 
 // ============================================================================

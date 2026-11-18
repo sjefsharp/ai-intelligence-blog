@@ -10,6 +10,9 @@ pnpm-lock.yaml
 # Generated pipeline data
 data/
 
+# Generated editions (canonical + derivatives)
+editions/
+
 # Ad-hoc scratch probes (not part of the test suite)
 test-*.mjs
 

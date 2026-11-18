@@ -748,7 +748,7 @@ const B04_MANDATORY_CODING_AGENT_MONITORING: StageDefinitionInput = {
 		"Fail if any mandatory source is INACCESSIBLE or NOT_CHECKED",
 	validationResponsibility: "SELF",
 	postValidationHooks: ["validate_all_mandatory_checked"],
-	modulePath: "./phases/phase-b.js",
+	modulePath: "./phases/phase-b.ts",
 	entryPoint: "verifyMandatoryCoverage",
 	version: "1.0.0",
 	tags: ["mandatory", "coding-agents", "developer-tools", "enforcement"],
@@ -1158,8 +1158,8 @@ const C04_OMISSION_REVIEW: StageDefinitionInput = {
 		"verify_critical_omissions_resolved",
 		"validate_dossier_repair_traceability",
 	],
-	modulePath: "../omission-review/index.js",
-	entryPoint: "createOmissionReviewEngine().execute",
+	modulePath: "../omission-review/index.ts",
+	entryPoint: "executeOmissionReview",
 	version: "1.0.0",
 	tags: ["omission", "second-discovery", "independent", "repair"],
 };
@@ -1233,8 +1233,8 @@ const C05_HISTORICAL_REGRESSION: StageDefinitionInput = {
 		"verify_no_historical_edition_modification",
 		"validate_traceability_references",
 	],
-	modulePath: "../historical-regression/index.js",
-	entryPoint: "runHistoricalRegression",
+	modulePath: "../historical-regression/index.ts",
+	entryPoint: "executeHistoricalRegression",
 	version: "1.0.0",
 	tags: ["historical", "regression", "seven-day", "read-only-history"],
 };
@@ -1312,8 +1312,8 @@ const D01_EDITORIAL_SELECTION: StageDefinitionInput = {
 		"validate_evidence_readiness",
 		"validate_concentration_review",
 	],
-	modulePath: "../editorial-selection/index.js",
-	entryPoint: "runEditorialSelection",
+	modulePath: "../editorial-selection/index.ts",
+	entryPoint: "executeEditorialSelection",
 	version: "1.0.0",
 	tags: ["editorial", "selection", "vendor-neutral", "materiality"],
 };
@@ -1366,8 +1366,8 @@ const D02_VALIDATE_SELECTION_COMPLETENESS: StageDefinitionInput = {
 	recoverable: false,
 	validationResponsibility: "SELF",
 	postValidationHooks: ["validate_no_unresolved_dependencies"],
-	modulePath: "./phases/phase-d.js",
-	entryPoint: "validateSelectionCompleteness",
+	modulePath: "./phases/phase-d.ts",
+	entryPoint: "validateSelectionCompletenessWrapper",
 	version: "1.0.0",
 	tags: ["validation", "completeness", "evidence-readiness"],
 };
@@ -1439,8 +1439,8 @@ const D03_RESOLVE_EDITORIAL_DEPENDENCIES: StageDefinitionInput = {
 	recoverable: true,
 	validationResponsibility: "SELF",
 	postValidationHooks: ["validate_all_dependencies_resolved"],
-	modulePath: "./phases/phase-d.js",
-	entryPoint: "resolveEditorialDependencies",
+	modulePath: "./phases/phase-d.ts",
+	entryPoint: "resolveEditorialDependenciesWrapper",
 	version: "1.0.0",
 	tags: ["editorial", "dependencies", "resolution"],
 };
@@ -1513,8 +1513,8 @@ const E01_GENERATE_NL_NEWSLETTER: StageDefinitionInput = {
 		"validate_newsletter_structure",
 		"validate_cross_language_consistency",
 	],
-	modulePath: "../publication/index.js",
-	entryPoint: "generateNewsletterMarkdown",
+	modulePath: "../publication/index.ts",
+	entryPoint: "generateNewsletterMarkdownWrapper",
 	version: "1.0.0",
 	tags: ["publication", "dutch", "newsletter", "canonical"],
 };
@@ -1584,8 +1584,8 @@ const E02_GENERATE_NL_LISTENING: StageDefinitionInput = {
 		"validate_no_urls_citations",
 		"validate_independent_authoring",
 	],
-	modulePath: "../publication/index.js",
-	entryPoint: "generateListeningNarrativeMarkdown",
+	modulePath: "../publication/index.ts",
+	entryPoint: "generateListeningNarrativeMarkdownWrapper",
 	version: "1.0.0",
 	tags: [
 		"publication",
@@ -1594,6 +1594,85 @@ const E02_GENERATE_NL_LISTENING: StageDefinitionInput = {
 		"canonical",
 		"independent-authoring",
 	],
+};
+
+const E02b_GENERATE_RESEARCH_AUDIT: StageDefinitionInput = {
+	stageId: stageId("e02b_generate_research_audit"),
+	name: "Generate Research Audit — Technical Evidence & Editorial Accountability",
+	description:
+		"Produce research-audit.md (technical evidence & editorial accountability) from canonical fact dossier and editorial manifest",
+	phase: "PHASE_E_PUBLICATION_PRODUCTION",
+	dependencies: [
+		{
+			stageId: stageId("d03_resolve_editorial_dependencies"),
+			required: true,
+		},
+	],
+	inputContract: {
+		requiredArtifacts: [
+			{
+				artifactId: "canonical-fact-dossier",
+				path: "data/fact-dossiers/edition_{edition}.json",
+			},
+			{
+				artifactId: "resolved-editorial-manifest",
+				path: "data/editorial-selection/{edition}_resolved_*.json",
+			},
+			{
+				artifactId: "historical-regression-report",
+				path: "data/historical-regression/{edition}_*.json",
+			},
+		],
+		optionalArtifacts: [],
+		configurationRefs: ["research-audit-template", "evidence-citation-rules"],
+		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+	},
+	outputContract: {
+		producedArtifacts: [
+			{
+				artifactId: "research-audit-md",
+				path: "editions/edition_{edition}/canonical/research-audit.md",
+				description: "Research audit — technical evidence & editorial accountability",
+				required: true,
+			},
+			{
+				artifactId: "research-audit-meta",
+				path: "editions/edition_{edition}/canonical/research-audit.md.meta.json",
+				description: "PublicationMetadata with lifecycleStatus DRAFT",
+				required: true,
+			},
+		],
+		sideEffects: ["WRITE_LOCAL", "PUBLISH_PREP", "INFERENCE_CALL"],
+		modifiesState: true,
+		emitsEvents: ["RESEARCH_AUDIT_GENERATED"],
+	},
+	inputSchema: "ResearchAuditGenerationInput",
+	outputSchema: "PublicationArtifact + Metadata + Traceability",
+	sideEffects: ["WRITE_LOCAL", "PUBLISH_PREP", "INFERENCE_CALL"],
+	retryPolicy: DEFAULT_RETRY,
+	executionBudget: PUBLICATION_BUDGET,
+	checkpointPolicy: DEFAULT_CHECKPOINT,
+	inferenceRequirements: {
+		required: false,
+		providers: ["openrouter-primary", "nous-primary"],
+		estimatedRequests: 5,
+		estimatedTokens: 20000,
+		deterministic: true,
+		structuredOutput: true,
+		fallbackAllowed: true,
+	},
+	failureBehavior: "BLOCK_DOWNSTREAM",
+	recoverable: true,
+	validationResponsibility: "SELF",
+	postValidationHooks: [
+		"validate_evidence_citation_coverage",
+		"validate_editorial_accountability_completeness",
+		"validate_traceability_completeness",
+	],
+	modulePath: "../publication/index.ts",
+	entryPoint: "generateResearchAuditWrapper",
+	version: "1.0.0",
+	tags: ["publication", "research-audit", "evidence", "editorial-accountability", "canonical"],
 };
 
 const E03_GENERATE_EN_ARTICLES: StageDefinitionInput = {
@@ -1605,6 +1684,7 @@ const E03_GENERATE_EN_ARTICLES: StageDefinitionInput = {
 	dependencies: [
 		{ stageId: stageId("e01_generate_nl_newsletter"), required: true },
 		{ stageId: stageId("e02_generate_nl_listening"), required: true },
+		{ stageId: stageId("e02b_generate_research_audit"), required: true },
 	],
 	inputContract: {
 		requiredArtifacts: [
@@ -1982,8 +2062,8 @@ const F01_Q1Q10_EVALUATION: StageDefinitionInput = {
 		"validate_criterion_structured_output",
 		"validate_unverified_not_pass",
 	],
-	modulePath: "../listening-quality-evaluation/index.js",
-	entryPoint: "evaluateListeningQuality",
+	modulePath: "../listening-quality-evaluation/index.ts",
+	entryPoint: "evaluateListeningQualityWrapper",
 	version: "1.0.0",
 	tags: ["quality", "q1q10", "listening", "evaluation"],
 };
@@ -2061,8 +2141,8 @@ const F02_AUDIO_AG_EVALUATION: StageDefinitionInput = {
 		"validate_holistic_assessment",
 		"validate_q_evidence_references",
 	],
-	modulePath: "../listening-quality-evaluation/index.js",
-	entryPoint: "evaluateAudioQuality",
+	modulePath: "../listening-quality-evaluation/index.ts",
+	entryPoint: "evaluateAudioQualityWrapper",
 	version: "1.0.0",
 	tags: ["quality", "audio-ag", "holistic", "listening"],
 };
@@ -2315,7 +2395,7 @@ const F05_BOUNDED_REPAIRS: StageDefinitionInput = {
 		"validate_downstream_regression_check",
 		"validate_iteration_budget",
 	],
-	modulePath: "src/lib/workflow-orchestrator/phases/phase-f.js",
+	modulePath: "./phases/phase-f.ts",
 	entryPoint: "executeBoundedRepairs",
 	version: "1.0.0",
 	tags: ["quality", "repair", "bounded", "regression-check"],
@@ -3186,6 +3266,7 @@ export const ALL_STAGE_DEFINITIONS: StageDefinitionInput[] = [
 	// Phase E
 	E01_GENERATE_NL_NEWSLETTER,
 	E02_GENERATE_NL_LISTENING,
+	E02b_GENERATE_RESEARCH_AUDIT,
 	E03_GENERATE_EN_ARTICLES,
 	E04_GENERATE_EN_LISTENING,
 	E05_GENERATE_VISUALS,

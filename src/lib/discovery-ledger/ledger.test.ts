@@ -1740,6 +1740,21 @@ describe("Discovery Ledger — Core Functionality", () => {
 	});
 
 	describe("Ledger Persistence and Query", () => {
+		let ledger: DiscoveryLedger;
+		let testLedgerDir: string;
+
+		beforeEach(async () => {
+			testLedgerDir = path.resolve(
+				process.cwd(),
+				`data/test-ledger-${Date.now()}`,
+			);
+			ledger = createDiscoveryLedger({
+				ledgerDir: testLedgerDir,
+				historyRetentionDays: 36500,
+				maxHistoryFiles: 10000,
+			});
+		});
+
 		it("persists ledger entry to disk and reads back", async () => {
 			const editionDate = "2024-11-10";
 			const execution = await ledger.startExecution(

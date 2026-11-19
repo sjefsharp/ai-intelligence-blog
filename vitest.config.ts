@@ -17,6 +17,14 @@ export default defineConfig({
 				"**/*.config.*",
 				"**/*.d.ts",
 			],
+			// Current baseline: ~64%. Target: 80%.
+			// Set threshold at baseline to prevent regression; raise incrementally.
+			thresholds: {
+				lines: 64,
+				functions: 69,
+				branches: 56,
+				statements: 63,
+			},
 		},
 	},
 });

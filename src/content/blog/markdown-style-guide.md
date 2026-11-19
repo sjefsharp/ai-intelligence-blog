@@ -120,7 +120,7 @@ Use for references without breaking flow:
 
 The orchestrator uses structured event logs[^1] for observability.
 
-[^1]: See [Observability Patterns for Agent Systems](/blog/observability-patterns/) for details.
+[^1]: See [Observability Patterns for Agent Systems](/blog/second-post/) for details.
 
 ## Citations
 

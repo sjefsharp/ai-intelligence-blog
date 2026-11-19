@@ -1,0 +1,80 @@
+name: Daily Edition
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # 03:00 UTC ≈ 04:00 CET / 05:00 CEST (script uses TZ=Europe/Amsterdam)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Execution mode"
+        required: true
+        default: "VALIDATE"
+        type: choice
+        options:
+          - PLAN
+          - VALIDATE
+          - DRY_RUN
+          - EXECUTE
+
+permissions:
+  contents: write # for committing generated editions
+  actions: read
+
+concurrency:
+  group: daily-edition
+  cancel-in-progress: false
+
+jobs:
+  daily-edition:
+    name: Daily Edition
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      EDITION_SCHEDULER_ENABLED: "true"
+      EDITION_DEPLOYMENT_AUTHORIZED: "true"
+      EDITION_PUBLICATION_AUTHORIZED: "true"
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      NOUS_API_KEY: ${{ secrets.NOUS_API_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Daily Edition
+        run: |
+          bash scripts/scheduler/run-daily-edition.sh
+        shell: bash
+        env:
+          EDITION_SCHEDULER_ENABLED: "true"
+          EDITION_DEPLOYMENT_AUTHORIZED: "true"
+          EDITION_PUBLICATION_AUTHORIZED: "true"
+          EXECUTION_MODE: ${{ github.event.inputs.mode || 'VALIDATE' }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          NOUS_API_KEY: ${{ secrets.NOUS_API_KEY }}
+
+      - name: Commit generated editions
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add -A
+            git commit -m "📅 chore(edition): Daily edition $(date -u +%Y-%m-%d)"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

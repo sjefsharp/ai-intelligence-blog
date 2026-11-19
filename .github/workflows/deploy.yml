@@ -40,7 +40,7 @@ jobs:
           SITE_URL: https://sjefsharp.github.io/ai-intelligence-blog/
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@c853b65a53b6f72e012c5b4a2d8c05664b6e0d20 # v3
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
@@ -55,4 +55,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@74c5d1d87c7254f5f55a036b72f00110c05108d9 # v4
+        uses: actions/deploy-pages@v4

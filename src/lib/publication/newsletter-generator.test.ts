@@ -19,9 +19,11 @@ describe("Newsletter Generator — Output Validation", () => {
 	): NewsletterGenerationInput => ({
 		editionDate: "2025-01-15",
 		editionWindow: {
+			editionDate: "2025-01-15",
 			start: "2025-01-14T05:00:00+01:00[Europe/Amsterdam]",
 			end: "2025-01-15T05:00:00+01:00[Europe/Amsterdam]",
 			timezone: "Europe/Amsterdam",
+			durationHours: 24,
 		},
 		factDossier: {} as NewsletterGenerationInput["factDossier"],
 		editorialManifest: {} as NewsletterGenerationInput["editorialManifest"],

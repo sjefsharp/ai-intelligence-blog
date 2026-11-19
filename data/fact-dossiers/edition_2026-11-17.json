@@ -1,0 +1,77 @@
+{
+  "candidates": [],
+  "contentHash": "sha256:d3f97b4fc7f4d7f4dad9004bac564b42ea26bb641abfc4db77299e4c226c472f",
+  "createdAt": "2026-11-18T03:46:24.419Z",
+  "dossierId": "fd_7ca03702ededc30a",
+  "editionDate": "2026-11-17",
+  "editionId": "edition_2026-11-17",
+  "editionSummary": {
+    "averageClaimConfidence": 0,
+    "byEvidenceClassification": {},
+    "byResearchDomain": {},
+    "byTemporalEligibility": {},
+    "byVerificationStatus": {},
+    "candidatesWithEvidenceGaps": 0,
+    "claimsWithCounterevidence": 0,
+    "claimsWithUnresolvedUncertainties": 0,
+    "strategicResearchCandidates": 0,
+    "technicalCandidates": 0,
+    "totalCandidates": 0,
+    "totalClaims": 0
+  },
+  "editionWindow": {
+    "durationHours": 24,
+    "editionDate": "2026-11-17",
+    "end": "2026-11-17T05:00:00+01:00[Europe/Amsterdam]",
+    "start": "2026-11-16T05:00:00+01:00[Europe/Amsterdam]",
+    "timezone": "Europe/Amsterdam"
+  },
+  "historicalContinuity": [],
+  "previousVersionHash": "sha256:77808e7e00b0247f9ab22c8ac89cc89c728530aef38c787a5de8f25d41d2fb38",
+  "processingAudit": {
+    "completedAt": "2026-11-18T03:46:24.419Z",
+    "completedCandidateIds": [],
+    "durationMs": 0,
+    "failedCandidateIds": [],
+    "inferenceNote": "No model inference was required for deterministic consolidation.",
+    "inferenceUsed": false,
+    "skippedCandidateIds": [],
+    "startedAt": "2026-11-18T03:46:24.419Z",
+    "steps": [
+      {
+        "completedAt": "2026-11-18T03:46:24.419Z",
+        "inputCount": 0,
+        "outputCount": 0,
+        "startedAt": "2026-11-18T03:46:24.419Z",
+        "status": "completed",
+        "step": "candidate-consolidation"
+      },
+      {
+        "completedAt": "2026-11-18T03:46:24.419Z",
+        "outputCount": 0,
+        "startedAt": "2026-11-18T03:46:24.419Z",
+        "status": "completed",
+        "step": "editorial-readiness-indicators"
+      },
+      {
+        "completedAt": "2026-11-18T03:46:24.419Z",
+        "status": "completed",
+        "step": "edition-summary"
+      },
+      {
+        "completedAt": "2026-11-18T03:46:24.419Z",
+        "status": "completed",
+        "step": "uncertainty-register"
+      },
+      {
+        "completedAt": "2026-11-18T03:46:24.419Z",
+        "status": "completed",
+        "step": "historical-continuity"
+      }
+    ]
+  },
+  "schemaVersion": "1.0.0",
+  "status": "ready-for-omission-review",
+  "uncertaintyRegister": [],
+  "updatedAt": "2026-11-18T03:46:24.419Z"
+}

@@ -159,7 +159,7 @@ function sortedUnique(values: string[]): string[] {
 function earliestString(values: (string | undefined)[]): string | undefined {
 	const present = values.filter((v): v is string => Boolean(v));
 	if (present.length === 0) return undefined;
-	return present.slice().sort()[0];
+	return present.toSorted()[0];
 }
 
 function deriveDossierId(editionDate: string): string {
@@ -372,9 +372,9 @@ function buildCandidateTimestamps(
 			.map((c) => c.temporalVerification.substantiveUpdateTimestamp)
 			.find(Boolean);
 
-	const firstClaim = claims
-		.slice()
-		.sort((a, b) => a.verifiedAt.localeCompare(b.verifiedAt))[0];
+	const firstClaim = claims.toSorted((a, b) =>
+		a.verifiedAt.localeCompare(b.verifiedAt),
+	)[0];
 	const timezone =
 		firstClaim?.supportingEvidence.find((e) => e.sourceTimezone)
 			?.sourceTimezone ?? "unknown";
@@ -580,8 +580,7 @@ export function consolidateClaims(
 	claims: ClaimVerificationRecord[],
 ): ConsolidatedClaim[] {
 	return claims
-		.slice()
-		.sort((a, b) => a.id.localeCompare(b.id))
+		.toSorted((a, b) => a.id.localeCompare(b.id))
 		.map((record) => {
 			const corroborating = record.supportingEvidence.filter(
 				(e) =>
@@ -629,8 +628,7 @@ export function consolidateClaims(
 
 			const contradictoryEvidence: ContradictoryEvidence[] =
 				record.counterevidence
-					.slice()
-					.sort((a, b) => a.id.localeCompare(b.id))
+					.toSorted((a, b) => a.id.localeCompare(b.id))
 					.map((ce) => ({
 						evidenceId: ce.id,
 						sourceId: ce.sourceId,
@@ -673,8 +671,7 @@ export function consolidateClaims(
 				) as VerificationMethod[],
 				uncertainty: {
 					unresolved: record.unresolvedUncertainties
-						.slice()
-						.sort((a, b) => a.id.localeCompare(b.id))
+						.toSorted((a, b) => a.id.localeCompare(b.id))
 						.map((u) => ({
 							type: u.type,
 							uncertainty: u.uncertainty,
@@ -908,13 +905,11 @@ function deriveExactStatement(
 ): string {
 	const summary = candidate.summary.trim().replace(/\s+/g, " ");
 	if (claims.length === 0) return summary;
-	const primary = claims
-		.slice()
-		.sort(
-			(a, b) =>
-				(VERIFICATION_LEVEL_ORDER[b.verificationLevel] ?? 0) -
-				(VERIFICATION_LEVEL_ORDER[a.verificationLevel] ?? 0),
-		)[0];
+	const primary = claims.toSorted(
+		(a, b) =>
+			(VERIFICATION_LEVEL_ORDER[b.verificationLevel] ?? 0) -
+			(VERIFICATION_LEVEL_ORDER[a.verificationLevel] ?? 0),
+	)[0];
 	return `${summary} Material change: ${primary.claimStatement}`;
 }
 

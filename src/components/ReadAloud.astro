@@ -102,17 +102,13 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 		<span id="read-aloud-status-text" class="sr-only"></span>
 	</div>
 
-	<div
+	<progress
 		class="read-aloud-progress"
-		role="progressbar"
-		aria-valuenow="0"
-		aria-valuemin="0"
-		aria-valuemax="100"
+		max="100"
+		value="0"
 		aria-label={t.ui.readAloud?.progress || "Reading progress"}
 		hidden
-	>
-		<div class="read-aloud-progress-bar"></div>
-	</div>
+	></progress>
 </div>
 
 <script is:inline>
@@ -140,7 +136,6 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 		const progressContainer = document.querySelector(
 			".read-aloud-progress",
 		);
-		const progressBar = document.querySelector(".read-aloud-progress-bar");
 
 		// Translations from Astro props
 		const translations = {
@@ -373,14 +368,8 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 		}
 
 		function updateProgress(percent) {
-			if (progressBar) {
-				progressBar.style.width = `${percent}%`;
-			}
 			if (progressContainer) {
-				progressContainer.setAttribute(
-					"aria-valuenow",
-					Math.round(percent),
-				);
+				progressContainer.value = percent;
 			}
 		}
 
@@ -674,18 +663,29 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 	}
 
 	.read-aloud-progress {
+		appearance: none;
+		border: 0 solid;
+		overflow: clip;
+		width: 100%;
 		height: 4px;
 		background: var(--mountain-light);
 		border-radius: 2px;
-		overflow: hidden;
 	}
 
-	.read-aloud-progress-bar {
-		height: 100%;
+	.read-aloud-progress::-webkit-progress-bar {
+		background: transparent;
+	}
+
+	.read-aloud-progress::-webkit-progress-value {
 		background: var(--gold);
-		width: 0%;
-		transition: width 0.1s linear;
 		border-radius: 2px;
+		transition: inline-size 0.1s linear;
+	}
+
+	.read-aloud-progress::-moz-progress-bar {
+		background: var(--gold);
+		border-radius: 2px;
+		transition: inline-size 0.1s linear;
 	}
 
 	/* Current text highlighting */
@@ -703,7 +703,10 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 		.read-aloud-current {
 			transition: none;
 		}
-		.read-aloud-progress-bar {
+		.read-aloud-progress::-webkit-progress-value {
+			transition: none;
+		}
+		.read-aloud-progress::-moz-progress-bar {
 			transition: none;
 		}
 	}
@@ -723,7 +726,10 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 			background: transparent;
 			color: currentColor;
 		}
-		.read-aloud-progress-bar {
+		.read-aloud-progress::-webkit-progress-value {
+			background: currentColor;
+		}
+		.read-aloud-progress::-moz-progress-bar {
 			background: currentColor;
 		}
 		.read-aloud-current {

@@ -157,6 +157,7 @@ export class CollectionOrchestrator {
 		} catch (error) {
 			throw new Error(
 				`Failed to load source registry: ${error instanceof Error ? error.message : "Unknown error"}`,
+				{ cause: error },
 			);
 		}
 	}

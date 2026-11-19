@@ -244,7 +244,6 @@ export async function writeDelta(delta: {
 	const deltaId = `apd_${crypto.randomBytes(8).toString("hex")}`;
 	const deltaContent = {
 		deltaId,
-		schemaVersion: ARCHITECTURE_PRINCIPLES_SCHEMA_VERSION,
 		editionDate: delta.editionDate,
 		generatedAt: new Date().toISOString(),
 		generatedBy: "architecture-principles-engine",

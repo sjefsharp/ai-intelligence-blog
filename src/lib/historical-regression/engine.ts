@@ -204,9 +204,9 @@ export async function runHistoricalRegression(
 	const potentialOmissions: HistoricalOmissionFinding[] = [];
 	const unresolvedQuestions: string[] = [];
 
-	const candidates = input.canonicalDossier.candidates
-		.slice()
-		.sort((a, b) => a.candidateId.localeCompare(b.candidateId));
+	const candidates = input.canonicalDossier.candidates.toSorted((a, b) =>
+		a.candidateId.localeCompare(b.candidateId),
+	);
 
 	for (const candidate of candidates) {
 		const matches = [...indexes.entries()]

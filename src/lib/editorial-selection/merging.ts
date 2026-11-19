@@ -34,7 +34,7 @@ function sha16(value: string): string {
 
 /** Derive a stable relationship identifier. */
 export function deriveRelationshipId(keys: string[]): string {
-	return `${EDITORIAL_RELATIONSHIP_ID_PREFIX}${sha16([...keys].sort().join(":"))}`;
+	return `${EDITORIAL_RELATIONSHIP_ID_PREFIX}${sha16(keys.toSorted().join(":"))}`;
 }
 
 /**
@@ -45,7 +45,7 @@ export function detectMergeGroups(
 	candidates: CanonicalCandidate[],
 	materiality: Map<string, number>,
 ): Map<string, string> {
-	const sorted = [...candidates].sort((a, b) =>
+	const sorted = candidates.toSorted((a, b) =>
 		a.candidateId.localeCompare(b.candidateId),
 	);
 	const parent = new Map<string, string>();

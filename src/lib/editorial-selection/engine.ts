@@ -177,7 +177,7 @@ function buildHistoricalRegressionReference(
 /**
  * Execute the editorial selection stage for one edition.
  */
-export async function runEditorialSelection(
+async function runEditorialSelection(
 	input: EditorialSelectionInput,
 ): Promise<EditorialSelectionResult> {
 	const dataDir = input.dataDir ?? "data";
@@ -609,3 +609,166 @@ function determineReadiness(
 	}
 	return "READY";
 }
+
+/**
+ * Validate Selection Completeness (D02_VALIDATE_SELECTION_COMPLETENESS).
+ * Verifies that all selected stories have complete evidence, no blocking
+ * unresolved issues, and all editorial dependencies are resolved.
+ */
+async function validateSelectionCompleteness(input: any): Promise<any> {
+	const { manifest, dossier } = input;
+
+	const selectedStories = manifest.stories.filter(
+		(story: EditorialStory) =>
+			story.decision === "SELECTED" ||
+			story.decision === "CATCH_UP_SELECTED",
+	);
+
+	const issues: string[] = [];
+
+	// Check each selected story for completeness
+	for (const story of selectedStories) {
+		const assessment = manifest.candidates.find(
+			(c: EditorialCandidateAssessment) =>
+				c.candidateId === story.candidateId,
+		);
+		if (!assessment) {
+			issues.push(
+				`Story ${story.storyId} has no corresponding assessment`,
+			);
+			continue;
+		}
+
+		// Check evidence sufficiency
+		if (assessment.eligibility.evidenceSufficiency === "WEAK") {
+			issues.push(
+				`Story ${story.storyId} (candidate ${story.candidateId}) has WEAK evidence sufficiency`,
+			);
+		}
+
+		// Check temporal status
+		if (assessment.eligibility.temporalStatus === "TIME_UNVERIFIED") {
+			issues.push(
+				`Story ${story.storyId} (candidate ${story.candidateId}) has TIME_UNVERIFIED temporal status`,
+			);
+		}
+
+		// Check for unresolved issues in assessment
+		if (assessment.uncertainty.length > 0) {
+			issues.push(
+				`Story ${story.storyId} carries uncertainty: ${assessment.uncertainty.join("; ")}`,
+			);
+		}
+	}
+
+	// Check manifest-level unresolved issues
+	if (manifest.unresolvedIssues.length > 0) {
+		issues.push(
+			...manifest.unresolvedIssues.map(
+				(issue: string) => `Manifest issue: ${issue}`,
+			),
+		);
+	}
+
+	// Check concentration review residual risks
+	if (manifest.concentrationReview.residualRisks.length > 0) {
+		issues.push(
+			...manifest.concentrationReview.residualRisks.map(
+				(risk: string) => `Concentration risk: ${risk}`,
+			),
+		);
+	}
+
+	return {
+		valid: issues.length === 0,
+		issues,
+		validatedAt: new Date().toISOString(),
+		validatedBy: "selection-completeness-validator",
+		selectedStoryCount: selectedStories.length,
+	};
+}
+
+/**
+ * Resolve Editorial Dependencies (D03_RESOLVE_EDITORIAL_DEPENDENCIES).
+ * Applies existing contracts to resolve any remaining editorial dependencies.
+ */
+async function resolveEditorialDependencies(input: any): Promise<any> {
+	const { manifest, omissionReview, historicalRegression } = input;
+
+	const resolvedStories = [...manifest.stories];
+	const resolvedIssues = [...manifest.unresolvedIssues];
+
+	// Resolve DEFERRED_UNVERIFIED candidates if omission review provides evidence
+	if (omissionReview) {
+		for (const candidate of omissionReview.criticalAndMaterialOmissionsRepaired) {
+			if (candidate.repairAction !== "UNRESOLVED") {
+				// Find corresponding story and update decision
+				const storyIndex = resolvedStories.findIndex(
+					(s) => s.candidateId === candidate.candidateId,
+				);
+				if (storyIndex >= 0) {
+					resolvedStories[storyIndex] = {
+						...resolvedStories[storyIndex],
+						decision: "SELECTED" as const,
+						unresolvedIssues: [],
+					};
+				}
+			}
+		}
+	}
+
+	// Resolve historical regression dependencies
+	if (
+		historicalRegression &&
+		historicalRegression.finalStatus === "COMPLETE"
+	) {
+		for (const relationship of historicalRegression.relationships) {
+			if (relationship.type === "PREVIOUSLY_COVERED") {
+				// Mark as catch-up if appropriate
+				const storyIndex = resolvedStories.findIndex(
+					(s) => s.candidateId === relationship.currentCandidateId,
+				);
+				if (
+					storyIndex >= 0 &&
+					resolvedStories[storyIndex].decision === "DEFERRED"
+				) {
+					resolvedStories[storyIndex] = {
+						...resolvedStories[storyIndex],
+						decision: "CATCH_UP_SELECTED" as const,
+						unresolvedIssues: [],
+					};
+				}
+			}
+		}
+	}
+
+	// Filter resolved issues
+	const remainingIssues = resolvedIssues.filter(
+		(issue) =>
+			!issue.includes("DEPENDENCY_RESOLVED") &&
+			!issue.includes("catch-up") &&
+			!issue.includes("omission repaired"),
+	);
+
+	const resolvedManifest = {
+		...manifest,
+		stories: resolvedStories,
+		unresolvedIssues: remainingIssues,
+	};
+
+	return {
+		manifest: resolvedManifest,
+		resolved: true,
+		resolvedAt: new Date().toISOString(),
+		resolvedBy: "editorial-dependency-resolver",
+		resolvedCount:
+			manifest.stories.length -
+			resolvedStories.filter((s) => s.unresolvedIssues.length > 0).length,
+	};
+}
+
+export {
+	runEditorialSelection,
+	validateSelectionCompleteness,
+	resolveEditorialDependencies,
+};

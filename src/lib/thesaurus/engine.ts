@@ -559,7 +559,7 @@ export function validateTerminologyEntry(
 		}
 
 		// Check historical observations are sorted
-		const sortedObs = [...entry.historicalObservations].sort((a, b) =>
+		const sortedObs = entry.historicalObservations.toSorted((a, b) =>
 			a.date.localeCompare(b.date),
 		);
 		const isSorted = entry.historicalObservations.every(
@@ -767,7 +767,7 @@ export function validateRelationships(
 
 	// Deduplicate cycles
 	const uniqueCycles = cyclesDetected
-		.map((c) => c.slice().sort().join(">"))
+		.map((c) => c.toSorted().join(">"))
 		.filter((c, i, arr) => arr.indexOf(c) === i)
 		.map((c) => c.split(">"));
 

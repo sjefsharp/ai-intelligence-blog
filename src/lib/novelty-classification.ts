@@ -372,9 +372,22 @@ function isExplicitlyDatedOlderMaterial(
  * Batch classify multiple items.
  */
 export function classifyNoveltyBatch(
-	inputs: NoveltyClassificationInput[],
+	input:
+		| {
+				editionDate: string;
+				editionContext?: Record<string, unknown>;
+				cliOptions?: Record<string, unknown>;
+				llmClient?: unknown;
+				"consolidated-discovery"?: NoveltyClassificationInput[];
+				items?: NoveltyClassificationInput[];
+		  }
+		| NoveltyClassificationInput[],
 ): NoveltyClassificationResult[] {
-	return inputs.map(classifyNovelty);
+	// Handle both array input (direct) and object input (from workflow engine)
+	const items = Array.isArray(input)
+		? input
+		: input["consolidated-discovery"] || input.items || [];
+	return items.map(classifyNovelty);
 }
 
 /**

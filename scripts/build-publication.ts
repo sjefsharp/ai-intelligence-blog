@@ -18,22 +18,16 @@ import { join } from "node:path";
 
 import {
 	getEditionDir,
-	getCanonicalDir,
 	getNewsletterPath,
 	getResearchAuditPath,
 	getListeningNarrativePath,
 	getDailyIndexPath,
-	getEnglishArticlesDir,
-	getEnglishListeningDir,
 } from "../src/lib/publication/paths.js";
 import {
 	createCanonicalPublicationMetadata,
 	createEnglishDerivativeMetadata,
 	createDailyIndex,
 	validatePublicationMetadata,
-	validateDailyIndex,
-	computeContentHash,
-	computeObjectHash,
 	generateArtifactId,
 	generateArticleId,
 } from "../src/lib/publication/metadata.js";
@@ -63,9 +57,8 @@ import {
 	type EditionIdentity,
 	type CanonicalReferences,
 	type ArticleIdentity,
-	type PublicationPackage,
 	type PublicationMetadata,
-	type DailyIndex,
+	type PublicationPackage,
 } from "../src/lib/publication/schema.js";
 import {
 	renderBookDeltaAuditSection,
@@ -84,7 +77,7 @@ interface CliOptions {
 }
 
 function parseCliArgs(): CliOptions {
-	const { values, positionals } = parseArgs({
+	const { values } = parseArgs({
 		args: process.argv.slice(2),
 		options: {
 			edition: { type: "string", short: "e" },
@@ -945,33 +938,6 @@ function getTemporalLabelNL(status: string): string {
 	return labels[status] ?? status;
 }
 
-function translateDomainNL(domain: string): string {
-	const translations: Record<string, string> = {
-		"agentic-ai-software-engineering": "Agentic AI & Software Engineering",
-		"models-inference-scientific":
-			"Modellen, Inferentie & Wetenschappelijk Onderzoek",
-		"architecture-security-governance":
-			"Architectuur, Beveiliging & Governance",
-		"enterprise-adoption-organizational":
-			"Enterprise AI Adoptie & Organisatie Transformatie",
-		"economics-business-impact":
-			"Economie, Business Impact & Strategische Intelligence",
-		"independent-research-advisory":
-			"Onafhankelijk Onderzoek & Advies Intelligence",
-		"coding-agents-skills-mcp-hooks-plugins-apm":
-			"Coding Agents, Skills, MCP, Hooks, Plugins & APM",
-		"agent-orchestration-evaluation-reliability-observability":
-			"Agent Orchestratie, Evaluatie, Betrouwbaarheid & Observabiliteit",
-		"security-sandboxing-software-supply-chains":
-			"Beveiliging, Sandboxing & Software Supply Chains",
-		"developer-productivity-software-delivery":
-			"Developer Productiviteit & Software Delivery",
-		"enterprise-ai-adoption-organizational-transformation":
-			"Enterprise AI Adoptie & Organisatie Transformatie",
-	};
-	return translations[domain] ?? domain;
-}
-
 async function main() {
 	const options = parseCliArgs();
 	const { edition, demo } = options;
@@ -1046,7 +1012,7 @@ async function main() {
 			};
 
 			// Build article identities from stories
-			articles = newsletterInput.stories.map((context, index) => ({
+			articles = newsletterInput.stories.map((context) => ({
 				articleId: generateArticleId(),
 				storyId: context.story.storyId,
 				candidateIds: [
@@ -1394,7 +1360,7 @@ async function main() {
 	// Persist English derivatives (metadata only for demo)
 	console.log("Generating English derivative metadata...");
 	for (const meta of englishDerivativeMetadatas) {
-		const validated = validatePublicationMetadata(meta);
+		validatePublicationMetadata(meta);
 		console.log(
 			`  ✓ English derivative: ${meta.contentType} (${meta.artifactId})`,
 		);

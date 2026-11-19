@@ -1,0 +1,876 @@
+{
+  "acceptanceContractVersion": "1.0.0",
+  "acceptanceTimestamp": "2026-11-17T19:22:34.311Z",
+  "artifactHashes": {},
+  "contentHash": "sha256:7e361a14769da3d83f56551d0e7c431e820688429cb8f90becf58e432f77ff10",
+  "criticalAndMajorDefects": [
+    {
+      "affectedArtifacts": [],
+      "blocking": true,
+      "category": "OTHER",
+      "defectId": "defect_j9ryuwam8xhbupyf",
+      "description": "Temporal integrity evaluation has not been executed.",
+      "evidenceReferences": [],
+      "gateId": "gate_temporal_integrity",
+      "identifiedAt": "2026-11-17T19:22:34.309Z",
+      "remediationRecommendation": "Address blocking condition: Temporal integrity evaluation has not been executed.",
+      "responsibleComponent": "gate_temporal_integrity",
+      "severity": "MAJOR"
+    },
+    {
+      "affectedArtifacts": [],
+      "blocking": true,
+      "category": "OTHER",
+      "defectId": "defect_42y369adcxfk22px",
+      "description": "Discovery coverage evaluation has not been executed.",
+      "evidenceReferences": [],
+      "gateId": "gate_discovery_coverage",
+      "identifiedAt": "2026-11-17T19:22:34.309Z",
+      "remediationRecommendation": "Address blocking condition: Discovery coverage evaluation has not been executed.",
+      "responsibleComponent": "gate_discovery_coverage",
+      "severity": "MAJOR"
+    },
+    {
+      "affectedArtifacts": [],
+      "blocking": true,
+      "category": "OTHER",
+      "defectId": "defect_cfuz8ephz16g7u08",
+      "description": "Evidence integrity evaluation has not been executed.",
+      "evidenceReferences": [],
+      "gateId": "gate_evidence_integrity",
+      "identifiedAt": "2026-11-17T19:22:34.309Z",
+      "remediationRecommendation": "Address blocking condition: Evidence integrity evaluation has not been executed.",
+      "responsibleComponent": "gate_evidence_integrity",
+      "severity": "MAJOR"
+    },
+    {
+      "affectedArtifacts": [],
+      "blocking": true,
+      "category": "OTHER",
+      "defectId": "defect_9danjouyvtqcrixz",
+      "description": "Historical regression evaluation has not been executed.",
+      "evidenceReferences": [],
+      "gateId": "gate_historical_regression",
+      "identifiedAt": "2026-11-17T19:22:34.309Z",
+      "remediationRecommendation": "Address blocking condition: Historical regression evaluation has not been executed.",
+      "responsibleComponent": "gate_historical_regression",
+      "severity": "MAJOR"
+    },
+    {
+      "affectedArtifacts": [],
+      "blocking": true,
+      "category": "OTHER",
+      "defectId": "defect_c8j5kq6owf6jn8mb",
+      "description": "Editorial integrity evaluation has not been executed.",
+      "evidenceReferences": [],
+      "gateId": "gate_editorial_integrity",
+      "identifiedAt": "2026-11-17T19:22:34.309Z",
+      "remediationRecommendation": "Address blocking condition: Editorial integrity evaluation has not been executed.",
+      "responsibleComponent": "gate_editorial_integrity",
+      "severity": "MAJOR"
+    },
+    {
+      "affectedArtifacts": [],
+      "blocking": true,
+      "category": "OTHER",
+      "defectId": "defect_g0uv57h465hsx65a",
+      "description": "Knowledge continuity evaluation has not been executed.",
+      "evidenceReferences": [],
+      "gateId": "gate_knowledge_continuity",
+      "identifiedAt": "2026-11-17T19:22:34.309Z",
+      "remediationRecommendation": "Address blocking condition: Knowledge continuity evaluation has not been executed.",
+      "responsibleComponent": "gate_knowledge_continuity",
+      "severity": "MAJOR"
+    },
+    {
+      "affectedArtifacts": [],
+      "blocking": true,
+      "category": "OTHER",
+      "defectId": "defect_woc19nywe06m3hdr",
+      "description": "Readable accessibility evaluation has not been executed.",
+      "evidenceReferences": [],
+      "gateId": "gate_readable_accessibility",
+      "identifiedAt": "2026-11-17T19:22:34.309Z",
+      "remediationRecommendation": "Address blocking condition: Readable accessibility evaluation has not been executed.",
+      "responsibleComponent": "gate_readable_accessibility",
+      "severity": "MAJOR"
+    },
+    {
+      "affectedArtifacts": [],
+      "blocking": true,
+      "category": "OTHER",
+      "defectId": "defect_3u3nba9kthnuf0uf",
+      "description": "Audio-first quality evaluation has not been executed.",
+      "evidenceReferences": [],
+      "gateId": "gate_audio_first_quality",
+      "identifiedAt": "2026-11-17T19:22:34.309Z",
+      "remediationRecommendation": "Address blocking condition: Audio-first quality evaluation has not been executed.",
+      "responsibleComponent": "gate_audio_first_quality",
+      "severity": "MAJOR"
+    },
+    {
+      "affectedArtifacts": [],
+      "blocking": true,
+      "category": "OTHER",
+      "defectId": "defect_6z054bi8llwqphuw",
+      "description": "Publication integrity evaluation has not been executed.",
+      "evidenceReferences": [],
+      "gateId": "gate_publication_integrity",
+      "identifiedAt": "2026-11-17T19:22:34.309Z",
+      "remediationRecommendation": "Address blocking condition: Publication integrity evaluation has not been executed.",
+      "responsibleComponent": "gate_publication_integrity",
+      "severity": "MAJOR"
+    },
+    {
+      "affectedArtifacts": [],
+      "blocking": true,
+      "category": "OTHER",
+      "defectId": "defect_fbbc4zz7zotgnpqm",
+      "description": "Cross-language consistency evaluation has not been executed.",
+      "evidenceReferences": [],
+      "gateId": "gate_cross_language_consistency",
+      "identifiedAt": "2026-11-17T19:22:34.309Z",
+      "remediationRecommendation": "Address blocking condition: Cross-language consistency evaluation has not been executed.",
+      "responsibleComponent": "gate_cross_language_consistency",
+      "severity": "MAJOR"
+    },
+    {
+      "affectedArtifacts": [],
+      "blocking": true,
+      "category": "OTHER",
+      "defectId": "defect_006gpx48hi1ebj6p",
+      "description": "Required upstream gates have not completed: gate_temporal_integrity, gate_discovery_coverage, gate_evidence_integrity, gate_historical_regression, gate_editorial_integrity, gate_readable_accessibility, gate_audio_first_quality, gate_knowledge_continuity, gate_publication_integrity, gate_cross_language_consistency",
+      "evidenceReferences": [],
+      "gateId": "gate_lifecycle_correctness",
+      "identifiedAt": "2026-11-17T19:22:34.309Z",
+      "remediationRecommendation": "Address blocking condition: Required upstream gates have not completed: gate_temporal_integrity, gate_discovery_coverage, gate_evidence_integrity, gate_historical_regression, gate_editorial_integrity, gate_readable_accessibility, gate_audio_first_quality, gate_knowledge_continuity, gate_publication_integrity, gate_cross_language_consistency",
+      "responsibleComponent": "gate_lifecycle_correctness",
+      "severity": "MAJOR"
+    }
+  ],
+  "deploymentEligible": false,
+  "editionId": "edition_2026-11-17",
+  "editorialManifestReference": {
+    "contentHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "manifestId": "esm_20261117"
+  },
+  "evidenceReferences": [],
+  "factDossierReference": {
+    "contentHash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "dossierId": "fd_20261117"
+  },
+  "gateApplicability": {
+    "gate_audio_first_quality": "APPLICABLE",
+    "gate_cross_language_consistency": "APPLICABLE",
+    "gate_discovery_coverage": "APPLICABLE",
+    "gate_editorial_integrity": "APPLICABLE",
+    "gate_evidence_integrity": "APPLICABLE",
+    "gate_historical_regression": "APPLICABLE",
+    "gate_knowledge_continuity": "APPLICABLE",
+    "gate_lifecycle_correctness": "APPLICABLE",
+    "gate_publication_integrity": "APPLICABLE",
+    "gate_readable_accessibility": "APPLICABLE",
+    "gate_temporal_integrity": "APPLICABLE"
+  },
+  "gateResults": [
+    {
+      "applicability": "APPLICABLE",
+      "artifactHashes": {},
+      "blockingConditions": [
+        "Temporal integrity evaluation has not been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [],
+      "executedAt": "2026-11-17T19:22:34.304Z",
+      "gateId": "gate_temporal_integrity",
+      "humanReviewRequired": false,
+      "humanReviewStatus": "not-required",
+      "mandatory": true,
+      "name": "T — Temporal Integrity",
+      "remediationReferences": [],
+      "satisfiedUpstreamGates": [],
+      "status": "UNVERIFIED",
+      "unsatisfiedUpstreamGates": []
+    },
+    {
+      "applicability": "APPLICABLE",
+      "artifactHashes": {},
+      "blockingConditions": [
+        "Discovery coverage evaluation has not been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [],
+      "executedAt": "2026-11-17T19:22:34.304Z",
+      "gateId": "gate_discovery_coverage",
+      "humanReviewRequired": false,
+      "humanReviewStatus": "not-required",
+      "mandatory": true,
+      "name": "D — Discovery Coverage",
+      "remediationReferences": [],
+      "satisfiedUpstreamGates": [],
+      "status": "UNVERIFIED",
+      "unsatisfiedUpstreamGates": []
+    },
+    {
+      "applicability": "APPLICABLE",
+      "artifactHashes": {},
+      "blockingConditions": [
+        "Evidence integrity evaluation has not been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [],
+      "executedAt": "2026-11-17T19:22:34.305Z",
+      "gateId": "gate_evidence_integrity",
+      "humanReviewRequired": false,
+      "humanReviewStatus": "not-required",
+      "mandatory": true,
+      "name": "E — Evidence Integrity",
+      "remediationReferences": [],
+      "satisfiedUpstreamGates": [],
+      "status": "UNVERIFIED",
+      "unsatisfiedUpstreamGates": []
+    },
+    {
+      "applicability": "APPLICABLE",
+      "artifactHashes": {},
+      "blockingConditions": [
+        "Historical regression evaluation has not been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [],
+      "executedAt": "2026-11-17T19:22:34.306Z",
+      "gateId": "gate_historical_regression",
+      "humanReviewRequired": false,
+      "humanReviewStatus": "not-required",
+      "mandatory": true,
+      "name": "H — Historical Regression",
+      "remediationReferences": [],
+      "satisfiedUpstreamGates": [],
+      "status": "UNVERIFIED",
+      "unsatisfiedUpstreamGates": []
+    },
+    {
+      "applicability": "APPLICABLE",
+      "artifactHashes": {},
+      "blockingConditions": [
+        "Editorial integrity evaluation has not been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [],
+      "executedAt": "2026-11-17T19:22:34.306Z",
+      "gateId": "gate_editorial_integrity",
+      "humanReviewRequired": false,
+      "humanReviewStatus": "not-required",
+      "mandatory": true,
+      "name": "X — Editorial Integrity",
+      "remediationReferences": [],
+      "satisfiedUpstreamGates": [],
+      "status": "UNVERIFIED",
+      "unsatisfiedUpstreamGates": []
+    },
+    {
+      "applicability": "APPLICABLE",
+      "artifactHashes": {},
+      "blockingConditions": [
+        "Knowledge continuity evaluation has not been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [],
+      "executedAt": "2026-11-17T19:22:34.306Z",
+      "gateId": "gate_knowledge_continuity",
+      "humanReviewRequired": false,
+      "humanReviewStatus": "not-required",
+      "mandatory": true,
+      "name": "K — Knowledge Continuity",
+      "remediationReferences": [],
+      "satisfiedUpstreamGates": [],
+      "status": "UNVERIFIED",
+      "unsatisfiedUpstreamGates": []
+    },
+    {
+      "applicability": "APPLICABLE",
+      "artifactHashes": {},
+      "blockingConditions": [
+        "Readable accessibility evaluation has not been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [],
+      "executedAt": "2026-11-17T19:22:34.306Z",
+      "gateId": "gate_readable_accessibility",
+      "humanReviewRequired": true,
+      "humanReviewStatus": "approved",
+      "mandatory": true,
+      "name": "R — Readable Accessibility",
+      "remediationReferences": [],
+      "satisfiedUpstreamGates": [],
+      "status": "UNVERIFIED",
+      "unsatisfiedUpstreamGates": []
+    },
+    {
+      "applicability": "APPLICABLE",
+      "artifactHashes": {},
+      "blockingConditions": [
+        "Audio-first quality evaluation has not been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [],
+      "executedAt": "2026-11-17T19:22:34.307Z",
+      "gateId": "gate_audio_first_quality",
+      "humanReviewRequired": false,
+      "humanReviewStatus": "not-required",
+      "mandatory": true,
+      "name": "A — Audio-First Quality",
+      "remediationReferences": [],
+      "satisfiedUpstreamGates": [],
+      "status": "UNVERIFIED",
+      "unsatisfiedUpstreamGates": []
+    },
+    {
+      "applicability": "APPLICABLE",
+      "artifactHashes": {},
+      "blockingConditions": [
+        "Publication integrity evaluation has not been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [],
+      "executedAt": "2026-11-17T19:22:34.307Z",
+      "gateId": "gate_publication_integrity",
+      "humanReviewRequired": false,
+      "humanReviewStatus": "not-required",
+      "mandatory": true,
+      "name": "P — Publication Integrity",
+      "remediationReferences": [],
+      "satisfiedUpstreamGates": [],
+      "status": "UNVERIFIED",
+      "unsatisfiedUpstreamGates": []
+    },
+    {
+      "applicability": "APPLICABLE",
+      "artifactHashes": {},
+      "blockingConditions": [
+        "Cross-language consistency evaluation has not been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [],
+      "executedAt": "2026-11-17T19:22:34.308Z",
+      "gateId": "gate_cross_language_consistency",
+      "humanReviewRequired": false,
+      "humanReviewStatus": "not-required",
+      "mandatory": true,
+      "name": "C — Cross-Language Consistency",
+      "remediationReferences": [],
+      "satisfiedUpstreamGates": [],
+      "status": "UNVERIFIED",
+      "unsatisfiedUpstreamGates": []
+    },
+    {
+      "applicability": "APPLICABLE",
+      "artifactHashes": {},
+      "blockingConditions": [
+        "Required upstream gates have not completed: gate_temporal_integrity, gate_discovery_coverage, gate_evidence_integrity, gate_historical_regression, gate_editorial_integrity, gate_readable_accessibility, gate_audio_first_quality, gate_knowledge_continuity, gate_publication_integrity, gate_cross_language_consistency"
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [],
+      "executedAt": "2026-11-17T19:22:34.308Z",
+      "gateId": "gate_lifecycle_correctness",
+      "humanReviewRequired": false,
+      "humanReviewStatus": "not-required",
+      "mandatory": true,
+      "name": "L — Lifecycle Correctness",
+      "remediationReferences": [],
+      "satisfiedUpstreamGates": [],
+      "status": "UNVERIFIED",
+      "unsatisfiedUpstreamGates": [
+        "gate_temporal_integrity",
+        "gate_discovery_coverage",
+        "gate_evidence_integrity",
+        "gate_historical_regression",
+        "gate_editorial_integrity",
+        "gate_readable_accessibility",
+        "gate_audio_first_quality",
+        "gate_knowledge_continuity",
+        "gate_publication_integrity",
+        "gate_cross_language_consistency"
+      ]
+    }
+  ],
+  "overallDecision": "INCOMPLETE",
+  "persistenceReadback": {
+    "persisted": false,
+    "readbackVerified": false
+  },
+  "publicationLifecycleState": "READY_FOR_VALIDATION",
+  "rejectionReasons": [
+    "Mandatory gate T — Temporal Integrity (gate_temporal_integrity) is UNVERIFIED.",
+    "Mandatory gate D — Discovery Coverage (gate_discovery_coverage) is UNVERIFIED.",
+    "Mandatory gate E — Evidence Integrity (gate_evidence_integrity) is UNVERIFIED.",
+    "Mandatory gate H — Historical Regression (gate_historical_regression) is UNVERIFIED.",
+    "Mandatory gate X — Editorial Integrity (gate_editorial_integrity) is UNVERIFIED.",
+    "Mandatory gate K — Knowledge Continuity (gate_knowledge_continuity) is UNVERIFIED.",
+    "Mandatory gate R — Readable Accessibility (gate_readable_accessibility) is UNVERIFIED.",
+    "Mandatory gate A — Audio-First Quality (gate_audio_first_quality) is UNVERIFIED.",
+    "Mandatory gate P — Publication Integrity (gate_publication_integrity) is UNVERIFIED.",
+    "Mandatory gate C — Cross-Language Consistency (gate_cross_language_consistency) is UNVERIFIED.",
+    "Mandatory gate L — Lifecycle Correctness (gate_lifecycle_correctness) is UNVERIFIED.",
+    "Major defect defect_j9ryuwam8xhbupyf (OTHER): Temporal integrity evaluation has not been executed.",
+    "Major defect defect_42y369adcxfk22px (OTHER): Discovery coverage evaluation has not been executed.",
+    "Major defect defect_cfuz8ephz16g7u08 (OTHER): Evidence integrity evaluation has not been executed.",
+    "Major defect defect_9danjouyvtqcrixz (OTHER): Historical regression evaluation has not been executed.",
+    "Major defect defect_c8j5kq6owf6jn8mb (OTHER): Editorial integrity evaluation has not been executed.",
+    "Major defect defect_g0uv57h465hsx65a (OTHER): Knowledge continuity evaluation has not been executed.",
+    "Major defect defect_woc19nywe06m3hdr (OTHER): Readable accessibility evaluation has not been executed.",
+    "Major defect defect_3u3nba9kthnuf0uf (OTHER): Audio-first quality evaluation has not been executed.",
+    "Major defect defect_6z054bi8llwqphuw (OTHER): Publication integrity evaluation has not been executed.",
+    "Major defect defect_fbbc4zz7zotgnpqm (OTHER): Cross-language consistency evaluation has not been executed.",
+    "Major defect defect_006gpx48hi1ebj6p (OTHER): Required upstream gates have not completed: gate_temporal_integrity, gate_discovery_coverage, gate_evidence_integrity, gate_historical_regression, gate_editorial_integrity, gate_readable_accessibility, gate_audio_first_quality, gate_knowledge_continuity, gate_publication_integrity, gate_cross_language_consistency",
+    "1 unresolved publication-integrity failure(s) exist."
+  ],
+  "remediationHistory": [],
+  "reportId": "acc_kum3fv8vricdwpod",
+  "reportingInterval": {
+    "end": "2026-11-17T05:00:00+01:00[Europe/Amsterdam]",
+    "start": "2026-11-16T05:00:00+01:00[Europe/Amsterdam]",
+    "timezone": "Europe/Amsterdam"
+  },
+  "requiredGates": [
+    {
+      "applicabilityConditions": [
+        "Edition identity must be resolved and valid.",
+        "Reporting interval must be computed from edition date (not execution time).",
+        "All selected candidates must have temporal eligibility classification."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [
+        "src/lib/editorial-window.ts",
+        "src/lib/novelty-classification.ts",
+        "src/lib/fact-dossier/schema.ts (TemporalEligibilitySchema)"
+      ],
+      "gateId": "gate_temporal_integrity",
+      "humanReviewRequired": false,
+      "mandatory": true,
+      "name": "T — Temporal Integrity",
+      "purpose": "Verify correct edition identity, timezone-aware reporting interval, valid first-disclosure evidence, correct novelty classification, and appropriate historical context.",
+      "requiredInputArtifacts": [
+        "edition-context",
+        "canonical-fact-dossier",
+        "temporal-eligibility-classifications"
+      ],
+      "requiredUpstreamGates": [],
+      "scope": "edition",
+      "validationRules": [
+        "Edition identity matches requested edition.",
+        "Reporting interval is [previous day 05:00, edition day 05:00) Europe/Amsterdam.",
+        "DST-aware interval is correct (23h spring forward, 24h normal, 25h fall back).",
+        "All selected candidates have valid temporal eligibility status.",
+        "No candidate has unresolved temporal eligibility.",
+        "Novelty classification is from the authoritative upstream classifier.",
+        "First-disclosure timestamps are traceable to original sources."
+      ]
+    },
+    {
+      "applicabilityConditions": [
+        "All three discovery rings must have been executed.",
+        "Mandatory developer-tool and coding-agent monitoring must have been executed.",
+        "Independent omission review must have been completed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [
+        "src/lib/discovery-ledger/",
+        "src/lib/omission-review/",
+        "data/sources.yml",
+        "data/research-taxonomy.yml"
+      ],
+      "gateId": "gate_discovery_coverage",
+      "humanReviewRequired": false,
+      "mandatory": true,
+      "name": "D — Discovery Coverage",
+      "purpose": "Verify that the established source-discovery requirements were actually executed across all three rings, mandatory developer-tool monitoring was completed, source statuses are accurately reported, and independent omission review was completed.",
+      "requiredInputArtifacts": [
+        "discovery-ledger",
+        "source-registry",
+        "omission-review-report",
+        "mandatory-coverage-report"
+      ],
+      "requiredUpstreamGates": [],
+      "scope": "edition",
+      "validationRules": [
+        "Ring 1 official first-party sources were monitored.",
+        "Ring 2 independent research sources were monitored.",
+        "Ring 3 expert and community sources were monitored.",
+        "Mandatory developer-tool and coding-agent monitoring was executed.",
+        "Source registry coverage is complete.",
+        "Inaccessible sources are explicitly reported as INACCESSIBLE.",
+        "Sources never checked are reported as NOT_CHECKED.",
+        "Independent omission review was completed.",
+        "Omission review has no unresolved critical omissions."
+      ]
+    },
+    {
+      "applicabilityConditions": [
+        "Canonical fact dossier must be complete and valid.",
+        "All material claims must have verification records."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [
+        "src/lib/evidence-verification/",
+        "src/lib/fact-dossier/schema.ts (ConsolidatedClaimSchema)"
+      ],
+      "gateId": "gate_evidence_integrity",
+      "humanReviewRequired": false,
+      "mandatory": true,
+      "name": "E — Evidence Integrity",
+      "purpose": "Verify that the final publication contains no material factual assertions unsupported by the canonical fact dossier, with original source provenance, research methodology, uncertainty and limitations, and absence of fabricated claims.",
+      "requiredInputArtifacts": [
+        "canonical-fact-dossier",
+        "verified-claims",
+        "evidence-verification-records"
+      ],
+      "requiredUpstreamGates": [],
+      "scope": "edition",
+      "validationRules": [
+        "All material claims have verified evidence.",
+        "Original sources are correctly attributed.",
+        "Evidence classifications are accurate (VERIFIED_FACT, VENDOR_CLAIM, RESEARCH_FINDING, etc.).",
+        "Product versions and release maturity are correctly stated.",
+        "Numerical findings include benchmark conditions.",
+        "Research methodology is documented.",
+        "Relevant counterevidence is included.",
+        "Uncertainty is explicitly stated.",
+        "Technical mechanisms are correctly explained.",
+        "Strategic and economic interpretations are distinguished from facts.",
+        "No fabricated or contradictory factual claims exist."
+      ]
+    },
+    {
+      "applicabilityConditions": [
+        "Historical regression must have been executed.",
+        "Historical records must be accessible for comparison."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [
+        "src/lib/historical-regression/",
+        "docs/historical-regression.md"
+      ],
+      "gateId": "gate_historical_regression",
+      "humanReviewRequired": false,
+      "mandatory": true,
+      "name": "H — Historical Regression",
+      "purpose": "Verify that the historical comparison was completed according to its existing seven-calendar-day contract, with historical records actually consulted, previously reported developments identified, genuine substantive changes classified, and explicit catch-up handling.",
+      "requiredInputArtifacts": [
+        "historical-regression-report",
+        "canonical-fact-dossier"
+      ],
+      "requiredUpstreamGates": [],
+      "scope": "edition",
+      "validationRules": [
+        "Seven-calendar-day comparison was completed.",
+        "Historical records were actually consulted.",
+        "Previously reported developments are identified.",
+        "Genuine substantive changes are classified as SUBSTANTIVE_UPDATE.",
+        "Duplicated reporting is classified as REPEATED_REPORTING.",
+        "Newly disclosed older events are classified as NEWLY_DISCLOSED_HISTORICAL.",
+        "Explicit catch-up classifications are recorded.",
+        "Relevant historical references are included.",
+        "Unresolved comparison limitations are reported."
+      ]
+    },
+    {
+      "applicabilityConditions": [
+        "Editorial selection manifest must be valid.",
+        "Canonical fact dossier must be complete.",
+        "Discovery evidence must be complete."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [
+        "src/lib/editorial-selection/",
+        "docs/editorial-selection.md"
+      ],
+      "gateId": "gate_editorial_integrity",
+      "humanReviewRequired": false,
+      "mandatory": true,
+      "name": "X — Editorial Integrity",
+      "purpose": "Validate the editorial selection manifest against the canonical fact dossier and completed discovery evidence, ensuring valid story identifiers, verified eligibility, explicit editorial selection, required ordering, coverage of materially significant developments, no unsupported additional stories, no unexplained omission of selected stories, vendor-neutral editorial treatment, and appropriate scientific, economic and strategic research coverage.",
+      "requiredInputArtifacts": [
+        "editorial-selection-manifest",
+        "canonical-fact-dossier",
+        "discovery-ledger"
+      ],
+      "requiredUpstreamGates": [],
+      "scope": "edition",
+      "validationRules": [
+        "Story identifiers are valid and unique.",
+        "All selected stories have verified eligibility.",
+        "Editorial selection decisions are explicit.",
+        "Required ordering is preserved.",
+        "Coverage of materially significant developments is complete.",
+        "No unsupported additional stories are included.",
+        "No unexplained omission of selected stories exists.",
+        "Vendor-neutral editorial treatment is maintained.",
+        "Scientific, economic and strategic research coverage is appropriate.",
+        "Uncertainty is explicitly treated."
+      ]
+    },
+    {
+      "applicabilityConditions": [
+        "Thesaurus evaluation must have been executed.",
+        "Architecture principles evaluation must have been executed.",
+        "Book Delta evaluation must have been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [
+        "src/lib/thesaurus/",
+        "src/lib/architecture-principles/",
+        "src/lib/book-delta/"
+      ],
+      "gateId": "gate_knowledge_continuity",
+      "humanReviewRequired": false,
+      "mandatory": true,
+      "name": "K — Knowledge Continuity",
+      "purpose": "Verify persistent thesaurus, architecture-principles register, Book Delta evaluation, historical continuity, and verified persistence and readback, ensuring that knowledge registers were successfully read, candidate terminology evaluated, verified updates handled according to policy, no unauthorized definition changes, persistence and readback verified, and that a legitimate NONE result is acceptable while a skipped assessment is not.",
+      "requiredInputArtifacts": [
+        "thesaurus-artifact",
+        "architecture-principles-register",
+        "book-delta-artifact",
+        "knowledge-continuity-result"
+      ],
+      "requiredUpstreamGates": [],
+      "scope": "knowledge",
+      "validationRules": [
+        "Existing thesaurus register was successfully read.",
+        "Candidate terminology was evaluated.",
+        "Verified updates were handled according to policy.",
+        "No unauthorized definition changes were made.",
+        "Thesaurus persistence and readback were verified.",
+        "Existing architecture principles register was successfully read.",
+        "ADD, CONFIRM, REFINE, MERGE, SUPERSEDE or NONE correctly recorded.",
+        "Evidence and relationships were validated.",
+        "Architecture principles persistence and readback were verified.",
+        "Book Delta assessment was actually executed.",
+        "Educational improvement proposals were evaluated.",
+        "Historical proposals were deduplicated.",
+        "Approval boundaries were respected.",
+        "Results were recorded in research-audit.md."
+      ]
+    },
+    {
+      "applicabilityConditions": [
+        "Readable quality evaluation must have been executed.",
+        "Dutch and English readable publications must exist.",
+        "Visualization accessibility must have been checked (if visualizations exist)."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [
+        "src/lib/readable-publication-evaluation/",
+        "src/lib/visualization/"
+      ],
+      "gateId": "gate_readable_accessibility",
+      "humanReviewRequired": true,
+      "mandatory": true,
+      "name": "R — Readable Accessibility",
+      "purpose": "Validate Dutch and English readable representations against the readable-publication evaluation framework, ensuring factual fidelity, selected-story completeness, technical depth, scientific and strategic research accuracy, first-screen clarity, progressive disclosure, information hierarchy, ADHD-aware cognitive accessibility, accessible terminology, source transparency, meaningful visual alternatives, relevant WCAG 2.2 AA content checks, and correct bilingual metadata.",
+      "requiredInputArtifacts": [
+        "readable-quality-evaluation",
+        "dutch-publication",
+        "english-publication",
+        "visualization-accessibility-report"
+      ],
+      "requiredUpstreamGates": [
+        "gate_editorial_integrity"
+      ],
+      "scope": "artifact",
+      "validationRules": [
+        "Factual fidelity is maintained.",
+        "Selected-story completeness is verified.",
+        "Technical depth is preserved.",
+        "Scientific and strategic research accuracy is verified.",
+        "First-screen clarity is established.",
+        "Progressive disclosure is implemented.",
+        "Information hierarchy is correct.",
+        "ADHD-aware cognitive accessibility is verified.",
+        "Accessible terminology is used.",
+        "Source transparency is maintained.",
+        "Meaningful visual alternatives are provided.",
+        "Relevant WCAG 2.2 AA content checks pass.",
+        "Correct bilingual metadata is present."
+      ]
+    },
+    {
+      "applicabilityConditions": [
+        "Q1–Q10 evaluation must have been executed.",
+        "Audio A–G evaluation must have been executed.",
+        "Dutch and English listening narratives must exist."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [
+        "src/lib/listening-quality-evaluation/"
+      ],
+      "gateId": "gate_audio_first_quality",
+      "humanReviewRequired": false,
+      "mandatory": true,
+      "name": "A — Audio-First Quality",
+      "purpose": "Validate both Dutch and English listening narratives against Q1–Q10 and audio A–G evaluation results, ensuring independent authoring from the canonical factual foundation, complete story coverage, correct technical mechanisms, intact important caveats, understandable terminology, concrete opening, natural narrative transitions, appropriate cognitive load management, no operational metadata in spoken text, and no dependency on visual references.",
+      "requiredInputArtifacts": [
+        "q1q10-evaluation",
+        "audio-ag-evaluation",
+        "dutch-listening-narrative",
+        "english-listening-narrative"
+      ],
+      "requiredUpstreamGates": [
+        "gate_editorial_integrity"
+      ],
+      "scope": "artifact",
+      "validationRules": [
+        "Each narrative is independently authored from the canonical factual foundation.",
+        "Every materially selected story is represented.",
+        "Technical mechanisms are explained correctly.",
+        "Important caveats remain intact.",
+        "Terminology is understandable.",
+        "The opening is concrete.",
+        "Narrative transitions are natural.",
+        "Cognitive load is appropriately managed.",
+        "Spoken text does not contain operational metadata.",
+        "The narrative does not depend on visual references.",
+        "The complete listening experience has been assessed."
+      ]
+    },
+    {
+      "applicabilityConditions": [
+        "All three canonical documents must exist.",
+        "Publication package must be valid.",
+        "Daily index must be valid.",
+        "English derivatives must exist."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [
+        "src/lib/publication/",
+        "docs/ai-intelligence-contract.md"
+      ],
+      "gateId": "gate_publication_integrity",
+      "humanReviewRequired": false,
+      "mandatory": true,
+      "name": "P — Publication Integrity",
+      "purpose": "Verify required artifacts, valid metadata, cross-language consistency, lifecycle correctness, artifact integrity, and safe release preparation, ensuring exactly three canonical daily Markdown documents with correct daily directory, correct filenames, UTF-8 encoding, valid Markdown structure, correct edition metadata, source and claim traceability, complete required sections, valid document references, consistent artifact lifecycle state, accurate creation and modification metadata, successful persistence, independent readback, and content hashes matching evaluated artifacts.",
+      "requiredInputArtifacts": [
+        "publication-package",
+        "publication-metadata",
+        "daily-index",
+        "english-derivatives"
+      ],
+      "requiredUpstreamGates": [
+        "gate_editorial_integrity",
+        "gate_readable_accessibility"
+      ],
+      "scope": "artifact",
+      "validationRules": [
+        "Exactly three canonical daily Markdown documents exist.",
+        "Correct daily directory is used.",
+        "Correct filenames are used.",
+        "UTF-8 encoding is verified.",
+        "Valid Markdown structure is verified.",
+        "Correct edition metadata is present.",
+        "Source and claim traceability is verified.",
+        "Complete required sections are present.",
+        "Valid document references are verified.",
+        "Consistent artifact lifecycle state is maintained.",
+        "Accurate creation and modification metadata is present.",
+        "Successful persistence is verified.",
+        "Independent readback is verified.",
+        "Content hashes match evaluated artifacts."
+      ]
+    },
+    {
+      "applicabilityConditions": [
+        "All four language representations must exist.",
+        "Cross-language validation must have been executed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [
+        "src/lib/publication/cross-language-validator.ts"
+      ],
+      "gateId": "gate_cross_language_consistency",
+      "humanReviewRequired": false,
+      "mandatory": true,
+      "name": "C — Cross-Language Consistency",
+      "purpose": "Verify consistency between Dutch readable publication, English readable publication, Dutch listening narrative, English listening narrative, and shared canonical fact dossier, ensuring material story coverage, technical claims, product and model identifiers, dates and versions, quantitative findings, research interpretations, vendor attribution, important limitations, and source relationships are consistent.",
+      "requiredInputArtifacts": [
+        "dutch-publication",
+        "english-publication",
+        "dutch-listening-narrative",
+        "english-listening-narrative",
+        "canonical-fact-dossier",
+        "cross-language-validation-result"
+      ],
+      "requiredUpstreamGates": [
+        "gate_editorial_integrity",
+        "gate_publication_integrity"
+      ],
+      "scope": "artifact",
+      "validationRules": [
+        "Material story coverage is consistent.",
+        "Technical claims are consistent.",
+        "Product and model identifiers are consistent.",
+        "Dates and versions are consistent.",
+        "Quantitative findings are consistent.",
+        "Research interpretations are consistent.",
+        "Vendor attribution is consistent.",
+        "Important limitations are consistent.",
+        "Source relationships are consistent."
+      ]
+    },
+    {
+      "applicabilityConditions": [
+        "Edition must be in READY_FOR_VALIDATION state.",
+        "All required upstream stages must have completed."
+      ],
+      "evaluatorVersion": "1.0.0",
+      "evidenceReferences": [
+        "src/lib/publication/schema.ts (PublicationLifecycleStatusSchema)",
+        "docs/ai-intelligence-contract.md"
+      ],
+      "gateId": "gate_lifecycle_correctness",
+      "humanReviewRequired": false,
+      "mandatory": true,
+      "name": "L — Lifecycle Correctness",
+      "purpose": "Verify correct publication lifecycle state and valid transitions, ensuring that the edition is in READY_FOR_VALIDATION state, all required upstream stages have completed, and the acceptance framework may transition an eligible edition to VALIDATED when all requirements are satisfied.",
+      "requiredInputArtifacts": [
+        "execution-manifest",
+        "publication-metadata"
+      ],
+      "requiredUpstreamGates": [
+        "gate_temporal_integrity",
+        "gate_discovery_coverage",
+        "gate_evidence_integrity",
+        "gate_historical_regression",
+        "gate_editorial_integrity",
+        "gate_readable_accessibility",
+        "gate_audio_first_quality",
+        "gate_knowledge_continuity",
+        "gate_publication_integrity",
+        "gate_cross_language_consistency"
+      ],
+      "scope": "edition",
+      "validationRules": [
+        "Edition is in READY_FOR_VALIDATION state.",
+        "All required upstream stages have completed.",
+        "No unauthorized lifecycle changes have occurred.",
+        "Lifecycle transition to VALIDATED is authorized by this acceptance framework."
+      ]
+    }
+  ],
+  "schemaVersion": "1.0.0",
+  "unresolvedManualReview": [],
+  "unverifiedRequirements": [
+    "Mandatory gate T — Temporal Integrity (gate_temporal_integrity) returned UNVERIFIED.",
+    "Mandatory gate D — Discovery Coverage (gate_discovery_coverage) returned UNVERIFIED.",
+    "Mandatory gate E — Evidence Integrity (gate_evidence_integrity) returned UNVERIFIED.",
+    "Mandatory gate H — Historical Regression (gate_historical_regression) returned UNVERIFIED.",
+    "Mandatory gate X — Editorial Integrity (gate_editorial_integrity) returned UNVERIFIED.",
+    "Mandatory gate K — Knowledge Continuity (gate_knowledge_continuity) returned UNVERIFIED.",
+    "Mandatory gate R — Readable Accessibility (gate_readable_accessibility) returned UNVERIFIED.",
+    "Mandatory gate A — Audio-First Quality (gate_audio_first_quality) returned UNVERIFIED.",
+    "Mandatory gate P — Publication Integrity (gate_publication_integrity) returned UNVERIFIED.",
+    "Mandatory gate C — Cross-Language Consistency (gate_cross_language_consistency) returned UNVERIFIED.",
+    "Mandatory gate L — Lifecycle Correctness (gate_lifecycle_correctness) returned UNVERIFIED."
+  ],
+  "workflowRunId": "wfr_1794943354302"
+}

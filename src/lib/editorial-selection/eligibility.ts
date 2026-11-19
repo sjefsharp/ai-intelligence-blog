@@ -131,7 +131,7 @@ export function detectDuplicates(
 	candidates: CanonicalCandidate[],
 ): Map<string, string> {
 	const duplicates = new Map<string, string>();
-	const sorted = [...candidates].sort((a, b) =>
+	const sorted = candidates.toSorted((a, b) =>
 		a.candidateId.localeCompare(b.candidateId),
 	);
 

@@ -5,6 +5,7 @@ import Masthead from "../../../../../components/Masthead.astro";
 import CookieConsent from "../../../../../components/CookieConsent.astro";
 import ReadAloud from "../../../../../components/ReadAloud.astro";
 import { getTranslation, type Locale } from "../../../../../i18n";
+import { withBase } from "../../../../../i18n";
 import {
 	loadEditionContent,
 	getEditionPaths,
@@ -51,7 +52,7 @@ const t = getTranslation(locale);
 const edition = await loadEditionContent(editionDate);
 
 if (!edition) {
-	return Astro.redirect(`/${locale}/404`);
+	return Astro.redirect(withBase(`/${locale}/404`));
 }
 
 const article = edition.englishArticles.find(
@@ -63,7 +64,7 @@ if (
 	(article.metadata.lifecycleStatus !== "VALIDATED" &&
 		article.metadata.lifecycleStatus !== "PUBLISHED")
 ) {
-	return Astro.redirect(`/${locale}/404`);
+	return Astro.redirect(withBase(`/${locale}/404`));
 }
 
 // Find the Dutch source artifact through relatedVariants
@@ -166,7 +167,9 @@ if (dutchSource && locale === "en") {
 										{article.metadata.topics.map(
 											(topic) => (
 												<a
-													href={`/${locale}/topics/${topic.toLowerCase().replace(/\s+/g, "-")}/`}
+													href={withBase(
+														`/${locale}/topics/${topic.toLowerCase().replace(/\s+/g, "-")}/`,
+													)}
 													style="
 													font-family: var(--font-structural);
 													font-size: var(--size-xs);

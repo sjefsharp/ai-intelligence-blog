@@ -5,6 +5,7 @@
  */
 import { getTranslation, type Locale, type TranslationKeys } from "../i18n";
 
+import { withBase } from "../i18n";
 interface Props {
 	locale: Locale;
 	t: TranslationKeys;
@@ -20,7 +21,9 @@ const today = new Date();
 	</p>
 	<p style="margin-top: var(--space-2); font-family: var(--font-structural); font-size: var(--size-xs); color: var(--ink-muted);">
 		{t.footer.noTracking} ·{" "}
-		<a href={`/${locale}/rss.xml`}>{t.footer.rss}</a> ·{" "}
-		<a href={`/${locale}/sitemap-index.xml`}>{t.footer.sitemap}</a>
+		<a href={withBase(`/${locale}/rss.xml`)}>{t.footer.rss}</a> ·{" "}
+		<a href={withBase(`/${locale}/sitemap-index.xml`)}>
+			{t.footer.sitemap}
+		</a>
 	</p>
 </footer>

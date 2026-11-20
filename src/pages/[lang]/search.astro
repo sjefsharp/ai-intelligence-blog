@@ -8,6 +8,7 @@ import CookieConsent from "../../components/CookieConsent.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
 import { getTranslation, type Locale } from "../../i18n";
 
+import { withBase } from "../../i18n";
 export async function getStaticPaths() {
 	return [
 		{ params: { lang: "en" }, props: { locale: "en" as Locale } },
@@ -29,11 +30,9 @@ const searchIndexJson = createSearchIndexFile(posts);
 			title={`${SITE_TITLE} — {t.search.title}`}
 			description={t.search.description}
 		/>
-		<script is:inline>
-			window.__SEARCH_INDEX__ = JSON.parse(
-				decodeURIComponent("{searchIndexJson}"),
-			);
-			window.__SEARCH_LOCALE__ = "{locale}";
+		<script define:vars={{ searchIndexJson, locale }}>
+			window.__SEARCH_INDEX__ = JSON.parse(searchIndexJson);
+			window.__SEARCH_LOCALE__ = locale;
 		</script>
 	</head>
 	<body>
@@ -158,7 +157,9 @@ const searchIndexJson = createSearchIndexFile(posts);
 						.map((post) => (
 							<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker); transition: border-color var(--transition-base);">
 								<a
-									href={`/${locale}/blog/${post.id}/`}
+									href={withBase(
+										`/${locale}/blog/${post.id}/`,
+									)}
 									style="text-decoration: none; color: inherit; display: block;"
 								>
 									<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-xl); color: var(--ink); transition: color var(--transition-base);">
@@ -276,7 +277,7 @@ const searchIndexJson = createSearchIndexFile(posts);
 						(post) => `
 					<article style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker); margin-bottom: var(--space-3);" role="listitem">
 						<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-lg);">
-							<a href="/${locale}/blog/${post.id}/" style="text-decoration: none; color: var(--ink);">${highlightMatch(post.title, query)}</a>
+							<a href="${import.meta.env.BASE_URL}${locale}/blog/${post.id}/" style="text-decoration: none; color: var(--ink);">${highlightMatch(post.title, query)}</a>
 						</h3>
 						<p style="color: var(--ink-muted); margin: 0 0 var(--space-2);">${highlightMatch(post.description, query)}</p>
 						<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--size-sm); color: var(--ink-muted); font-family: var(--font-structural); align-items: center;">

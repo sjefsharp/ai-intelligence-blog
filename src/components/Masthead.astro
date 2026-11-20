@@ -4,7 +4,7 @@
  * Compact, sticky, contains site title, navigation, language switcher, theme toggle, reading mode, and focus mode.
  */
 import { SITE_TITLE } from "../consts";
-import { getAlternateLocales, type Locale } from "../i18n";
+import { getAlternateLocales, withBase, type Locale } from "../i18n";
 import type { TranslationKeys } from "../i18n";
 import ThemeToggle from "./ThemeToggle.astro";
 import ReadingMode from "./ReadingMode.astro";
@@ -39,14 +39,17 @@ const navItems = [
 	<link
 		rel="alternate"
 		hreflang="x-default"
-		href={alternateLocales.find((a) => a.lang === "en")?.url || "/en/"}
+		href={
+			alternateLocales.find((a) => a.lang === "en")?.url ||
+			withBase("/en/")
+		}
 	/>
 
 	<div class="masthead-inner">
 		<a
-			href={locale === "en" ? "/en/" : "/nl/"}
+			href={withBase(locale === "en" ? "/en/" : "/nl/")}
 			class="site-title"
-			aria-label={`${SITE_TITLE} — {t.nav.home}`}
+			aria-label={`${SITE_TITLE} — ${t.nav.home}`}
 		>
 			{SITE_TITLE}
 		</a>
@@ -54,9 +57,9 @@ const navItems = [
 		<nav class="masthead-nav" id="page-nav" aria-label={t.nav.home}>
 			{navItems.map((item) => (
 				<a
-					href={
-						locale === "en" ? `/en${item.href}` : `/nl${item.href}`
-					}
+					href={withBase(
+						locale === "en" ? `/en${item.href}` : `/nl${item.href}`,
+					)}
 					aria-current={
 						currentPath.startsWith(item.href) && item.href !== "/"
 							? "page"

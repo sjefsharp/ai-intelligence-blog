@@ -11,6 +11,7 @@ import {
 	type Locale,
 	type TranslationKeys,
 } from "../../../i18n";
+import { withBase } from "../../../i18n";
 import {
 	loadEditionContent,
 	getEditionPaths,
@@ -42,7 +43,7 @@ const t = getTranslation(locale);
 const edition = await loadEditionContent(editionDate);
 
 if (!edition) {
-	return Astro.redirect(`/${locale}/404`);
+	return Astro.redirect(withBase(`/${locale}/404`));
 }
 
 // Get adjacent editions for navigation
@@ -248,7 +249,9 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 								</div>
 								<div style="display: flex; flex-direction: column; gap: var(--space-2);">
 									<a
-										href={`/${locale}/edition/${editionDate}/newsletter/`}
+										href={withBase(
+											`/${locale}/edition/${editionDate}/newsletter/`,
+										)}
 										style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px; text-align: center; padding: var(--space-2) var(--space-3); background: var(--valley-light); border-radius: var(--radius);"
 									>
 										{t.nav.essays} →
@@ -256,7 +259,9 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 									{newsletterEnCounterpart &&
 										locale === "nl" && (
 											<a
-												href={`/en/edition/${editionDate}/newsletter/`}
+												href={withBase(
+													`/en/edition/${editionDate}/newsletter/`,
+												)}
 												style="font-family: var(--font-structural); font-size: var(--size-sm); font-weight: 600; text-decoration: none; color: var(--valley); border-bottom: 1px dotted var(--valley); text-align: center; padding: var(--space-1) var(--space-2);"
 											>
 												{t.lang.switchTo.replace(
@@ -290,7 +295,9 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 								</div>
 								<div style="display: flex; flex-direction: column; gap: var(--space-2);">
 									<a
-										href={`/${locale}/edition/${editionDate}/research-audit/`}
+										href={withBase(
+											`/${locale}/edition/${editionDate}/research-audit/`,
+										)}
 										style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px; text-align: center; padding: var(--space-2) var(--space-3); background: var(--valley-light); border-radius: var(--radius);"
 									>
 										{t.ui.aboutThisPublication} →
@@ -320,7 +327,9 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 								</div>
 								<div style="display: flex; flex-direction: column; gap: var(--space-2);">
 									<a
-										href={`/${locale}/edition/${editionDate}/listening/`}
+										href={withBase(
+											`/${locale}/edition/${editionDate}/listening/`,
+										)}
 										style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px; text-align: center; padding: var(--space-2) var(--space-3); background: var(--valley-light); border-radius: var(--radius);"
 									>
 										{t.ui.readAloud.label} →
@@ -328,7 +337,9 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 									{listeningEnCounterpart &&
 										locale === "nl" && (
 											<a
-												href={`/en/edition/${editionDate}/listening/`}
+												href={withBase(
+													`/en/edition/${editionDate}/listening/`,
+												)}
 												style="font-family: var(--font-structural); font-size: var(--size-sm); font-weight: 600; text-decoration: none; color: var(--valley); border-bottom: 1px dotted var(--valley); text-align: center; padding: var(--space-1) var(--space-2);"
 											>
 												{t.lang.switchTo.replace(
@@ -372,7 +383,9 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 								</div>
 								<div style="display: flex; flex-direction: column; gap: var(--space-2);">
 									<a
-										href={`/${locale}/edition/${editionDate}/articles/`}
+										href={withBase(
+											`/${locale}/edition/${editionDate}/articles/`,
+										)}
 										style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px; text-align: center; padding: var(--space-2) var(--space-3); background: var(--valley-light); border-radius: var(--radius);"
 									>
 										{t.nav.essays} →
@@ -413,7 +426,9 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 								</div>
 								<div style="display: flex; flex-direction: column; gap: var(--space-2);">
 									<a
-										href={`/${locale}/edition/${editionDate}/listening/`}
+										href={withBase(
+											`/${locale}/edition/${editionDate}/listening/`,
+										)}
 										style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px; text-align: center; padding: var(--space-2) var(--space-3); background: var(--valley-light); border-radius: var(--radius);"
 									>
 										{t.ui.readAloud.label} →
@@ -557,7 +572,9 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 								{edition.navigation.byTopic.map((topic) => (
 									<li style="margin-bottom: var(--space-1);">
 										<a
-											href={`/${locale}/topics/${topic.topic.toLowerCase().replace(/\s+/g, "-")}/`}
+											href={withBase(
+												`/${locale}/topics/${topic.topic.toLowerCase().replace(/\s+/g, "-")}/`,
+											)}
 											style="color: var(--valley); text-decoration: none; border-bottom: 1px dotted var(--valley);"
 										>
 											{topic.topic} (
@@ -581,7 +598,9 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 									(org) => (
 										<li style="margin-bottom: var(--space-1);">
 											<a
-												href={`/${locale}/topics/${org.organization.toLowerCase().replace(/\s+/g, "-")}/`}
+												href={withBase(
+													`/${locale}/topics/${org.organization.toLowerCase().replace(/\s+/g, "-")}/`,
+												)}
 												style="color: var(--valley); text-decoration: none; border-bottom: 1px dotted var(--valley);"
 											>
 												{org.organization} (
@@ -606,7 +625,9 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 									(domain) => (
 										<li style="margin-bottom: var(--space-1);">
 											<a
-												href={`/${locale}/topics/${domain.domain.toLowerCase().replace(/\s+/g, "-")}/`}
+												href={withBase(
+													`/${locale}/topics/${domain.domain.toLowerCase().replace(/\s+/g, "-")}/`,
+												)}
 												style="color: var(--valley); text-decoration: none; border-bottom: 1px dotted var(--valley);"
 											>
 												{domain.domain} (

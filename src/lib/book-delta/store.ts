@@ -235,6 +235,13 @@ export async function persistBookDeltaArtifact(
 ): Promise<string> {
 	const artifactPath = getArtifactPath(editionDate);
 
+	console.error(
+		`[DEBUG] persistBookDeltaArtifact: editionDate=${editionDate}`,
+	);
+	console.error(
+		`[DEBUG] persistBookDeltaArtifact: artifactPath=${artifactPath}`,
+	);
+
 	// Compute content hash of the artifact WITHOUT the contentHash field
 	const { contentHash: _unused, ...artifactWithoutHash } = artifact;
 	const contentHash = await computeObjectHash(artifactWithoutHash);
@@ -245,7 +252,11 @@ export async function persistBookDeltaArtifact(
 	// Validate
 	validateBookDeltaArtifact(artifactWithHash);
 
+	console.error(
+		`[DEBUG] persistBookDeltaArtifact: Writing to ${artifactPath}`,
+	);
 	await atomicWrite(artifactPath, canonicalStringify(artifactWithHash));
+	console.error(`[DEBUG] persistBookDeltaArtifact: Write complete`);
 
 	// Verify by reading back and computing hash
 	const savedContent = await readFileUtf8(artifactPath);
@@ -267,6 +278,7 @@ export async function persistBookDeltaArtifact(
 		);
 	}
 
+	console.error(`[DEBUG] persistBookDeltaArtifact: Verification complete`);
 	return contentHash;
 }
 
@@ -279,6 +291,13 @@ export async function persistBookDeltaEvaluationResult(
 ): Promise<string> {
 	const resultPath = getEvaluationResultPath(editionDate);
 
+	console.error(
+		`[DEBUG] persistBookDeltaEvaluationResult: editionDate=${editionDate}`,
+	);
+	console.error(
+		`[DEBUG] persistBookDeltaEvaluationResult: resultPath=${resultPath}`,
+	);
+
 	// Hash covers the result WITHOUT the hash field, so the stored document can
 	// be read back, stripped, and verified deterministically.
 	const contentHash = await computeObjectHash(result);
@@ -286,7 +305,11 @@ export async function persistBookDeltaEvaluationResult(
 
 	validateBookDeltaEvaluationResult(resultWithHash);
 
+	console.error(
+		`[DEBUG] persistBookDeltaEvaluationResult: Writing to ${resultPath}`,
+	);
 	await atomicWrite(resultPath, canonicalStringify(resultWithHash));
+	console.error(`[DEBUG] persistBookDeltaEvaluationResult: Write complete`);
 
 	// Independent readback: re-parse the persisted document, strip its hash and
 	// recompute the content hash from the remaining fields.
@@ -302,6 +325,9 @@ export async function persistBookDeltaEvaluationResult(
 		);
 	}
 
+	console.error(
+		`[DEBUG] persistBookDeltaEvaluationResult: Verification complete`,
+	);
 	return contentHash;
 }
 
@@ -314,13 +340,26 @@ export async function persistBookDeltaKnowledgeContinuityResult(
 ): Promise<string> {
 	const resultPath = getKnowledgeContinuityResultPath(editionDate);
 
+	console.error(
+		`[DEBUG] persistBookDeltaKnowledgeContinuityResult: editionDate=${editionDate}`,
+	);
+	console.error(
+		`[DEBUG] persistBookDeltaKnowledgeContinuityResult: resultPath=${resultPath}`,
+	);
+
 	// Hash covers the result WITHOUT the hash field (see evaluation result).
 	const contentHash = await computeObjectHash(result);
 	const resultWithHash = { ...result, contentHash };
 
 	validateBookDeltaKnowledgeContinuityResult(resultWithHash);
 
+	console.error(
+		`[DEBUG] persistBookDeltaKnowledgeContinuityResult: Writing to ${resultPath}`,
+	);
 	await atomicWrite(resultPath, canonicalStringify(resultWithHash));
+	console.error(
+		`[DEBUG] persistBookDeltaKnowledgeContinuityResult: Write complete`,
+	);
 
 	const savedContent = await readFileUtf8(resultPath);
 	const savedParsed = JSON.parse(savedContent) as Record<string, unknown>;
@@ -334,6 +373,9 @@ export async function persistBookDeltaKnowledgeContinuityResult(
 		);
 	}
 
+	console.error(
+		`[DEBUG] persistBookDeltaKnowledgeContinuityResult: Verification complete`,
+	);
 	return contentHash;
 }
 

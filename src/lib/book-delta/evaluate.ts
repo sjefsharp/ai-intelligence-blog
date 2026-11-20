@@ -256,6 +256,10 @@ export async function evaluateBookDelta(
 	const engine = new BookDeltaEngine(config);
 	const result = await engine.run();
 
+	console.error(
+		`[DEBUG] evaluateBookDelta: Persisting artifacts for edition ${editionDate}`,
+	);
+
 	// Persist Book Delta artifacts to disk for evidence loader
 	await persistBookDeltaArtifact(editionDate, result.artifact);
 	await persistBookDeltaEvaluationResult(
@@ -265,6 +269,10 @@ export async function evaluateBookDelta(
 	await persistBookDeltaKnowledgeContinuityResult(
 		editionDate,
 		result.knowledgeContinuityResult,
+	);
+
+	console.error(
+		`[DEBUG] evaluateBookDelta: All artifacts persisted for edition ${editionDate}`,
 	);
 
 	return {

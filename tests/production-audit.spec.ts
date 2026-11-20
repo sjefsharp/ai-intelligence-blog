@@ -95,7 +95,9 @@ test.describe("Production Site Audit", () => {
 		});
 
 		expect(response?.status()).toBe(200);
-		const redirectLink = page.locator('a[href="/en/"]');
+		// The redirect target is base-prefixed (e.g. /ai-intelligence-blog/en/),
+		// so match the locale suffix rather than a root-absolute href.
+		const redirectLink = page.locator('a[href$="/en/"]');
 		await expect(redirectLink).toBeVisible();
 	});
 
@@ -168,9 +170,12 @@ test.describe("Production Site Audit", () => {
 		for (const link of links.slice(0, 20)) {
 			const href = await link.getAttribute("href");
 			if (href && href.startsWith("/") && !href.startsWith("//")) {
-				const response = await page.request.get(`${PROD_URL}${href}`, {
-					maxRedirects: 5,
-				});
+				const response = await page.request.get(
+					new URL(href, PROD_URL).toString(),
+					{
+						maxRedirects: 5,
+					},
+				);
 				if (response.status() >= 400) {
 					brokenLinks.push(`${href} -> ${response.status()}`);
 				}
@@ -180,6 +185,6 @@ test.describe("Production Site Audit", () => {
 		if (brokenLinks.length > 0) {
 			console.log("Broken links:", brokenLinks);
 		}
-		expect(true).toBe(true);
+		expect(brokenLinks).toEqual([]);
 	});
 });

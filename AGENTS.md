@@ -372,6 +372,47 @@ Resolve conflicts by understanding, never by discarding:
 - No merge commits on `main`
 - CI must pass (build, type-check, a11y tests)
 
+### 5.9 Worktree Workflow
+
+- **All feature work happens in a worktree** — never work directly on `main`
+- Create worktree from `main` for each feature branch:
+  ```bash
+  git worktree add ../repo-name-wt -b feat/feature-name main
+  ```
+- Worktree directory is outside the main repo (sibling directory)
+- When feature is complete, push branch, create PR, merge via squash
+- **Delete worktree after merge**:
+  ```bash
+  git worktree remove ../repo-name-wt --force
+  ```
+- **Before starting work**: verify `git status` clean, `git worktree list` shows only main repo, CI green on main
+- **No leftover branches** — delete local and remote feature branches after merge
+
+### 5.10 Test-Driven Development (TDD) Workflow
+
+- **Write tests first** — before any implementation code
+- **RED**: Write failing test that defines expected behavior
+- **GREEN**: Write minimal implementation to make test pass
+- **REFACTOR**: Clean up code while keeping tests green
+- **Coverage target**: ≥80% (statements, branches, functions, lines)
+- **Test types**:
+  - Unit tests: `src/**/*.test.ts` (Vitest)
+  - Integration/Visual tests: `tests/*.spec.ts` (Playwright)
+  - Accessibility tests: `tests/*.spec.ts` with axe-core (Playwright)
+- **Run tests before commit**:
+  ```bash
+  pnpm exec vitest run --coverage
+  pnpm exec playwright test
+  ```
+
+### 5.11 Coverage Enforcement
+
+- **Coverage tool**: `@vitest/coverage-v8` (installed as devDependency)
+- **Thresholds** in `vitest.config.ts` (baseline: ~64%, target: 80%)
+- **CI gate**: `pnpm exec vitest run --coverage` must pass thresholds
+- **Thresholds are ratcheted up incrementally** — never lowered
+- **Exclude from coverage**: config files, type definitions, test files, Astro generated files
+
 ---
 
 ## 6. Security Boundaries

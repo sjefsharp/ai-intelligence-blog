@@ -10,7 +10,7 @@
  */
 
 import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import type { KnowledgeContinuityResult } from "./evaluator.js";
@@ -24,7 +24,8 @@ import {
 } from "../book-delta/index.js";
 import { getResearchAuditPath } from "../publication/paths.js";
 
-const __dirname = join(fileURLToPath(import.meta.url), "..", "..", "..", "..");
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const PROJECT_ROOT = join(__dirname, "..", "..", "..");
 
 export interface KnowledgeContinuityEvidence {
 	editionDate: string;
@@ -76,7 +77,7 @@ export function loadKnowledgeContinuityEvidence(
 	editionDate: string,
 	options: { dataRoot?: string } = {},
 ): KnowledgeContinuityEvidence | undefined {
-	const dataRoot = options.dataRoot ?? join(__dirname, "data");
+	const dataRoot = options.dataRoot ?? join(PROJECT_ROOT, "data");
 	const bookDeltaDir = join(dataRoot, "book-delta", editionDate);
 	const evaluationPath = join(bookDeltaDir, "book-delta-evaluation.json");
 	const continuityPath = join(
@@ -84,21 +85,6 @@ export function loadKnowledgeContinuityEvidence(
 		"book-delta-knowledge-continuity.json",
 	);
 	const artifactPath = join(bookDeltaDir, "book-delta-artifact.json");
-
-	console.error(
-		`[DEBUG] loadKnowledgeContinuityEvidence: editionDate=${editionDate}`,
-	);
-	console.error(`[DEBUG] dataRoot=${dataRoot}`);
-	console.error(`[DEBUG] bookDeltaDir=${bookDeltaDir}`);
-	console.error(
-		`[DEBUG] evaluationPath=${evaluationPath}, exists=${existsSync(evaluationPath)}`,
-	);
-	console.error(
-		`[DEBUG] continuityPath=${continuityPath}, exists=${existsSync(continuityPath)}`,
-	);
-	console.error(
-		`[DEBUG] artifactPath=${artifactPath}, exists=${existsSync(artifactPath)}`,
-	);
 
 	const blockingConditions: string[] = [];
 	const evidenceReferences: string[] = [];

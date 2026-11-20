@@ -37,6 +37,9 @@ import {
 	getArtifactPath,
 	getEvaluationResultPath,
 	getKnowledgeContinuityResultPath,
+	persistBookDeltaArtifact,
+	persistBookDeltaEvaluationResult,
+	persistBookDeltaKnowledgeContinuityResult,
 } from "./store.js";
 
 const __dirname = join(
@@ -252,6 +255,17 @@ export async function evaluateBookDelta(
 
 	const engine = new BookDeltaEngine(config);
 	const result = await engine.run();
+
+	// Persist Book Delta artifacts to disk for evidence loader
+	await persistBookDeltaArtifact(editionDate, result.artifact);
+	await persistBookDeltaEvaluationResult(
+		editionDate,
+		result.evaluationResult,
+	);
+	await persistBookDeltaKnowledgeContinuityResult(
+		editionDate,
+		result.knowledgeContinuityResult,
+	);
 
 	return {
 		outputArtifacts: [

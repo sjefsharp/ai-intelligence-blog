@@ -1,5 +1,5 @@
 /**
- * Free LLM Client Wrapper — NVIDIA Nemotron via OpenRouter (primary) + Groq (fallback)
+ * Free LLM Client Wrapper — NVIDIA Nemotron via OpenRouter (primary only)
  *
  * Features:
  * - Configurable request budgets (tokens, requests, cost)
@@ -8,17 +8,11 @@
  * - Checkpoint persistence for resumable operations
  * - Deterministic operations (seed, temperature=0 for structured tasks)
  * - Free-only policy enforcement (never uses paid models)
- * - Graceful degradation: stops cleanly when all free providers exhausted
+ * - Graceful degradation: stops cleanly when provider exhausted
  * - Zero-cost validation mode (dry-run without API calls)
  *
- * Providers (in priority order):
- * 1. OpenRouter — nvidia/nemotron-3-ultra-550b-a55b:free (primary)
- * 2. OpenRouter — nvidia/nemotron-3.5-lightning:free (fallback 1)
- * 3. Groq — llama-3.3-70b-versatile (fallback 2)
- * 4. Groq — llama-3.1-8b-instant (fallback 3)
- * 5. Groq — mixtral-8x7b-32768 (fallback 4)
- * 6. Groq — gemma2-9b-it (fallback 5)
- * 6. OpenRouter — nvidia/nemotron-3.5-lightning:free (alternative fallback)
+ * Provider:
+ * 1. OpenRouter — nvidia/nemotron-3-ultra-550b-a55b:free (only provider)
  */
 
 import {
@@ -116,62 +110,6 @@ export const DEFAULT_PROVIDERS: ProviderConfig[] = [
 		name: "openrouter-primary",
 		baseUrl: "https://openrouter.ai/api/v1",
 		model: "nvidia/nemotron-3-ultra-550b-a55b:free",
-		apiKeyEnv: "OPENROUTER_API_KEY",
-		headers: {
-			"HTTP-Referer": "https://ai-intelligence-blog.example.com",
-			"X-Title": "ai-intelligence-blog",
-		},
-		rateLimit: { requestsPerMinute: 20, tokensPerMinute: 50000 },
-		timeoutMs: 60000,
-	},
-	{
-		name: "openrouter-fallback-1",
-		baseUrl: "https://openrouter.ai/api/v1",
-		model: "nvidia/nemotron-3.5-lightning:free",
-		apiKeyEnv: "OPENROUTER_API_KEY",
-		headers: {
-			"HTTP-Referer": "https://ai-intelligence-blog.example.com",
-			"X-Title": "ai-intelligence-blog",
-		},
-		rateLimit: { requestsPerMinute: 20, tokensPerMinute: 50000 },
-		timeoutMs: 60000,
-	},
-	{
-		name: "groq-primary",
-		baseUrl: "https://api.groq.com/openai/v1",
-		model: "llama-3.3-70b-versatile",
-		apiKeyEnv: "GROQ_API_KEY",
-		rateLimit: { requestsPerMinute: 30, tokensPerMinute: 6000 },
-		timeoutMs: 60000,
-	},
-	{
-		name: "groq-fallback-1",
-		baseUrl: "https://api.groq.com/openai/v1",
-		model: "llama-3.1-8b-instant",
-		apiKeyEnv: "GROQ_API_KEY",
-		rateLimit: { requestsPerMinute: 30, tokensPerMinute: 6000 },
-		timeoutMs: 60000,
-	},
-	{
-		name: "groq-fallback-2",
-		baseUrl: "https://api.groq.com/openai/v1",
-		model: "mixtral-8x7b-32768",
-		apiKeyEnv: "GROQ_API_KEY",
-		rateLimit: { requestsPerMinute: 30, tokensPerMinute: 6000 },
-		timeoutMs: 60000,
-	},
-	{
-		name: "groq-fallback-3",
-		baseUrl: "https://api.groq.com/openai/v1",
-		model: "gemma2-9b-it",
-		apiKeyEnv: "GROQ_API_KEY",
-		rateLimit: { requestsPerMinute: 30, tokensPerMinute: 6000 },
-		timeoutMs: 60000,
-	},
-	{
-		name: "openrouter-fallback-alt",
-		baseUrl: "https://openrouter.ai/api/v1",
-		model: "nvidia/nemotron-3.5-lightning:free",
 		apiKeyEnv: "OPENROUTER_API_KEY",
 		headers: {
 			"HTTP-Referer": "https://ai-intelligence-blog.example.com",
@@ -576,15 +514,11 @@ export class FreeLLMClient {
 	}
 
 	/**
-	 * Rotate to next provider
+	 * Rotate to next provider (not available with single provider)
 	 */
 	private rotateProvider(): boolean {
-		this.currentProviderIndex++;
-		if (this.currentProviderIndex >= this.config.providers.length) {
-			this.currentProviderIndex = 0;
-			return false; // Exhausted all providers
-		}
-		return true;
+		// Single provider - no rotation available
+		return false;
 	}
 
 	/**
@@ -828,18 +762,18 @@ export class FreeLLMClient {
 				}
 			}
 
-			// Provider failed — rotate to next
+			// Provider failed — no fallback available
 			if (!this.rotateProvider()) {
-				// All providers exhausted
+				// Single provider exhausted
 				throw new Error(
-					`All free providers exhausted after ${this.config.providers.length} attempts. ` +
+					`Provider ${this.config.providers[0].name} exhausted after ${this.config.retry.maxAttempts} attempts. ` +
 						`Last error: ${lastError?.message}. ` +
 						`Budget used: ${this.budget.getUsage().requests}/${this.config.budget.maxRequests} requests, ` +
 						`${this.budget.getUsage().tokens}/${this.config.budget.maxTokens} tokens.`,
 				);
 			}
 
-			// Try next provider
+			// Try next provider (never reached with single provider)
 			continue;
 		}
 	}
@@ -935,7 +869,7 @@ export function createFreeLLMClient(
  * Check if any inference credentials are configured
  */
 export function hasInferenceCredentials(): boolean {
-	return Boolean(process.env.OPENROUTER_API_KEY || process.env.GROQ_API_KEY);
+	return Boolean(process.env.OPENROUTER_API_KEY);
 }
 
 // ============================================================================

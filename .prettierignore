@@ -19,3 +19,6 @@ test-*.mjs
 # Playwright output
 test-results/
 playwright-report/
+
+# Coverage output
+coverage/

@@ -63,6 +63,7 @@ import {
 	WORKFLOW_GRAPH,
 	getStageById,
 	getStagesByPhase,
+	getTopologicalOrder,
 	validateWorkflowGraph,
 } from "./graph.js";
 
@@ -1133,18 +1134,24 @@ export class WorkflowOrchestrator {
 	private getStagesToRun(): StageDefinition[] {
 		const mode = this.cliOptions.mode;
 
+		// Get stages in topological order
+		const topologicalOrder = getTopologicalOrder();
+		const stagesInOrder = topologicalOrder
+			.map((id) => ALL_STAGES.find((s) => s.stageId === id))
+			.filter((s): s is StageDefinition => s !== undefined);
+
 		if (mode === "PLAN" || mode === "VALIDATE") {
 			// Return all stages for inspection
-			return ALL_STAGES;
+			return stagesInOrder;
 		}
 
 		if (mode === "DRY_RUN") {
-			return ALL_STAGES;
+			return stagesInOrder;
 		}
 
 		if (mode === "RESUME") {
 			// Only run incomplete/failed stages
-			if (!this.manifest) return ALL_STAGES;
+			if (!this.manifest) return stagesInOrder;
 			const incompleteIds = this.manifest.stages
 				.filter((s) =>
 					[
@@ -1157,11 +1164,13 @@ export class WorkflowOrchestrator {
 					].includes(s.state),
 				)
 				.map((s) => s.stageId);
-			return ALL_STAGES.filter((s) => incompleteIds.includes(s.stageId));
+			return stagesInOrder.filter((s) =>
+				incompleteIds.includes(s.stageId),
+			);
 		}
 
 		// EXECUTE mode
-		return ALL_STAGES;
+		return stagesInOrder;
 	}
 
 	private computeOverallOutcome(): WorkflowRunOutcome {

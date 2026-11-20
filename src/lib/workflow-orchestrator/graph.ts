@@ -712,8 +712,9 @@ const B04_MANDATORY_CODING_AGENT_MONITORING: StageDefinitionInput = {
 	phase: "PHASE_B_RESEARCH_DISCOVERY",
 	dependencies: [
 		{ stageId: stageId("b01_ring1_discovery"), required: true },
-		{ stageId: stageId("b02_ring2_discovery"), required: false },
-		{ stageId: stageId("b03_ring3_discovery"), required: false },
+		{ stageId: stageId("b02_ring2_discovery"), required: true },
+		{ stageId: stageId("b03_ring3_discovery"), required: true },
+		{ stageId: stageId("b05_persist_discovery_evidence"), required: true },
 	],
 	inputContract: {
 		requiredArtifacts: [artifactRef("DISCOVERY_LEDGER")],
@@ -764,10 +765,6 @@ const B05_PERSIST_DISCOVERY_EVIDENCE: StageDefinitionInput = {
 		{ stageId: stageId("b01_ring1_discovery"), required: true },
 		{ stageId: stageId("b02_ring2_discovery"), required: true },
 		{ stageId: stageId("b03_ring3_discovery"), required: true },
-		{
-			stageId: stageId("b04_mandatory_coding_agent_monitoring"),
-			required: true,
-		},
 	],
 	inputContract: {
 		requiredArtifacts: [

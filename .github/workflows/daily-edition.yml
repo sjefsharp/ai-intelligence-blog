@@ -58,7 +58,7 @@ jobs:
           EDITION_SCHEDULER_ENABLED: "true"
           EDITION_DEPLOYMENT_AUTHORIZED: "true"
           EDITION_PUBLICATION_AUTHORIZED: "true"
-          EXECUTION_MODE: ${{ github.event.inputs.mode || 'VALIDATE' }}
+          EXECUTION_MODE: EXECUTE
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 

@@ -516,9 +516,8 @@ function loadReadableAccessibilityResult(
 	// Readable accessibility is evaluated during publication quality evaluation
 	// Check if publication quality evaluation stage ran
 	const stageRecord = manifest.stages.find(
-		(s: { stageId: string }) =>
-			s.stageId === "wfs_f01_readable_quality" ||
-			s.stageId === "wfs_f02_readable_evaluation",
+		(s: { stageId: string; state: string }) =>
+			s.stageId === "wfs_f03_readable_quality_evaluation",
 	);
 	if (!stageRecord || stageRecord.state !== "SUCCEEDED") return undefined;
 
@@ -562,9 +561,8 @@ function loadAudioFirstQualityResult(
 
 	// Audio first quality is evaluated during listening quality evaluation
 	const stageRecord = manifest.stages.find(
-		(s: { stageId: string }) =>
-			s.stageId === "wfs_f03_audio_quality" ||
-			s.stageId === "wfs_f04_listening_quality",
+		(s: { stageId: string; state: string }) =>
+			s.stageId === "wfs_f02_audio_ag_evaluation",
 	);
 	if (!stageRecord || stageRecord.state !== "SUCCEEDED") return undefined;
 
@@ -606,14 +604,21 @@ function loadKnowledgeContinuityResult(
 
 	// Knowledge continuity is evaluated by thesaurus, principles, and book delta stages
 	const thesaurusRecord = manifest.stages.find(
-		(s: { stageId: string }) =>
-			s.stageId === "wfs_a03_validate_knowledge_registers",
+		(s: { stageId: string; state: string }) =>
+			s.stageId === "wfs_g01_thesaurus_evaluation",
 	);
 	const bookDeltaRecord = manifest.stages.find(
-		(s: { stageId: string }) => s.stageId === "wfs_h01_book_delta",
+		(s: { stageId: string; state: string }) =>
+			s.stageId === "wfs_g03_book_delta_evaluation",
+	);
+	const knowledgeStateRecord = manifest.stages.find(
+		(s: { stageId: string; state: string }) =>
+			s.stageId === "wfs_g04_validate_knowledge_state",
 	);
 
 	if (!thesaurusRecord || thesaurusRecord.state !== "SUCCEEDED")
+		return undefined;
+	if (!knowledgeStateRecord || knowledgeStateRecord.state !== "SUCCEEDED")
 		return undefined;
 
 	return {

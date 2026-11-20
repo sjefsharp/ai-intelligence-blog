@@ -43,6 +43,21 @@ export async function verifyMandatoryCoverage(input: {
 }): Promise<MandatoryCoverageReport> {
 	const { editionDate, ledgerEntry } = input;
 
+	// Handle missing or malformed ledger entry
+	if (
+		!ledgerEntry ||
+		!ledgerEntry.sourceRecords ||
+		!Array.isArray(ledgerEntry.sourceRecords)
+	) {
+		return {
+			verified: false,
+			mandatorySources: [],
+			uncheckedMandatory: ["NO_SOURCE_RECORDS_IN_LEDGER"],
+			verifiedAt: new Date().toISOString(),
+			error: "Ledger entry missing or has no sourceRecords array",
+		};
+	}
+
 	// Find all mandatory sources in the ledger
 	const mandatorySources = ledgerEntry.sourceRecords.filter(
 		(record) => record.criticality === "mandatory",

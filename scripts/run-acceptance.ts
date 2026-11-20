@@ -662,10 +662,11 @@ function loadWorkflowManifest(editionDate: string, dataRoot: string): any {
 		const outputDir = join(dataRoot, "scheduler", "runs");
 
 		// Find the latest run directory for this edition
+		// Run directories are named like: 2026-11-19_sched_20261120_085757_2200
 		let runDirs: string[] = [];
 		try {
 			runDirs = readdirSync(outputDir)
-				.filter((d) => d.startsWith(`${editionId}_`))
+				.filter((d) => d.startsWith(`${editionDate}_sched_`))
 				.sort()
 				.reverse();
 		} catch {

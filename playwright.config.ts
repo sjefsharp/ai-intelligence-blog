@@ -19,7 +19,10 @@ export default defineConfig({
 		{
 			name: "accessibility",
 			use: { ...devices["Desktop Chrome"] },
-			testMatch: ["**/accessibility.spec.ts", "**/production-audit.spec.ts"],
+			testMatch: [
+				"**/accessibility.spec.ts",
+				"**/production-audit.spec.ts",
+			],
 		},
 		{
 			name: "visual-regression",

@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test";
 
-const PROD_URL = "https://sjefsharp.github.io/ai-intelligence-blog/";
+const PROD_URL =
+	process.env.PROD_BASE_URL ??
+	"https://sjefsharp.github.io/ai-intelligence-blog/";
 
 test.describe("Production Site Audit", () => {
 	const testRoutes = [
@@ -88,17 +90,14 @@ test.describe("Production Site Audit", () => {
 		}
 	}
 
-	test("Root serves redirect to /en/", async ({ page }) => {
+	test("Root serves the publication entry point", async ({ page }) => {
 		const response = await page.goto(PROD_URL, {
 			waitUntil: "networkidle",
 			timeout: 30000,
 		});
 
 		expect(response?.status()).toBe(200);
-		// The redirect target is base-prefixed (e.g. /ai-intelligence-blog/en/),
-		// so match the locale suffix rather than a root-absolute href.
-		const redirectLink = page.locator('a[href$="/en/"]');
-		await expect(redirectLink).toBeVisible();
+		await expect(page.locator('a[href$="/en/"]').first()).toBeVisible();
 	});
 
 	test("Navigation works between locales", async ({ page }) => {

@@ -1,7 +1,216 @@
 ---
-import { defaultLocale, withBase } from "../i18n";
+/**
+ * Project root — language selection and publication entry point.
+ *
+ * The root is a real landing page, not an automatic redirect: readers choose
+ * English or Dutch explicitly. `/en/` and `/nl/` remain the canonical
+ * language-specific routes.
+ */
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { getTranslation, withBase } from "../i18n";
+import {
+	listPublicEditionDates,
+	loadEditionContent,
+	getEditionUrl,
+	formatEditionDate,
+} from "../lib/publication/astro-adapter.js";
 
-// The site is localized under /en and /nl; send root visitors to the default
-// locale instead of a 404.
-return Astro.redirect(withBase(`/${defaultLocale}/`));
+const en = getTranslation("en");
+const editionDates = await listPublicEditionDates();
+const latestDate = editionDates[0] ?? null;
+const latestEdition = latestDate ? await loadEditionContent(latestDate) : null;
+const latestTitle =
+	latestEdition?.newsletter?.metadata.title ??
+	(latestDate ? `Edition ${latestDate}` : null);
 ---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<a href="#main-content" class="skip-link">
+			Skip to main content
+		</a>
+
+		<header class="root-hero">
+			<p class="root-kicker">Evidence-first AI intelligence</p>
+			<h1 class="root-title">{SITE_TITLE}</h1>
+			<p class="root-tagline">{SITE_DESCRIPTION}</p>
+			<nav class="root-languages" aria-label="Choose language">
+				<a class="root-language" href={withBase("/en/")}>
+					{" "}
+					English{" "}
+				</a>
+				<a class="root-language" href={withBase("/nl/")}>
+					{" "}
+					Nederlands{" "}
+				</a>
+			</nav>
+		</header>
+
+		<main id="main-content" class="root-main">
+			<section class="root-section" aria-labelledby="root-latest-heading">
+				<h2 id="root-latest-heading" class="root-section-title">
+					Latest edition
+				</h2>
+				{latestDate && latestTitle ? (
+					<p class="root-edition">
+						<time datetime={latestDate}>
+							{formatEditionDate(latestDate, "en")}
+						</time>
+						<span aria-hidden="true"> · </span>
+						<a href={withBase(getEditionUrl(latestDate, "en"))}>
+							{latestTitle}
+						</a>
+					</p>
+				) : (
+					<p class="root-empty">
+						No editions have been published yet. Accepted daily
+						editions will appear here.
+					</p>
+				)}
+			</section>
+
+			<section
+				class="root-section"
+				aria-labelledby="root-explore-heading"
+			>
+				<h2 id="root-explore-heading" class="root-section-title">
+					Explore
+				</h2>
+				<ul class="root-links">
+					<li>
+						<a href={withBase("/en/editions/")}>Daily editions</a>
+						<span class="root-link-note">
+							Chronological archive
+						</span>
+					</li>
+					<li>
+						<a href={withBase("/en/topics/")}>Topics</a>
+						<span class="root-link-note">
+							Verified content by subject
+						</span>
+					</li>
+					<li>
+						<a href={withBase("/en/search/")}>Search</a>
+						<span class="root-link-note">Unified discovery</span>
+					</li>
+					<li>
+						<a href={withBase("/en/about/")}>About</a>
+						<span class="root-link-note">
+							Standards and methodology
+						</span>
+					</li>
+				</ul>
+			</section>
+		</main>
+
+		<Footer locale="en" t={en} />
+	</body>
+</html>
+
+<style>
+	.root-hero {
+		max-width: var(--measure);
+		margin: 0 auto;
+		padding: var(--space-8) var(--margin-page) var(--space-7);
+		text-align: center;
+		border-bottom: 1px solid var(--mountain-light);
+	}
+
+	.root-kicker {
+		margin: 0 0 var(--space-3);
+		font-family: var(--font-structural);
+		font-size: var(--size-sm);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-muted);
+	}
+
+	.root-title {
+		margin: 0 0 var(--space-3);
+		font-size: var(--size-3xl);
+		color: var(--ink);
+	}
+
+	.root-tagline {
+		margin: 0 auto var(--space-5);
+		max-width: 60ch;
+		font-size: var(--size-lg);
+		color: var(--ink-muted);
+	}
+
+	.root-languages {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+		justify-content: center;
+	}
+
+	.root-language {
+		display: inline-block;
+		padding: var(--space-2) var(--space-4);
+		border: 1px solid var(--gold);
+		border-radius: var(--radius);
+		color: var(--ink);
+		font-family: var(--font-structural);
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.root-language:hover,
+	.root-language:focus-visible {
+		background: var(--valley-light);
+	}
+
+	.root-main {
+		max-width: var(--measure);
+		margin: 0 auto;
+		padding: var(--space-7) var(--margin-page);
+		display: grid;
+		gap: var(--space-7);
+	}
+
+	.root-section-title {
+		margin: 0 0 var(--space-3);
+		font-family: var(--font-structural);
+		font-size: var(--size-sm);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-muted);
+	}
+
+	.root-edition {
+		margin: 0;
+		font-size: var(--size-lg);
+	}
+
+	.root-empty {
+		margin: 0;
+		color: var(--ink-muted);
+	}
+
+	.root-links {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-3);
+	}
+
+	.root-links a {
+		color: var(--gold);
+		font-family: var(--font-structural);
+		font-weight: 600;
+	}
+
+	.root-link-note {
+		margin-left: var(--space-2);
+		color: var(--ink-muted);
+		font-size: var(--size-sm);
+	}
+</style>

@@ -22,6 +22,7 @@ export default defineConfig({
 			testMatch: [
 				"**/accessibility.spec.ts",
 				"**/production-audit.spec.ts",
+				"**/root-landing.spec.ts",
 			],
 		},
 		{

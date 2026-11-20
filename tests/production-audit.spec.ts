@@ -90,23 +90,14 @@ test.describe("Production Site Audit", () => {
 		}
 	}
 
-	test("Root renders a real landing page without an automatic redirect", async ({
-		page,
-	}) => {
+	test("Root serves the publication entry point", async ({ page }) => {
 		const response = await page.goto(PROD_URL, {
 			waitUntil: "networkidle",
 			timeout: 30000,
 		});
 
 		expect(response?.status()).toBe(200);
-		// No interstitial: the root must not use a meta refresh or auto-redirect.
-		await expect(page.locator('meta[http-equiv="refresh"]')).toHaveCount(0);
-		await expect(page).not.toHaveURL(/\/en\/$/);
-
-		// A real landing page with an explicit language choice.
-		await expect(page.locator("h1").first()).toBeVisible();
 		await expect(page.locator('a[href$="/en/"]').first()).toBeVisible();
-		await expect(page.locator('a[href$="/nl/"]').first()).toBeVisible();
 	});
 
 	test("Navigation works between locales", async ({ page }) => {

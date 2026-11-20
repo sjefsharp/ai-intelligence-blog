@@ -30,6 +30,7 @@ export interface MandatoryCoverageReport {
 	}[];
 	uncheckedMandatory: string[];
 	verifiedAt: string;
+	error?: string;
 }
 
 /**

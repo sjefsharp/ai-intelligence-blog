@@ -6,7 +6,7 @@ test.describe("Visual Regression - Production", () => {
 		"https://sjefsharp.github.io/ai-intelligence-blog/";
 
 	const testRoutes = [
-		{ path: "/", name: "root-redirect" },
+		{ path: "/", name: "root-landing" },
 		{ path: "/en/", name: "en-homepage" },
 		{ path: "/nl/", name: "nl-homepage" },
 		{ path: "/en/blog/", name: "en-blog-index" },
@@ -29,12 +29,6 @@ test.describe("Visual Regression - Production", () => {
 				waitUntil: "networkidle",
 				timeout: 30000,
 			});
-
-			// The root route is a client-side meta refresh. Wait for it to
-			// settle so the screenshot is deterministic across environments.
-			if (route.path === "/") {
-				await page.waitForURL("**/en/", { timeout: 10000 });
-			}
 
 			await page.waitForLoadState("networkidle");
 			await page.waitForTimeout(1000);

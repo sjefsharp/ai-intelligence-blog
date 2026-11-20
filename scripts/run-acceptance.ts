@@ -250,38 +250,47 @@ function loadEvaluationResults(
 	results.temporalIntegrityResult = loadTemporalIntegrityResult(
 		editionDate,
 		dataRoot,
+		options,
 	);
 	results.discoveryCoverageResult = loadDiscoveryCoverageResult(
 		editionDate,
 		dataRoot,
+		options,
 	);
 	results.evidenceIntegrityResult = loadEvidenceIntegrityResult(
 		editionDate,
 		dataRoot,
+		options,
 	);
 	results.historicalRegressionResult = loadHistoricalRegressionResult(
 		editionDate,
 		dataRoot,
+		options,
 	);
 	results.editorialIntegrityResult = loadEditorialIntegrityResult(
 		editionDate,
 		dataRoot,
+		options,
 	);
 	results.readableAccessibilityResult = loadReadableAccessibilityResult(
 		editionDate,
 		dataRoot,
+		options,
 	);
 	results.audioFirstQualityResult = loadAudioFirstQualityResult(
 		editionDate,
 		dataRoot,
+		options,
 	);
 	results.publicationIntegrityResult = loadPublicationIntegrityResult(
 		editionDate,
 		dataRoot,
+		options,
 	);
 	results.crossLanguageConsistencyResult = loadCrossLanguageConsistencyResult(
 		editionDate,
 		dataRoot,
+		options,
 	);
 
 	return results;
@@ -293,8 +302,13 @@ function loadEvaluationResults(
 function loadTemporalIntegrityResult(
 	editionDate: string,
 	dataRoot: string,
+	options?: { outputDir?: string },
 ): AcceptanceEvaluationInput["temporalIntegrityResult"] | undefined {
-	const manifest = loadWorkflowManifest(editionDate, dataRoot);
+	const manifest = loadWorkflowManifest(
+		editionDate,
+		dataRoot,
+		options?.outputDir,
+	);
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
@@ -328,8 +342,13 @@ function loadTemporalIntegrityResult(
 function loadDiscoveryCoverageResult(
 	editionDate: string,
 	dataRoot: string,
+	options?: { outputDir?: string },
 ): AcceptanceEvaluationInput["discoveryCoverageResult"] | undefined {
-	const manifest = loadWorkflowManifest(editionDate, dataRoot);
+	const manifest = loadWorkflowManifest(
+		editionDate,
+		dataRoot,
+		options?.outputDir,
+	);
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
@@ -361,8 +380,13 @@ function loadDiscoveryCoverageResult(
 function loadEvidenceIntegrityResult(
 	editionDate: string,
 	dataRoot: string,
+	options?: { outputDir?: string },
 ): AcceptanceEvaluationInput["evidenceIntegrityResult"] | undefined {
-	const manifest = loadWorkflowManifest(editionDate, dataRoot);
+	const manifest = loadWorkflowManifest(
+		editionDate,
+		dataRoot,
+		options?.outputDir,
+	);
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
@@ -396,8 +420,13 @@ function loadEvidenceIntegrityResult(
 function loadHistoricalRegressionResult(
 	editionDate: string,
 	dataRoot: string,
+	options?: { outputDir?: string },
 ): AcceptanceEvaluationInput["historicalRegressionResult"] | undefined {
-	const manifest = loadWorkflowManifest(editionDate, dataRoot);
+	const manifest = loadWorkflowManifest(
+		editionDate,
+		dataRoot,
+		options?.outputDir,
+	);
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
@@ -428,8 +457,13 @@ function loadHistoricalRegressionResult(
 function loadEditorialIntegrityResult(
 	editionDate: string,
 	dataRoot: string,
+	options?: { outputDir?: string },
 ): AcceptanceEvaluationInput["editorialIntegrityResult"] | undefined {
-	const manifest = loadWorkflowManifest(editionDate, dataRoot);
+	const manifest = loadWorkflowManifest(
+		editionDate,
+		dataRoot,
+		options?.outputDir,
+	);
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
@@ -463,8 +497,13 @@ function loadEditorialIntegrityResult(
 function loadReadableAccessibilityResult(
 	editionDate: string,
 	dataRoot: string,
+	options?: { outputDir?: string },
 ): AcceptanceEvaluationInput["readableAccessibilityResult"] | undefined {
-	const manifest = loadWorkflowManifest(editionDate, dataRoot);
+	const manifest = loadWorkflowManifest(
+		editionDate,
+		dataRoot,
+		options?.outputDir,
+	);
 	if (!manifest) return undefined;
 
 	// Readable accessibility is evaluated during publication quality evaluation
@@ -505,8 +544,13 @@ function loadReadableAccessibilityResult(
 function loadAudioFirstQualityResult(
 	editionDate: string,
 	dataRoot: string,
+	options?: { outputDir?: string },
 ): AcceptanceEvaluationInput["audioFirstQualityResult"] | undefined {
-	const manifest = loadWorkflowManifest(editionDate, dataRoot);
+	const manifest = loadWorkflowManifest(
+		editionDate,
+		dataRoot,
+		options?.outputDir,
+	);
 	if (!manifest) return undefined;
 
 	// Audio first quality is evaluated during listening quality evaluation
@@ -544,8 +588,13 @@ function loadAudioFirstQualityResult(
 function loadKnowledgeContinuityResult(
 	editionDate: string,
 	dataRoot: string,
+	options?: { outputDir?: string },
 ): AcceptanceEvaluationInput["knowledgeContinuityResult"] | undefined {
-	const manifest = loadWorkflowManifest(editionDate, dataRoot);
+	const manifest = loadWorkflowManifest(
+		editionDate,
+		dataRoot,
+		options?.outputDir,
+	);
 	if (!manifest) return undefined;
 
 	// Knowledge continuity is evaluated by thesaurus, principles, and book delta stages
@@ -585,8 +634,13 @@ function loadKnowledgeContinuityResult(
 function loadPublicationIntegrityResult(
 	editionDate: string,
 	dataRoot: string,
+	options?: { outputDir?: string },
 ): AcceptanceEvaluationInput["publicationIntegrityResult"] | undefined {
-	const manifest = loadWorkflowManifest(editionDate, dataRoot);
+	const manifest = loadWorkflowManifest(
+		editionDate,
+		dataRoot,
+		options?.outputDir,
+	);
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
@@ -624,8 +678,13 @@ function loadPublicationIntegrityResult(
 function loadCrossLanguageConsistencyResult(
 	editionDate: string,
 	dataRoot: string,
+	options?: { outputDir?: string },
 ): AcceptanceEvaluationInput["crossLanguageConsistencyResult"] | undefined {
-	const manifest = loadWorkflowManifest(editionDate, dataRoot);
+	const manifest = loadWorkflowManifest(
+		editionDate,
+		dataRoot,
+		options?.outputDir,
+	);
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
@@ -655,37 +714,72 @@ function loadCrossLanguageConsistencyResult(
 /**
  * Load workflow manifest from output directory.
  */
-function loadWorkflowManifest(editionDate: string, dataRoot: string): any {
+function loadWorkflowManifest(
+	editionDate: string,
+	dataRoot: string,
+	outputDir?: string,
+): any {
 	try {
 		// Find the workflow manifest in the output directory
 		const editionId = `edition_${editionDate}`;
-		const outputDir = join(dataRoot, "scheduler", "runs");
 
-		// Find the latest run directory for this edition
-		// Run directories are named like: 2026-11-19_sched_20261120_085757_2200
-		let runDirs: string[] = [];
-		try {
-			runDirs = readdirSync(outputDir)
-				.filter((d) => d.startsWith(`${editionDate}_sched_`))
-				.sort()
-				.reverse();
-		} catch {
-			return null;
+		// If outputDir is provided (edition-specific run directory), look there first
+		const searchDirs: string[] = [];
+		if (outputDir) {
+			searchDirs.push(outputDir);
+		}
+		// Also check the parent runs directory for run directories
+		searchDirs.push(join(dataRoot, "scheduler", "runs"));
+
+		for (const outputDir of searchDirs) {
+			// Find the latest run directory for this edition
+			// Run directories are named like: 2026-11-19_sched_20261120_085757_2200
+			let runDirs: string[] = [];
+			try {
+				runDirs = readdirSync(outputDir)
+					.filter((d) => d.startsWith(`${editionDate}_sched_`))
+					.sort()
+					.reverse();
+			} catch {
+				continue;
+			}
+
+			if (runDirs.length === 0) {
+				// If no run directories, maybe outputDir IS the run directory
+				// Check if outputDir contains manifest files directly
+				const manifestFiles = readdirSync(outputDir)
+					.filter(
+						(f) => f.endsWith(".json") && f.startsWith(editionId),
+					)
+					.sort()
+					.reverse();
+
+				if (manifestFiles.length > 0) {
+					const manifestPath = join(outputDir, manifestFiles[0]);
+					const content = readFileSync(manifestPath, "utf-8");
+					return JSON.parse(content);
+				}
+				continue;
+			}
+
+			for (const runDir of runDirs) {
+				const latestRunDir = join(outputDir, runDir);
+				const manifestFiles = readdirSync(latestRunDir)
+					.filter(
+						(f) => f.endsWith(".json") && f.startsWith(editionId),
+					)
+					.sort()
+					.reverse();
+
+				if (manifestFiles.length > 0) {
+					const manifestPath = join(latestRunDir, manifestFiles[0]);
+					const content = readFileSync(manifestPath, "utf-8");
+					return JSON.parse(content);
+				}
+			}
 		}
 
-		if (runDirs.length === 0) return null;
-
-		const latestRunDir = join(outputDir, runDirs[0]);
-		const manifestFiles = readdirSync(latestRunDir)
-			.filter((f) => f.endsWith(".json") && f.startsWith(editionId))
-			.sort()
-			.reverse();
-
-		if (manifestFiles.length === 0) return null;
-
-		const manifestPath = join(latestRunDir, manifestFiles[0]);
-		const content = readFileSync(manifestPath, "utf-8");
-		return JSON.parse(content);
+		return null;
 	} catch {
 		return null;
 	}

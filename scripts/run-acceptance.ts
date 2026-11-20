@@ -1005,10 +1005,22 @@ async function main(): Promise<void> {
 		console.log();
 	} else {
 		// For VALIDATE mode with rehearsal output, pass the rehearsal workspace path
-		const rehearsalWorkspace = options.outputDir
-			? join(options.outputDir, "..", "..") // Go up to project root from rehearsal output dir
-			: undefined;
+		// Only calculate rehearsalWorkspace if outputDir is relative or under project root
+		const projectRoot = join(__dirname, "..");
+		let rehearsalWorkspace: string | undefined;
+		if (options.outputDir) {
+			// Check if outputDir is relative (not starting with /) or under project root
+			const isAbsolute = options.outputDir.startsWith("/");
+			const isUnderProjectRoot = isAbsolute
+				? options.outputDir.startsWith(projectRoot)
+				: true;
+			if (isUnderProjectRoot) {
+				// Go up to project root from rehearsal output dir
+				rehearsalWorkspace = join(options.outputDir, "..", "..");
+			}
+		}
 		evaluationResults = loadEvaluationResults(editionDate, {
+			outputDir: options.outputDir,
 			rehearsalWorkspace,
 		});
 		if (Object.keys(evaluationResults).length === 0) {

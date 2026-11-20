@@ -44,3 +44,4 @@ data/*
 !data/fact-dossiers/**
 !data/thesaurus/
 !data/thesaurus/**
+tmp/

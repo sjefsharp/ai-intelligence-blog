@@ -1,7 +1,9 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Visual Regression - Production", () => {
-	const PROD_URL = "https://sjefsharp.github.io/ai-intelligence-blog/";
+	const PROD_URL =
+		process.env.PROD_BASE_URL ??
+		"https://sjefsharp.github.io/ai-intelligence-blog/";
 
 	const testRoutes = [
 		{ path: "/", name: "root-redirect" },

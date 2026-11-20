@@ -28,19 +28,38 @@ export function getLocaleFromPath(pathname: string): Locale {
 	return defaultLocale;
 }
 
+/** Deployed base path (always ends with "/"), e.g. "/ai-intelligence-blog/". */
+function getBaseUrl(): string {
+	return import.meta.env.BASE_URL;
+}
+
+/** Prefix a root-absolute path with the deployed base path. */
+export function withBase(path: string): string {
+	return `${getBaseUrl()}${path.replace(/^\/+/, "")}`;
+}
+
+/** Remove the deployed base path from a pathname, preserving the leading "/". */
+function stripBase(pathname: string): string {
+	const baseUrl = getBaseUrl();
+	if (baseUrl !== "/" && pathname.startsWith(baseUrl)) {
+		return pathname.slice(baseUrl.length - 1);
+	}
+	return pathname;
+}
+
 export function getPathWithoutLocale(pathname: string): string {
-	const segments = pathname.split("/").filter(Boolean);
+	const segments = stripBase(pathname).split("/").filter(Boolean);
 	if (segments.length > 0 && (segments[0] === "en" || segments[0] === "nl")) {
 		const rest = segments.slice(1);
 		return rest.length === 0 ? "/" : `/${rest.join("/")}`;
 	}
-	return pathname;
+	return stripBase(pathname);
 }
 
 export function localizePath(pathname: string, locale: Locale): string {
 	const bare = getPathWithoutLocale(pathname);
 	const trimmed = bare === "/" ? "" : bare.replace(/\/+$/, "");
-	return `/${locale}${trimmed}/`;
+	return withBase(`/${locale}${trimmed}/`);
 }
 
 export function getAlternateLocales(

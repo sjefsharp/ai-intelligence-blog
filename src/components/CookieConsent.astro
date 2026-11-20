@@ -6,6 +6,7 @@
  * All browser API access happens client-side only.
  */
 import { getTranslation, type Locale } from "../i18n";
+import { withBase } from "../i18n";
 import type { TranslationKeys } from "../i18n";
 
 interface Props {
@@ -191,7 +192,7 @@ interface ConsentState {
 
 		<p class="cookie-consent-link">
 			<a
-				href={`/${locale}/about`}
+				href={withBase(`/${locale}/about`)}
 				target="_blank"
 				rel="noopener noreferrer"
 			>

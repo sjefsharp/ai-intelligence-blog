@@ -4,6 +4,7 @@ import Footer from "../../../../components/Footer.astro";
 import Masthead from "../../../../components/Masthead.astro";
 import CookieConsent from "../../../../components/CookieConsent.astro";
 import { getTranslation, type Locale } from "../../../../i18n";
+import { withBase } from "../../../../i18n";
 import {
 	loadEditionContent,
 	getEditionPaths,
@@ -46,7 +47,7 @@ const t = getTranslation(locale);
 const edition = await loadEditionContent(editionDate);
 
 if (!edition) {
-	return Astro.redirect(`/${locale}/404`);
+	return Astro.redirect(withBase(`/${locale}/404`));
 }
 
 const publicArticles = edition.englishArticles.filter(
@@ -56,7 +57,7 @@ const publicArticles = edition.englishArticles.filter(
 );
 
 if (publicArticles.length === 0) {
-	return Astro.redirect(`/${locale}/404`);
+	return Astro.redirect(withBase(`/${locale}/404`));
 }
 
 const pageTitle = `${t.ui.latestEssays} — ${formatEditionDate(editionDate, locale)}`;
@@ -120,7 +121,9 @@ const alternateUrls = getEditionAlternateUrls(
 				{publicArticles.map((article) => (
 					<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker);">
 						<a
-							href={`/${locale}/edition/${editionDate}/articles/${article.metadata.artifactId}/`}
+							href={withBase(
+								`/${locale}/edition/${editionDate}/articles/${article.metadata.artifactId}/`,
+							)}
 							style="text-decoration: none; color: inherit; display: block;"
 						>
 							<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-xl); color: var(--ink);">

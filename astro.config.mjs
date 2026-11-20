@@ -6,7 +6,12 @@ import { defineConfig, fontProviders } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://sjefsharp.github.io/ai-intelligence-blog/",
+	site: "https://sjefsharp.github.io",
+	// GitHub Pages serves this project site under /ai-intelligence-blog/.
+	// Local dev/preview and CI builds default to "/" so the Playwright harness
+	// can keep using root-relative routes; the deploy workflow sets SITE_BASE
+	// to the project path for the production artifact.
+	base: process.env.SITE_BASE ?? "/",
 	integrations: [
 		mdx({
 			shikiConfig: {

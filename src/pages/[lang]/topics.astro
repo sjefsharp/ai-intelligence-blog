@@ -7,6 +7,7 @@ import CookieConsent from "../../components/CookieConsent.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
 import { getTranslation, type Locale } from "../../i18n";
 
+import { withBase } from "../../i18n";
 export async function getStaticPaths() {
 	return [
 		{ params: { lang: "en" }, props: { locale: "en" as Locale } },
@@ -70,7 +71,9 @@ const sortedTags = Array.from(tagCounts.entries()).sort(
 			<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; margin-bottom: var(--space-7);">
 				{sortedTags.map(([tag, count]) => (
 					<a
-						href={`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`}
+						href={withBase(
+							`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`,
+						)}
 						style="
 							display: inline-flex;
 							align-items: center;
@@ -123,7 +126,9 @@ const sortedTags = Array.from(tagCounts.entries()).sort(
 								{tag}
 							</h2>
 							<a
-								href={`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`}
+								href={withBase(
+									`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`,
+								)}
 								style="
 									font-family: var(--font-structural);
 									font-size: var(--size-xs);
@@ -146,7 +151,9 @@ const sortedTags = Array.from(tagCounts.entries()).sort(
 							{tagPosts.map((post) => (
 								<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-3); background: var(--sheet);">
 									<a
-										href={`/${locale}/blog/${post.id}/`}
+										href={withBase(
+											`/${locale}/blog/${post.id}/`,
+										)}
 										style="text-decoration: none; color: inherit; display: block;"
 									>
 										<h3 style="margin: 0 0 var(--space-1); font-size: var(--size-lg); color: var(--ink); transition: color var(--transition-base);">
@@ -191,7 +198,9 @@ const sortedTags = Array.from(tagCounts.entries()).sort(
 					<div style="display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: center;">
 						{sortedTags.slice(10).map(([tag, count]) => (
 							<a
-								href={`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`}
+								href={withBase(
+									`/${locale}/topics/${tag.toLowerCase().replace(/\s+/g, "-")}/`,
+								)}
 								style="
 									font-family: var(--font-structural);
 									font-size: var(--size-xs);

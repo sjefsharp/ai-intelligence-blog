@@ -15,6 +15,7 @@ import CookieConsent from "../components/CookieConsent.astro";
 import { calculateReadingTime, formatReadingTime } from "../utils/readingTime";
 import { getTranslation, type Locale, type TranslationKeys } from "../i18n";
 
+import { withBase } from "../i18n";
 type Props = CollectionEntry<"blog">["data"] & {
 	locale: Locale;
 	body?: string;
@@ -119,7 +120,9 @@ const formatDate = (date: Date) => {
 									>
 										{tagLinks.map((tag) => (
 											<a
-												href={`/${locale}/topics/${tag.slug}/`}
+												href={withBase(
+													`/${locale}/topics/${tag.slug}/`,
+												)}
 												style="
 													font-family: var(--font-structural);
 													font-size: var(--size-xs);

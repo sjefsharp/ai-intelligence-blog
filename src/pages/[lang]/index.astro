@@ -9,6 +9,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
 import { formatReadingTime } from "../../utils/readingTime";
 import { getTranslation, type Locale } from "../../i18n";
 
+import { withBase } from "../../i18n";
 export async function getStaticPaths() {
 	return [
 		{ params: { lang: "en" }, props: { locale: "en" as Locale } },
@@ -64,7 +65,7 @@ const posts = (await getCollection("blog"))
 					{posts.map((post) => (
 						<li style="border: 1px solid var(--mountain-light); border-radius: var(--radius); padding: var(--space-4); background: var(--sheet-darker); transition: border-color var(--transition-base), box-shadow var(--transition-base);">
 							<a
-								href={`/${locale}/blog/${post.id}/`}
+								href={withBase(`/${locale}/blog/${post.id}/`)}
 								style="text-decoration: none; color: inherit; display: block;"
 							>
 								<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-xl); color: var(--ink); transition: color var(--transition-base);">
@@ -107,7 +108,7 @@ const posts = (await getCollection("blog"))
 
 				<p style="text-align: center; margin-top: var(--space-6);">
 					<a
-						href={`/${locale}/blog`}
+						href={withBase(`/${locale}/blog`)}
 						style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px;"
 					>
 						{t.home.aboutTitle} →
@@ -116,7 +117,7 @@ const posts = (await getCollection("blog"))
 						|
 					</span>
 					<a
-						href={`/${locale}/topics`}
+						href={withBase(`/${locale}/topics`)}
 						style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px;"
 					>
 						{t.nav.topics} →
@@ -125,7 +126,7 @@ const posts = (await getCollection("blog"))
 						|
 					</span>
 					<a
-						href={`/${locale}/search`}
+						href={withBase(`/${locale}/search`)}
 						style="font-family: var(--font-structural); font-weight: 600; text-decoration: none; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 2px;"
 					>
 						{t.nav.search} →
@@ -149,7 +150,7 @@ const posts = (await getCollection("blog"))
 							tokens — when to use which.
 						</p>
 						<a
-							href={`/${locale}/blog/first-post/`}
+							href={withBase(`/${locale}/blog/first-post/`)}
 							style="font-family: var(--font-structural); font-size: var(--size-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); text-decoration: none;"
 						>
 							Read pattern →
@@ -165,7 +166,7 @@ const posts = (await getCollection("blog"))
 							evaluation hooks for agent workflows.
 						</p>
 						<a
-							href={`/${locale}/blog/second-post/`}
+							href={withBase(`/${locale}/blog/second-post/`)}
 							style="font-family: var(--font-structural); font-size: var(--size-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); text-decoration: none;"
 						>
 							Read pattern →
@@ -181,7 +182,7 @@ const posts = (await getCollection("blog"))
 							capability-based pricing models.
 						</p>
 						<a
-							href={`/${locale}/blog/third-post/`}
+							href={withBase(`/${locale}/blog/third-post/`)}
 							style="font-family: var(--font-structural); font-size: var(--size-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); text-decoration: none;"
 						>
 							Read pattern →
@@ -198,7 +199,9 @@ const posts = (await getCollection("blog"))
 							documentation.
 						</p>
 						<a
-							href={`/${locale}/blog/markdown-style-guide/`}
+							href={withBase(
+								`/${locale}/blog/markdown-style-guide/`,
+							)}
 							style="font-family: var(--font-structural); font-size: var(--size-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); text-decoration: none;"
 						>
 							Read pattern →

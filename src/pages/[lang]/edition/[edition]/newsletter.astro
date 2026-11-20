@@ -5,6 +5,7 @@ import Masthead from "../../../../components/Masthead.astro";
 import CookieConsent from "../../../../components/CookieConsent.astro";
 import ReadAloud from "../../../../components/ReadAloud.astro";
 import { getTranslation, type Locale } from "../../../../i18n";
+import { withBase } from "../../../../i18n";
 import {
 	loadEditionContent,
 	getEditionPaths,
@@ -49,7 +50,7 @@ const t = getTranslation(locale);
 const edition = await loadEditionContent(editionDate);
 
 if (!edition || !edition.newsletter) {
-	return Astro.redirect(`/${locale}/404`);
+	return Astro.redirect(withBase(`/${locale}/404`));
 }
 
 const newsletter = edition.newsletter;
@@ -59,7 +60,7 @@ const isPublic =
 	newsletter.metadata.lifecycleStatus === "VALIDATED" ||
 	newsletter.metadata.lifecycleStatus === "PUBLISHED";
 if (!isPublic && locale === "nl") {
-	return Astro.redirect(`/${locale}/404`);
+	return Astro.redirect(withBase(`/${locale}/404`));
 }
 
 // Check for English counterpart
@@ -172,7 +173,9 @@ if (enArticle && locale === "nl") {
 										{newsletter.metadata.topics.map(
 											(topic) => (
 												<a
-													href={`/${locale}/topics/${topic.toLowerCase().replace(/\s+/g, "-")}/`}
+													href={withBase(
+														`/${locale}/topics/${topic.toLowerCase().replace(/\s+/g, "-")}/`,
+													)}
 													style="
 													font-family: var(--font-structural);
 													font-size: var(--size-xs);

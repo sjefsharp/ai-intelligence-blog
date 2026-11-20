@@ -85,6 +85,21 @@ export function loadKnowledgeContinuityEvidence(
 	);
 	const artifactPath = join(bookDeltaDir, "book-delta-artifact.json");
 
+	console.error(
+		`[DEBUG] loadKnowledgeContinuityEvidence: editionDate=${editionDate}`,
+	);
+	console.error(`[DEBUG] dataRoot=${dataRoot}`);
+	console.error(`[DEBUG] bookDeltaDir=${bookDeltaDir}`);
+	console.error(
+		`[DEBUG] evaluationPath=${evaluationPath}, exists=${existsSync(evaluationPath)}`,
+	);
+	console.error(
+		`[DEBUG] continuityPath=${continuityPath}, exists=${existsSync(continuityPath)}`,
+	);
+	console.error(
+		`[DEBUG] artifactPath=${artifactPath}, exists=${existsSync(artifactPath)}`,
+	);
+
 	const blockingConditions: string[] = [];
 	const evidenceReferences: string[] = [];
 

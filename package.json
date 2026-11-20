@@ -62,6 +62,7 @@
     "@gitmoji/commit-types": "^1.1.5",
     "@gitmoji/parser-opts": "^1.4.0",
     "@playwright/test": "^1.65.0",
+    "@vitest/coverage-v8": "^5.1.1",
     "ajv": "^8.20.0",
     "astro-eslint-parser": "^3.2.0",
     "commander": "^15.1.0",

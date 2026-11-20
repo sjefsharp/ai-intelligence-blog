@@ -730,6 +730,8 @@ function loadWorkflowManifest(
 		}
 		// Also check the parent runs directory for run directories
 		searchDirs.push(join(dataRoot, "scheduler", "runs"));
+		// Also check the workflow orchestrator manifest directory
+		searchDirs.push(join(dataRoot, "execution-manifests"));
 
 		for (const outputDir of searchDirs) {
 			// Find the latest run directory for this edition

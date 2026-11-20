@@ -287,6 +287,8 @@ pnpm exec playwright test --project=accessibility
 - **`main`** — protected, deployable, linear history
 - **Feature branches** — `feat/<short-name>`, `fix/<short-name>`, `chore/<short-name>`
 - **No long-lived branches** — sync with `main` via merge within 2 days (see §5.4)
+- **Never commit directly to `main`** — locally or remotely. All changes must go through a feature branch and PR.
+- **Never merge to `main` locally or remotely** without a pull request. GitHub ruleset enforces PR + required status checks + 1 approval + squash merge.
 
 ### 5.2 Commit Conventions
 
@@ -371,6 +373,8 @@ Resolve conflicts by understanding, never by discarding:
 - Delete branch after merge
 - No merge commits on `main`
 - CI must pass (build, type-check, a11y tests)
+- **No direct commits to `main`** — all changes via PR from feature branch
+- **No local or remote merges to `main` without PR** — GitHub ruleset enforces this
 
 ### 5.9 Worktree Workflow
 
@@ -625,6 +629,7 @@ When an agent works in this repo:
 
 | Date       | Change                                                                                                                                                                                                                                                                                      | Author |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 2026-11-20 | Added explicit git protection rules to §5.1 and §5.8: never commit to main locally/remote, never merge to main without PR; GitHub ruleset enforces PR + required status checks + 1 approval + squash merge                                                                                  | Agent  |
 | 2026-11-08 | Initial AGENTS.md created from repo inspection                                                                                                                                                                                                                                              | Agent  |
 | 2026-11-11 | Added the Seven-Day Historical Regression stage (`src/lib/historical-regression/`, `scripts/run-historical-regression.ts`, `data/schemas/historical-regression.json`, `docs/historical-regression.md`) between Omission Review and Editorial Selection; see `docs/historical-regression.md` | Agent  |
 | 2026-11-13 | Implemented Book Delta capability (`src/lib/book-delta/`, `scripts/run-book-delta.ts`, `docs/book-delta.md`) within Knowledge Continuity gate; cleared pre-existing `astro check` backlog (596 → 0 errors), all gates green; see `docs/book-delta.md`                                       | Agent  |

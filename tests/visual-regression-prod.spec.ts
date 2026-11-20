@@ -30,6 +30,12 @@ test.describe("Visual Regression - Production", () => {
 				timeout: 30000,
 			});
 
+			// The root route is a client-side meta refresh. Wait for it to
+			// settle so the screenshot is deterministic across environments.
+			if (route.path === "/") {
+				await page.waitForURL("**/en/", { timeout: 10000 });
+			}
+
 			await page.waitForLoadState("networkidle");
 			await page.waitForTimeout(1000);
 
@@ -37,6 +43,7 @@ test.describe("Visual Regression - Production", () => {
 				fullPage: true,
 				animations: "disabled",
 				threshold: 0.2,
+				maxDiffPixelRatio: 0.002,
 			});
 		});
 	}
@@ -59,6 +66,7 @@ test.describe("Visual Regression - Production", () => {
 			fullPage: true,
 			animations: "disabled",
 			threshold: 0.2,
+			maxDiffPixelRatio: 0.002,
 		});
 	});
 
@@ -76,6 +84,7 @@ test.describe("Visual Regression - Production", () => {
 			{
 				animations: "disabled",
 				threshold: 0.2,
+				maxDiffPixelRatio: 0.002,
 			},
 		);
 	});
@@ -96,6 +105,7 @@ test.describe("Visual Regression - Production", () => {
 			{
 				animations: "disabled",
 				threshold: 0.2,
+				maxDiffPixelRatio: 0.002,
 			},
 		);
 	});

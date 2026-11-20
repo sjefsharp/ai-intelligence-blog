@@ -57,6 +57,7 @@ import {
 	finalizeDecision,
 } from "../src/lib/publication-acceptance/report-generator.js";
 import { loadKnowledgeContinuityEvidence } from "../src/lib/publication-acceptance/knowledge-continuity-evidence.js";
+import { resolveAcceptanceDataRoot } from "../src/lib/publication-acceptance/acceptance-data-root.js";
 import {
 	getEditorialWindow,
 	EDITORIAL_TIMEZONE,
@@ -227,19 +228,20 @@ function printGates(): void {
  */
 function loadEvaluationResults(
 	editionDate: string,
-	options: { outputDir?: string; rehearsalWorkspace?: string } = {},
+	options: { outputDir?: string; dataRoot?: string } = {},
 ): Partial<AcceptanceEvaluationInput> {
 	const results: Partial<AcceptanceEvaluationInput> = {};
 
-	// Determine the data root - use project root for workflow output
+	// Determine the persisted-data root. Every loader below resolves its
+	// evidence relative to this directory.
 	const projectRoot = join(__dirname, "..");
-	const dataRoot = options.rehearsalWorkspace ?? projectRoot;
+	const dataRoot = options.dataRoot ?? join(projectRoot, "data");
 
 	// Book Delta contributes persisted, independently readable evidence to the
 	// K — Knowledge Continuity gate. Absent evidence leaves the gate UNVERIFIED;
 	// a skipped assessment is never reported as NONE.
 	const knowledgeContinuity = loadKnowledgeContinuityEvidence(editionDate, {
-		dataRoot: projectRoot,
+		dataRoot,
 	});
 	if (knowledgeContinuity) {
 		results.knowledgeContinuityResult = knowledgeContinuity.result;
@@ -584,83 +586,6 @@ function loadAudioFirstQualityResult(
 		completeListeningAssessed: true,
 		blockingConditions: [],
 		evidenceReferences: audioArtifact ? [audioArtifact.path] : [],
-	};
-}
-
-/**
- * Load knowledge continuity result from workflow output.
- */
-function loadKnowledgeContinuityResult(
-	editionDate: string,
-	dataRoot: string,
-	options?: { outputDir?: string },
-): AcceptanceEvaluationInput["knowledgeContinuityResult"] | undefined {
-	const manifest = loadWorkflowManifest(
-		editionDate,
-		dataRoot,
-		options?.outputDir,
-	);
-	if (!manifest) {
-		console.error(
-			`[DEBUG] loadKnowledgeContinuityResult: No manifest found for edition ${editionDate}`,
-		);
-		return undefined;
-	}
-
-	console.error(
-		`[DEBUG] loadKnowledgeContinuityResult: Manifest found, stages count: ${manifest.stages?.length ?? 0}`,
-	);
-
-	// Knowledge continuity is evaluated by thesaurus, principles, and book delta stages
-	const thesaurusRecord = manifest.stages.find(
-		(s: { stageId: string; state: string }) =>
-			s.stageId === "wfs_g01_thesaurus_evaluation",
-	);
-	const bookDeltaRecord = manifest.stages.find(
-		(s: { stageId: string; state: string }) =>
-			s.stageId === "wfs_g03_book_delta_evaluation",
-	);
-	const knowledgeStateRecord = manifest.stages.find(
-		(s: { stageId: string; state: string }) =>
-			s.stageId === "wfs_g04_validate_knowledge_state",
-	);
-
-	console.error(
-		`[DEBUG] thesaurusRecord: ${thesaurusRecord ? `${thesaurusRecord.stageId}=${thesaurusRecord.state}` : "NOT FOUND"}`,
-	);
-	console.error(
-		`[DEBUG] bookDeltaRecord: ${bookDeltaRecord ? `${bookDeltaRecord.stageId}=${bookDeltaRecord.state}` : "NOT FOUND"}`,
-	);
-	console.error(
-		`[DEBUG] knowledgeStateRecord: ${knowledgeStateRecord ? `${knowledgeStateRecord.stageId}=${knowledgeStateRecord.state}` : "NOT FOUND"}`,
-	);
-
-	if (!thesaurusRecord || thesaurusRecord.state !== "SUCCEEDED") {
-		console.error(`[DEBUG] thesaurusRecord check FAILED`);
-		return undefined;
-	}
-	if (!knowledgeStateRecord || knowledgeStateRecord.state !== "SUCCEEDED") {
-		console.error(`[DEBUG] knowledgeStateRecord check FAILED`);
-		return undefined;
-	}
-
-	return {
-		thesaurusRead: true,
-		thesaurusEvaluated: true,
-		thesaurusUpdatesHandled: true,
-		noUnauthorizedChanges: true,
-		thesaurusPersistenceVerified: true,
-		principlesRead: true,
-		principlesClassificationCorrect: true,
-		principlesEvidenceValidated: true,
-		principlesPersistenceVerified: true,
-		bookDeltaExecuted: bookDeltaRecord?.state === "SUCCEEDED",
-		bookDeltaProposalsEvaluated: bookDeltaRecord?.state === "SUCCEEDED",
-		bookDeltaDeduplication: true,
-		bookDeltaApprovalBoundaries: true,
-		bookDeltaResultsRecorded: true,
-		blockingConditions: [],
-		evidenceReferences: [],
 	};
 }
 
@@ -1035,10 +960,10 @@ async function main(): Promise<void> {
 		console.log("DRY_RUN mode: Using synthetic fixtures.");
 		console.log();
 	} else {
-		// For VALIDATE mode with rehearsal output, pass the rehearsal workspace path
-		// Only calculate rehearsalWorkspace if outputDir is relative or under project root
+		// For VALIDATE mode with rehearsal output, pass the persisted-data root.
+		// Only resolve it when outputDir is relative or under the project root.
 		const projectRoot = join(__dirname, "..");
-		let rehearsalWorkspace: string | undefined;
+		let acceptanceOutputDir: string | undefined;
 		if (options.outputDir) {
 			// Check if outputDir is relative (not starting with /) or under project root
 			const isAbsolute = options.outputDir.startsWith("/");
@@ -1046,13 +971,16 @@ async function main(): Promise<void> {
 				? options.outputDir.startsWith(projectRoot)
 				: true;
 			if (isUnderProjectRoot) {
-				// Go up to project root from rehearsal output dir
-				rehearsalWorkspace = join(options.outputDir, "..", "..");
+				acceptanceOutputDir = options.outputDir;
 			}
 		}
+		const dataRoot = resolveAcceptanceDataRoot(
+			acceptanceOutputDir,
+			projectRoot,
+		);
 		evaluationResults = loadEvaluationResults(editionDate, {
 			outputDir: options.outputDir,
-			rehearsalWorkspace,
+			dataRoot,
 		});
 		if (Object.keys(evaluationResults).length === 0) {
 			console.log("No persisted evaluation results found.");

@@ -312,14 +312,14 @@ function loadTemporalIntegrityResult(
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
-		(s) => s.stageId === "wfs_a01_resolve_edition",
+		(s: { stageId: string }) => s.stageId === "wfs_a01_resolve_edition",
 	);
 	if (!stageRecord || stageRecord.state !== "SUCCEEDED") return undefined;
 
 	// Temporal integrity is validated by the edition resolution stage
 	// Check if the edition context artifact exists
 	const editionContextArtifact = stageRecord.outputArtifacts?.find(
-		(a) => a.artifactId === "edition-context",
+		(a: { artifactId: string }) => a.artifactId === "edition-context",
 	);
 
 	return {
@@ -352,12 +352,13 @@ function loadDiscoveryCoverageResult(
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
-		(s) => s.stageId === "wfs_b06_validate_discovery_coverage",
+		(s: { stageId: string }) =>
+			s.stageId === "wfs_b06_validate_discovery_coverage",
 	);
 	if (!stageRecord || stageRecord.state !== "SUCCEEDED") return undefined;
 
 	const coverageArtifact = stageRecord.outputArtifacts?.find(
-		(a) => a.artifactId === "coverage-report",
+		(a: { artifactId: string }) => a.artifactId === "coverage-report",
 	);
 
 	return {
@@ -390,12 +391,12 @@ function loadEvidenceIntegrityResult(
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
-		(s) => s.stageId === "wfs_c02_claim_verification",
+		(s: { stageId: string }) => s.stageId === "wfs_c02_claim_verification",
 	);
 	if (!stageRecord || stageRecord.state !== "SUCCEEDED") return undefined;
 
 	const evidenceArtifact = stageRecord.outputArtifacts?.find(
-		(a) => a.artifactId === "verified-claims",
+		(a: { artifactId: string }) => a.artifactId === "verified-claims",
 	);
 
 	return {
@@ -430,12 +431,14 @@ function loadHistoricalRegressionResult(
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
-		(s) => s.stageId === "wfs_c05_historical_regression",
+		(s: { stageId: string }) =>
+			s.stageId === "wfs_c05_historical_regression",
 	);
 	if (!stageRecord || stageRecord.state !== "SUCCEEDED") return undefined;
 
 	const regressionArtifact = stageRecord.outputArtifacts?.find(
-		(a) => a.artifactId === "historical-regression-report",
+		(a: { artifactId: string }) =>
+			a.artifactId === "historical-regression-report",
 	);
 
 	return {
@@ -467,12 +470,13 @@ function loadEditorialIntegrityResult(
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
-		(s) => s.stageId === "wfs_d01_editorial_selection",
+		(s: { stageId: string }) => s.stageId === "wfs_d01_editorial_selection",
 	);
 	if (!stageRecord || stageRecord.state !== "SUCCEEDED") return undefined;
 
 	const selectionArtifact = stageRecord.outputArtifacts?.find(
-		(a) => a.artifactId === "editorial-selection-manifest",
+		(a: { artifactId: string }) =>
+			a.artifactId === "editorial-selection-manifest",
 	);
 
 	return {
@@ -509,14 +513,14 @@ function loadReadableAccessibilityResult(
 	// Readable accessibility is evaluated during publication quality evaluation
 	// Check if publication quality evaluation stage ran
 	const stageRecord = manifest.stages.find(
-		(s) =>
+		(s: { stageId: string }) =>
 			s.stageId === "wfs_f01_readable_quality" ||
 			s.stageId === "wfs_f02_readable_evaluation",
 	);
 	if (!stageRecord || stageRecord.state !== "SUCCEEDED") return undefined;
 
 	const qualityArtifact = stageRecord.outputArtifacts?.find(
-		(a) => a.artifactId === "readable-quality",
+		(a: { artifactId: string }) => a.artifactId === "readable-quality",
 	);
 
 	return {
@@ -555,14 +559,14 @@ function loadAudioFirstQualityResult(
 
 	// Audio first quality is evaluated during listening quality evaluation
 	const stageRecord = manifest.stages.find(
-		(s) =>
+		(s: { stageId: string }) =>
 			s.stageId === "wfs_f03_audio_quality" ||
 			s.stageId === "wfs_f04_listening_quality",
 	);
 	if (!stageRecord || stageRecord.state !== "SUCCEEDED") return undefined;
 
 	const audioArtifact = stageRecord.outputArtifacts?.find(
-		(a) => a.artifactId === "audio-ag-evaluation",
+		(a: { artifactId: string }) => a.artifactId === "audio-ag-evaluation",
 	);
 
 	return {
@@ -599,10 +603,11 @@ function loadKnowledgeContinuityResult(
 
 	// Knowledge continuity is evaluated by thesaurus, principles, and book delta stages
 	const thesaurusRecord = manifest.stages.find(
-		(s) => s.stageId === "wfs_a03_validate_knowledge_registers",
+		(s: { stageId: string }) =>
+			s.stageId === "wfs_a03_validate_knowledge_registers",
 	);
 	const bookDeltaRecord = manifest.stages.find(
-		(s) => s.stageId === "wfs_h01_book_delta",
+		(s: { stageId: string }) => s.stageId === "wfs_h01_book_delta",
 	);
 
 	if (!thesaurusRecord || thesaurusRecord.state !== "SUCCEEDED")
@@ -644,12 +649,14 @@ function loadPublicationIntegrityResult(
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
-		(s) => s.stageId === "wfs_e06_validate_publication_artifacts",
+		(s: { stageId: string }) =>
+			s.stageId === "wfs_e06_validate_publication_artifacts",
 	);
 	if (!stageRecord || stageRecord.state !== "SUCCEEDED") return undefined;
 
 	const validationArtifact = stageRecord.outputArtifacts?.find(
-		(a) => a.artifactId === "publication-validation-report",
+		(a: { artifactId: string }) =>
+			a.artifactId === "publication-validation-report",
 	);
 
 	return {
@@ -688,12 +695,14 @@ function loadCrossLanguageConsistencyResult(
 	if (!manifest) return undefined;
 
 	const stageRecord = manifest.stages.find(
-		(s) => s.stageId === "wfs_e06_validate_publication_artifacts",
+		(s: { stageId: string }) =>
+			s.stageId === "wfs_e06_validate_publication_artifacts",
 	);
 	if (!stageRecord || stageRecord.state !== "SUCCEEDED") return undefined;
 
 	const validationArtifact = stageRecord.outputArtifacts?.find(
-		(a) => a.artifactId === "publication-validation-report",
+		(a: { artifactId: string }) =>
+			a.artifactId === "publication-validation-report",
 	);
 
 	return {

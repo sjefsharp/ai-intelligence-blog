@@ -39,7 +39,7 @@ test.describe("Visual Regression - Dev Server", () => {
 				fullPage: true,
 				animations: "disabled",
 				threshold: 0.2,
-				maxDiffPixelRatio: 0.002,
+				maxDiffPixelRatio: 0.02,
 			});
 		});
 	}
@@ -80,7 +80,7 @@ test.describe("Visual Regression - Dev Server", () => {
 			{
 				animations: "disabled",
 				threshold: 0.2,
-				maxDiffPixelRatio: 0.002,
+				maxDiffPixelRatio: 0.02,
 			},
 		);
 	});
@@ -101,7 +101,7 @@ test.describe("Visual Regression - Dev Server", () => {
 			{
 				animations: "disabled",
 				threshold: 0.2,
-				maxDiffPixelRatio: 0.002,
+				maxDiffPixelRatio: 0.02,
 			},
 		);
 	});

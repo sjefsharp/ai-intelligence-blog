@@ -13,12 +13,26 @@ export default defineConfig({
 	use: {
 		baseURL: "http://localhost:4321",
 		trace: "on-first-retry",
+		screenshot: "only-on-failure",
 	},
 	projects: [
 		{
 			name: "accessibility",
 			use: { ...devices["Desktop Chrome"] },
-			testMatch: "**/*.spec.ts",
+			testMatch: ["**/accessibility.spec.ts", "**/production-audit.spec.ts"],
+		},
+		{
+			name: "visual-regression",
+			use: { ...devices["Desktop Chrome"] },
+			testMatch: "**/visual-regression.spec.ts",
+		},
+		{
+			name: "visual-regression-prod",
+			use: {
+				...devices["Desktop Chrome"],
+				baseURL: "https://sjefsharp.github.io/ai-intelligence-blog/",
+			},
+			testMatch: "**/visual-regression-prod.spec.ts",
 		},
 	],
 	webServer: {

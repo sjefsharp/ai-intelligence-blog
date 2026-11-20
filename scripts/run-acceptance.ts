@@ -239,7 +239,7 @@ function loadEvaluationResults(
 	// K — Knowledge Continuity gate. Absent evidence leaves the gate UNVERIFIED;
 	// a skipped assessment is never reported as NONE.
 	const knowledgeContinuity = loadKnowledgeContinuityEvidence(editionDate, {
-		dataRoot,
+		dataRoot: projectRoot,
 	});
 	if (knowledgeContinuity) {
 		results.knowledgeContinuityResult = knowledgeContinuity.result;
@@ -600,7 +600,16 @@ function loadKnowledgeContinuityResult(
 		dataRoot,
 		options?.outputDir,
 	);
-	if (!manifest) return undefined;
+	if (!manifest) {
+		console.error(
+			`[DEBUG] loadKnowledgeContinuityResult: No manifest found for edition ${editionDate}`,
+		);
+		return undefined;
+	}
+
+	console.error(
+		`[DEBUG] loadKnowledgeContinuityResult: Manifest found, stages count: ${manifest.stages?.length ?? 0}`,
+	);
 
 	// Knowledge continuity is evaluated by thesaurus, principles, and book delta stages
 	const thesaurusRecord = manifest.stages.find(
@@ -616,10 +625,24 @@ function loadKnowledgeContinuityResult(
 			s.stageId === "wfs_g04_validate_knowledge_state",
 	);
 
-	if (!thesaurusRecord || thesaurusRecord.state !== "SUCCEEDED")
+	console.error(
+		`[DEBUG] thesaurusRecord: ${thesaurusRecord ? `${thesaurusRecord.stageId}=${thesaurusRecord.state}` : "NOT FOUND"}`,
+	);
+	console.error(
+		`[DEBUG] bookDeltaRecord: ${bookDeltaRecord ? `${bookDeltaRecord.stageId}=${bookDeltaRecord.state}` : "NOT FOUND"}`,
+	);
+	console.error(
+		`[DEBUG] knowledgeStateRecord: ${knowledgeStateRecord ? `${knowledgeStateRecord.stageId}=${knowledgeStateRecord.state}` : "NOT FOUND"}`,
+	);
+
+	if (!thesaurusRecord || thesaurusRecord.state !== "SUCCEEDED") {
+		console.error(`[DEBUG] thesaurusRecord check FAILED`);
 		return undefined;
-	if (!knowledgeStateRecord || knowledgeStateRecord.state !== "SUCCEEDED")
+	}
+	if (!knowledgeStateRecord || knowledgeStateRecord.state !== "SUCCEEDED") {
+		console.error(`[DEBUG] knowledgeStateRecord check FAILED`);
 		return undefined;
+	}
 
 	return {
 		thesaurusRead: true,

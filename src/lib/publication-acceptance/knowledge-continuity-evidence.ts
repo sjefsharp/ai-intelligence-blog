@@ -24,7 +24,7 @@ import {
 } from "../book-delta/index.js";
 import { getResearchAuditPath } from "../publication/paths.js";
 
-const __dirname = join(fileURLToPath(import.meta.url), "..", "..");
+const __dirname = join(fileURLToPath(import.meta.url), "..", "..", "..", "..");
 
 export interface KnowledgeContinuityEvidence {
 	editionDate: string;

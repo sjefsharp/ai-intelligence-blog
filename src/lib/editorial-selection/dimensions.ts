@@ -737,8 +737,6 @@ function assessAvailabilityMaturity(
 		maturities.includes("deprecated")
 	) {
 		level = "low";
-	} else if (level === "unclear") {
-		level = level;
 	}
 
 	return {

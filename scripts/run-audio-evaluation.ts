@@ -1642,7 +1642,7 @@ async function main() {
 
 	// Validate inputs
 	editionIdentity = EditionIdentitySchema.parse(editionIdentity);
-	canonicalReferences = CanonicalReferencesSchema.parse(canonicalReferences);
+	CanonicalReferencesSchema.parse(canonicalReferences);
 
 	// Step 1: Run Q1-Q10 evaluation (unless skipped)
 	if (!skipQ1Q10) {

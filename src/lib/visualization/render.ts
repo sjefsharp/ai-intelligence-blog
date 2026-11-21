@@ -638,7 +638,7 @@ export function renderTimeline(
 		let cx: number, cy: number;
 		let labelX: number, labelY: number;
 		let dateX: number, dateY: number;
-		let textAnchor: "start" | "middle" | "end" = "middle";
+		let textAnchor: "start" | "middle" | "end";
 
 		if (orientation === "horizontal") {
 			cx = position;

@@ -527,7 +527,7 @@ function verifyScientificClaim(
 		isOrigReporting,
 	);
 
-	let status: VerificationStatus = "unverified";
+	let status: VerificationStatus;
 	if (
 		classification === "VERIFIED_FACT" ||
 		classification === "RESEARCH_FINDING"
@@ -1285,7 +1285,7 @@ function verifyOriginalReportingClaim(
 		e.applicableMethods.includes("source-document-review"),
 	);
 
-	let classification: EvidenceClassification = "UNVERIFIED";
+	let classification: EvidenceClassification;
 	// First-hand disclosure of previously unknown information qualifies as original reporting
 	// even without formal documentation, per editorial contract on newly revealed facts
 	if (hasFirstDisclosure) {

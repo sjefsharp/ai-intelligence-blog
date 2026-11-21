@@ -1070,16 +1070,7 @@ async function main() {
 	const bookDeltaEvaluation = loadBookDeltaEvaluation(edition);
 	let listeningNarrativeMd: string;
 	let dailyIndexMd: string;
-	let listeningNarrativeMeta = createCanonicalPublicationMetadata(
-		editionIdentity,
-		canonicalReferences,
-		"listening-narrative",
-		null,
-		`AI Daily Intelligence — ${edition}`,
-		"Volledig, onafhankelijk geauthored Nederlands luisternarratief.",
-		"build-publication.ts",
-		{ estimatedListeningDurationMinutes: 12, lifecycleStatus: "DRAFT" },
-	);
+	let listeningNarrativeMeta: PublicationMetadata;
 
 	if (demo) {
 		newsletterMd = generateDemoMarkdown(edition, "newsletter", articles);

@@ -88,18 +88,18 @@ for (const date of editionDates) {
 										{formatEditionDate(date, locale)}
 									</time>
 									{edition?.newsletter && (
-										<span style="background: var(--valley-light); color: var(--valley); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: var(--size-xs);">
+										<span style="background: var(--valley-light); color: var(--gold); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: var(--size-xs);">
 											NL
 										</span>
 									)}
 									{edition?.englishArticles.length && (
-										<span style="background: var(--valley-light); color: var(--valley); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: var(--size-xs);">
+										<span style="background: var(--valley-light); color: var(--gold); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: var(--size-xs);">
 											EN
 										</span>
 									)}
 									{edition?.newsletter?.metadata
 										.lifecycleStatus && (
-										<span style="background: var(--valley-light); color: var(--valley); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: var(--size-xs);">
+										<span style="background: var(--valley-light); color: var(--gold); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: var(--size-xs);">
 											{
 												edition.newsletter.metadata
 													.lifecycleStatus
@@ -108,7 +108,7 @@ for (const date of editionDates) {
 									)}
 								</div>
 
-								<h3 style="margin: 0 0 var(--space-2); font-size: var(--size-xl); color: var(--ink);">
+								<h2 style="margin: 0 0 var(--space-2); font-size: var(--size-xl); color: var(--ink);">
 									<a
 										href={getEditionUrl(date, locale)}
 										style="text-decoration: none; color: inherit;"
@@ -118,7 +118,7 @@ for (const date of editionDates) {
 												? `Editie ${date}`
 												: `Edition ${date}`)}
 									</a>
-								</h3>
+								</h2>
 
 								{edition?.newsletter && (
 									<p style="color: var(--ink-muted); margin: 0 0 var(--space-2);">

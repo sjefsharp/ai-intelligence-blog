@@ -36,9 +36,13 @@ const MIME_TYPES = {
 };
 
 function resolveRequestFile(pathname) {
-	const stripped = pathname.startsWith(base)
-		? pathname.slice(base.length)
-		: pathname;
+	const basePath = base.replace(/\/$/, "");
+	const stripped =
+		pathname === basePath
+			? "/"
+			: pathname.startsWith(base)
+				? pathname.slice(base.length)
+				: pathname;
 	const relative = normalize(decodeURIComponent(stripped)).replace(
 		/^[/\\]+/,
 		"",

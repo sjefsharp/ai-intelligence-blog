@@ -47,6 +47,14 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = join(__dirname, "..", "..", "..");
 const EDITIONS_BASE = join(PROJECT_ROOT, "editions");
 
+/** Used when an edition has no daily index and therefore no navigation index. */
+const EMPTY_NAVIGATION: DailyIndex["availableNavigation"] = {
+	byTopic: [],
+	byOrganization: [],
+	byResearchDomain: [],
+	bySource: [],
+};
+
 /** Load and parse a Markdown file. */
 async function loadMarkdown(filePath: string): Promise<string> {
 	try {
@@ -76,8 +84,8 @@ export interface EditionContent {
 	editionDate: string;
 	editionId: string;
 	editionIdentity: EditionIdentity;
-	canonicalReferences: CanonicalReferences;
-	dailyIndex: DailyIndex;
+	canonicalReferences: CanonicalReferences | null;
+	dailyIndex: DailyIndex | null;
 	newsletter: EditionArtifact | null;
 	researchAudit: EditionArtifact | null;
 	listeningNarrative: EditionArtifact | null;
@@ -153,21 +161,17 @@ export async function loadEditionContent(
 		return null;
 	}
 
-	// Load daily index (navigational metadata)
+	// Daily index (navigational metadata). Editions committed before the index
+	// existed have none; that gap is reported, not hidden.
 	const dailyIndexPath = join(editionDir, "index.md");
 	const dailyIndex = await loadMetadata(dailyIndexPath, validateDailyIndex);
-	if (!dailyIndex) {
-		return null;
-	}
 
-	// Load canonical publications
 	const newsletter = await loadArtifact(getNewsletterPath(editionDate));
 	const researchAudit = await loadArtifact(getResearchAuditPath(editionDate));
 	const listeningNarrative = await loadArtifact(
 		getListeningNarrativePath(editionDate),
 	);
 
-	// Load English derivatives
 	const englishArticles = await loadDerivativeArtifacts(
 		getEnglishArticlesDir(editionDate),
 	);
@@ -175,46 +179,117 @@ export async function loadEditionContent(
 		getEnglishListeningDir(editionDate),
 	);
 
-	// Load edition identity and canonical references from package
-	const packagePath = join(editionDir, "publication-package.json");
-	let editionIdentity = dailyIndex.editionId
-		? ({ editionId: dailyIndex.editionId, editionDate } as EditionIdentity)
-		: null;
-	let canonicalReferences = null;
+	let editionIdentity: EditionIdentity | null = null;
+	if (dailyIndex) {
+		try {
+			editionIdentity = validateEditionIdentity({
+				editionId: dailyIndex.editionId,
+				editionDate,
+				editionWindow: dailyIndex.editionWindow,
+				reportingWindow: dailyIndex.reportingWindow,
+			});
+		} catch {
+			editionIdentity = null;
+		}
+	}
+	let canonicalReferences: CanonicalReferences | null = null;
 
+	// The publication package is the authoritative source for identity and
+	// canonical references. It stays optional so an edition without it remains
+	// visible; the absence is surfaced through `missingArtifacts`.
+	const packagePath = join(editionDir, "publication-package.json");
 	try {
-		const packageContent = await fs.readFile(packagePath, "utf8");
-		const pkg = JSON.parse(packageContent);
+		const pkg = JSON.parse(await fs.readFile(packagePath, "utf8"));
 		editionIdentity = validateEditionIdentity(pkg.editionIdentity);
 		canonicalReferences = validateCanonicalReferences(
 			pkg.canonicalReferences,
 		);
 	} catch {
-		// Fallback to daily index data
-		if (!editionIdentity) {
-			editionIdentity = {
-				editionId: `edition_${editionDate}`,
-				editionDate,
-				editionWindow: dailyIndex.editionWindow,
-				reportingWindow: dailyIndex.reportingWindow,
-			};
-		}
+		// No usable package: keep whatever the daily index provided.
 	}
+
+	if (!editionIdentity) {
+		editionIdentity = await loadFallbackEditionIdentity(editionDate);
+	}
+	if (!editionIdentity) {
+		return null;
+	}
+
+	const missingArtifacts: DailyIndex["missingArtifacts"] = dailyIndex
+		? dailyIndex.missingArtifacts
+		: [
+				{
+					contentType: "daily-index",
+					language: "nl",
+					reason: "Daily index (index.md) and publication package were not emitted for this edition.",
+				},
+			];
 
 	return {
 		editionDate,
 		editionId: `edition_${editionDate}`,
-		editionIdentity: editionIdentity!,
-		canonicalReferences: canonicalReferences!,
+		editionIdentity,
+		canonicalReferences,
 		dailyIndex,
 		newsletter,
 		researchAudit,
 		listeningNarrative,
 		englishArticles,
 		englishListening,
-		navigation: dailyIndex.availableNavigation,
-		missingArtifacts: dailyIndex.missingArtifacts,
+		navigation: dailyIndex?.availableNavigation ?? EMPTY_NAVIGATION,
+		missingArtifacts,
 	};
+}
+
+/**
+ * Recover edition identity from the committed fact dossier when neither the
+ * daily index nor the publication package is present. Returns null when the
+ * dossier is unavailable, so an identity is never invented.
+ */
+async function loadFallbackEditionIdentity(
+	editionDate: string,
+): Promise<EditionIdentity | null> {
+	const dossierPath = join(
+		PROJECT_ROOT,
+		"data",
+		"fact-dossiers",
+		`edition_${editionDate}.json`,
+	);
+
+	try {
+		const record = JSON.parse(
+			await fs.readFile(dossierPath, "utf8"),
+		) as Record<string, unknown>;
+		const window = record.editionWindow as
+			Record<string, unknown> | undefined;
+		if (
+			typeof window?.start !== "string" ||
+			typeof window?.end !== "string"
+		) {
+			return null;
+		}
+		return validateEditionIdentity({
+			editionId: record.editionId ?? `edition_${editionDate}`,
+			editionDate,
+			editionWindow: {
+				editionDate,
+				start: window.start,
+				end: window.end,
+				timezone: "Europe/Amsterdam",
+				durationHours:
+					typeof window.durationHours === "number"
+						? window.durationHours
+						: 24,
+			},
+			reportingWindow: {
+				start: window.start,
+				end: window.end,
+				timezone: "Europe/Amsterdam",
+			},
+		});
+	} catch {
+		return null;
+	}
 }
 
 /** Load a single canonical artifact. */

@@ -135,76 +135,89 @@ const alternateUrls = getEditionAlternateUrls(
 					<footer class="footnotes" aria-label={t.ui.references}>
 						<h2>{t.ui.references}</h2>
 						<dl style="font-size: var(--size-sm); color: var(--ink-muted);">
-							<dt style="font-family: var(--font-structural); font-weight: 700; color: var(--ink);">
-								Fact Dossier
-							</dt>
-							<dd style="margin: 0 0 var(--space-3); font-family: var(--font-structural);">
-								{
-									edition.canonicalReferences.factDossier
-										.dossierId
-								}{" "}
-								—{" "}
-								{
-									edition.canonicalReferences.factDossier
-										.contentHash
-								}
-							</dd>
-
-							<dt style="font-family: var(--font-structural); font-weight: 700; color: var(--ink);">
-								Editoriële Selectie
-							</dt>
-							<dd style="margin: 0 0 var(--space-3); font-family: var(--font-structural);">
-								{
-									edition.canonicalReferences
-										.editorialSelection.manifestId
-								}{" "}
-								—{" "}
-								{
-									edition.canonicalReferences
-										.editorialSelection.contentHash
-								}
-							</dd>
-
-							{edition.canonicalReferences.historicalRegression
-								.referenced && (
+							{edition.canonicalReferences && (
 								<>
 									<dt style="font-family: var(--font-structural); font-weight: 700; color: var(--ink);">
-										Historische Regressie
+										Fact Dossier
 									</dt>
 									<dd style="margin: 0 0 var(--space-3); font-family: var(--font-structural);">
 										{
 											edition.canonicalReferences
-												.historicalRegression.reportId
+												.factDossier.dossierId
 										}{" "}
 										—{" "}
 										{
 											edition.canonicalReferences
-												.historicalRegression
-												.contentHash
+												.factDossier.contentHash
 										}
 									</dd>
-								</>
-							)}
 
-							{edition.canonicalReferences.omissionReview
-								.referenced && (
-								<>
 									<dt style="font-family: var(--font-structural); font-weight: 700; color: var(--ink);">
-										Omissie Review
+										Editoriële Selectie
 									</dt>
 									<dd style="margin: 0 0 var(--space-3); font-family: var(--font-structural);">
 										{
 											edition.canonicalReferences
-												.omissionReview.reportId
+												.editorialSelection.manifestId
 										}{" "}
-										(exec:{" "}
+										—{" "}
 										{
 											edition.canonicalReferences
-												.omissionReview.executionId
+												.editorialSelection.contentHash
 										}
-										)
 									</dd>
+
+									{edition.canonicalReferences
+										.historicalRegression.referenced && (
+										<>
+											<dt style="font-family: var(--font-structural); font-weight: 700; color: var(--ink);">
+												Historische Regressie
+											</dt>
+											<dd style="margin: 0 0 var(--space-3); font-family: var(--font-structural);">
+												{
+													edition.canonicalReferences
+														.historicalRegression
+														.reportId
+												}{" "}
+												—{" "}
+												{
+													edition.canonicalReferences
+														.historicalRegression
+														.contentHash
+												}
+											</dd>
+										</>
+									)}
+
+									{edition.canonicalReferences.omissionReview
+										.referenced && (
+										<>
+											<dt style="font-family: var(--font-structural); font-weight: 700; color: var(--ink);">
+												Omissie Review
+											</dt>
+											<dd style="margin: 0 0 var(--space-3); font-family: var(--font-structural);">
+												{
+													edition.canonicalReferences
+														.omissionReview.reportId
+												}{" "}
+												(exec:{" "}
+												{
+													edition.canonicalReferences
+														.omissionReview
+														.executionId
+												}
+												)
+											</dd>
+										</>
+									)}
 								</>
+							)}
+							{!edition.canonicalReferences && (
+								<div style="font-size: var(--size-sm); color: var(--ink-muted);">
+									Publicatiepakket niet beschikbaar voor deze
+									editie; canonieke referenties zijn niet
+									gekoppeld.
+								</div>
 							)}
 						</dl>
 					</footer>

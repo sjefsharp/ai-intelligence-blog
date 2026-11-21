@@ -21,6 +21,8 @@ test.describe("Production Site Audit", () => {
 		{ path: "/nl/topics/", name: "Dutch Topics Page" },
 		{ path: "/en/editions/", name: "English Editions" },
 		{ path: "/nl/editions/", name: "Dutch Editions" },
+		{ path: "/en/edition/2026-11-17/", name: "English Edition Detail" },
+		{ path: "/nl/edition/2026-11-17/", name: "Dutch Edition Detail" },
 	];
 
 	for (const route of testRoutes) {

@@ -9,7 +9,6 @@
 import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";
-import os from "os";
 import { Temporal } from "@js-temporal/polyfill";
 
 // Fix for NodeJS namespace
@@ -52,15 +51,17 @@ import {
 
 import { getEditorialWindow, EDITORIAL_TIMEZONE } from "../editorial-window.js";
 import { createFreeLLMClient, FreeLLMClient } from "../free-llm-client.js";
+import {
+	claimEditionLock,
+	transitionOwnedEditionLock,
+} from "./edition-lock.js";
 
 // ============================================================================
 // Constants
 // ============================================================================
 
 const DEFAULT_MANIFEST_DIR = "data/execution-manifests";
-const DEFAULT_LOCK_DIR = "data/locks";
 const DEFAULT_EVIDENCE_DIR = "data/evidence-packages";
-const LOCK_TTL_HOURS = 24;
 const HEARTBEAT_INTERVAL_MS = 30000;
 
 // ============================================================================
@@ -96,7 +97,6 @@ function nowISO(): string {
 
 export class WorkflowOrchestrator {
 	private manifestDir: string;
-	private lockDir: string;
 	private reportDir: string;
 	private evidenceDir: string;
 	private cliOptions: CliOptions;
@@ -109,7 +109,6 @@ export class WorkflowOrchestrator {
 	constructor(cliOptions: CliOptions) {
 		this.cliOptions = CliOptionsSchema.parse(cliOptions);
 		this.manifestDir = cliOptions.outputDir || DEFAULT_MANIFEST_DIR;
-		this.lockDir = DEFAULT_LOCK_DIR;
 		// Use manifestDir as base for reports to respect --output-dir
 		this.reportDir = path.join(this.manifestDir, "workflow-reports");
 		this.evidenceDir = DEFAULT_EVIDENCE_DIR;
@@ -136,7 +135,6 @@ export class WorkflowOrchestrator {
 
 		// Create directories
 		await fs.mkdir(this.manifestDir, { recursive: true });
-		await fs.mkdir(this.lockDir, { recursive: true });
 		await fs.mkdir(this.reportDir, { recursive: true });
 		await fs.mkdir(this.evidenceDir, { recursive: true });
 
@@ -217,126 +215,49 @@ export class WorkflowOrchestrator {
 	// ============================================================================
 
 	async acquireLock(editionContext: EditionContext): Promise<WorkflowLock> {
-		const editionId = editionContext.editionId;
-		const lockPath = path.join(this.lockDir, `${editionId}.lock`);
-		const workflowRunId = generateId("wfr_");
-		const acquiredAt = nowISO();
-		const expiresAt = Temporal.Instant.from(acquiredAt)
-			.add({ hours: LOCK_TTL_HOURS })
-			.toString();
-
-		// Check existing lock
-		try {
-			const existingContent = await fs.readFile(lockPath, "utf-8");
-			const existingLock = JSON.parse(existingContent) as WorkflowLock;
-
-			if (existingLock.state === "HELD") {
-				const lastHeartbeat = existingLock.lastHeartbeat
-					? Temporal.Instant.from(existingLock.lastHeartbeat)
-					: Temporal.Instant.from(existingLock.acquiredAt);
-				const now = Temporal.Now.instant();
-				const hoursSinceHeartbeat = now
-					.since(lastHeartbeat)
-					.total({ unit: "hour" });
-
-				if (
-					hoursSinceHeartbeat < LOCK_TTL_HOURS &&
-					!this.cliOptions.forceResume
-				) {
-					// Lock is active
-					throw new Error(
-						`CONCURRENT_EXECUTION: Edition ${editionId} already locked by run ${existingLock.workflowRunId} ` +
-							`(PID ${existingLock.acquiredBy.processId} on ${existingLock.acquiredBy.hostname}, ` +
-							`heartbeat ${hoursSinceHeartbeat.toFixed(1)}h ago). Use --force-resume to override.`,
-					);
-				}
-				// Stale lock - we can take it
-				console.warn(
-					`Stale lock detected for ${editionId}, taking ownership`,
-				);
-			}
-		} catch (err) {
-			if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
-				// File doesn't exist - that's fine
-				if (!(err as Error).message.includes("CONCURRENT_EXECUTION")) {
-					throw err;
-				}
-				throw err;
-			}
-		}
-
-		// Acquire lock
-		this.lock = {
-			lockId: generateId("lock_"),
-			editionId,
-			workflowRunId,
-			state: "HELD",
-			acquiredAt,
-			acquiredBy: {
-				processId: process.pid,
-				hostname: os.hostname(),
-				user: process.env.USER || "unknown",
-			},
-			expiresAt,
-			lastHeartbeat: acquiredAt,
-			forceReleased: false,
-		};
-
-		await fs.writeFile(
-			lockPath,
-			JSON.stringify(this.lock, null, 2),
-			"utf-8",
+		const lock = await claimEditionLock(
+			editionContext.editionId,
+			this.cliOptions.forceResume,
 		);
-
-		// Start heartbeat
-		this.startHeartbeat(lockPath);
-
+		this.lock = lock;
+		this.startHeartbeat();
 		console.log(
-			`Acquired lock for edition ${editionId} (run ${workflowRunId})`,
+			`Acquired lock for edition ${lock.editionId} (run ${lock.workflowRunId})`,
 		);
-		return this.lock;
+		return lock;
 	}
 
-	private startHeartbeat(lockPath: string): void {
+	private startHeartbeat(): void {
 		this.heartbeatTimer = setInterval(async () => {
-			if (!this.lock) return;
-			this.lock.lastHeartbeat = nowISO();
+			const lock = this.lock;
+			if (!lock) return;
 			try {
-				await fs.writeFile(
-					lockPath,
-					JSON.stringify(this.lock, null, 2),
-					"utf-8",
+				await transitionOwnedEditionLock(lock, "HELD");
+			} catch (error) {
+				console.warn(
+					`Could not update edition lock for ${lock.editionId}:`,
+					error,
 				);
-			} catch {
-				// Ignore heartbeat failures
 			}
 		}, HEARTBEAT_INTERVAL_MS);
 	}
 
-	async releaseLock(finalState: WorkflowLockState = "FREE"): Promise<void> {
-		if (!this.lock) return;
-
+	async releaseLock(
+		finalState: WorkflowLockState = "FREE",
+	): Promise<WorkflowLock | null> {
+		const lock = this.lock;
+		if (!lock) return null;
 		if (this.heartbeatTimer) {
 			clearInterval(this.heartbeatTimer);
 			this.heartbeatTimer = null;
 		}
-
-		const lockPath = path.join(this.lockDir, `${this.lock.editionId}.lock`);
-		this.lock.state = finalState;
-		this.lock.lastHeartbeat = nowISO();
-
-		try {
-			await fs.writeFile(
-				lockPath,
-				JSON.stringify(this.lock, null, 2),
-				"utf-8",
-			);
+		const released = await transitionOwnedEditionLock(lock, finalState);
+		this.lock = null;
+		if (released)
 			console.log(
-				`Released lock for edition ${this.lock.editionId} (state: ${finalState})`,
+				`Released lock for edition ${lock.editionId} (state: ${finalState})`,
 			);
-		} catch (err) {
-			console.error("Failed to release lock:", err);
-		}
+		return released;
 	}
 
 	// ============================================================================
@@ -701,6 +622,8 @@ export class WorkflowOrchestrator {
 			editionContext: this.manifest?.edition,
 			cliOptions: this.cliOptions,
 			llmClient: this.llmClient,
+			ownedLockId: this.lock?.lockId,
+			releaseEditionLock: () => this.releaseLock(),
 		};
 
 		// Add artifact paths

@@ -3,6 +3,8 @@
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 import { randomBytes, createHash } from "crypto";
+import type { WorkflowLock } from "../schema.js";
+import { editionLockPath } from "../edition-lock.js";
 
 interface AggregatedEvidencePackage {
 	packageId: string;
@@ -335,11 +337,7 @@ export async function produceCompletionReport(
 		artifact: unknown,
 	): { content: string; meta: Record<string, unknown> } => {
 		if (!artifact) return { content: "", meta: {} };
-		if (
-			typeof artifact === "object" &&
-			artifact !== null &&
-			"path" in artifact
-		) {
+		if (typeof artifact === "object" && "path" in artifact) {
 			const art = artifact as { path?: string };
 			if (art.path) {
 				try {
@@ -584,28 +582,15 @@ export async function produceCompletionReport(
  * Entry point for workflow stage H05.
  * Releases the filesystem lock for this edition, recording final state.
  */
-export async function releaseLock(input: PhaseHInput): Promise<any> {
-	const editionDate = input.editionDate;
-	const editionId = `edition_${editionDate}`;
-
-	// Load the lock file
-	const lockArtifact = input["workflow-lock"];
-	let lock: Record<string, unknown> = { editionId, state: "HELD" };
-	if (lockArtifact?.path) {
-		try {
-			lock = JSON.parse(readFileSync(lockArtifact.path, "utf-8"));
-		} catch {}
-	}
-
-	// Update lock state to FREE
-	lock.state = "FREE";
-	lock.releasedAt = new Date().toISOString();
-	lock.releasedBy = "lock-releaser";
-
-	// Persist the released lock
-	const { writeFileSync } = await import("fs");
-	const lockPath = `data/locks/${editionId}.lock`;
-	writeFileSync(lockPath, JSON.stringify(lock, null, 2), "utf-8");
+export async function releaseLock(input: {
+	releaseEditionLock?: () => Promise<WorkflowLock | null>;
+}) {
+	const lock = await input.releaseEditionLock?.();
+	if (!lock)
+		throw new Error(
+			"CONCURRENT_EXECUTION: This run cannot release the edition lock",
+		);
+	const lockPath = editionLockPath(lock.editionId);
 
 	return {
 		outputArtifacts: [

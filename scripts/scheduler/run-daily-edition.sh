@@ -207,8 +207,8 @@ validate_environment() {
     fi
 
     # Check free inference configuration
-    if [[ -z "${OPENROUTER_API_KEY:-}" && -z "${GROQ_API_KEY:-}" && -z "${NOUS_API_KEY:-}" ]]; then
-        log_warn "No inference API keys configured (OPENROUTER_API_KEY, GROQ_API_KEY, NOUS_API_KEY)"
+    if [[ -z "${OPENROUTER_API_KEY:-}" && -z "${GROQ_API_KEY:-}" ]]; then
+        log_warn "No inference API keys configured (OPENROUTER_API_KEY, GROQ_API_KEY)"
         log_warn "Workflow will run in validation-only mode if credentials required"
     fi
 

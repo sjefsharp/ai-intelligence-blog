@@ -155,7 +155,6 @@ interpretation is necessary to distinguish a meaningful update from repetition,
 through the existing free inference route:
 
 - Primary: NVIDIA Nemotron via OpenRouter (free tier)
-- Fallback: Nous Portal Free Tier
 
 If free inference capacity is unavailable, deterministic findings are preserved
 and the unresolved comparison is marked `HISTORY_UNVERIFIED`. No paid inference,

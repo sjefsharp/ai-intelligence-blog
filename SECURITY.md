@@ -49,7 +49,7 @@ We will acknowledge receipt within 48 hours and provide a remediation timeline.
 
 ### AI Model Access
 
-- Free-tier only: OpenRouter (`nvidia/nemotron-3-ultra-550b-a55b:free`) + Nous Portal
+- Free-tier only: OpenRouter (`nvidia/nemotron-3-ultra-550b-a55b:free`)
 - No paid models, no non-configured endpoints, no key sharing
 - Rate limits respected with exponential backoff
 - Automatic fallback through configured free providers

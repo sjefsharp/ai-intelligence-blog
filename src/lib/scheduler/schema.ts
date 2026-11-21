@@ -208,7 +208,7 @@ export const SchedulerConfigSchema = z.strictObject({
 		configFile: z.string().default(".env.local"),
 		requiredVars: z
 			.array(z.string())
-			.default(["OPENROUTER_API_KEY", "GROQ_API_KEY", "NOUS_API_KEY"]),
+			.default(["OPENROUTER_API_KEY", "GROQ_API_KEY"]),
 		timezone: z.literal("Europe/Amsterdam"),
 	}),
 	/** Resource policy */
@@ -297,11 +297,7 @@ export function createDefaultSchedulerConfig(
 		},
 		environment: {
 			configFile: ".env.local",
-			requiredVars: [
-				"OPENROUTER_API_KEY",
-				"GROQ_API_KEY",
-				"NOUS_API_KEY",
-			],
+			requiredVars: ["OPENROUTER_API_KEY", "GROQ_API_KEY"],
 			timezone: "Europe/Amsterdam",
 		},
 		resourcePolicy: {

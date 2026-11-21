@@ -51,7 +51,6 @@ async function main() {
 		console.log(
 			"   - Fallback 1: OpenRouter (nvidia/nemotron-3.5-lightning:free)",
 		);
-		console.log("   - Fallback 2-11: Nous Portal (10 free models)");
 		console.log("   - Budget: $0 cost, 1000 requests, 500k tokens");
 		console.log("   - Retries: 3 attempts with exponential backoff");
 		console.log("   - Cache: enabled (persistent)");
@@ -93,9 +92,6 @@ async function main() {
 	console.log("\n🔐 Environment:");
 	console.log(
 		`   OPENROUTER_API_KEY: ${process.env.OPENROUTER_API_KEY ? "✅ set" : "❌ not set"}`,
-	);
-	console.log(
-		`   NOUS_API_KEY: ${process.env.NOUS_API_KEY ? "✅ set" : "❌ not set (fallback unavailable)"}`,
 	);
 }
 

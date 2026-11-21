@@ -220,7 +220,6 @@ EXAMPLES:
 
 ENVIRONMENT:
   OPENROUTER_API_KEY        OpenRouter API key for free Nemotron models
-  NOUS_API_KEY              Nous Portal API key for fallback models
   TZ                        Timezone (default: Europe/Amsterdam)
 
 NOTE:

@@ -235,7 +235,7 @@ Validate with: `pnpm exec playwright test`
 ## Security Rules
 
 - **No secrets in repo** — ever
-- **Local**: `.env.local` (gitignored) for OpenRouter/ Nous keys only
+- **Local**: `.env.local` (gitignored) for the OpenRouter key only
 - **CI/CD**: Repository secrets only
 - **Dependencies**: `pnpm audit --prod` before releases; fail on high/critical
 - **No paid services** without explicit approval

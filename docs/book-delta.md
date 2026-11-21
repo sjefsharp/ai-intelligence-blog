@@ -204,8 +204,7 @@ newer edition.
 Deterministic evaluation always runs. Model-assisted discovery is enabled only
 when free-tier credentials are configured, using the existing wrapper:
 
-- Primary: NVIDIA Nemotron via OpenRouter (free tier);
-- Fallback: Nous Portal Free Tier.
+- Primary: NVIDIA Nemotron via OpenRouter (free tier).
 
 No paid inference, external database or additional infrastructure is introduced.
 When inference cannot complete, deterministic findings are preserved and the

@@ -263,7 +263,6 @@ materiality assessment, interdisciplinary interpretation, editorial trade-offs
 and adversarial review, through the existing `FreeLLMClient`:
 
 - Primary: NVIDIA Nemotron via OpenRouter (free tier).
-- Fallback: Nous Portal Free Tier.
 
 If free inference capacity is unavailable, deterministic findings are preserved
 and the manifest records that the model-assisted review was skipped. No paid

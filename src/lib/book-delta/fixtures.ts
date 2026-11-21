@@ -1665,7 +1665,7 @@ export const FIXTURE_INTERRUPTED_INFERENCE: BookDeltaEvaluationResult = {
 	readbackSucceeded: true,
 	inferenceUsed: true,
 	inferenceNote:
-		"Evaluation interrupted: all free providers exhausted (OpenRouter 20 req/min, Nous Portal 30 req/min). 2/10 proposals generated with model assistance; remaining 8 candidates evaluated deterministically only.",
+		"Evaluation interrupted: all free providers exhausted (OpenRouter 20 req/min). 2/10 proposals generated with model assistance; remaining 8 candidates evaluated deterministically only.",
 };
 
 // ============================================================================

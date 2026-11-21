@@ -1453,8 +1453,7 @@ async function main() {
 
 	// In demo mode without credentials, automatically use validate-only mode
 	const effectiveValidateOnly =
-		validateOnly ||
-		(demo && !process.env.OPENROUTER_API_KEY && !process.env.NOUS_API_KEY);
+		validateOnly || (demo && !process.env.OPENROUTER_API_KEY);
 
 	console.log(
 		`Generating listening narrative for edition: ${edition}${demo ? " (DEMO MODE)" : ""}${effectiveValidateOnly ? " (VALIDATE ONLY)" : ""}`,

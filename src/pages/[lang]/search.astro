@@ -27,7 +27,7 @@ const searchIndexJson = createSearchIndexFile(posts);
 <html lang={locale}>
 	<head>
 		<BaseHead
-			title={`${SITE_TITLE} — {t.search.title}`}
+			title={`${SITE_TITLE} — ${t.search.title}`}
 			description={t.search.description}
 		/>
 		<script define:vars={{ searchIndexJson, locale }}>

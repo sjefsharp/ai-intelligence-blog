@@ -8,8 +8,8 @@ const testRoutes = [
 	{ path: "/nl/", name: "Dutch Homepage" },
 	{ path: "/en/blog/", name: "English Blog Index" },
 	{ path: "/nl/blog/", name: "Dutch Blog Index" },
-	{ path: "/en/blog/first-post/", name: "English Blog Post" },
-	{ path: "/nl/blog/first-post/", name: "Dutch Blog Post" },
+	{ path: "/en/blog/markdown-style-guide/", name: "English Blog Post" },
+	{ path: "/nl/blog/markdown-style-guide/", name: "Dutch Blog Post" },
 	{ path: "/en/about/", name: "English About Page" },
 	{ path: "/nl/about/", name: "Dutch About Page" },
 	{ path: "/en/search/", name: "English Search Page" },
@@ -84,7 +84,7 @@ test.describe("Keyboard Navigation Tests", () => {
 	});
 
 	test("Blog Post - Skip links work correctly", async ({ page }) => {
-		await page.goto(`${BASE_URL}/en/blog/first-post/`);
+		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
 		await page.waitForLoadState("networkidle");
 
 		// First tab should hit skip to main content
@@ -217,7 +217,7 @@ test.describe("Focus Visibility Tests", () => {
 	});
 
 	test("Focus not obscured by sticky header", async ({ page }) => {
-		await page.goto(`${BASE_URL}/en/blog/first-post/`);
+		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
 		await page.waitForLoadState("networkidle");
 
 		// Find headings in article
@@ -267,14 +267,14 @@ test.describe("Language and i18n Tests", () => {
 	test("Language switcher preserves current page context", async ({
 		page,
 	}) => {
-		await page.goto(`${BASE_URL}/en/blog/first-post/`);
+		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
 		await page.waitForLoadState("networkidle");
 
 		await page.locator('.lang-btn[data-locale="nl"]').click();
 		await page.waitForLoadState("networkidle");
 
 		// Should navigate to Dutch version of same article
-		expect(page.url()).toContain("/nl/blog/first-post/");
+		expect(page.url()).toContain("/nl/blog/markdown-style-guide/");
 	});
 
 	test("hreflang alternate links present", async ({ page }) => {
@@ -378,7 +378,7 @@ test.describe("Responsive and Zoom Tests", () => {
 	});
 
 	test("Text resizes to 200% without loss of content", async ({ page }) => {
-		await page.goto(`${BASE_URL}/en/blog/first-post/`);
+		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
 		await page.waitForLoadState("networkidle");
 
 		// Set font size to 200%
@@ -437,7 +437,7 @@ test.describe("Reduced Motion Tests", () => {
 
 test.describe("ReadAloud Component Tests", () => {
 	test("ReadAloud controls present on blog post", async ({ page }) => {
-		await page.goto(`${BASE_URL}/en/blog/first-post/`);
+		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
 		await page.waitForLoadState("networkidle");
 
 		const readAloud = page.locator(".read-aloud");
@@ -456,7 +456,7 @@ test.describe("ReadAloud Component Tests", () => {
 	});
 
 	test("ReadAloud button states update correctly", async ({ page }) => {
-		await page.goto(`${BASE_URL}/en/blog/first-post/`);
+		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
 		await page.waitForLoadState("networkidle");
 
 		// Wait for voices to load
@@ -479,7 +479,7 @@ test.describe("ReadAloud Component Tests", () => {
 
 test.describe("Landmark and Semantic Structure Tests", () => {
 	test("Page has correct landmark structure", async ({ page }) => {
-		await page.goto(`${BASE_URL}/en/blog/first-post/`);
+		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
 		await page.waitForLoadState("networkidle");
 
 		const landmarks = await page.$$eval(
@@ -501,7 +501,7 @@ test.describe("Landmark and Semantic Structure Tests", () => {
 	});
 
 	test("Heading hierarchy is correct", async ({ page }) => {
-		await page.goto(`${BASE_URL}/en/blog/first-post/`);
+		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
 		await page.waitForLoadState("networkidle");
 
 		const headings = await page.$$eval(
@@ -525,7 +525,7 @@ test.describe("Landmark and Semantic Structure Tests", () => {
 	});
 
 	test("Images have alt text", async ({ page }) => {
-		await page.goto(`${BASE_URL}/en/blog/first-post/`);
+		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
 		await page.waitForLoadState("networkidle");
 
 		const images = await page.$$eval("img", (imgs) =>

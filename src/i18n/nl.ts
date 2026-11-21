@@ -102,10 +102,14 @@ export const nl = {
 		heroSubtitle:
 			"Architecturale redenering voor AI-intensieve systemen. Evidence-first. ADHD-vriendelijk door structuur.",
 		aboutTitle: "Over deze publicatie",
+		dailyTitle: "Dagelijkse edities",
+		dailyText:
+			"Wat er veranderde, het bewijs ervoor en de consequentie voor technische teams.",
+		dailyCta: "Open het editiesarchief",
 		aboutText:
 			"Geschreven door een systeemarchitect voor systeemarchitecten. Elke claim traceert naar een primaire bron of reproduceerbare benchmark. Elk patroon bevat zijn falingsmodus en migratiepad. Geen vendor placements. Geen affiliate links. Geen hype.",
 		techStack:
-			"Bilinguaal NL/EN · WCAG 2.2 AA · Nul JS content · Statisch · Gratis hosting",
+			"Bilinguaal NL/EN · WCAG 2.2 AA · Statisch-first, minimaal client-JS · Gratis hosting",
 	},
 
 	// About page

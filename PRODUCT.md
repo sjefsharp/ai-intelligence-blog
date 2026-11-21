@@ -97,12 +97,11 @@ A publication that treats AI as a _systems engineering discipline_ — not a mag
 
 ## Evidence on Hand
 
-**Existing content (3 posts + style guide):**
+**Existing content (style guide):**
 
-- `src/content/blog/first-post.md` — placeholder
-- `src/content/blog/second-post.md` — placeholder
-- `src/content/blog/third-post.md` — placeholder
-- `src/content/blog/markdown-style-guide.md` — demonstrates MDX capabilities
+- `src/content/blog/markdown-style-guide.md` — author documentation for Markdown conventions (not a verified finding)
+
+The former `first-post.md`, `second-post.md`, `third-post.md` and `using-mdx.mdx` example posts were removed: they carried `github.com/example/...` placeholder sources and unsubstantiated performance claims, so they must not be presented as verified editorial evidence.
 
 **Author assets:**
 

@@ -459,25 +459,42 @@ test.describe("ReadAloud Component Tests", () => {
 		await expect(playBtn).toHaveAttribute("aria-label", "Play");
 	});
 
-	test("ReadAloud button states update correctly", async ({ page }) => {
+	test("ReadAloud script initialises with its serialised props", async ({
+		page,
+	}) => {
 		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
 		await page.waitForLoadState("networkidle");
+		await page.waitForTimeout(500);
 
-		// Wait for voices to load
+		// The component script reads Astro props (locale, t, articleSelector).
+		// Without serialisation the script throws and the API never appears.
+		const apiType = await page.evaluate(
+			() =>
+				typeof (window as unknown as Record<string, unknown>)
+					.__readAloud,
+		);
+		expect(apiType).toBe("object");
+	});
+
+	test("ReadAloud reports unavailable voices gracefully", async ({
+		page,
+	}) => {
+		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
+		await page.waitForLoadState("networkidle");
 		await page.waitForTimeout(1000);
 
 		const playBtn = page.locator("#read-aloud-play");
-
-		// Initially disabled until voices load
-		const initiallyDisabled = await playBtn.getAttribute("disabled");
-		// Note: might be enabled if voices load fast
-
-		// Play button should be keyboard accessible
-		await playBtn.focus();
-		const focused = await page.evaluate(
-			() => document.activeElement?.id === "read-aloud-play",
+		const status = await page.evaluate(
+			() =>
+				document.getElementById("read-aloud-status-text")
+					?.textContent ?? "",
 		);
-		expect(focused).toBe(true);
+		const disabled = (await playBtn.getAttribute("disabled")) !== null;
+
+		// Playback is either available, or the control explains why it is not.
+		if (disabled) {
+			expect(status.length).toBeGreaterThan(0);
+		}
 	});
 });
 

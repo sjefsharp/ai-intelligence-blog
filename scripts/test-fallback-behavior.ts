@@ -101,7 +101,7 @@ async function main() {
 	console.log("\n✅ All fallback behavior tests passed!");
 	console.log("\n📝 Summary:");
 	console.log(
-		"   • 11 free providers configured (2 OpenRouter + 9 Nous Portal)",
+		"   • Free providers configured via OpenRouter (free tier only)",
 	);
 	console.log("   • All models verified free in provider catalogs");
 	console.log("   • Automatic sequential fallback with bounded retries");

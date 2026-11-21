@@ -282,7 +282,7 @@ interface DeterministicCheckResult {
 // Default LLM Configuration
 // ============================================================================
 
-function getDefaultLLMConfig(): LLMClientConfig {
+export function getDefaultLLMConfig(): LLMClientConfig {
 	// Use the same default providers as the main client
 	const providers = [
 		{
@@ -307,38 +307,6 @@ function getDefaultLLMConfig(): LLMClientConfig {
 				"X-Title": "ai-intelligence-blog",
 			},
 			rateLimit: { requestsPerMinute: 20, tokensPerMinute: 50000 },
-			timeoutMs: 60000,
-		},
-		{
-			name: "nous-primary",
-			baseUrl: "https://api.nous.research/v1",
-			model: "nemotron-3.5-super-vl-free",
-			apiKeyEnv: "NOUS_API_KEY",
-			rateLimit: { requestsPerMinute: 30, tokensPerMinute: 100000 },
-			timeoutMs: 60000,
-		},
-		{
-			name: "nous-fallback-1",
-			baseUrl: "https://api.nous.research/v1",
-			model: "nemotron-3.5-lightning-free",
-			apiKeyEnv: "NOUS_API_KEY",
-			rateLimit: { requestsPerMinute: 30, tokensPerMinute: 100000 },
-			timeoutMs: 60000,
-		},
-		{
-			name: "nous-fallback-2",
-			baseUrl: "https://api.nous.research/v1",
-			model: "beam-free",
-			apiKeyEnv: "NOUS_API_KEY",
-			rateLimit: { requestsPerMinute: 30, tokensPerMinute: 100000 },
-			timeoutMs: 60000,
-		},
-		{
-			name: "nous-fallback-3",
-			baseUrl: "https://api.nous.research/v1",
-			model: "flint-40b-free",
-			apiKeyEnv: "NOUS_API_KEY",
-			rateLimit: { requestsPerMinute: 30, tokensPerMinute: 100000 },
 			timeoutMs: 60000,
 		},
 	];

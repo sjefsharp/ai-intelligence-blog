@@ -14,7 +14,7 @@ A professionally governed, multilingual (English/Dutch) Astro static site for pu
 - **Content collections**: Type-safe frontmatter with Zod validation
 - **RSS & Sitemap**: Automatic generation for SEO and syndication
 - **Local fonts**: Atkinson (reading) + JetBrains Mono (structural) — no external requests
-- **Free-tier only**: OpenRouter (Nemotron 3 Ultra) + Nous Portal for AI inference
+- **Free-tier only**: OpenRouter (Nemotron 3 Ultra) for AI inference
 
 ## Technology Stack
 
@@ -124,9 +124,6 @@ OPENROUTER_API_KEY=sk-or-v1-...
 OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
 OPENROUTER_MODEL=nvidia/nemotron-3-ultra-550b-a55b:free
 
-# Nous Portal (free tier fallback)
-NOUS_API_KEY=...
-NOUS_BASE_URL=https://inference.nousresearch.com/v1
 ```
 
 See `.env.example` for all available configuration options.
@@ -184,7 +181,6 @@ Deploy the `dist/` output to any static host:
 Configure in your hosting provider's dashboard:
 
 - `OPENROUTER_API_KEY` (if using AI features at build time)
-- `NOUS_API_KEY` (fallback)
 - `SITE_URL` (canonical URL, e.g., `https://your-domain.com`)
 
 ## Security

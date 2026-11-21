@@ -3,8 +3,8 @@
  *
  * The dossier is deterministic by default. This module provides an OPTIONAL
  * semantic enrichment path for the exact-statement field, using the configured
- * free inference providers (NVIDIA Nemotron via OpenRouter primary, Nous Portal
- * Free Tier fallback) through the existing `FreeLLMClient`.
+ * free inference provider (NVIDIA Nemotron via OpenRouter) through the
+ * existing `FreeLLMClient`.
  *
  * Hard rules:
  * - Enrichment is never required to complete a dossier.
@@ -42,7 +42,7 @@ export interface EnrichmentProvider {
 
 /** Whether any free inference credential is configured. */
 export function hasInferenceCredentials(): boolean {
-	return Boolean(process.env.OPENROUTER_API_KEY || process.env.NOUS_API_KEY);
+	return Boolean(process.env.OPENROUTER_API_KEY);
 }
 
 function buildPrompt(input: EnrichmentInput): string {

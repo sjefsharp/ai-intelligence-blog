@@ -511,7 +511,7 @@ const B01_RING1_DISCOVERY: StageDefinitionInput = {
 		],
 		optionalArtifacts: [artifactRef("DISCOVERY_LEDGER")],
 		configurationRefs: ["ring1-source-filter", "max-items-per-source"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -543,7 +543,7 @@ const B01_RING1_DISCOVERY: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 20,
 		estimatedTokens: 50000,
 		deterministic: true,
@@ -582,7 +582,7 @@ const B02_RING2_DISCOVERY: StageDefinitionInput = {
 		],
 		optionalArtifacts: [artifactRef("DISCOVERY_LEDGER")],
 		configurationRefs: ["ring2-source-filter"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -613,7 +613,7 @@ const B02_RING2_DISCOVERY: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 30,
 		estimatedTokens: 100000,
 		deterministic: true,
@@ -652,7 +652,7 @@ const B03_RING3_DISCOVERY: StageDefinitionInput = {
 		],
 		optionalArtifacts: [artifactRef("DISCOVERY_LEDGER")],
 		configurationRefs: ["ring3-source-filter"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -683,7 +683,7 @@ const B03_RING3_DISCOVERY: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 25,
 		estimatedTokens: 80000,
 		deterministic: true,
@@ -914,7 +914,7 @@ const C01_TEMPORAL_ELIGIBILITY: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 40,
 		estimatedTokens: 100000,
 		deterministic: true,
@@ -952,7 +952,7 @@ const C02_CLAIM_VERIFICATION: StageDefinitionInput = {
 		],
 		optionalArtifacts: [],
 		configurationRefs: ["verification-levels", "claim-types"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -976,7 +976,7 @@ const C02_CLAIM_VERIFICATION: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 100,
 		estimatedTokens: 300000,
 		deterministic: true,
@@ -1030,7 +1030,7 @@ const C03_BUILD_FACT_DOSSIER: StageDefinitionInput = {
 		],
 		optionalArtifacts: [],
 		configurationRefs: ["previous-editions-path"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -1054,7 +1054,7 @@ const C03_BUILD_FACT_DOSSIER: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: false, // Optional enrichment
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 10,
 		estimatedTokens: 50000,
 		deterministic: true,
@@ -1107,7 +1107,7 @@ const C04_OMISSION_REVIEW: StageDefinitionInput = {
 			},
 		],
 		configurationRefs: ["omission-strategies"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -1138,7 +1138,7 @@ const C04_OMISSION_REVIEW: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 50,
 		estimatedTokens: 150000,
 		deterministic: true,
@@ -1189,7 +1189,7 @@ const C05_HISTORICAL_REGRESSION: StageDefinitionInput = {
 			"historical-window-days",
 			"max-semantic-comparisons",
 		],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -1213,7 +1213,7 @@ const C05_HISTORICAL_REGRESSION: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: false, // Optional semantic comparison
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 30,
 		estimatedTokens: 100000,
 		deterministic: true,
@@ -1268,7 +1268,7 @@ const D01_EDITORIAL_SELECTION: StageDefinitionInput = {
 		],
 		optionalArtifacts: [],
 		configurationRefs: ["selection-thresholds", "concentration-rules"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -1292,7 +1292,7 @@ const D01_EDITORIAL_SELECTION: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: false, // Optional semantic consistency check
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 10,
 		estimatedTokens: 30000,
 		deterministic: true,
@@ -1400,7 +1400,7 @@ const D03_RESOLVE_EDITORIAL_DEPENDENCIES: StageDefinitionInput = {
 			},
 		],
 		configurationRefs: ["dependency-resolution-rules"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -1425,7 +1425,7 @@ const D03_RESOLVE_EDITORIAL_DEPENDENCIES: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: false,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 5,
 		estimatedTokens: 20000,
 		deterministic: true,
@@ -1625,7 +1625,7 @@ const E02b_GENERATE_RESEARCH_AUDIT: StageDefinitionInput = {
 			"research-audit-template",
 			"evidence-citation-rules",
 		],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -1655,7 +1655,7 @@ const E02b_GENERATE_RESEARCH_AUDIT: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: false,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 5,
 		estimatedTokens: 20000,
 		deterministic: true,
@@ -1710,7 +1710,7 @@ const E03_GENERATE_EN_ARTICLES: StageDefinitionInput = {
 		],
 		optionalArtifacts: [],
 		configurationRefs: ["english-template", "cross-language-rules"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -1739,7 +1739,7 @@ const E03_GENERATE_EN_ARTICLES: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 10,
 		estimatedTokens: 50000,
 		deterministic: true,
@@ -1786,7 +1786,7 @@ const E04_GENERATE_EN_LISTENING: StageDefinitionInput = {
 		],
 		optionalArtifacts: [],
 		configurationRefs: ["english-listening-template"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -1815,7 +1815,7 @@ const E04_GENERATE_EN_LISTENING: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 10,
 		estimatedTokens: 50000,
 		deterministic: true,
@@ -1861,7 +1861,7 @@ const E05_GENERATE_VISUALS: StageDefinitionInput = {
 			"visualization-rules",
 			"accessibility-requirements",
 		],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -1892,7 +1892,7 @@ const E05_GENERATE_VISUALS: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: false,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 10,
 		estimatedTokens: 50000,
 		deterministic: true,
@@ -2031,7 +2031,7 @@ const F01_Q1Q10_EVALUATION: StageDefinitionInput = {
 			},
 		],
 		configurationRefs: ["q1q10-criteria", "repair-budget"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -2055,7 +2055,7 @@ const F01_Q1Q10_EVALUATION: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 20,
 		estimatedTokens: 80000,
 		deterministic: true,
@@ -2110,7 +2110,7 @@ const F02_AUDIO_AG_EVALUATION: StageDefinitionInput = {
 			},
 		],
 		configurationRefs: ["audio-ag-criteria", "tradeoff-detection"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -2134,7 +2134,7 @@ const F02_AUDIO_AG_EVALUATION: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 15,
 		estimatedTokens: 60000,
 		deterministic: true,
@@ -2188,7 +2188,7 @@ const F03_READABLE_QUALITY_EVALUATION: StageDefinitionInput = {
 		],
 		optionalArtifacts: [],
 		configurationRefs: ["readable-quality-rules", "adhd-metrics"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -2211,7 +2211,7 @@ const F03_READABLE_QUALITY_EVALUATION: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 15,
 		estimatedTokens: 50000,
 		deterministic: true,
@@ -2343,7 +2343,7 @@ const F05_BOUNDED_REPAIRS: StageDefinitionInput = {
 		],
 		optionalArtifacts: [],
 		configurationRefs: ["max-repair-iterations", "repair-budget"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -2385,7 +2385,7 @@ const F05_BOUNDED_REPAIRS: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 20,
 		estimatedTokens: 80000,
 		deterministic: true,
@@ -2442,7 +2442,7 @@ const G01_THESAURUS_EVALUATION: StageDefinitionInput = {
 		],
 		optionalArtifacts: [],
 		configurationRefs: ["terminology-criteria", "auto-promotion-rules"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -2472,7 +2472,7 @@ const G01_THESAURUS_EVALUATION: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 10,
 		estimatedTokens: 50000,
 		deterministic: true,
@@ -2524,7 +2524,7 @@ const G02_ARCHITECTURE_PRINCIPLES_EVALUATION: StageDefinitionInput = {
 		],
 		optionalArtifacts: [],
 		configurationRefs: ["principle-criteria", "evidence-requirements"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -2554,7 +2554,7 @@ const G02_ARCHITECTURE_PRINCIPLES_EVALUATION: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 15,
 		estimatedTokens: 80000,
 		deterministic: true,
@@ -2625,7 +2625,7 @@ const G03_BOOK_DELTA_EVALUATION: StageDefinitionInput = {
 		],
 		optionalArtifacts: [],
 		configurationRefs: ["book-delta-criteria", "target-documents"],
-		environmentVars: ["OPENROUTER_API_KEY", "NOUS_API_KEY"],
+		environmentVars: ["OPENROUTER_API_KEY"],
 	},
 	outputContract: {
 		producedArtifacts: [
@@ -2655,7 +2655,7 @@ const G03_BOOK_DELTA_EVALUATION: StageDefinitionInput = {
 	checkpointPolicy: DEFAULT_CHECKPOINT,
 	inferenceRequirements: {
 		required: true,
-		providers: ["openrouter-primary", "nous-primary"],
+		providers: ["openrouter-primary"],
 		estimatedRequests: 20,
 		estimatedTokens: 100000,
 		deterministic: true,

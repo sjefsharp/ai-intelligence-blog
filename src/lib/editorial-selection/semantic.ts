@@ -8,7 +8,7 @@
  *
  * Hard rules:
  * - Free inference only, through the existing `FreeLLMClient`
- *   (NVIDIA Nemotron via OpenRouter primary, Nous Portal Free Tier fallback).
+ *   (NVIDIA Nemotron via OpenRouter primary).
  * - Deterministic findings are always preserved; model output is appended as an
  *   internal consistency check, not independent external validation.
  * - If inference capacity is unavailable, deterministic findings are preserved

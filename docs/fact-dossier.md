@@ -363,9 +363,8 @@ A downstream consumer must:
 ## 9. Cost & Execution Constraints
 
 - Deterministic TypeScript + Node.js tooling with **pnpm**.
-- Free NVIDIA Nemotron via OpenRouter is the primary inference route; Nous Portal
-  Free Tier is the configured fallback, both through the existing
-  `FreeLLMClient` (hard-coded $0 cost budget).
+- Free NVIDIA Nemotron via OpenRouter is the inference route, through the
+  existing `FreeLLMClient` (hard-coded $0 cost budget).
 - Model reasoning is used **only** for genuine semantic analysis (optional
   exact-statement enrichment). It is never required to complete a dossier.
 - If model capacity is unavailable, completed verified records are preserved and

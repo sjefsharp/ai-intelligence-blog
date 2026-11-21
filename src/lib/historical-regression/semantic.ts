@@ -8,7 +8,7 @@
  *
  * Hard rules:
  * - Free inference only, through the existing `FreeLLMClient`
- *   (NVIDIA Nemotron via OpenRouter primary, Nous Portal Free Tier fallback).
+ *   (NVIDIA Nemotron via OpenRouter primary).
  * - If inference capacity is unavailable, the caller preserves deterministic
  *   findings and marks the unresolved comparison HISTORY_UNVERIFIED.
  * - A semantic verdict never overrides the existing novelty classifier; it only

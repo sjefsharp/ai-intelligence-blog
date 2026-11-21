@@ -18,17 +18,12 @@
  * 14. Backward compatibility with existing pipeline contracts
  */
 
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { Temporal } from "@js-temporal/polyfill";
+import { describe, it, expect, beforeEach } from "vitest";
 
 import {
 	createOmissionReviewEngine,
 	type OmissionReviewInput,
 	type OmissionClassification,
-	type DiscoveryStrategy,
-	type ResearchDomain,
-	type OmittedCandidate,
-	type CoverageGapReport,
 	OMISSION_REVIEW_VERSION,
 } from "./index.js";
 
@@ -40,10 +35,7 @@ import {
 } from "../fact-dossier/fixtures.js";
 
 import { buildDossier } from "../fact-dossier/consolidator.js";
-import type {
-	CanonicalFactDossier,
-	CanonicalCandidate,
-} from "../fact-dossier/schema.js";
+import type { CanonicalFactDossier } from "../fact-dossier/schema.js";
 import type { SourceMonitoringRecord } from "../discovery-ledger/types.js";
 
 // Test fixtures and helpers

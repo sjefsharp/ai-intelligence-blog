@@ -9,7 +9,7 @@
  * - Pipeline integration
  */
 
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
 	classifyEvidence,
 	mapEvidenceClassToRings,
@@ -24,9 +24,7 @@ import {
 	type ContributorEntry,
 	type DiscoveredItem,
 	type ClaimClassification,
-	type EvidenceClass,
 	type DiscoveryRing,
-	type ContributorStatus,
 } from "./signal-desk";
 
 // ============================================================================
@@ -417,14 +415,6 @@ describe("Signal Desk — Contributor Lifecycle", () => {
 	const mandatoryContributor = createMockContributor({
 		status: "active",
 		mandatory: true,
-	});
-	const watchlistedContributor = createMockContributor({
-		status: "watchlisted",
-		watchlistDate: oneMonth(5),
-	});
-	const watchlistedContributorOld = createMockContributor({
-		status: "watchlisted",
-		watchlistDate: oneMonth(7),
 	});
 
 	describe("Mandatory contributors", () => {

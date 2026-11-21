@@ -27,12 +27,8 @@ import {
 import {
 	evaluateListeningQuality,
 	persistEvaluationReport,
-	type ListeningQualityEvaluationInput,
 } from "../src/lib/listening-quality-evaluation/evaluator.js";
-import {
-	getListeningNarrativePath,
-	getCanonicalDir,
-} from "../src/lib/publication/paths.js";
+import { getListeningNarrativePath } from "../src/lib/publication/paths.js";
 import {
 	EditionIdentitySchema,
 	CanonicalReferencesSchema,
@@ -52,7 +48,7 @@ interface CliOptions {
 }
 
 function parseCliArgs(): CliOptions {
-	const { values, positionals } = parseArgs({
+	const { values } = parseArgs({
 		args: process.argv.slice(2),
 		options: {
 			edition: { type: "string", short: "e" },
@@ -1469,7 +1465,7 @@ async function loadDemoData(editionDate: string): Promise<{
 
 async function main() {
 	const options = parseCliArgs();
-	const { edition, demo, validateOnly, persist, repair } = options;
+	const { edition, demo, validateOnly, persist } = options;
 
 	console.log(
 		`Running listening quality evaluation for edition: ${edition}${demo ? " (DEMO MODE)" : ""}${validateOnly ? " (VALIDATE ONLY)" : ""}`,

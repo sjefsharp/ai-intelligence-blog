@@ -6,16 +6,12 @@
  * and operational integrity per the acceptance criteria.
  */
 
-import { z } from "astro/zod";
 import { createHash } from "node:crypto";
 import type {
 	VisualizationSpecification,
 	VisualizationAsset,
 	VisualizationType,
-	VisualizationRenderStatus,
 	VisualizationEvidenceLink,
-	MeasurementMetadata,
-	VisualizationUncertainty,
 	QualityDimension,
 } from "./schema.js";
 
@@ -878,7 +874,7 @@ function evaluateOperationalIntegrity(
 	const traceableTo: string[] = [];
 	let score = 1.0;
 
-	const { status, rendering } = spec;
+	const { status } = spec;
 
 	// Render status
 	switch (status.renderStatus) {

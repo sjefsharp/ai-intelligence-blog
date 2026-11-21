@@ -5,10 +5,9 @@
  * accessibility validation, quality evaluation, and the 20 representative fixtures.
  */
 
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
 	VisualizationSpecificationSchema,
-	VisualizationAssetSchema,
 	VisualizationTypeSchema,
 	VisualizationRenderStatusSchema,
 	VisualizationOutputFormatSchema,
@@ -19,15 +18,7 @@ import {
 	type VisualizationAsset,
 	type VisualizationUncertainty,
 } from "./schema.js";
-import {
-	renderVisualization,
-	renderProcessDiagram,
-	renderArchitectureDiagram,
-	renderTimeline,
-	renderComparisonTable,
-	renderQuantitativeChart,
-	renderConceptMap,
-} from "./render.js";
+import { renderVisualization } from "./render.js";
 import {
 	validateVisualizationSpecification,
 	validateVisualizationAsset,
@@ -39,13 +30,10 @@ import {
 import {
 	allFixtures,
 	validFixtures,
-	invalidFixtures,
 	fixture1_processDiagram,
 	fixture2_architectureDiagram,
 	fixture3_comparisonTable,
 	fixture4_quantitativeChart,
-	fixture5_gartnerFinding,
-	fixture6_economicForecast,
 	fixture7_timeline,
 	fixture8_conceptMap,
 	fixture9_causalityRisk,
@@ -53,12 +41,7 @@ import {
 	fixture11_colorOnly,
 	fixture12_inadequateA11y,
 	fixture13_mobileLabels,
-	fixture14_badTerminology,
-	fixture15_interactiveChart,
 	fixture16_failedRendering,
-	fixture17_missingAsset,
-	fixture18_noVisualNeeded,
-	fixture19_misleading,
 	fixture20_inferenceExhausted,
 } from "./fixtures.js";
 

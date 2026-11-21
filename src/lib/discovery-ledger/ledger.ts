@@ -22,7 +22,6 @@ import type {
 	CriticalityLevel,
 	MonitoringCadence,
 	DiscoveryRing,
-	RetrievalStatus,
 	EvidenceReference,
 	MonitoringError,
 	AccessLimitation,
@@ -35,7 +34,6 @@ import type {
 	CadenceCoverage,
 	OverallCoverage,
 	MissingSource,
-	HistoricalMonitoringRecord,
 	SourceDiscoveryLink,
 	NoveltyClassificationLink,
 	EvidenceVerificationLink,
@@ -46,8 +44,6 @@ import type {
 import type {
 	SourceConfig,
 	RetrievalResult,
-	CollectedItem,
-	SourceType,
 	RetrievalError,
 } from "../collection/types.js";
 

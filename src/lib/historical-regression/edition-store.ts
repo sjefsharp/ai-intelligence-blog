@@ -187,11 +187,9 @@ export function loadHistoricalEdition(
 	const dossierFileExists = existsSync(dossierPath);
 	let dossier: CanonicalFactDossier | null = null;
 	let dossierValid = false;
-	let dossierParseable = false;
 	if (dossierFileExists) {
 		const read = safeReadJson(dossierPath);
 		if (read.ok) {
-			dossierParseable = true;
 			const candidate = read.value as CanonicalFactDossier;
 			const validation = validateFactDossier(candidate);
 			dossierValid = validation.valid;

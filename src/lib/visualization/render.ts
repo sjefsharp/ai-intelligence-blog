@@ -10,14 +10,12 @@ import type {
 	VisualizationSpecification,
 	VisualizationLanguageVariant,
 	VisualizationRendering,
-	VisualizationLanguage,
 	ProcessDiagramData,
 	ArchitectureDiagramData,
 	TimelineData,
 	ComparisonTableData,
 	QuantitativeChartData,
 	ConceptMapData,
-	VisualizationData,
 } from "./schema.js";
 
 // ============================================================================
@@ -34,7 +32,7 @@ export function renderProcessDiagram(
 	rendering: VisualizationRendering,
 	spec: VisualizationSpecification,
 ): string {
-	const { steps, orientation, showDecisions } = data;
+	const { steps, orientation } = data;
 	const sortedSteps = steps.toSorted((a, b) => a.order - b.order);
 
 	// Build SVG
@@ -236,7 +234,7 @@ export function renderArchitectureDiagram(
 	rendering: VisualizationRendering,
 	spec: VisualizationSpecification,
 ): string {
-	const { components, connections = [], trustBoundaries = [], layout } = data;
+	const { components, connections = [], trustBoundaries = [] } = data;
 
 	// Simple force-directed layout positions (simplified)
 	const componentPositions = new Map<string, { x: number; y: number }>();
@@ -579,7 +577,7 @@ export function renderTimeline(
 	rendering: VisualizationRendering,
 	spec: VisualizationSpecification,
 ): string {
-	const { events, orientation, showGaps, granularity } = data;
+	const { events, orientation, showGaps } = data;
 	const sortedEvents = events.toSorted(
 		(a, b) =>
 			new Date(a.displayDate).getTime() -
@@ -815,7 +813,7 @@ export function renderComparisonTable(
 	rendering: VisualizationRendering,
 	spec: VisualizationSpecification,
 ): string {
-	const { columns, rows, caption, defaultSort } = data;
+	const { columns, rows, defaultSort } = data;
 
 	// Sort rows if defaultSort specified
 	let sortedRows = [...rows];
@@ -1219,7 +1217,7 @@ export function renderConceptMap(
 	rendering: VisualizationRendering,
 	spec: VisualizationSpecification,
 ): string {
-	const { nodes, edges = [], layout, clusterByCategory } = data;
+	const { nodes, edges = [], clusterByCategory } = data;
 
 	// Simple force-directed layout positions
 	const width = 800;

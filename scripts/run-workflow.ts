@@ -21,23 +21,17 @@
  */
 
 import { parseArgs } from "node:util";
-import { fileURLToPath } from "node:url";
-import { join } from "node:path";
 
 import {
 	createWorkflowOrchestrator,
 	WorkflowOrchestrator,
 } from "../src/lib/workflow-orchestrator/engine.js";
-import { WORKFLOW_ID_PATTERNS } from "../src/lib/workflow-orchestrator/schema.js";
 
 import type {
 	CliOptions,
 	WorkflowExecutionMode,
 } from "../src/lib/workflow-orchestrator/schema.js";
 import { validateWorkflowGraph } from "../src/lib/workflow-orchestrator/graph.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = join(__filename, "..");
 
 function parseCliArgs(): CliOptions {
 	const { values } = parseArgs({

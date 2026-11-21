@@ -6,21 +6,16 @@
  * This is the SINGLE SOURCE OF TRUTH for the workflow dependency structure.
  */
 
-import { WORKFLOW_ID_PATTERNS, StageDefinitionSchema } from "./schema.js";
+import { StageDefinitionSchema } from "./schema.js";
 
 import type {
 	StageDefinition,
 	StageDefinitionInput,
-	StageDependency,
 	ArtifactRef,
-	StageInputContract,
-	StageOutputContract,
-	InferenceRequirements,
 	StageExecutionBudget,
 	RetryPolicy,
 	CheckpointPolicy,
 	WorkflowPhase,
-	StageSideEffect,
 } from "./schema.js";
 
 /** Generate a stable stage ID */
@@ -210,32 +205,6 @@ const PUBLICATION_BUDGET: StageExecutionBudget = {
 	cpuBudgetMs: 120000,
 	memoryBudgetMb: 1024,
 };
-
-/** Helper to create complete InferenceRequirements */
-function createInferenceReq(
-	overrides: Partial<InferenceRequirements> = {},
-): InferenceRequirements {
-	return {
-		required: false,
-		providers: [],
-		estimatedRequests: 0,
-		estimatedTokens: 0,
-		deterministic: true,
-		structuredOutput: false,
-		temperature: 0,
-		fallbackAllowed: true,
-		...overrides,
-	};
-}
-
-/** Helper to create dependency with artifactRefs */
-function dep(
-	stageId: string,
-	required = true,
-	artifactRefs: ArtifactRef[] = [],
-): StageDependency {
-	return { stageId, required, artifactRefs };
-}
 
 /** ============================================================================
  * PHASE A — EDITION INITIALIZATION

@@ -10,7 +10,7 @@
  * publication contract requirements for the canonical listening narrative artifact.
  */
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import type {
 	ListeningNarrativeGenerationInput,
 	ListeningStoryContext,
@@ -19,13 +19,8 @@ import type {
 	EditorialStory,
 	EditorialCandidateAssessment,
 } from "../editorial-selection/schema.js";
-import type {
-	CanonicalCandidate,
-	ConsolidatedClaim,
-	VerificationLevel,
-} from "../fact-dossier/schema.js";
+import type { CanonicalCandidate } from "../fact-dossier/schema.js";
 import type { HistoricalRelationship } from "../historical-regression/schema.js";
-import { SubstantiveUpdateTypeSchema } from "../historical-regression/schema.js";
 
 // Mock the LLM client
 vi.mock("../free-llm-client.js", () => ({
@@ -792,8 +787,6 @@ describe("Listening Narrative Generator — Output Validation", () => {
 	it("includes historical classification context when available", async () => {
 		const { generateListeningNarrativeMarkdown } =
 			await import("./listening-narrative-generator.js");
-		const { SubstantiveUpdateTypeSchema } =
-			await import("../historical-regression/schema.js");
 
 		const candidate = createMockCandidate();
 		const assessment = createMockAssessment();

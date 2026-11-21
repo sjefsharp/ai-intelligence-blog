@@ -3,7 +3,7 @@
  * ProgressiveDisclosure — accessible collapsible sections for complex content.
  * Reduces cognitive load by hiding detail until requested.
  */
-import { getTranslation, type Locale } from "../i18n";
+import { type Locale } from "../i18n";
 import type { TranslationKeys } from "../i18n";
 
 interface Props {
@@ -15,14 +15,7 @@ interface Props {
 	level?: "section" | "detail" | "footnote";
 }
 
-const {
-	locale,
-	t,
-	summary,
-	detail,
-	open = false,
-	level = "detail",
-} = Astro.props;
+const { t, summary, detail, open = false, level = "detail" } = Astro.props;
 ---
 
 <details

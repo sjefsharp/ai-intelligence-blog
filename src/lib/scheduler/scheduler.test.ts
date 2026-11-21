@@ -49,7 +49,7 @@
  * - A delayed source index not being mistaken for a later original disclosure
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { join } from "path";
 import { tmpdir } from "os";
 import {
@@ -63,16 +63,11 @@ import {
 import {
 	validateSchedulerConfig,
 	createDefaultSchedulerConfig,
-	type SchedulerConfig,
-	type ScheduleExpression,
-	SchedulerStateSchema,
-	AuthorizationStateSchema,
 } from "./schema.js";
 import {
 	getEditorialWindow,
 	isInEditorialWindow,
 	getEditionForTimestamp,
-	EDITORIAL_TIMEZONE,
 } from "../editorial-window.js";
 
 const PROJECT_ROOT = join(__dirname, "..", "..", "..");
@@ -420,8 +415,6 @@ describe("Editorial Window — DST Transitions", () => {
 
 		it("should not extend eligibility window for delayed execution", () => {
 			const editionDate = "2025-01-15";
-			const window = getEditorialWindow(editionDate);
-			const endInstant = window.endZoned.toInstant();
 
 			// A development disclosed at 05:01 on edition date
 			const lateDisclosure = "2025-01-15T05:01:00+01:00";

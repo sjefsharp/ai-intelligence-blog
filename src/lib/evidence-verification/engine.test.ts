@@ -16,7 +16,7 @@
  * - Persistence, readback and backward compatibility
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import {
 	verifyClaim,
 	verifyClaims,
@@ -32,15 +32,7 @@ import {
 	identifyUnresolvedUncertainties,
 } from "./engine.js";
 import { createEvidenceVerificationStore } from "./store.js";
-import type {
-	ClaimVerificationInput,
-	EvidenceClassification,
-	VerificationStatus,
-	ClaimType,
-	EvidenceReference,
-	EvidenceTier,
-	TimestampType,
-} from "./types.js";
+import type { ClaimVerificationInput, EvidenceReference } from "./types.js";
 import type { Counterevidence } from "./types.js";
 import { promises as fs } from "fs";
 import path from "path";

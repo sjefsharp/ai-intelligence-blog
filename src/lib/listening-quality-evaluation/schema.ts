@@ -17,16 +17,8 @@
 
 import { z } from "astro/zod";
 
-import type {
-	CanonicalFactDossier,
-	CanonicalCandidate,
-	ConsolidatedClaim,
-} from "../fact-dossier/schema.js";
-import type {
-	EditorialSelectionManifest,
-	EditorialStory,
-	EditorialCandidateAssessment,
-} from "../editorial-selection/schema.js";
+import type { CanonicalFactDossier } from "../fact-dossier/schema.js";
+import type { EditorialSelectionManifest } from "../editorial-selection/schema.js";
 import type { HistoricalRegressionReport } from "../historical-regression/schema.js";
 import type { ListeningNarrativeGenerationResult } from "../publication/listening-narrative-generator.js";
 import type {

@@ -11,7 +11,6 @@ import type {
 	RetrievalResult,
 	RetrievalCheckpoint,
 	RetrievalError,
-	RetrievalStatus,
 	CollectedItem,
 	ValidationResult,
 	AdapterMetadata,
@@ -57,18 +56,6 @@ interface GitHubIssue {
 	labels: { name: string }[];
 	html_url: string;
 	pull_request?: { url: string };
-}
-
-interface GitHubDiscussion {
-	id: string;
-	number: number;
-	title: string;
-	body: string;
-	created_at: string;
-	updated_at: string;
-	author: { login: string };
-	category: { name: string };
-	html_url: string;
 }
 
 export class GitHubAdapter implements SourceAdapter {
@@ -677,7 +664,6 @@ export class GitHubAdapter implements SourceAdapter {
 		endpoint: string,
 		config: SourceConfig,
 	): Promise<Response> {
-		const url = `${this.baseUrl}/${endpoint}`;
 		const headers: Record<string, string> = {
 			Accept: "application/vnd.github+json",
 			"User-Agent": config.userAgent || "ai-intelligence-blog/1.0",

@@ -70,7 +70,6 @@ import {
 	generateResearchAudit,
 	loadResearchAuditGenerationInput,
 } from "./research-audit-generator.js";
-import { persistPublicationArtifact } from "./store.js";
 import type { CanonicalReferences, EditionIdentity } from "./schema.js";
 
 /**
@@ -632,8 +631,7 @@ export async function assembleCanonicalDocuments(input: any): Promise<any> {
 	const editionId = `edition_${editionDate}`;
 
 	// Load the three canonical publications
-	const { readFileSync, writeFileSync, readdirSync } = await import("fs");
-	const { join } = await import("path");
+	const { readFileSync, writeFileSync } = await import("fs");
 	const { computeContentHash } = await import("./metadata.js");
 
 	// Load newsletter (publication.md)

@@ -9,10 +9,7 @@
 import { readFileSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import {
-	validateSchedulerConfig,
-	createDefaultSchedulerConfig,
-} from "../src/lib/scheduler/schema.js";
+import { validateSchedulerConfig } from "../src/lib/scheduler/schema.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -222,7 +219,7 @@ async function validateSystemdUnits(): Promise<ValidationResult> {
 		["wrapper script", wrapperPath],
 	] as const) {
 		try {
-			const content = readFileSync(path, "utf-8");
+			void readFileSync(path, "utf-8");
 			if (name === "wrapper script") {
 				// Check executable
 				const { statSync } = await import("fs");

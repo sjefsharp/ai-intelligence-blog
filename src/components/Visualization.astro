@@ -6,10 +6,7 @@
  * Supports all visualization types with accessible fallbacks and bilingual support.
  */
 
-import type {
-	VisualizationSpecification,
-	VisualizationLanguage,
-} from "../lib/visualization/schema.js";
+import type { VisualizationSpecification } from "../lib/visualization/schema.js";
 import { renderVisualization } from "../lib/visualization/render.js";
 
 interface Props {
@@ -43,7 +40,6 @@ const statusLabels: Record<string, { nl: string; en: string }> = {
 };
 
 const statusLabel = statusLabels[status]?.[locale] || status;
-const isValidated = status === "VALIDATED";
 const isFailed = status === "FAILED";
 const isUnavailable = status === "UNAVAILABLE";
 ---

@@ -5,25 +5,16 @@
  * of schema integrity, persistence, and integration.
  */
 
-import { describe, it, expect, beforeAll, afterAll } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
-	BookDeltaProposalSchema,
-	BookDeltaArtifactSchema,
-	BookDeltaEvaluationResultSchema,
-	BookDeltaKnowledgeContinuityResultSchema,
 	BOOK_DELTA_SCHEMA_VERSION,
 	BOOK_DELTA_ID_PATTERNS,
 	type BookDeltaProposal,
 	type BookDeltaCategory,
-	type BookDeltaLifecycle,
-	type EvidenceClassification,
 	type KnowledgeDomain,
 } from "./schema.js";
 import {
 	validateBookDeltaProposal,
-	validateBookDeltaArtifact,
-	validateBookDeltaEvaluationResult,
-	validateBookDeltaKnowledgeContinuityResult,
 	computeObjectHash,
 	canonicalStringify,
 	isValidProposalId,
@@ -65,8 +56,6 @@ import {
 	FIXTURE_PERSISTENCE_FAILURE,
 	FIXTURE_SUPERSEDED_FOUNDATION,
 	FIXTURE_TERMINOLOGY_CORRUPTION,
-	FIXTURE_REVISE_SCOPE,
-	FIXTURE_LINKS_RELATED,
 	FIXTURE_INTERRUPTED_INFERENCE,
 } from "./fixtures.js";
 
@@ -626,7 +615,7 @@ describe("Book Delta Fixture Categories", () => {
 		for (const f of ALL_PROPOSAL_FIXTURES) {
 			counts[f.category]++;
 		}
-		for (const [cat, count] of Object.entries(counts)) {
+		for (const [, count] of Object.entries(counts)) {
 			expect(count).toBeGreaterThanOrEqual(1);
 		}
 	});
@@ -1082,7 +1071,7 @@ describe("Book Delta Schema Version", () => {
 	});
 
 	it("should have correct schema version in evaluation results", () => {
-		for (const evalResult of ALL_EVALUATION_FIXTURES) {
+		for (const _evalResult of ALL_EVALUATION_FIXTURES) {
 			// Evaluation result doesn't have schemaVersion field, but artifact does
 		}
 	});

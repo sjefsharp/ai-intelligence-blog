@@ -5,8 +5,6 @@
  * all three discovery rings per AI Intelligence Publication Contract §3.
  */
 
-import type { Temporal } from "@js-temporal/polyfill";
-
 /**
  * Source type categories matching the source registry
  */

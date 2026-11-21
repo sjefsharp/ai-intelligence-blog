@@ -15,7 +15,6 @@ export * from "./render.js";
 export * from "./validate.js";
 
 import {
-	renderVisualization,
 	renderProcessDiagram,
 	renderArchitectureDiagram,
 	renderTimeline,
@@ -23,14 +22,8 @@ import {
 	renderQuantitativeChart,
 	renderConceptMap,
 } from "./render.js";
-import {
-	validateVisualizationAsset,
-	evaluateVisualizationQuality,
-	runFullValidation,
-	generateVisualizationContentHash,
-} from "./validate.js";
-import { writeFileSync, mkdirSync, readFileSync, readdirSync } from "fs";
-import { join, dirname } from "path";
+import { writeFileSync, mkdirSync } from "fs";
+import { join } from "path";
 import { computeContentHash } from "../publication/metadata.js";
 import type {
 	VisualizationLanguageVariant,
@@ -135,8 +128,6 @@ function createMinimalSpec(
  */
 export async function generateVisualizations(input: any): Promise<any> {
 	const editionDate = input.editionDate;
-	const factDossier =
-		input["canonical-fact-dossier"] || input.canonicalFactDossier || input;
 	const editorialManifest =
 		input["resolved-editorial-manifest"] ||
 		input.resolvedEditorialManifest ||

@@ -15,7 +15,6 @@ import {
 	ARCHITECTURE_PRINCIPLES_SCHEMA_VERSION,
 	ARCHITECTURE_PRINCIPLE_ID_PREFIX,
 	ARCHITECTURE_PRINCIPLES_ARTIFACT_ID_PREFIX,
-	ARCHITECTURE_PRINCIPLE_ID_PATTERNS,
 	ArchitecturePrinciplesRegisterSchema,
 	ArchitecturePrincipleSchema,
 	PrincipleDeltaSchema,
@@ -399,15 +398,6 @@ export async function validateRegister(): Promise<{
 			);
 		}
 	}
-
-	// Validate content hash (excluding the contentHash field itself)
-	const { contentHash, ...registerWithoutHash } = register;
-	const content = JSON.stringify(registerWithoutHash, null, 2);
-	const computedHash = computeContentHash(content);
-	// TEMPORARILY DISABLED: Content hash validation has circular dependency issues
-	// if (contentHash !== computedHash) {
-	//   errors.push(`Content hash mismatch: expected ${computedHash}, got ${contentHash}`);
-	// }
 
 	return { valid: errors.length === 0, errors };
 }

@@ -107,8 +107,6 @@ export function classifyNovelty(
 	input: NoveltyClassificationInput,
 ): NoveltyClassificationResult {
 	const {
-		title,
-		summary,
 		proposedPublicationTimestamp,
 		sourceUrls,
 		sourceTier,

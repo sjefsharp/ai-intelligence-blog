@@ -48,9 +48,7 @@
  * 40. A dry run that leaves historical and production artifacts unchanged.
  */
 
-import { describe, it, expect, beforeAll, afterAll } from "vitest";
-import { existsSync, readFileSync, rmSync, mkdirSync, writeFileSync } from "fs";
-import { join } from "path";
+import { describe, it, expect } from "vitest";
 
 import {
 	PUBLICATION_ACCEPTANCE_SCHEMA_VERSION,
@@ -59,11 +57,7 @@ import {
 	AcceptanceGateResultSchema,
 	generateAcceptanceReportJsonSchema,
 	generateAcceptanceDecisionJsonSchema,
-	type AcceptanceReport,
-	type AcceptanceDecision,
 	type AcceptanceGateResult,
-	type AcceptanceGateStatus,
-	type AcceptanceDecisionStatus,
 } from "./schema.js";
 import {
 	ACCEPTANCE_GATES,
@@ -72,17 +66,6 @@ import {
 	getGatesByScope,
 	getGateTopologicalOrder,
 	validateGateRegistry,
-	TEMPORAL_INTEGRITY_GATE,
-	DISCOVERY_COVERAGE_GATE,
-	EVIDENCE_INTEGRITY_GATE,
-	HISTORICAL_REGRESSION_GATE,
-	EDITORIAL_INTEGRITY_GATE,
-	READABLE_ACCESSIBILITY_GATE,
-	AUDIO_FIRST_QUALITY_GATE,
-	KNOWLEDGE_CONTINUITY_GATE,
-	PUBLICATION_INTEGRITY_GATE,
-	CROSS_LANGUAGE_CONSISTENCY_GATE,
-	LIFECYCLE_CORRECTNESS_GATE,
 } from "./gate-registry.js";
 import {
 	aggregateAcceptanceDecision,
@@ -92,7 +75,6 @@ import {
 	hasBlockingConditions,
 	getAllBlockingConditions,
 	type AcceptanceAggregationInput,
-	type AcceptanceAggregationResult,
 } from "./aggregation.js";
 import {
 	evaluateAcceptance,
@@ -111,7 +93,6 @@ import {
 import {
 	computeContentHash,
 	canonicalStringify,
-	computeObjectHash,
 	finalizeReport,
 	finalizeDecision,
 	generateHumanReadableSummary,

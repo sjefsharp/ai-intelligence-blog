@@ -22,16 +22,11 @@ import {
 	generateListeningNarrativeMarkdown,
 	validateListeningNarrativeOutput,
 	type ListeningNarrativeGenerationInput,
-	type ListeningNarrativeGenerationResult,
 } from "../src/lib/publication/listening-narrative-generator.js";
-import {
-	getListeningNarrativePath,
-	getCanonicalDir,
-} from "../src/lib/publication/paths.js";
+import { getListeningNarrativePath } from "../src/lib/publication/paths.js";
 import {
 	createCanonicalPublicationMetadata,
 	computeContentHash,
-	generateArtifactId,
 } from "../src/lib/publication/metadata.js";
 import { persistPublicationArtifact } from "../src/lib/publication/store.js";
 import {
@@ -53,7 +48,7 @@ interface CliOptions {
 }
 
 function parseCliArgs(): CliOptions {
-	const { values, positionals } = parseArgs({
+	const { values } = parseArgs({
 		args: process.argv.slice(2),
 		options: {
 			edition: { type: "string", short: "e" },

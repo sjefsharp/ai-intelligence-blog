@@ -562,7 +562,7 @@ test.describe("Landmark and Semantic Structure Tests", () => {
 			// Alt can be empty for decorative images
 			if (img.alt === "") {
 				// Check if it's marked as decorative
-				const isDecorative = await page.evaluate((src) => {
+				await page.evaluate((src) => {
 					const el = document.querySelector(`img[src="${src}"]`);
 					return (
 						el?.getAttribute("role") === "presentation" ||

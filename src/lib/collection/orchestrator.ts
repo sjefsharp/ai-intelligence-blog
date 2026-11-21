@@ -10,11 +10,9 @@ import type {
 	RetrievalResult,
 	RetrievalCheckpoint,
 	RetrievalError,
-	RetrievalStatus,
 	CollectedItem,
 	CollectionJob,
 	CollectionJobResult,
-	TimeWindow,
 	DiscoveryRing,
 	RetryConfig,
 	SourceAdapter,
@@ -29,22 +27,14 @@ export type {
 import { RssAdapter } from "./adapters/rss.js";
 import { GitHubAdapter } from "./adapters/github.js";
 import { ArxivAdapter } from "./adapters/arxiv.js";
-import { ADAPTER_METADATA } from "./adapters/index.js";
-import {
-	generateContentHash,
-	normalizeUrl,
-	extractTimestamp,
-} from "./types.js";
+import { normalizeUrl } from "./types.js";
 import { promises as fs } from "fs";
 import path from "path";
 import {
 	DiscoveryLedger,
 	createDiscoveryLedger,
 } from "../discovery-ledger/index.js";
-import type {
-	SourceMonitoringRecord,
-	ExecutionContext,
-} from "../discovery-ledger/types.js";
+import type { ExecutionContext } from "../discovery-ledger/types.js";
 
 export interface OrchestratorConfig {
 	/** Path to source registry YAML */
@@ -291,7 +281,6 @@ export class CollectionOrchestrator {
 		const scheduledSourceIds = new Set(
 			filteredSources.map((s) => s.sourceId),
 		);
-		const allSourceIds = new Set(sources.map((s) => s.sourceId));
 
 		// Process sources with concurrency control
 		const semaphore = new Semaphore(this.config.maxConcurrency);

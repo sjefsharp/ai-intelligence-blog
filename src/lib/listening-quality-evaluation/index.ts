@@ -9,9 +9,7 @@ export * from "./evaluator.js";
 export * from "./audio-evaluator.js";
 
 import { evaluateListeningQuality } from "./evaluator.js";
-import { evaluateAudioQuality } from "./audio-evaluator.js";
-import { readFileSync, readdirSync } from "fs";
-import { join } from "path";
+import { readFileSync } from "fs";
 import { randomBytes, createHash } from "crypto";
 
 /**

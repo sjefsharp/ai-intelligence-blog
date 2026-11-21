@@ -137,11 +137,6 @@ function hasMaterialContent(text: string): boolean {
 // Claim pairing
 // ============================================================================
 
-interface ClaimMatchEntry {
-	claim: ConsolidatedClaim;
-	candidate: CanonicalCandidate | undefined;
-}
-
 export interface ClaimPair {
 	currentClaim: ConsolidatedClaim;
 	previousClaim?: ConsolidatedClaim;

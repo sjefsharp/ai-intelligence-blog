@@ -11,34 +11,18 @@ import type {
 	VisualizationRendering,
 	VisualizationUncertainty,
 	VisualizationEvidenceLink,
-	MeasurementMetadata,
-	ProcessDiagramData,
-	ArchitectureDiagramData,
-	TimelineData,
-	ComparisonTableData,
-	QuantitativeChartData,
-	ConceptMapData,
 	AccessibilityLevel,
 } from "./schema.js";
 
 const EDITION_DATE = "2025-01-15";
 const EDITION_ID = "edition_2025-01-15";
-const DOSSIER_ID = "fd_abcdefghijklmnop";
 const ARTICLE_ID = "art_abcdefghijklmnop";
 const CANDIDATE_ID = "cand_abcdefghijklmnop";
 const CLAIM_ID = "claim_abcdefghijklmnop";
 const SOURCE_ID = "source-example";
-const VISUALIZATION_ID_BASE = "viz_abcdefghijklmnop";
-const ASSET_ID_BASE = "asset_abcdefghijklmnop";
 
 function makeVizId(suffix: string): string {
 	const base = "viz_";
-	const suffixClean = suffix.replace(/[^a-z0-9]/g, "").slice(0, 16);
-	return base + suffixClean.padEnd(16, "0");
-}
-
-function makeAssetId(suffix: string): string {
-	const base = "asset_";
 	const suffixClean = suffix.replace(/[^a-z0-9]/g, "").slice(0, 16);
 	return base + suffixClean.padEnd(16, "0");
 }

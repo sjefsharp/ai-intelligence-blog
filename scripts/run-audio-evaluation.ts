@@ -28,19 +28,13 @@ import {
 } from "../src/lib/publication/listening-narrative-generator.js";
 import {
 	evaluateListeningQuality,
-	persistEvaluationReport,
 	type ListeningQualityEvaluationReport,
-	type ListeningQualityEvaluationInput,
 } from "../src/lib/listening-quality-evaluation/index.js";
 import {
 	evaluateAudioQuality,
 	persistAudioEvaluationReport,
-	type HolisticListeningAssessment,
 } from "../src/lib/listening-quality-evaluation/index.js";
-import {
-	getListeningNarrativePath,
-	getCanonicalDir,
-} from "../src/lib/publication/paths.js";
+import { getListeningNarrativePath } from "../src/lib/publication/paths.js";
 import {
 	EditionIdentitySchema,
 	CanonicalReferencesSchema,
@@ -60,7 +54,7 @@ interface CliOptions {
 }
 
 function parseCliArgs(): CliOptions {
-	const { values, positionals } = parseArgs({
+	const { values } = parseArgs({
 		args: process.argv.slice(2),
 		options: {
 			edition: { type: "string", short: "e" },

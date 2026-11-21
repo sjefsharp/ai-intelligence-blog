@@ -14,76 +14,47 @@
  * - Representative regression fixtures
  */
 
-import { describe, it, expect, beforeAll, beforeEach, afterEach } from "vitest";
-import { mkdtempSync, readFileSync, rmSync } from "fs";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { mkdtempSync, rmSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 import crypto from "crypto";
-import { z } from "astro/zod";
 
 import {
 	ARCHITECTURE_PRINCIPLES_SCHEMA_VERSION,
 	ARCHITECTURE_PRINCIPLE_ID_PREFIX,
 	ARCHITECTURE_PRINCIPLE_ID_PATTERNS,
 	ArchitecturePrincipleSchema,
-	ArchitecturePrinciplesRegisterSchema,
-	PrincipleDeltaSchema,
 	ArchitecturePrincipleLifecycleSchema,
 	PrincipleChangeClassificationSchema,
 	PrincipleRelationshipTypeSchema,
 	EvidenceClassificationSchema,
-	VerificationStatusSchema,
-	VerificationLevelSchema,
 	QualityAttributeSchema,
 	ResearchDomainSchema,
-	SourceTierSchema,
 	StandardsAuthoritySchema,
 	KnowledgeContinuityGateStatusSchema,
 	BilingualStringSchema,
-	AuthoritativeSourceReferenceSchema,
-	PrincipleEvidenceReferenceSchema,
 	StandardsReferenceSchema,
 	TestableDesignConsequenceSchema,
-	TradeoffSchema,
-	PrincipleRelationshipSchema,
-	PrincipleRevisionSchema,
-	ApplicabilityScopeSchema,
 	PrincipleEvidenceSynthesisSchema,
 	ArchitecturalReasoningSchema,
-	PrinciplesKnowledgeContinuityResultSchema,
 	generateArchitecturePrincipleJsonSchema,
 	generateArchitecturePrinciplesRegisterJsonSchema,
 	generatePrincipleDeltaJsonSchema,
 	type ArchitecturePrinciple,
-	type ArchitecturePrinciplesRegister,
-	type ArchitecturePrincipleLifecycle,
-	type PrincipleChangeClassification,
-	type PrincipleRelationshipType,
-	type QualityAttribute,
-	type ResearchDomain,
 } from "../architecture-principles/schema.js";
 
 import {
 	readRegister,
 	writeRegister,
-	writeDelta,
 	getNextPrincipleId,
 	computeRegisterStats,
 	validateRegister,
 	initializeRegister,
-	persistKnowledgeContinuityResult,
-	principleExists,
-	getAllPrincipleIds,
-	getPrinciplesByStatus,
-	getPrinciplesByDomain,
-	getPrinciplesByQualityAttribute,
 	getRegisterFilePath,
 } from "../architecture-principles/store.js";
 
-import {
-	createArchitecturePrinciplesEngine,
-	type EvaluatedInsight,
-} from "../architecture-principles/engine.js";
+import { createArchitecturePrinciplesEngine } from "../architecture-principles/engine.js";
 
 // ============================================================================
 // Test Fixtures

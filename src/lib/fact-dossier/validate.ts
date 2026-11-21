@@ -20,7 +20,6 @@ import {
 	CanonicalFactDossierSchema,
 	type CanonicalFactDossier,
 	type CanonicalCandidate,
-	type ConsolidatedClaim,
 	type TemporalEligibilityStatus,
 } from "./schema.js";
 import { canonicalJson, verifyDossierContentHash } from "./canonical.js";

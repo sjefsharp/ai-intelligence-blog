@@ -25,18 +25,11 @@
  * 18. A criterion that cannot be assessed deterministically
  */
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import type {
-	ListeningQualityEvaluationInput,
-	ListeningQualityEvaluationReport,
-	CriterionEvaluationStatus,
-	SeverityLevel,
-} from "../listening-quality-evaluation/schema.js";
-import type { ListeningNarrativeTraceability } from "../listening-quality-evaluation/schema.js";
+import { describe, it, expect, vi } from "vitest";
+import type { ListeningQualityEvaluationInput } from "../listening-quality-evaluation/schema.js";
 import type {
 	CanonicalFactDossier,
 	CanonicalCandidate,
-	ConsolidatedClaim,
 } from "../fact-dossier/schema.js";
 import type {
 	EditorialSelectionManifest,
@@ -44,10 +37,7 @@ import type {
 	EditorialCandidateAssessment,
 } from "../editorial-selection/schema.js";
 import type { HistoricalRegressionReport } from "../historical-regression/schema.js";
-import type {
-	PublicationMetadata,
-	ArticleIdentity,
-} from "../publication/schema.js";
+import type { PublicationMetadata } from "../publication/schema.js";
 
 // Mock the LLM client
 vi.mock("../free-llm-client.js", () => ({
@@ -544,22 +534,6 @@ const createMockHistoricalRegression = (): HistoricalRegressionReport => ({
 		"sha256:0000000000000000000000000000000000000000000000000000000000000000",
 });
 
-const createMockTraceability = (): ListeningNarrativeTraceability => ({
-	segments: [
-		{ type: "opening", claimIds: [], sourceIds: [] },
-		{
-			type: "story",
-			claimIds: ["claim_0000000000000001"],
-			sourceIds: ["test-source"],
-			storyId: "story_0000000000000001",
-		},
-		{ type: "conclusion", claimIds: [], sourceIds: [] },
-	],
-	claimCoverage: ["claim_0000000000000001"],
-	sourceCoverage: ["test-source"],
-	storyCoverage: ["story_0000000000000001"],
-});
-
 const createMockPublicationMetadata = (): PublicationMetadata => ({
 	artifactId: "pubart_0000000000000001",
 	editionId: "edition_2025-01-15",
@@ -582,8 +556,6 @@ const createMockPublicationMetadata = (): PublicationMetadata => ({
 	topics: [],
 	organizations: [],
 });
-
-const createMockArticleIdentities = (): ArticleIdentity[] => [];
 
 const createValidNarrative =
 	(): string => `# AI Daily Intelligence — woensdag 15 januari 2025
@@ -621,11 +593,7 @@ Tot morgen, bij de volgende AI Intelligence briefing.
 const createMockInput = (
 	overrides: Partial<ListeningQualityEvaluationInput> = {},
 ): ListeningQualityEvaluationInput => {
-	const dossier = createMockDossier();
-	const manifest = createMockManifest();
-	const traceability = createMockTraceability();
 	const narrative = createValidNarrative();
-	const metadata = createMockPublicationMetadata();
 
 	return {
 		editionDate: "2025-01-15",
@@ -951,8 +919,6 @@ Goedemorgen. Welkom bij onze dagelijkse briefing. In deze editie bespreken we de
 	it("produces valid report structure", async () => {
 		const { evaluateListeningQuality } =
 			await import("../listening-quality-evaluation/evaluator.js");
-		const { ListeningQualityEvaluationReportSchema } =
-			await import("../listening-quality-evaluation/schema.js");
 
 		const input = createMockInput();
 		const report = await evaluateListeningQuality(input);

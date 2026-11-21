@@ -11,50 +11,28 @@
  * - Integrating with the knowledge continuity gate
  */
 
-import { Temporal } from "@js-temporal/polyfill";
 import crypto from "crypto";
 
 import {
 	ARCHITECTURE_PRINCIPLES_SCHEMA_VERSION,
 	ARCHITECTURE_PRINCIPLE_ID_PREFIX,
 	ARCHITECTURE_PRINCIPLE_ID_PATTERNS,
-	ArchitecturePrincipleSchema,
 	ArchitecturePrinciplesRegisterSchema,
-	PrincipleDeltaSchema,
-	PrinciplesKnowledgeContinuityResultSchema,
-	ArchitecturePrincipleLifecycleSchema,
-	PrincipleChangeClassificationSchema,
-	PrincipleRelationshipTypeSchema,
-	EvidenceClassificationSchema,
-	VerificationStatusSchema,
-	VerificationLevelSchema,
-	QualityAttributeSchema,
-	ResearchDomainSchema,
-	SourceTierSchema,
-	StandardsAuthoritySchema,
-	KnowledgeContinuityGateStatusSchema,
 	type ArchitecturePrinciple,
 	type ArchitecturePrinciplesRegister,
 	type ArchitecturePrincipleLifecycle,
 	type PrincipleChangeClassification,
 	type PrincipleRelationshipType,
-	type EvidenceClassification,
-	type VerificationStatus,
 	type VerificationLevel,
 	type QualityAttribute,
 	type ResearchDomain,
-	type SourceTier,
-	type StandardsAuthority,
 	type KnowledgeContinuityGateStatus,
 	type AuthoritativeSourceReference,
 	type PrincipleEvidenceReference,
 	type StandardsReference,
 	type TestableDesignConsequence,
 	type Tradeoff,
-	type PrincipleRelationship,
-	type PrincipleRevision,
 	type ApplicabilityScope,
-	type PrincipleEvidenceSynthesis,
 	type ArchitecturalReasoning,
 	type PrinciplesKnowledgeContinuityResult,
 	type PrincipleDelta,
@@ -65,7 +43,6 @@ import {
 	readRegister,
 	writeRegister,
 	writeDelta,
-	getNextPrincipleId,
 	computeRegisterStats,
 	validateRegister,
 	persistKnowledgeContinuityResult,
@@ -83,12 +60,6 @@ import type {
 
 /** Minimum confidence threshold for establishing a principle */
 const ESTABLISHMENT_CONFIDENCE_THRESHOLD = 0.75;
-
-/** Minimum verification level for principle evidence */
-const MIN_VERIFICATION_LEVEL_FOR_PRINCIPLE: VerificationLevel = "L1";
-
-/** Maximum age of evidence in days (aligned with contract temporal windows) */
-const MAX_EVIDENCE_AGE_DAYS = 90;
 
 // ============================================================================
 // Types
@@ -1800,7 +1771,6 @@ export class ArchitecturePrinciplesEngine {
 				change.changeClassification === "ADD" &&
 				change.proposedPrinciple
 			) {
-				const title = change.proposedPrinciple.title?.en || "";
 				// We'll assign actual IDs during application
 			}
 			if (change.targetPrincipleId) {

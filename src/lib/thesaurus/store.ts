@@ -17,10 +17,8 @@ import type {
 	TerminologyLifecycleStatus,
 } from "./schema.js";
 import {
-	TerminologyEntrySchema,
 	ThesaurusArtifactSchema,
 	TerminologyChangeProposalSchema,
-	ID_PATTERNS,
 } from "./schema.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -56,19 +54,6 @@ function computeContentHash(content: string): string {
 function computeObjectHash(obj: unknown): string {
 	const json = JSON.stringify(obj, Object.keys(obj as object).sort());
 	return computeContentHash(json);
-}
-
-/** Current date in YYYY-MM-DD format (Europe/Amsterdam). */
-function getCurrentDate(): string {
-	const now = new Date();
-	// Use Europe/Amsterdam timezone
-	const formatter = new Intl.DateTimeFormat("en-CA", {
-		timeZone: "Europe/Amsterdam",
-		year: "numeric",
-		month: "2-digit",
-		day: "2-digit",
-	});
-	return formatter.format(now);
 }
 
 /** Current ISO timestamp. */

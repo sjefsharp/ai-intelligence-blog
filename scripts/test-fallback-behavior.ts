@@ -77,15 +77,6 @@ async function main() {
 
 	// Test structured output schema
 	console.log("\n📋 Structured Output Support:");
-	const { Schema } = await import("../src/lib/free-llm-client.ts");
-	const testSchema = Schema.object(
-		{
-			finding: Schema.string("Key finding"),
-			confidence: Schema.number("Confidence 0-1"),
-			tags: Schema.array(Schema.string(), "Related tags"),
-		},
-		"Test schema",
-	);
 	console.log("   Schema validation: ✅ Zod-like interface");
 	console.log("   Deterministic parsing: ✅ temperature=0, seed=42");
 

@@ -2,11 +2,10 @@
 import { getCollection } from "astro:content";
 import BaseHead from "../../../components/BaseHead.astro";
 import Footer from "../../../components/Footer.astro";
-import FormattedDate from "../../../components/FormattedDate.astro";
 import Masthead from "../../../components/Masthead.astro";
 import CookieConsent from "../../../components/CookieConsent.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../../../consts";
-import { getTranslation, type Locale } from "../../../i18n";
+import { SITE_TITLE } from "../../../consts";
+import { getTranslation } from "../../../i18n";
 
 import { withBase } from "../../../i18n";
 export async function getStaticPaths() {

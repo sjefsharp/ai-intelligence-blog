@@ -44,11 +44,7 @@ import type {
 	EditorialStory,
 	EditorialCandidateAssessment,
 } from "../editorial-selection/schema.js";
-import type {
-	CanonicalCandidate,
-	ConsolidatedClaim,
-	VerificationLevel,
-} from "../fact-dossier/schema.js";
+import type { CanonicalCandidate } from "../fact-dossier/schema.js";
 import type { HistoricalRelationship } from "../historical-regression/schema.js";
 
 const createMockCandidate = (
@@ -805,8 +801,6 @@ describe("English Listening Narrative Generator — Output Validation", () => {
 	it("includes historical classification context when available", async () => {
 		const { generateEnglishListeningNarrativeMarkdown } =
 			await import("./english-listening-narrative-generator.js");
-		const { SubstantiveUpdateTypeSchema } =
-			await import("../historical-regression/schema.js");
 
 		const candidate = createMockCandidate();
 		const assessment = createMockAssessment();

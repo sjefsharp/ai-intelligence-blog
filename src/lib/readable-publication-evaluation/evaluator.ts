@@ -12,20 +12,8 @@ import { promises as fs } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { z } from "astro/zod";
-
-import type {
-	CanonicalFactDossier,
-	CanonicalCandidate,
-	ConsolidatedClaim,
-	VerificationLevel,
-	EvidenceClassification,
-} from "../fact-dossier/schema.js";
-import type {
-	EditorialSelectionManifest,
-	EditorialStory,
-	EditorialCandidateAssessment,
-} from "../editorial-selection/schema.js";
+import type { CanonicalFactDossier } from "../fact-dossier/schema.js";
+import type { EditorialSelectionManifest } from "../editorial-selection/schema.js";
 import type { HistoricalRegressionReport } from "../historical-regression/schema.js";
 import type {
 	ArticleIdentity,
@@ -35,7 +23,6 @@ import type { VisualizationSpecification } from "../visualization/schema.js";
 import {
 	createFreeLLMClient,
 	type LLMClientConfig,
-	type LLMResponse,
 } from "../free-llm-client.js";
 import {
 	READABLE_QUALITY_EVALUATION_SCHEMA_VERSION,
@@ -45,16 +32,11 @@ import {
 	READABLE_CRITERIA,
 	CriterionEvaluationStatusSchema,
 	SeverityLevelSchema,
-	EvaluationMethodSchema,
-	RepairActionStatusSchema,
-	EvaluationScopeSchema,
-	EvaluationLanguageSchema,
 	type ReadableCriterionId,
 	type CriterionEvaluationStatus,
 	type SeverityLevel,
 	type EvaluationMethod,
 	type RepairActionStatus,
-	type EvaluationScope,
 	type EvaluationLanguage,
 	type ReadableCriterionEvaluation,
 	type ReadableRepairAction,
@@ -64,11 +46,7 @@ import {
 	type EvaluationMetadata,
 	type PassageReference,
 	type EvaluationEvidence,
-	type HolisticReadableAssessment,
-	ReadableCriterionEvaluationSchema,
-	ReadableRepairActionSchema,
 	ReadableQualityEvaluationReportSchema,
-	generateReadableQualityEvaluationJsonSchema,
 } from "./schema.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -818,8 +796,6 @@ function checkResearchQuality(
 	// Check for research findings in dossier
 	let hasResearchFindings = false;
 	let hasMethodology = false;
-	let hasSampleInfo = false;
-	let hasStatisticalUncertainty = false;
 	let hasCausalClaims = false;
 	let hasLimitations = false;
 
@@ -835,10 +811,7 @@ function checkResearchQuality(
 			if (claim.methodologicalContext) {
 				hasMethodology = true;
 			}
-			if (claim.strategicContext?.sampleSize) hasSampleInfo = true;
 			if (claim.strategicContext) {
-				if (claim.strategicContext.statisticalUncertainty)
-					hasStatisticalUncertainty = true;
 				if (claim.strategicContext.causalClaimType)
 					hasCausalClaims = true;
 				if (
@@ -967,16 +940,6 @@ function checkEditorialCoherence(
 		const match = heading.match(/^###\s+\d+\.\s+(.+)$/);
 		if (match) storyOrderInPub.push(match[1].trim());
 	}
-
-	const expectedOrder = ctx.editorialManifest.stories
-		.filter(
-			(s) =>
-				s.decision === "SELECTED" || s.decision === "CATCH_UP_SELECTED",
-		)
-		.map(
-			(s) =>
-				`${s.organizations.join(", ")} — ${s.researchDomains[0] ? s.researchDomains[0] : ""}`,
-		);
 
 	// Check for transitions between stories
 	const transitionTerms = [

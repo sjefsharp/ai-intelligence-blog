@@ -5,13 +5,11 @@
  * for Book Delta data structures.
  */
 
-import { z } from "astro/zod";
 import {
 	BookDeltaProposalSchema,
 	BookDeltaArtifactSchema,
 	BookDeltaEvaluationResultSchema,
 	BookDeltaKnowledgeContinuityResultSchema,
-	BOOK_DELTA_SCHEMA_VERSION,
 	BOOK_DELTA_ID_PATTERNS,
 	type BookDeltaProposal,
 	type BookDeltaArtifact,

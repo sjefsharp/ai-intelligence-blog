@@ -21,15 +21,6 @@ import type {
 	TemporalEligibilityStatus,
 } from "./schema.js";
 
-/** Claim types that carry technical or scientific substance. */
-const TECHNICAL_CLAIM_TYPES: ReadonlySet<ClaimType> = new Set<ClaimType>([
-	"scientific-research",
-	"benchmark-result",
-	"technical-announcement",
-	"software-release",
-	"security-vulnerability",
-]);
-
 /** Claim types that carry strategic, organizational or economic substance. */
 const STRATEGIC_CLAIM_TYPES: ReadonlySet<ClaimType> = new Set<ClaimType>([
 	"strategic-research",

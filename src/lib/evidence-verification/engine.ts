@@ -6,7 +6,6 @@
  * and temporal verification per AI Intelligence Publication Contract §4, §6.
  */
 
-import { Temporal } from "@js-temporal/polyfill";
 import crypto from "crypto";
 import type {
 	ClaimVerificationRecord,
@@ -22,7 +21,6 @@ import type {
 	UnresolvedUncertainty,
 	ClaimType,
 	EvidenceTier,
-	TimestampType,
 } from "./types.js";
 
 /** Generate a stable ID with prefix */
@@ -755,17 +753,6 @@ function verifyStrategicResearchClaim(
 			methodologicalLimitations.push(e.extractedText.slice(0, 200));
 		}
 	}
-	const hasCausalClaim = evidence.some((e) => {
-		const text = e.extractedText.toLowerCase();
-		return (
-			text.includes("caused") ||
-			text.includes("leads to") ||
-			text.includes("results in") ||
-			text.includes("drives") ||
-			text.includes("correlation") ||
-			text.includes("predicts")
-		);
-	});
 
 	let causalClaimType:
 		"correlation" | "causation" | "prediction" | "interpretation" =
@@ -1335,11 +1322,6 @@ export function analyzeCounterevidence(
 	)
 		? explicitCounterevidenceOrClaimType
 		: evidence.filter((e) => e.evidenceRole === "counterevidence");
-	const claimType: ClaimType = Array.isArray(
-		explicitCounterevidenceOrClaimType,
-	)
-		? (claimTypeMaybe ?? "technical-announcement")
-		: explicitCounterevidenceOrClaimType;
 
 	// Process explicit counterevidence items (evidenceRole === 'counterevidence')
 	for (const e of explicitCounterevidence) {

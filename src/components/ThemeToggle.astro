@@ -4,7 +4,7 @@
  * Honors prefers-color-scheme, persists explicit preferences in localStorage,
  * and avoids flashes of incorrect theme (FOUC) via inline script in BaseHead.
  */
-import { getTranslation, type Locale } from "../i18n";
+import { type Locale } from "../i18n";
 import type { TranslationKeys } from "../i18n";
 
 interface Props {
@@ -12,15 +12,13 @@ interface Props {
 	t: TranslationKeys;
 }
 
-const { locale, t } = Astro.props;
+const { t } = Astro.props;
 
 const themes = [
 	{ value: "system", label: t.theme.system, icon: "" },
 	{ value: "light", label: t.theme.light, icon: "" },
 	{ value: "dark", label: t.theme.dark, icon: "" },
 ] as const;
-
-type Theme = (typeof themes)[number]["value"];
 ---
 
 <div class="theme-toggle" role="group" aria-label={t.theme.label}>
@@ -74,13 +72,6 @@ type Theme = (typeof themes)[number]["value"];
 				const isActive = btn.getAttribute("data-theme") === activeTheme;
 				btn.setAttribute("aria-pressed", isActive.toString());
 			});
-		}
-
-		// Get system preference
-		function getSystemTheme(): "light" | "dark" {
-			return window.matchMedia("(prefers-color-scheme: dark)").matches
-				? "dark"
-				: "light";
 		}
 
 		// Initialize

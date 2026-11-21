@@ -20,15 +20,9 @@ declare global {
 }
 
 import {
-	WORKFLOW_ID_PATTERNS,
 	WORKFLOW_ORCHESTRATOR_SCHEMA_VERSION,
 	// Schema values
-	StageDefinitionSchema,
-	StageExecutionRecordSchema,
 	ExecutionManifestSchema,
-	WorkflowLockSchema,
-	WorkflowReportSchema,
-	EditionContextSchema,
 	CliOptionsSchema,
 } from "./schema.js";
 
@@ -36,13 +30,9 @@ import type {
 	// Types
 	StageDefinition,
 	StageExecutionRecord,
-	StageExecutionState,
-	StageDependency,
 	ArtifactRef,
-	WorkflowExecutionMode,
 	WorkflowRunOutcome,
 	FailureCategory,
-	WorkflowPhase,
 	EditionContext,
 	ExecutionManifest,
 	WorkflowLock,
@@ -50,29 +40,18 @@ import type {
 	WorkflowReport,
 	CliOptions,
 	ResourceBudget,
-	StageExecutionBudget,
 	RetryPolicy,
-	CheckpointPolicy,
-	InferenceRequirements,
-	ArtifactValidationStatus,
-	StageSideEffect,
 } from "./schema.js";
 
 import {
 	ALL_STAGES,
 	WORKFLOW_GRAPH,
-	getStageById,
-	getStagesByPhase,
 	getTopologicalOrder,
 	validateWorkflowGraph,
 } from "./graph.js";
 
 import { getEditorialWindow, EDITORIAL_TIMEZONE } from "../editorial-window.js";
-import {
-	createFreeLLMClient,
-	hasInferenceCredentials,
-	FreeLLMClient,
-} from "../free-llm-client.js";
+import { createFreeLLMClient, FreeLLMClient } from "../free-llm-client.js";
 
 // ============================================================================
 // Constants
@@ -80,7 +59,6 @@ import {
 
 const DEFAULT_MANIFEST_DIR = "data/execution-manifests";
 const DEFAULT_LOCK_DIR = "data/locks";
-const DEFAULT_REPORT_DIR = "data/workflow-reports";
 const DEFAULT_EVIDENCE_DIR = "data/evidence-packages";
 const LOCK_TTL_HOURS = 24;
 const HEARTBEAT_INTERVAL_MS = 30000;
@@ -112,11 +90,6 @@ function nowISO(): string {
 	return new Date().toISOString();
 }
 
-function parseEditionDate(editionId: string): string {
-	const match = editionId.match(/^edition_(\d{4}-\d{2}-\d{2})$/);
-	return match ? match[1] : editionId;
-}
-
 // ============================================================================
 // Workflow Engine Class
 // ============================================================================
@@ -132,7 +105,6 @@ export class WorkflowOrchestrator {
 	private llmClient: FreeLLMClient | null = null;
 	private stageModules: Map<string, any> = new Map();
 	private heartbeatTimer: NodeJS.Timeout | null = null;
-	private startTime: number = 0;
 
 	constructor(cliOptions: CliOptions) {
 		this.cliOptions = CliOptionsSchema.parse(cliOptions);
@@ -990,8 +962,6 @@ export class WorkflowOrchestrator {
 	// ============================================================================
 
 	async run(editionDate?: string): Promise<WorkflowReport> {
-		this.startTime = Date.now();
-
 		// Resolve edition date
 		const targetEditionDate =
 			editionDate ||

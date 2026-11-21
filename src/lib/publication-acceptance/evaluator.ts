@@ -16,16 +16,12 @@ import {
 	type AcceptanceDefect,
 	type AcceptanceGateStatus,
 	type AcceptanceSeverity,
-	type EvidenceBinding,
 	type AcceptanceReport,
 	type AcceptanceDecision,
 	type AcceptanceGateDefinition,
-	AcceptanceGateResultSchema,
-	AcceptanceReportSchema,
-	AcceptanceDecisionSchema,
 	PUBLICATION_ACCEPTANCE_SCHEMA_VERSION,
 } from "./schema.js";
-import { ACCEPTANCE_GATES, getGateDefinition } from "./gate-registry.js";
+import { ACCEPTANCE_GATES } from "./gate-registry.js";
 import {
 	aggregateAcceptanceDecision,
 	createAcceptanceDecision,

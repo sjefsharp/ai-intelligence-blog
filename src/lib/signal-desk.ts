@@ -185,9 +185,6 @@ export function classifyEvidence(
 	item: ClassifiableItem,
 	contributor?: ContributorEntry,
 ): EvidenceClass {
-	const text = `${item.title} ${item.summary || ""}`.toLowerCase();
-	const authorNames = item.authors?.join(" ").toLowerCase() || "";
-
 	// Check for first-hand disclosure (author announces their own work)
 	if (isFirstHandDisclosure(item, contributor)) {
 		return "FIRST_HAND_DISCLOSURE";
@@ -536,15 +533,6 @@ export function evaluateContributorStatus(
 	const sixMonthsAgoMs = nowEpochMs - 182 * 24 * 60 * 60 * 1000;
 
 	// Count recent original contributions
-	const recentOriginal = recentItems.filter((item) => {
-		const itemDate = Temporal.Instant.from(
-			item.publishedAt || item.discoveredAt,
-		).epochMilliseconds;
-		return (
-			itemDate >= thirtyDaysAgoMs &&
-			item.evidenceClass === "ORIGINAL_FINDING"
-		);
-	}).length;
 
 	// Count recent any contributions
 	const recentAny = recentItems.filter((item) => {
@@ -558,7 +546,6 @@ export function evaluateContributorStatus(
 	const activeChannels = contributor.sourceChannels.filter(
 		(c) => c.status === "active",
 	).length;
-	const totalChannels = contributor.sourceChannels.length;
 
 	// Mandatory experts never auto-demote from active
 	if (contributor.mandatory) {

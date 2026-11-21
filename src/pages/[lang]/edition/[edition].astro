@@ -1,16 +1,10 @@
 ---
-import { getCollection } from "astro:content";
 import BaseHead from "../../../components/BaseHead.astro";
 import Footer from "../../../components/Footer.astro";
 import Masthead from "../../../components/Masthead.astro";
 import CookieConsent from "../../../components/CookieConsent.astro";
-import ReadAloud from "../../../components/ReadAloud.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../../../consts";
-import {
-	getTranslation,
-	type Locale,
-	type TranslationKeys,
-} from "../../../i18n";
+import { SITE_TITLE } from "../../../consts";
+import { getTranslation } from "../../../i18n";
 import { withBase } from "../../../i18n";
 import {
 	loadEditionContent,
@@ -19,18 +13,11 @@ import {
 	hasEnglishCounterpart,
 	getEditionUrl,
 	getEditionAlternateUrls,
-	getPublicArtifacts,
 	getReadingTime,
 	getListeningDuration,
 	formatEditionDate,
 	formatEditionWindow,
-	type EditionContent,
-	type EditionArtifact,
 } from "../../../lib/publication/astro-adapter.js";
-import {
-	PublicationContentTypeSchema,
-	type PublicationLifecycleStatus,
-} from "../../../lib/publication/schema.js";
 
 export async function getStaticPaths() {
 	return getEditionPaths();

@@ -26,33 +26,21 @@
 import { parseArgs } from "node:util";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
-import { existsSync, readdirSync, readFileSync } from "fs";
+import { readdirSync, readFileSync } from "fs";
 
 import {
 	evaluateAcceptance,
 	type AcceptanceEvaluationInput,
-	type TemporalIntegrityResult,
-	type DiscoveryCoverageResult,
-	type EvidenceIntegrityResult,
-	type HistoricalRegressionResult,
-	type EditorialIntegrityResult,
-	type ReadableAccessibilityResult,
-	type AudioFirstQualityResult,
-	type KnowledgeContinuityResult,
-	type PublicationIntegrityResult,
-	type CrossLanguageConsistencyResult,
 } from "../src/lib/publication-acceptance/evaluator.js";
 import {
 	ACCEPTANCE_GATES,
 	getGateTopologicalOrder,
 	validateGateRegistry,
 } from "../src/lib/publication-acceptance/gate-registry.js";
-import type { AcceptanceGateDefinition } from "../src/lib/publication-acceptance/schema.js";
 import {
 	persistAcceptanceReport,
 	persistAcceptanceDecision,
 	generateHumanReadableSummary,
-	generateDecisionSummary,
 	finalizeReport,
 	finalizeDecision,
 } from "../src/lib/publication-acceptance/report-generator.js";
@@ -1023,8 +1011,7 @@ async function main(): Promise<void> {
 	console.log("Evaluating acceptance gates...");
 	console.log();
 
-	const { report, decision, aggregationResult } =
-		evaluateAcceptance(evaluationInput);
+	const { report, decision } = evaluateAcceptance(evaluationInput);
 
 	// Finalize and persist (except in DRY_RUN mode)
 	let reportPath = "";

@@ -14,20 +14,8 @@ import { promises as fs } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { z } from "astro/zod";
-
-import type {
-	CanonicalFactDossier,
-	CanonicalCandidate,
-	ConsolidatedClaim,
-	VerificationLevel,
-	EvidenceClassification,
-} from "../fact-dossier/schema.js";
-import type {
-	EditorialSelectionManifest,
-	EditorialStory,
-	EditorialCandidateAssessment,
-} from "../editorial-selection/schema.js";
+import type { CanonicalFactDossier } from "../fact-dossier/schema.js";
+import type { EditorialSelectionManifest } from "../editorial-selection/schema.js";
 import type { HistoricalRegressionReport } from "../historical-regression/schema.js";
 import type {
 	ArticleIdentity,
@@ -36,29 +24,19 @@ import type {
 import {
 	createFreeLLMClient,
 	type LLMClientConfig,
-	type LLMResponse,
 } from "../free-llm-client.js";
 import {
 	LISTENING_QUALITY_EVALUATION_SCHEMA_VERSION,
 	EVALUATION_REPORT_ID_PREFIX,
 	CRITERION_EVALUATION_ID_PREFIX,
 	REPAIR_ACTION_ID_PREFIX,
-	Q_CRITERIA,
-	AUDIO_CRITERIA,
-	ALL_CRITERIA,
 	CriterionEvaluationStatusSchema,
 	SeverityLevelSchema,
-	EvaluationMethodSchema,
-	RepairActionStatusSchema,
-	EvaluationScopeSchema,
-	type CriterionId,
 	type AudioCriterionId,
-	type AnyCriterionId,
 	type CriterionEvaluationStatus,
 	type SeverityLevel,
 	type EvaluationMethod,
 	type RepairActionStatus,
-	type EvaluationScope,
 	type CriterionEvaluation,
 	type RepairAction,
 	type ListeningQualityEvaluationReport,
@@ -67,17 +45,9 @@ import {
 	type EvaluationMetadata,
 	type PassageReference,
 	type EvaluationEvidence,
-	type NarrativeSegmentTrace,
 	type ListeningNarrativeTraceability,
 	type HolisticListeningAssessment,
-	CriterionEvaluationSchema,
-	RepairActionSchema,
 	ListeningQualityEvaluationReportSchema,
-	HolisticListeningAssessmentSchema,
-	generateListeningQualityEvaluationJsonSchema,
-	generateCriterionEvaluationJsonSchema,
-	generateRepairActionJsonSchema,
-	generateHolisticListeningAssessmentJsonSchema,
 } from "./schema.js";
 
 const __filename = fileURLToPath(import.meta.url);

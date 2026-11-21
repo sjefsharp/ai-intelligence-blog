@@ -2,7 +2,7 @@
  * Collection Orchestrator Tests
  */
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { CollectionOrchestrator } from "../collection/orchestrator.js";
 import type { OrchestratorConfig } from "../collection/orchestrator.js";
 import type { CollectionJob, DiscoveryRing } from "../collection/types.js";

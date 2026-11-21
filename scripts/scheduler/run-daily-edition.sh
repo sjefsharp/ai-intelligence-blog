@@ -106,8 +106,6 @@ resolve_edition_date() {
 
     # Default: derive from current time in Europe/Amsterdam
     # Edition date is the date whose 05:00 window we are entering
-    local amsterdam_now
-    amsterdam_now=$(TZ=Europe/Amsterdam date +"%Y-%m-%d %H:%M")
     local amsterdam_date
     amsterdam_date=$(TZ=Europe/Amsterdam date +"%Y-%m-%d")
     local amsterdam_hour

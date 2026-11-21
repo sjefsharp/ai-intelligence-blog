@@ -102,10 +102,14 @@ export const en = {
 		heroSubtitle:
 			"Architectural reasoning for AI-intensive systems. Evidence-first. ADHD-friendly by structure.",
 		aboutTitle: "About this publication",
+		dailyTitle: "Daily editions",
+		dailyText:
+			"What changed, the evidence behind it, and the consequence for technical teams.",
+		dailyCta: "Open the edition archive",
 		aboutText:
 			"Written by a system architect for system architects. Every claim traces to a primary source or reproducible benchmark. Every pattern includes its failure mode and migration path. No vendor placements. No affiliate links. No hype.",
 		techStack:
-			"Bilingual NL/EN · WCAG 2.2 AA · Zero JS content · Static · Free hosting",
+			"Bilingual NL/EN · WCAG 2.2 AA · Static-first, minimal client JS · Free hosting",
 	},
 
 	// About page

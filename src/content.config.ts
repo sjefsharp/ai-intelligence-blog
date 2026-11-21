@@ -16,8 +16,22 @@ const blog = defineCollection({
 			heroImage: z.optional(image()),
 			// Tags for topic navigation
 			tags: z.array(z.string()).default([]),
-			// Source link for attribution
-			sourceUrl: z.string().url().optional(),
+			// Source link for attribution. Placeholder example domains are rejected
+			// so demo content cannot be presented as verified evidence.
+			sourceUrl: z
+				.string()
+				.url()
+				.refine(
+					(url) =>
+						!/(example\.(com|org|net)|github\.com\/example\/)/i.test(
+							url,
+						),
+					{
+						message:
+							"sourceUrl must not be a placeholder example domain",
+					},
+				)
+				.optional(),
 			// Reading time in minutes (calculated at build if not provided)
 			readingTime: z.number().int().positive().optional(),
 		}),

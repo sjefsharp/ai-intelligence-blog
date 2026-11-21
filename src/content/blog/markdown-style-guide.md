@@ -5,7 +5,6 @@ pubDate: "Jun 19 2024"
 updatedDate: "Nov 08 2026"
 heroImage: "../../assets/blog-placeholder-1.jpg"
 tags: ["Style Guide", "Documentation", "Markdown", "Conventions"]
-sourceUrl: "https://github.com/example/arch-style-guide"
 readingTime: 12
 ---
 
@@ -62,9 +61,9 @@ interface AgentBounding {
 Use pipes for alignment. Header row required. Right-align numeric columns:
 
 | Criterion    | Weight | Schema | Sandbox | Tokens |
-| :----------- | -----: | :----: | :-----: | :----: |
-| Traceability |   0.30 | ★★★★★  |  ★★☆☆☆  | ★★★★☆  |
-| Cost Control |   0.25 | ★★★☆☆  |  ★★★★☆  | ★★★★★  |
+| :----------- | -----: | -----: | ------: | -----: |
+| Traceability |   0.30 |    5/5 |     2/5 |    4/5 |
+| Cost Control |   0.25 |    3/5 |     4/5 |    5/5 |
 
 ## Callouts (Admonitions)
 
@@ -108,11 +107,15 @@ Use for sets of related items:
 
 ### Task Lists
 
-Use for checklists in migration paths:
+The Markdown renderer turns task-list syntax into checkboxes, but those controls
+carry no accessible name and fail WCAG 4.1.2. Published articles therefore use
+a plain unordered list for checklists. The syntax is recorded here because
+authors meet it in external sources:
 
-- [x] Add JSON Schema validation
-- [ ] Introduce capability token minting
-- [ ] Deprecate raw tool access
+```markdown
+- [x] Completed step
+- [ ] Pending step
+```
 
 ## Footnotes
 
@@ -120,15 +123,15 @@ Use for references without breaking flow:
 
 The orchestrator uses structured event logs[^1] for observability.
 
-[^1]: See [Observability Patterns for Agent Systems](/blog/observability-patterns/) for details.
+[^1]: Internal engineering documentation, 2026.
 
 ## Citations
 
-Inline citations use bracket notation with DOI/URL in footnotes:
+Cite the authoritative source in a footnote instead of linking inline:
 
-The framework achieves 99.2% success rate[^2] under production load.
+The orchestrator validates every tool call[^2] before execution.
 
-[^2]: Internal benchmark, Q3 2026. DOI: 10.5281/zenodo.1234567
+[^2]: JSON Schema Specification, <https://json-schema.org/>
 
 ## Images
 

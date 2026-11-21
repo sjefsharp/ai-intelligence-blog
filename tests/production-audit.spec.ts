@@ -11,8 +11,8 @@ test.describe("Production Site Audit", () => {
 		{ path: "/nl/", name: "Dutch Homepage" },
 		{ path: "/en/blog/", name: "English Blog Index" },
 		{ path: "/nl/blog/", name: "Dutch Blog Index" },
-		{ path: "/en/blog/first-post/", name: "English Blog Post" },
-		{ path: "/nl/blog/first-post/", name: "Dutch Blog Post" },
+		{ path: "/en/blog/markdown-style-guide/", name: "English Blog Post" },
+		{ path: "/nl/blog/markdown-style-guide/", name: "Dutch Blog Post" },
 		{ path: "/en/about/", name: "English About Page" },
 		{ path: "/nl/about/", name: "Dutch About Page" },
 		{ path: "/en/search/", name: "English Search Page" },
@@ -113,7 +113,7 @@ test.describe("Production Site Audit", () => {
 	});
 
 	test("Blog post has proper structure", async ({ page }) => {
-		await page.goto(`${PROD_URL}/en/blog/first-post/`, {
+		await page.goto(`${PROD_URL}/en/blog/markdown-style-guide/`, {
 			waitUntil: "networkidle",
 		});
 

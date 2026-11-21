@@ -217,8 +217,31 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Run Playwright visual regression tests (production)
+      - name: Build with the production base path
+        run: pnpm run build
+        env:
+          SITE_BASE: /ai-intelligence-blog/
+
+      - name: Serve the production base path
+        run: |
+          node scripts/serve-base-path.mjs &
+          for _ in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:4321/ >/dev/null; then
+              echo "base-path server ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "base-path server did not become ready" >&2
+          exit 1
+        env:
+          SITE_BASE: /ai-intelligence-blog/
+          PORT: "4321"
+
+      - name: Run Playwright visual regression tests (production base path)
         run: pnpm exec playwright test --project=visual-regression-prod
+        env:
+          PROD_BASE_URL: http://127.0.0.1:4321/ai-intelligence-blog
 
   dependency-audit:
     name: Dependency Audit

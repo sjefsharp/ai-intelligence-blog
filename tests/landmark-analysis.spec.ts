@@ -40,7 +40,7 @@ test.describe("Landmark Analysis", () => {
 	});
 
 	test("Check landmark roles on blog post", async ({ page }) => {
-		await page.goto(`${BASE_URL}/en/blog/first-post/`);
+		await page.goto(`${BASE_URL}/en/blog/markdown-style-guide/`);
 		await page.waitForLoadState("networkidle");
 
 		const landmarks = await page.evaluate(() => {

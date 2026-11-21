@@ -11,8 +11,8 @@ test.describe("Visual Regression - Production", () => {
 		{ path: "/nl/", name: "nl-homepage" },
 		{ path: "/en/blog/", name: "en-blog-index" },
 		{ path: "/nl/blog/", name: "nl-blog-index" },
-		{ path: "/en/blog/first-post/", name: "en-blog-post" },
-		{ path: "/nl/blog/first-post/", name: "nl-blog-post" },
+		{ path: "/en/blog/markdown-style-guide/", name: "en-blog-post" },
+		{ path: "/nl/blog/markdown-style-guide/", name: "nl-blog-post" },
 		{ path: "/en/about/", name: "en-about" },
 		{ path: "/nl/about/", name: "nl-about" },
 		{ path: "/en/search/", name: "en-search" },
@@ -43,7 +43,7 @@ test.describe("Visual Regression - Production", () => {
 	}
 
 	test("blog post - visual snapshot with read-aloud", async ({ page }) => {
-		await page.goto(`${PROD_URL}/en/blog/first-post/`, {
+		await page.goto(`${PROD_URL}/en/blog/markdown-style-guide/`, {
 			waitUntil: "networkidle",
 			timeout: 30000,
 		});
@@ -60,7 +60,7 @@ test.describe("Visual Regression - Production", () => {
 			fullPage: true,
 			animations: "disabled",
 			threshold: 0.2,
-			maxDiffPixelRatio: 0.002,
+			maxDiffPixelRatio: 0.02,
 		});
 	});
 

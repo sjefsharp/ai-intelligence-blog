@@ -6,8 +6,8 @@ const BASE_URL = "http://localhost:4321";
 const testRoutes = [
 	{ path: "/en/", name: "English Homepage" },
 	{ path: "/nl/", name: "Dutch Homepage" },
-	{ path: "/en/blog/first-post/", name: "English Blog Post" },
-	{ path: "/nl/blog/first-post/", name: "Dutch Blog Post" },
+	{ path: "/en/blog/markdown-style-guide/", name: "English Blog Post" },
+	{ path: "/nl/blog/markdown-style-guide/", name: "Dutch Blog Post" },
 ];
 
 test.describe("WCAG 2.2 AA Automated Accessibility Tests (axe-core) - Quick", () => {

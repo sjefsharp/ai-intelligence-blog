@@ -1,7 +1,6 @@
 /** Phase G — Knowledge Continuity Validation */
 
-import { readFileSync, readdirSync } from "fs";
-import { join } from "path";
+import { readFileSync } from "fs";
 import { randomBytes, createHash } from "crypto";
 
 interface ArtifactRef {
@@ -56,7 +55,6 @@ interface PhaseGInput {
  */
 export async function validateKnowledgeState(input: PhaseGInput): Promise<any> {
 	const editionDate = input.editionDate;
-	const editionId = `edition_${editionDate}`;
 
 	// Load and validate thesaurus
 	const thesaurusArtifact = input["thesaurus"];

@@ -12,8 +12,7 @@ export * from "./schema.js";
 export * from "./evaluator.js";
 
 import { evaluateReadableQuality } from "./evaluator.js";
-import { readFileSync, readdirSync } from "fs";
-import { join } from "path";
+import { readFileSync } from "fs";
 import { randomBytes, createHash } from "crypto";
 
 /**
@@ -28,12 +27,6 @@ export async function evaluateReadablePublication(input: any): Promise<any> {
 	const newsletterArtifact = input["newsletter-md"] || input.newsletterMd;
 	let dutchPublicationMarkdown = "";
 	let dutchPublicationArtifactId = "";
-	let dutchPublicationTraceability: any = {
-		segments: [],
-		claimCoverage: [],
-		sourceCoverage: [],
-		storyCoverage: [],
-	};
 
 	if (newsletterArtifact) {
 		if (newsletterArtifact.path) {
@@ -59,12 +52,6 @@ export async function evaluateReadablePublication(input: any): Promise<any> {
 		input["research-audit-md"] || input.researchAuditMd;
 	let englishPublicationMarkdown = "";
 	let englishPublicationArtifactId = "";
-	let englishPublicationTraceability: any = {
-		segments: [],
-		claimCoverage: [],
-		sourceCoverage: [],
-		storyCoverage: [],
-	};
 
 	if (researchAuditArtifact) {
 		if (researchAuditArtifact.path) {

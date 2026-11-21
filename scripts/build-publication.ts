@@ -53,7 +53,6 @@ import {
 	EditionIdentitySchema,
 	CanonicalReferencesSchema,
 	ArticleIdentitySchema,
-	PublicationPackageSchema,
 	type EditionIdentity,
 	type CanonicalReferences,
 	type ArticleIdentity,

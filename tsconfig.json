@@ -4,7 +4,7 @@
   "exclude": ["dist", "coverage"],
   "compilerOptions": {
     "strictNullChecks": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "noUnusedParameters": false,
     "allowUnusedLabels": true,
     "allowUnreachableCode": true

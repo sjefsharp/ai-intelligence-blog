@@ -27,10 +27,8 @@ import {
 	type AcceptanceDecision,
 	type AcceptanceDecisionStatus,
 	type AcceptanceDefect,
-	AcceptanceDecisionStatusSchema,
-	AcceptanceGateStatusSchema,
 } from "./schema.js";
-import { ACCEPTANCE_GATES, getGateDefinition } from "./gate-registry.js";
+import { ACCEPTANCE_GATES } from "./gate-registry.js";
 
 // ============================================================================
 // Aggregation Input Types
@@ -118,7 +116,6 @@ export function aggregateAcceptanceDecision(
 	input: AcceptanceAggregationInput,
 ): AcceptanceAggregationResult {
 	const {
-		editionId,
 		gateResults,
 		defects,
 		humanAuthorizations,

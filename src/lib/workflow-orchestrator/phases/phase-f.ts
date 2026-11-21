@@ -1,6 +1,6 @@
 /** Phase F — Quality Assurance: Bounded Editorial Repairs */
 
-import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "fs";
+import { readFileSync, writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
 import { randomBytes, createHash } from "crypto";
 
@@ -98,35 +98,8 @@ export async function executeBoundedRepairs(input: PhaseFInput): Promise<any> {
 	const q1q10Report = loadReport(input["q1q10-evaluation"]);
 	const audioAgReport = loadReport(input["audio-ag-evaluation"]);
 	const readableReport = loadReport(input["readable-quality-evaluation"]);
-	const listeningNarrativeArtifact = input["listening-nl-md"];
-	const newsletterArtifact = input["newsletter-md"];
-	const researchAuditArtifact = input["research-audit-md"];
 	const factDossierArtifact = input["canonical-fact-dossier"];
 	const editorialManifestArtifact = input["resolved-editorial-manifest"];
-
-	// Load publication artifacts
-	const loadContent = (artifact: any): string => {
-		if (!artifact) return "";
-		if (artifact.path && typeof artifact.path === "string") {
-			try {
-				return readFileSync(artifact.path, "utf-8");
-			} catch {
-				return "";
-			}
-		}
-		if (typeof artifact === "string") {
-			try {
-				return readFileSync(artifact, "utf-8");
-			} catch {
-				return "";
-			}
-		}
-		return artifact.markdown || artifact.content || "";
-	};
-
-	const listeningNarrativeMarkdown = loadContent(listeningNarrativeArtifact);
-	const newsletterMarkdown = loadContent(newsletterArtifact);
-	const researchAuditMarkdown = loadContent(researchAuditArtifact);
 
 	// Load fact dossier and editorial manifest
 	let factDossier = loadReport(factDossierArtifact);

@@ -3,7 +3,7 @@
  * FocusReadingMode — distraction-free reading overlay.
  * Hides all UI chrome (masthead, TOC, fold margin, footer) for pure focus.
  */
-import { getTranslation, type Locale } from "../i18n";
+import { type Locale } from "../i18n";
 import type { TranslationKeys } from "../i18n";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 	t: TranslationKeys;
 }
 
-const { locale, t } = Astro.props;
+const { t } = Astro.props;
 ---
 
 <div

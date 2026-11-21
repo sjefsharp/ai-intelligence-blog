@@ -325,7 +325,6 @@ export async function validateKnowledgeRegisters(input: {
 }> {
 	const { readFileSync, existsSync } = await import("fs");
 	const { join } = await import("path");
-	const { parse } = await import("yaml");
 
 	const registers = {
 		thesaurus: { exists: false, valid: false, entries: 0 },

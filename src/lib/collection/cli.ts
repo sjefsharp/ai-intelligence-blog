@@ -20,8 +20,6 @@ import { Command } from "commander";
 import { CollectionOrchestrator } from "./orchestrator.js";
 import type { OrchestratorConfig, CollectionJob } from "./orchestrator.js";
 import type { TimeWindow, DiscoveryRing } from "./types.js";
-import { promises as fs } from "fs";
-import path from "path";
 
 const program = new Command();
 
@@ -153,7 +151,7 @@ async function validateSources(orchestrator: any) {
 	let validated = 0;
 	let failed = 0;
 
-	for (const [sourceId, config] of registry) {
+	for (const [, config] of registry) {
 		try {
 			const adapter = orchestrator.getAdapter(config);
 			if (!adapter) {

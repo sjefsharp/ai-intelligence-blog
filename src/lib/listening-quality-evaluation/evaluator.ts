@@ -11,20 +11,8 @@ import { promises as fs } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { z } from "astro/zod";
-
-import type {
-	CanonicalFactDossier,
-	CanonicalCandidate,
-	ConsolidatedClaim,
-	VerificationLevel,
-	EvidenceClassification,
-} from "../fact-dossier/schema.js";
-import type {
-	EditorialSelectionManifest,
-	EditorialStory,
-	EditorialCandidateAssessment,
-} from "../editorial-selection/schema.js";
+import type { CanonicalFactDossier } from "../fact-dossier/schema.js";
+import type { EditorialSelectionManifest } from "../editorial-selection/schema.js";
 import type { HistoricalRegressionReport } from "../historical-regression/schema.js";
 import type {
 	ArticleIdentity,
@@ -33,7 +21,6 @@ import type {
 import {
 	createFreeLLMClient,
 	type LLMClientConfig,
-	type LLMResponse,
 } from "../free-llm-client.js";
 import {
 	LISTENING_QUALITY_EVALUATION_SCHEMA_VERSION,
@@ -44,15 +31,9 @@ import {
 	ALL_CRITERIA,
 	CriterionEvaluationStatusSchema,
 	SeverityLevelSchema,
-	EvaluationMethodSchema,
-	RepairActionStatusSchema,
-	EvaluationScopeSchema,
 	type CriterionId,
-	type CriterionEvaluationStatus,
-	type SeverityLevel,
 	type EvaluationMethod,
 	type RepairActionStatus,
-	type EvaluationScope,
 	type CriterionEvaluation,
 	type RepairAction,
 	type ListeningQualityEvaluationReport,
@@ -61,12 +42,8 @@ import {
 	type EvaluationMetadata,
 	type PassageReference,
 	type EvaluationEvidence,
-	type NarrativeSegmentTrace,
 	type ListeningNarrativeTraceability,
-	CriterionEvaluationSchema,
-	RepairActionSchema,
 	ListeningQualityEvaluationReportSchema,
-	generateListeningQualityEvaluationJsonSchema,
 } from "./schema.js";
 
 export type { ListeningQualityEvaluationInput } from "./schema.js";
@@ -1006,128 +983,6 @@ Geef je evaluatie in JSON formaat:
 	return parseModelEvaluation(result.content, "Q4", "model-assisted", ctx);
 }
 
-async function evaluateQ5_FactualAccuracy(
-	ctx: EvaluationContext,
-): Promise<CriterionEvaluation> {
-	const prompt = `Evalueer criterium Q5: "Feitelijke accurateheid, technisch diepgang en traceerbaarheid" voor het volgende luisternarratief.
-
-CRITERIUM Q5: Verifieer dat alle materiële beweringen consistent blijven met het canoniek feiten dossier en editoriële selectie manifest.
-
-Evalueer:
-- Feitelijke accurateheid
-- Correcte technische mechanismen
-- Behoud van belangrijke wetenschappelijke bevindingen
-- Accurate behandeling van onderzoeksmethodologie
-- Correcte release maturity en beschikbaarheid
-- Accurate numerieke bevindingen
-- Attributie van vendor claims
-- Onderscheid correlatie vs causaliteit
-- Behoud van beperkingen en onzekerheid
-- Complete dekking van materieel geselecteerde ontwikkelingen
-- Traceerbaarheid naar originele claim en source identifiers
-
-Wetenschappelijk en strategisch onderzoek van academische instellingen, Gartner, McKinsey, Forrester, IDC en vergelijkbare bronnen moet dezelfde evidentiële discipline krijgen als technische productaankondigingen.
-
-Het gesproken narratief mag GEEN experimenten, resultaten, capaciteiten, architectuurimplicaties of causale verklaringen UITVINDEN.
-
-LUISTERNARRATIEF:
-${ctx.listeningNarrativeMarkdown}
-
-FEITEN DOSSIER SAMENVATTING:
-${summarizeFactDossier(ctx.factDossier)}
-
-EDITORIËLE SELECTIE:
-${summarizeEditorialSelection(ctx.editorialManifest)}
-
-Geef je evaluatie in JSON formaat:
-{
-  "status": "PASS|FAIL|UNVERIFIED|NOT_ASSESSABLE",
-  "severity": "CRITICAL|MAJOR|MINOR|ADVISORY",
-  "summary": "Korte samenvatting",
-  "rationale": "Gedetailleerde redenatie",
-  "evidence": [{"type": "model-assisted", "description": "...", "passageReferences": [], "claimIds": [], "sourceIds": []}],
-  "passageReferences": [],
-  "residualUncertainty": "..."
-}`;
-
-	const result = await callLLMWithRetry(ctx, prompt, "Q5");
-	return parseModelEvaluation(result.content, "Q5", "model-assisted", ctx);
-}
-
-async function evaluateQ6_NoEditorialSelfCommentary(
-	ctx: EvaluationContext,
-): Promise<CriterionEvaluation> {
-	const prompt = `Evalueer criterium Q6: "Geen editorieel zelfcommentaar" voor het volgende luisternarratief.
-
-CRITERIUM Q6: Verifieer dat het narratief onnodig commentaar over eigen editoriale keuzes vermijdt.
-
-Detecteer zinnen die uitleggen:
-- Waarom de auteur een bepaald verhaal geselecteerd heeft
-- Hoe de newsletter gestructureerd was
-- Waarom een onderwerp aandacht verdient volgens de editor
-- Hoeveel moeite het onderzoek van de editie gekost heeft
-- Wat de verteller van plan is te bespreken puur als editoriële aankondiging
-
-Onderscheid editorieel zelfcommentaar van nuttige luisteraar-orientatie.
-Natuurlijke overgangen en korte uitleg waarom een ontwikkeling belangrijk is ZIJN toegestaan.
-Het narratief moet het nieuws DIRECT communiceren in plaats van de eigen constructie te beschrijven.
-
-LUISTERNARRATIEF:
-${ctx.listeningNarrativeMarkdown}
-
-Geef je evaluatie in JSON formaat:
-{
-  "status": "PASS|FAIL|UNVERIFIED|NOT_ASSESSABLE",
-  "severity": "CRITICAL|MAJOR|MINOR|ADVISORY",
-  "summary": "Korte samenvatting",
-  "rationale": "Gedetailleerde redenatie",
-  "evidence": [{"type": "model-assisted", "description": "...", "passageReferences": [], "claimIds": [], "sourceIds": []}],
-  "passageReferences": [],
-  "residualUncertainty": "..."
-}`;
-
-	const result = await callLLMWithRetry(ctx, prompt, "Q6");
-	return parseModelEvaluation(result.content, "Q6", "model-assisted", ctx);
-}
-
-async function evaluateQ7_ConcreteOpening(
-	ctx: EvaluationContext,
-): Promise<CriterionEvaluation> {
-	const prompt = `Evalueer criterium Q7: "Concrete opening zonder formuleuze structuur" voor het volgende luisternarratief.
-
-CRITERIUM Q7: Evalueer of de opening onmiddellijk een consequentieel ontwikkelingsgebied of concrete situatie vestigt.
-
-Vereisten:
-- Begin met daadwerkelijk materieel nieuws
-- Vestig significantie snel
-- Geef voldoende context voor begrip
-- Vermijd generieke introducties en herhalende podcast formules
-- Vermijd kunstmatige spanning
-- Vermijd gedwongen overkoepelende thema's
-- Vermijd automatische prioritering van GitHub, Copilot of VS Code
-- Sta wetenschappelijke, economische, strategische of beveiligingsontwikkelingen toe te leiden wanneer editorieel gerechtvaardigd
-
-LUISTERNARRATIEF (opening sectie):
-${ctx.listeningNarrativeMarkdown.split("## Verhaal")[0]}
-
-LEIDENDE ONTWIKKELING UIT EDITORIËLE SELECTIE:
-${ctx.editorialManifest.stories.length > 0 ? `${ctx.editorialManifest.stories[0].organizations.join(", ")} - ${ctx.editorialManifest.stories[0].summary}` : "Geen verhalen"}
-
-Geef je evaluatie in JSON formaat:
-{
-  "status": "PASS|FAIL|UNVERIFIED|NOT_ASSESSABLE",
-  "severity": "CRITICAL|MAJOR|MINOR|ADVISORY",
-  "summary": "Korte samenvatting",
-  "rationale": "Gedetailleerde redenatie",
-  "evidence": [{"type": "model-assisted", "description": "...", "passageReferences": [], "claimIds": [], "sourceIds": []}],
-  "passageReferences": [],
-  "residualUncertainty": "..."
-}`;
-
-	const result = await callLLMWithRetry(ctx, prompt, "Q7");
-	return parseModelEvaluation(result.content, "Q7", "model-assisted", ctx);
-}
-
 async function evaluateQ8_ManageableInformationDensity(
 	ctx: EvaluationContext,
 ): Promise<CriterionEvaluation> {
@@ -1208,47 +1063,6 @@ Geef je evaluatie in JSON formaat:
 
 	const result = await callLLMWithRetry(ctx, prompt, "Q9");
 	return parseModelEvaluation(result.content, "Q9", "model-assisted", ctx);
-}
-
-async function evaluateQ10_NoMandatoryArchitectureLesson(
-	ctx: EvaluationContext,
-): Promise<CriterionEvaluation> {
-	const prompt = `Evalueer criterium Q10: "Geen verplichte architectuurles" voor het volgende luisternarratief.
-
-CRITERIUM Q10: Verifieer dat het narratief NIET automatisch elke ontwikkeling transformeert in een algemeen architectuur-, governance- of engineering-principe.
-
-Architectuurinzichten Mogen opgenomen worden wanneer:
-- Ze natuurlijk voortvloeien uit de gerapporteerde ontwikkeling
-- Ze ondersteund worden door actueel bewijs
-- Ze het begrip verbeteren
-- Hun toepasbaarheid en beperkingen duidelijk zijn
-
-Vereist NIET:
-- Een governance conclusie voor elk verhaal
-- Een finale architectuur-principes sectie
-- Een generieke les over agent orchestratie
-- Herhaald software engineering advies
-- Een geforceerde samenvatting van architectuurimplicaties
-
-Sta toe dat het narratief natuurlijk eindigt.
-Behoud écht significante architectuurinzichten zonder ze te fabriceren.
-
-LUISTERNARRATIEF (conclusie sectie):
-${ctx.listeningNarrativeMarkdown.split("## Verhaal").pop() || ctx.listeningNarrativeMarkdown.slice(-1000)}
-
-Geef je evaluatie in JSON formaat:
-{
-  "status": "PASS|FAIL|UNVERIFIED|NOT_ASSESSABLE",
-  "severity": "CRITICAL|MAJOR|MINOR|ADVISORY",
-  "summary": "Korte samenvatting",
-  "rationale": "Gedetailleerde redenatie",
-  "evidence": [{"type": "model-assisted", "description": "...", "passageReferences": [], "claimIds": [], "sourceIds": []}],
-  "passageReferences": [],
-  "residualUncertainty": "..."
-}`;
-
-	const result = await callLLMWithRetry(ctx, prompt, "Q10");
-	return parseModelEvaluation(result.content, "Q10", "model-assisted", ctx);
 }
 
 // ============================================================================
@@ -1390,28 +1204,6 @@ function summarizeFactDossier(dossier: CanonicalFactDossier): string {
 		`Claims met onopgeloste onzekerheden: ${dossier.editionSummary.claimsWithUnresolvedUncertainties}`,
 	].join("\n");
 	return summary;
-}
-
-function summarizeEditorialSelection(
-	manifest: EditorialSelectionManifest,
-): string {
-	const selected = manifest.stories.filter(
-		(s) => s.decision === "SELECTED" || s.decision === "CATCH_UP_SELECTED",
-	);
-	const excluded = manifest.candidates.filter((c) =>
-		c.decision.startsWith("EXCLUDED"),
-	);
-	const deferred = manifest.candidates.filter(
-		(c) => c.decision === "DEFERRED_UNVERIFIED",
-	);
-
-	return [
-		`Geselecteerde verhalen: ${selected.length}`,
-		`Uitgesloten: ${excluded.length}`,
-		`Uitgesteld: ${deferred.length}`,
-		`Catch-up: ${manifest.candidates.filter((c) => c.decision === "CATCH_UP_SELECTED").length}`,
-		`Concentratie review: ${manifest.concentrationReview.findings.slice(0, 3).join("; ")}`,
-	].join("\n");
 }
 
 // ============================================================================

@@ -11,7 +11,6 @@ import type {
 	RetrievalResult,
 	RetrievalCheckpoint,
 	RetrievalError,
-	RetrievalStatus,
 	CollectedItem,
 	ValidationResult,
 	AdapterMetadata,

@@ -44,12 +44,7 @@ import type {
 	EditorialStory,
 	EditorialCandidateAssessment,
 } from "../editorial-selection/schema.js";
-import type {
-	CanonicalCandidate,
-	ConsolidatedClaim,
-	VerificationLevel,
-} from "../fact-dossier/schema.js";
-import type { HistoricalRelationship } from "../historical-regression/schema.js";
+import type { CanonicalCandidate } from "../fact-dossier/schema.js";
 
 const createMockCandidate = (
 	overrides: Partial<CanonicalCandidate> = {},

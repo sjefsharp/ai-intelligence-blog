@@ -6,15 +6,7 @@
  * Provides coverage metrics, execution traceability, and historical regression detection.
  */
 
-import type {
-	DiscoveryRing,
-	RetrievalStatus,
-	SourceConfig,
-	RetrievalResult,
-	RetrievalError,
-	CollectedItem,
-	SourceType,
-} from "../collection/types.js";
+import type { DiscoveryRing, RetrievalStatus } from "../collection/types.js";
 
 export type { DiscoveryRing, RetrievalStatus } from "../collection/types.js";
 

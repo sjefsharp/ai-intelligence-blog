@@ -563,7 +563,6 @@ export function computeHistoricalMatch(
 
 	// --- Token similarity (flag only) --------------------------------------
 	const currentTokens = candidateTextTokens(current);
-	const currentClaimTokens = candidateClaimTokens(current);
 	let headlineSimilarity = 0;
 	let bestSemanticCandidate: CanonicalCandidate | null = null;
 	let bestClaimSimilarity = 0;
@@ -588,14 +587,6 @@ export function computeHistoricalMatch(
 		headlineSimilarity >= headlineThreshold ||
 		(bestClaimSimilarity >= claimThreshold &&
 			sharedTokenCount >= MIN_SHARED_TOKENS);
-
-	const primaryHistorical =
-		sameCandidate ??
-		matchedClaims[0] ??
-		(urlMatchedCandidates.size > 0
-			? index.byCandidateId.get([...urlMatchedCandidates][0])
-			: undefined) ??
-		bestSemanticCandidate;
 
 	const previousPublicationId = undefined; // publication linkage is resolved by the engine
 

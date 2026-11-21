@@ -12,19 +12,12 @@
  * - Historical consistency and backward compatibility
  */
 
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { DiscoveryLedger, createDiscoveryLedger } from "./ledger.js";
 import type {
 	SourceMonitoringRecord,
 	RetrievalStatus,
 	DiscoveryRing,
-	SourceFamily,
-	CriticalityLevel,
-	MonitoringCadence,
-	ExecutionContext,
-	CoverageMetrics,
-	CandidateTraceabilityRecord,
-	MonitoringAnomaly,
 	SourceDiscoveryLink,
 	NoveltyClassificationLink,
 	EvidenceVerificationLink,
@@ -34,7 +27,6 @@ import type {
 	SourceConfig,
 	RetrievalResult,
 	CollectedItem,
-	RetrievalError,
 } from "../collection/types.js";
 import path from "path";
 
@@ -1372,27 +1364,6 @@ describe("Discovery Ledger — Core Functionality", () => {
 			// For this unit test, we'll record them as NOT_CHECKED with scheduled=true
 			for (let i = 3; i <= 5; i++) {
 				// Use recordSourceMonitoring with a custom result that has NOT_CHECKED status but scheduled=true
-				const notCheckedResult: RetrievalResult = {
-					sourceConfig: createMockSourceConfig({ sourceId: `s${i}` }),
-					status: "NOT_CHECKED",
-					items: [],
-					newItemCount: 0,
-					updatedItemCount: 0,
-					errors: [
-						{
-							code: "NOT_SCHEDULED",
-							message: "Not checked",
-							url: "",
-							timestamp: new Date().toISOString(),
-							retryable: false,
-						},
-					],
-					metadata: {
-						startedAt: new Date().toISOString(),
-						completedAt: new Date().toISOString(),
-						durationMs: 0,
-					},
-				};
 				// Manually create a record with scheduled=true
 				const record: SourceMonitoringRecord = {
 					sourceId: `s${i}`,

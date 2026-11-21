@@ -18,23 +18,18 @@
 import type {
 	CanonicalFactDossier,
 	CanonicalCandidate,
-	ConsolidatedClaim,
-	EvidenceClassification,
 	VerificationLevel,
-	TemporalEligibilityStatus,
 } from "../fact-dossier/schema.js";
 import type {
 	EditorialSelectionManifest,
 	EditorialStory,
 	EditorialCandidateAssessment,
-	EditorialDecision,
 } from "../editorial-selection/schema.js";
 import type {
 	HistoricalRegressionReport,
 	HistoricalRelationship,
 	HistoricalRelationshipClassification,
 } from "../historical-regression/schema.js";
-import type { ArticleIdentity } from "./schema.js";
 
 /**
  * Story composition context loaded from upstream artifacts
@@ -1167,16 +1162,6 @@ function translateDimension(dimension: string): string {
 		"availability-maturity": "Beschikbaarheid/volwassenheid",
 	};
 	return translations[dimension] ?? dimension;
-}
-
-function getTemporalLabel(status: TemporalEligibilityStatus): string {
-	const labels: Record<TemporalEligibilityStatus, string> = {
-		NEW_PASS: "nieuw en binnen venster",
-		NEW_FAIL: "nieuw maar herpublicatie/samenvatting",
-		TIME_UNVERIFIED: "publicatietijd niet verifieerbaar",
-		CATCH_UP: "explict gedateerd historisch materiaal",
-	};
-	return labels[status] ?? status;
 }
 
 function getHistoricalLabel(

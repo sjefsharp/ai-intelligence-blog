@@ -15,7 +15,6 @@ import type {
 	CollectedItem,
 	ValidationResult,
 	AdapterMetadata,
-	AdapterCapability,
 	RetrievalMetadata,
 } from "../types.js";
 

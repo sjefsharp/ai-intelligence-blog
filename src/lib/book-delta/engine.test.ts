@@ -36,7 +36,6 @@ import {
 	BookDeltaArtifactSchema,
 	BookDeltaEvaluationResultSchema,
 	BookDeltaKnowledgeContinuityResultSchema,
-	BookDeltaProposalSchema,
 } from "./schema.js";
 import {
 	checkBookDeltaArtifactsExist,

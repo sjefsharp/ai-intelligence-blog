@@ -14,23 +14,16 @@
  * test fixtures, not real research findings.
  */
 
-import {
-	existsSync,
-	readFileSync,
-	readdirSync,
-	mkdirSync,
-	writeFileSync,
-} from "fs";
+import { existsSync, readFileSync, readdirSync } from "fs";
 import { join } from "path";
 import { fileURLToPath } from "url";
-import { parse, parseAllDocuments } from "yaml";
+import { parse } from "yaml";
 
 import {
 	createOmissionReviewEngine,
 	type OmissionReviewInput,
 	type OmissionReviewResult,
 } from "../src/lib/omission-review/index.js";
-import { createFactDossierStore } from "../src/lib/fact-dossier/store.js";
 import { createDiscoveryLedger } from "../src/lib/discovery-ledger/index.js";
 import type { SourceMonitoringRecord } from "../src/lib/discovery-ledger/types.js";
 import type { CanonicalFactDossier } from "../src/lib/fact-dossier/schema.js";

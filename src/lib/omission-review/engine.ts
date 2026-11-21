@@ -9,10 +9,8 @@
  */
 
 import crypto from "crypto";
-import { Temporal } from "@js-temporal/polyfill";
 
 import type {
-	OmissionClassification,
 	DiscoveryStrategy,
 	ResearchDomain,
 	OmissionReviewSourceCheck,
@@ -34,14 +32,8 @@ import type {
 	OmissionReviewInput,
 	OmissionReviewResult,
 	CoverageGapReport,
-	OmissionReviewEvidenceReference,
-	OmittedClaim,
-	SourceFamily,
 	CriticalityLevel,
-	MonitoringCadence,
 	DiscoveryRing,
-	SourceMonitoringRecord,
-	OmittedClaimType,
 } from "./types.js";
 
 import { OMISSION_REVIEW_VERSION } from "./types.js";
@@ -49,7 +41,6 @@ import { OMISSION_REVIEW_VERSION } from "./types.js";
 import {
 	classifyNovelty,
 	type NoveltyClassificationInput,
-	type NoveltyClassificationResult,
 } from "../novelty-classification.js";
 
 import {
@@ -59,7 +50,6 @@ import {
 
 import {
 	buildCandidateCore,
-	buildDossier,
 	type CandidateConsolidationInput as FactDossierCandidateInput,
 	type ConsolidationContext,
 } from "../fact-dossier/consolidator.js";
@@ -81,11 +71,6 @@ const DEFAULT_REPORT_DIR = "data/omission-reviews";
 /** Generate a stable omission review ID */
 function generateOmissionId(prefix: string): string {
 	return `${prefix}_${crypto.randomBytes(8).toString("hex")}`;
-}
-
-/** Generate a stable candidate ID for omitted candidates */
-function generateOmittedCandidateId(): string {
-	return `omit_${crypto.randomBytes(8).toString("hex").slice(0, 16)}`;
 }
 
 /** Generate a stable gap ID */
@@ -1472,7 +1457,7 @@ export class OmissionReviewEngine {
 	): Promise<void> {
 		// For each existing candidate, check if there are new disclosures
 		// that materially change the candidate
-		for (const existingCandidate of input.canonicalDossier.candidates) {
+		for (const _existingCandidate of input.canonicalDossier.candidates) {
 			// In a real implementation, this would re-check the candidate's sources
 			// for new publications since the original discovery
 			// For now, we record the check was performed
@@ -1941,7 +1926,7 @@ export class OmissionReviewEngine {
 		const allInputs: FactDossierCandidateInput[] = [];
 
 		// Original candidates
-		for (const existing of input.canonicalDossier.candidates) {
+		for (const _existing of input.canonicalDossier.candidates) {
 			// Would need to reconstruct from dossier - simplified for now
 		}
 

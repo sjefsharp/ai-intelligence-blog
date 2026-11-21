@@ -616,7 +616,7 @@ function determineReadiness(
  * unresolved issues, and all editorial dependencies are resolved.
  */
 async function validateSelectionCompleteness(input: any): Promise<any> {
-	const { manifest, dossier } = input;
+	const { manifest } = input;
 
 	const selectedStories = manifest.stories.filter(
 		(story: EditorialStory) =>

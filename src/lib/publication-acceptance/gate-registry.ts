@@ -26,10 +26,7 @@
  * - Does not invent a competing gate taxonomy.
  */
 
-import {
-	ACCEPTANCE_ID_PATTERNS,
-	type AcceptanceGateDefinition,
-} from "./schema.js";
+import { type AcceptanceGateDefinition } from "./schema.js";
 
 // ============================================================================
 // Gate Definitions

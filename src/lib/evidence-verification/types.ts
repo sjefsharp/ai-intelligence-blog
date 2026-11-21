@@ -5,8 +5,6 @@
  * evidence classification, and traceability per AI Intelligence Publication Contract §4, §6.
  */
 
-import type { DiscoveryRing, SourceType } from "../collection/types.js";
-
 /** Evidence classification categories per contract §4.2 */
 export type EvidenceClassification =
 	| "VERIFIED_FACT"

@@ -15,30 +15,23 @@
 import type {
 	CanonicalFactDossier,
 	CanonicalCandidate,
-	ConsolidatedClaim,
-	EvidenceClassification,
 	VerificationLevel,
-	TemporalEligibilityStatus,
 } from "../fact-dossier/schema.js";
 import type {
 	EditorialSelectionManifest,
 	EditorialStory,
 	EditorialCandidateAssessment,
-	EditorialDecision,
-	EditorialDepth,
 } from "../editorial-selection/schema.js";
 import type {
 	HistoricalRegressionReport,
 	HistoricalRelationship,
 	HistoricalRelationshipClassification,
 } from "../historical-regression/schema.js";
-import type { ArticleIdentity } from "./schema.js";
 import {
 	createFreeLLMClient,
 	type LLMClientConfig,
-	type LLMResponse,
 } from "../free-llm-client.js";
-import { generateArticleId, computeContentHash } from "./metadata.js";
+import { computeContentHash } from "./metadata.js";
 
 /**
  * Story composition context loaded from upstream artifacts
@@ -253,14 +246,7 @@ export async function generateEnglishArticleMarkdown(
 		validateOnly?: boolean;
 	} = {},
 ): Promise<EnglishArticleGenerationResult> {
-	const {
-		editionDate,
-		editionWindow,
-		stories,
-		factDossier,
-		editorialManifest,
-		historicalRegression,
-	} = input;
+	const { editionDate, editionWindow, stories } = input;
 
 	// Handle validation-only mode: return mock result without calling LLM
 	if (options.validateOnly) {

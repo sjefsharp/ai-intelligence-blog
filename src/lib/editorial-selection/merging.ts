@@ -96,7 +96,7 @@ export function detectMergeGroups(
 	const byId = new Map(
 		sorted.map((candidate) => [candidate.candidateId, candidate]),
 	);
-	for (const [root, members] of groups) {
+	for (const [, members] of groups) {
 		if (members.length < 2) continue;
 		const ordered = members
 			.map((id) => ({

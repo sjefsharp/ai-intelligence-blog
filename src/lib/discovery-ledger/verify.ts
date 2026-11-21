@@ -5,11 +5,7 @@
  * have been checked in the current edition's discovery ledger.
  */
 
-import type {
-	DiscoveryLedgerEntry,
-	SourceMonitoringRecord,
-	CriticalityLevel,
-} from "./types.js";
+import type { DiscoveryLedgerEntry } from "./types.js";
 
 /**
  * Result of mandatory coverage verification
@@ -42,7 +38,7 @@ export async function verifyMandatoryCoverage(input: {
 	editionDate: string;
 	ledgerEntry: DiscoveryLedgerEntry;
 }): Promise<MandatoryCoverageReport> {
-	const { editionDate, ledgerEntry } = input;
+	const { ledgerEntry } = input;
 
 	// Handle missing or malformed ledger entry
 	if (

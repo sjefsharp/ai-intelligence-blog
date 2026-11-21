@@ -15,33 +15,21 @@ import { fileURLToPath } from "node:url";
 import {
 	type PublicationMetadata,
 	type DailyIndex,
-	type ArticleIdentity,
 	type EditionIdentity,
 	type CanonicalReferences,
 	validatePublicationMetadata,
 	validateDailyIndex,
-	validateArticleIdentity,
 	validateEditionIdentity,
 	validateCanonicalReferences,
 } from "./metadata.js";
 import {
-	getEditionDir,
-	getCanonicalDir,
 	getNewsletterPath,
 	getResearchAuditPath,
 	getListeningNarrativePath,
-	getDailyIndexPath,
 	getEnglishArticlesDir,
 	getEnglishListeningDir,
-	getAllCanonicalPaths,
-	extractEditionDateFromPath,
 } from "./paths.js";
-import {
-	PublicationContentTypeSchema,
-	PublicationLifecycleStatusSchema,
-	type PublicationContentType,
-	type PublicationLifecycleStatus,
-} from "./schema.js";
+import { type PublicationContentType } from "./schema.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = join(__dirname, "..", "..", "..");

@@ -13,7 +13,6 @@ import {
 	type BookDeltaArtifact,
 	type BookDeltaEvaluationResult,
 	type BookDeltaKnowledgeContinuityResult,
-	BOOK_DELTA_ID_PATTERNS,
 	BOOK_DELTA_PROPOSAL_ID_PREFIX,
 	BOOK_DELTA_ARTIFACT_ID_PREFIX,
 	BOOK_DELTA_SCHEMA_VERSION,

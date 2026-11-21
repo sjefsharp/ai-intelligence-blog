@@ -29,19 +29,12 @@
  * 22. A narrative requiring visual information to understand essential claims
  */
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import type {
-	ListeningQualityEvaluationInput,
-	ListeningQualityEvaluationReport,
-	CriterionEvaluationStatus,
-	SeverityLevel,
-	HolisticListeningAssessment,
-} from "../listening-quality-evaluation/schema.js";
+import { describe, it, expect, vi } from "vitest";
+import type { ListeningQualityEvaluationInput } from "../listening-quality-evaluation/schema.js";
 import type { ListeningNarrativeTraceability } from "../listening-quality-evaluation/schema.js";
 import type {
 	CanonicalFactDossier,
 	CanonicalCandidate,
-	ConsolidatedClaim,
 } from "../fact-dossier/schema.js";
 import type {
 	EditorialSelectionManifest,
@@ -49,10 +42,7 @@ import type {
 	EditorialCandidateAssessment,
 } from "../editorial-selection/schema.js";
 import type { HistoricalRegressionReport } from "../historical-regression/schema.js";
-import type {
-	PublicationMetadata,
-	ArticleIdentity,
-} from "../publication/schema.js";
+import type { PublicationMetadata } from "../publication/schema.js";
 
 // Mock the LLM client
 vi.mock("../free-llm-client.js", () => ({
@@ -600,8 +590,6 @@ const createMockPublicationMetadata = (): PublicationMetadata => ({
 	topics: [],
 	organizations: [],
 });
-
-const createMockArticleIdentities = (): ArticleIdentity[] => [];
 
 const createValidNarrative =
 	(): string => `# AI Daily Intelligence — woensdag 15 januari 2025
@@ -1217,8 +1205,7 @@ Vandaag OpenAI en McKinsey.`;
 		const input = createMockInput({
 			listeningNarrativeMarkdown: incoherentNarrative,
 		});
-		const { evaluationReport, holisticAssessment } =
-			await evaluateAudioQuality(input);
+		const { holisticAssessment } = await evaluateAudioQuality(input);
 
 		// Holistic assessment should detect coherence issues
 		expect(holisticAssessment).toBeDefined();

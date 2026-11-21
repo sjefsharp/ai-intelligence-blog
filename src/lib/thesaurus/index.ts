@@ -9,7 +9,6 @@ export * from "./store.js";
 export * from "./engine.js";
 
 import { processChangeProposals } from "./engine.js";
-import type { TerminologyChangeProposal } from "./schema.js";
 import { readFileSync, writeFileSync, mkdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
@@ -63,26 +62,6 @@ export async function evaluateThesaurus(input: any): Promise<any> {
 		}
 	}
 
-	// Load existing thesaurus
-	const thesaurusArtifact = input["thesaurus"] || input.thesaurusArtifact;
-	let thesaurus: any = {
-		entries: [],
-		relationships: [],
-		version: 1,
-		schemaVersion: "1.0.0",
-	};
-	if (thesaurusArtifact) {
-		if (thesaurusArtifact.path) {
-			thesaurus = JSON.parse(
-				readFileSync(thesaurusArtifact.path, "utf-8"),
-			);
-		} else if (typeof thesaurusArtifact === "string") {
-			thesaurus = JSON.parse(readFileSync(thesaurusArtifact, "utf-8"));
-		} else if (thesaurusArtifact.entries !== undefined) {
-			thesaurus = thesaurusArtifact;
-		}
-	}
-
 	// Generate change proposals from fact dossier and editorial manifest
 	const proposals: any[] = [];
 
@@ -90,7 +69,6 @@ export async function evaluateThesaurus(input: any): Promise<any> {
 	const candidates = factDossier.candidates || [];
 	for (const candidate of candidates) {
 		// Extract key terms from candidate
-		const domains = candidate.researchDomains || [];
 		const claims = candidate.claims || [];
 
 		for (const claim of claims) {
@@ -171,17 +149,6 @@ export async function evaluateThesaurus(input: any): Promise<any> {
 	const results = await processChangeProposals(limitedProposals, {
 		generatedBy: "thesaurus-evaluation-engine",
 	});
-
-	// Load updated thesaurus (processChangeProposals should have updated the persisted artifact)
-	let updatedThesaurus = thesaurus;
-	try {
-		const thesaurusPath = join(
-			"data",
-			"thesaurus",
-			"thesaurus-artifact.json",
-		);
-		updatedThesaurus = JSON.parse(readFileSync(thesaurusPath, "utf-8"));
-	} catch {}
 
 	// Persist evaluation result
 	const evaluationResult = {

@@ -29,16 +29,10 @@
  * 22. An evaluation interrupted by exhausted free inference capacity
  */
 
-import type {
-	ReadableQualityEvaluationInput,
-	ReadableQualityEvaluationReport,
-	CriterionEvaluationStatus,
-	SeverityLevel,
-} from "../readable-publication-evaluation/schema.js";
+import type { ReadableQualityEvaluationInput } from "../readable-publication-evaluation/schema.js";
 import type {
 	CanonicalFactDossier,
 	CanonicalCandidate,
-	ConsolidatedClaim,
 } from "../fact-dossier/schema.js";
 import type {
 	EditorialSelectionManifest,

@@ -21,28 +21,21 @@ import { fileURLToPath } from "node:url";
 import type {
 	CanonicalFactDossier,
 	CanonicalCandidate,
-	ConsolidatedClaim,
-	EvidenceClassification,
 	VerificationLevel,
-	TemporalEligibilityStatus,
 } from "../fact-dossier/schema.js";
 import type {
 	EditorialSelectionManifest,
 	EditorialStory,
 	EditorialCandidateAssessment,
-	EditorialDecision,
-	EditorialDepth,
 } from "../editorial-selection/schema.js";
 import type {
 	HistoricalRegressionReport,
 	HistoricalRelationship,
 	HistoricalRelationshipClassification,
 } from "../historical-regression/schema.js";
-import type { ArticleIdentity } from "./schema.js";
 import {
 	createFreeLLMClient,
 	type LLMClientConfig,
-	type LLMResponse,
 } from "../free-llm-client.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -284,14 +277,7 @@ export async function generateListeningNarrativeMarkdown(
 		resumeFromCheckpoint?: string;
 	} = {},
 ): Promise<ListeningNarrativeGenerationResult> {
-	const {
-		editionDate,
-		editionWindow,
-		stories,
-		factDossier,
-		editorialManifest,
-		historicalRegression,
-	} = input;
+	const { editionDate, editionWindow, stories } = input;
 
 	// Handle validation-only mode: return mock result without calling LLM
 	if (options.validateOnly) {
@@ -1131,7 +1117,6 @@ function assembleMarkdown(
 	segments: NarrativeSegment[],
 ): string {
 	const dateFormatted = formatDutchDate(editionDate);
-	const windowStr = formatWindowListening(editionWindow);
 
 	const lines: string[] = [
 		`# AI Daily Intelligence — ${dateFormatted}`,

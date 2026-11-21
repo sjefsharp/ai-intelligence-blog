@@ -14,8 +14,6 @@ export * from "./store.js";
 export * from "./validate.js";
 export * from "./enrichment.js";
 
-import { buildDossier as buildDossierImpl } from "./consolidator.js";
-
 /**
  * Build the canonical fact dossier for an edition.
  * Entry point for workflow stage C03_BUILD_FACT_DOSSIER.
@@ -24,7 +22,6 @@ import { buildDossier as buildDossierImpl } from "./consolidator.js";
 export async function buildDossier(input: any): Promise<any> {
 	// Extract parameters from workflow engine input format
 	const editionDate = input.editionDate;
-	const editionContext = input.editionContext;
 	const candidates =
 		input.candidates || input["candidates"] || input.items || [];
 

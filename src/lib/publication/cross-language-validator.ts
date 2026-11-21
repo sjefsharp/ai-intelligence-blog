@@ -10,15 +10,9 @@
 import { createHash } from "node:crypto";
 import type {
 	CanonicalFactDossier,
-	CanonicalCandidate,
 	ConsolidatedClaim,
 } from "../fact-dossier/schema.js";
-import type {
-	EditorialSelectionManifest,
-	EditorialStory,
-	EditorialCandidateAssessment,
-} from "../editorial-selection/schema.js";
-import type { ArticleIdentity } from "./schema.js";
+import type { EditorialSelectionManifest } from "../editorial-selection/schema.js";
 
 /**
  * Cross-language claim mapping entry
@@ -180,16 +174,12 @@ export async function validateCrossLanguageConsistency(
 	const {
 		dutchNewsletterMarkdown,
 		dutchNewsletterArtifactId,
-		dutchNewsletterTraceability,
 		dutchListeningMarkdown,
 		dutchListeningArtifactId,
-		dutchListeningTraceability,
 		englishArticleMarkdown,
 		englishArticleArtifactId,
-		englishArticleTraceability,
 		englishListeningMarkdown,
 		englishListeningArtifactId,
-		englishListeningTraceability,
 	} = options;
 
 	// Get selected stories from editorial manifest
@@ -822,12 +812,6 @@ function checkCertaintyConsistency(
 	}
 
 	// Check for stronger certainty in English than Dutch (which would be a problem)
-	const reps = [
-		"dutch-newsletter",
-		"dutch-listening",
-		"english-article",
-		"english-listening",
-	];
 	for (const dutchRep of ["dutch-newsletter", "dutch-listening"]) {
 		for (const englishRep of ["english-article", "english-listening"]) {
 			const dutchTerms = certaintyByRep.get(dutchRep) ?? new Set();

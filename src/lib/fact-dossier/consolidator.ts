@@ -741,7 +741,7 @@ function buildSourceAccessibility(
 	input: CandidateConsolidationInput,
 	context: ConsolidationContext,
 ): SourceAccessibilityRecord[] {
-	const { candidate, discovery } = input;
+	const { discovery } = input;
 	return resolveSourceIds(input).map((sourceId) => {
 		const override = input.accessibilityOverrides?.find(
 			(o) => o.sourceId === sourceId,

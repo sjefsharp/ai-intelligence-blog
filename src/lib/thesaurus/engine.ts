@@ -12,34 +12,17 @@ import type {
 	TerminologyChangeProposal,
 	TerminologyLifecycleStatus,
 	TerminologyChangeType,
-	TerminologyRelationshipType,
-	EvidenceClassification,
-	VerificationStatus,
 	LanguageCode,
 	BilingualString,
 	LanguageAliases,
-	LanguageForbidden,
-	AuthoritativeSourceReference,
-	TerminologyRelationship,
-	TerminologyRevision,
-	ResearchDomainMembership,
 	Acronym,
-	HistoricalObservation,
 } from "./schema.js";
 import {
 	TerminologyEntrySchema,
 	ThesaurusArtifactSchema,
-	TerminologyChangeProposalSchema,
-	THESAURUS_SCHEMA_VERSION,
 	THESAURUS_ENTRY_ID_PREFIX,
 	ID_PATTERNS,
-	TerminologyLifecycleStatusSchema,
 	TerminologyChangeTypeSchema,
-	TerminologyRelationshipTypeSchema,
-	EvidenceClassificationSchema,
-	VerificationStatusSchema,
-	LanguageCodeSchema,
-	SourceTierSchema,
 	generateTerminologyEntryJsonSchema,
 	generateThesaurusArtifactJsonSchema,
 	generateTerminologyChangeProposalJsonSchema,
@@ -48,13 +31,9 @@ import {
 	loadThesaurusArtifact,
 	saveThesaurusArtifact,
 	createThesaurusArtifact,
-	loadChangeProposals,
 	saveChangeProposal,
-	createChangeProposal,
 	writeThesaurusMarkdown,
-	computeThesaurusStats,
 } from "./store.js";
-import { z } from "astro/zod";
 
 // ============================================================================
 // Type Definitions for Engine Operations
@@ -1271,7 +1250,7 @@ export function searchTerminologyEntries(
 	} = {},
 ): TerminologyEntry[] {
 	const normalizedQuery = normalizeTerm(query);
-	const { language, includeDeprecated = false, lifecycleStatus } = options;
+	const { includeDeprecated = false, lifecycleStatus } = options;
 
 	return entries.filter((entry) => {
 		if (

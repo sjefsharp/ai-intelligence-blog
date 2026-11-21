@@ -13,7 +13,7 @@
  * - Markdown generation
  */
 
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
 	TerminologyEntrySchema,
 	ThesaurusArtifactSchema,
@@ -22,8 +22,6 @@ import {
 	TerminologyLifecycleStatusSchema,
 	TerminologyChangeTypeSchema,
 	TerminologyRelationshipTypeSchema,
-	EvidenceClassificationSchema,
-	VerificationStatusSchema,
 	LanguageCodeSchema,
 	generateTerminologyEntryJsonSchema,
 	generateThesaurusArtifactJsonSchema,

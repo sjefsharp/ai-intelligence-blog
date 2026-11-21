@@ -313,7 +313,7 @@ describe("Research Taxonomy v2.0 — Structure Validation", () => {
 
 		it("map values reference valid domain IDs", () => {
 			const validDomainIds = new Set(taxonomy.domains.map((d) => d.id));
-			for (const [family, domains] of Object.entries(
+			for (const [, domains] of Object.entries(
 				taxonomy.source_family_domain_map,
 			)) {
 				for (const domain of domains as string[]) {

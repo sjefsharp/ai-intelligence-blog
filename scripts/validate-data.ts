@@ -5,7 +5,7 @@
  */
 
 import { readFileSync, readdirSync, existsSync } from "fs";
-import { join, extname } from "path";
+import { join } from "path";
 import { fileURLToPath } from "url";
 import Ajv from "ajv";
 import { parse } from "yaml";

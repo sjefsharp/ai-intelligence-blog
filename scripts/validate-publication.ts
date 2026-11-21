@@ -11,16 +11,11 @@
  */
 
 import { parseArgs } from "node:util";
-import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import {
 	validatePublicationMetadata,
 	validateDailyIndex,
-	validateArticleIdentity,
 	validateEditionIdentity,
-	validateCanonicalReferences,
-	computeContentHash,
-	computeObjectHash,
 } from "../src/lib/publication/metadata.js";
 import {
 	readPublicationMetadata,
@@ -29,25 +24,7 @@ import {
 	checkCanonicalArtifactsExist,
 	listEditionDirectories,
 } from "../src/lib/publication/store.js";
-import {
-	EditionIdentitySchema,
-	CanonicalReferencesSchema,
-	ArticleIdentitySchema,
-	PublicationPackageSchema,
-	PublicationMetadataSchema,
-	DailyIndexSchema,
-	CANONICAL_ARTIFACT_FILENAMES,
-	type EditionIdentity,
-	type CanonicalReferences,
-	type ArticleIdentity,
-	type PublicationPackage,
-	type PublicationMetadata,
-	type DailyIndex,
-} from "../src/lib/publication/schema.js";
-import {
-	getEditionDir,
-	getAllCanonicalPaths,
-} from "../src/lib/publication/paths.js";
+import { getEditionDir } from "../src/lib/publication/paths.js";
 
 interface ValidationResult {
 	check: string;
@@ -267,7 +244,6 @@ async function validateEdition(
 		const dailyIndex = await readDailyIndexMetadata(editionDate);
 		for (const pub of dailyIndex.canonicalPublications) {
 			// Check that the relative path resolves correctly
-			const fullPath = join(getEditionDir(editionDate), pub.relativePath);
 			// We already verified existence above, so this is a structural check
 			if (
 				!pub.relativePath.startsWith("canonical/") &&

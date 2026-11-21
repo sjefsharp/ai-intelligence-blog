@@ -29,31 +29,7 @@
  * 22. An evaluation interrupted by exhausted free inference capacity
  */
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import type {
-	ReadableQualityEvaluationInput,
-	ReadableQualityEvaluationReport,
-	CriterionEvaluationStatus,
-	SeverityLevel,
-	ReadableCriterionId,
-} from "../readable-publication-evaluation/schema.js";
-import type { ReadableCriterionEvaluation } from "../readable-publication-evaluation/schema.js";
-import type {
-	CanonicalFactDossier,
-	CanonicalCandidate,
-	ConsolidatedClaim,
-} from "../fact-dossier/schema.js";
-import type {
-	EditorialSelectionManifest,
-	EditorialStory,
-	EditorialCandidateAssessment,
-} from "../editorial-selection/schema.js";
-import type { HistoricalRegressionReport } from "../historical-regression/schema.js";
-import type {
-	PublicationMetadata,
-	ArticleIdentity,
-} from "../publication/schema.js";
-import type { VisualizationSpecification } from "../visualization/schema.js";
+import { describe, it, expect, vi } from "vitest";
 
 import {
 	allDutchFixtures,
@@ -62,29 +38,16 @@ import {
 	createInputForFixture1,
 	createInputForFixture17,
 	createInputForFixture19,
-	fixture1_excellentFirstScreen,
 	fixture2_genericOpening,
-	fixture3_technicalBeforeContext,
 	fixture4_progressiveDisclosure,
-	fixture5_superficialScience,
-	fixture6_accessibleTechnical,
 	fixture7_excessiveAcronyms,
-	fixture8_gartnerWithoutLimitations,
-	fixture9_forecastAsFact,
-	fixture10_vendorBenchmarkAsVerified,
 	fixture11_missingSourceLink,
-	fixture12_omittedDevelopment,
 	fixture13_unsupportedCausal,
 	fixture14_misleadingDiagram,
 	fixture15_inaccessibleTable,
 	fixture16_poorHeadingHierarchy,
-	fixture17_contradictoryNumbers,
 	fixture17_contradictoryNumbers_en,
 	fixture18_quietEdition,
-	fixture19_multipleMajorDevelopments,
-	fixture20_repairRegression,
-	fixture21_semanticNotDeterministic,
-	fixture22_inferenceExhausted,
 } from "./fixtures.js";
 
 // Mock the LLM client

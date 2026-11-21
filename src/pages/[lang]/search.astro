@@ -5,7 +5,7 @@ import BaseHead from "../../components/BaseHead.astro";
 import Footer from "../../components/Footer.astro";
 import Masthead from "../../components/Masthead.astro";
 import CookieConsent from "../../components/CookieConsent.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import { SITE_TITLE } from "../../consts";
 import { getTranslation, type Locale } from "../../i18n";
 
 import { withBase } from "../../i18n";
@@ -312,8 +312,6 @@ const searchIndexJson = createSearchIndexFile(posts);
 					const results = index
 						.map((post) => {
 							let score = 0;
-							const searchable =
-								`${post.title} ${post.description} ${post.content} ${post.tags.join(" ")}`.toLowerCase();
 
 							for (const term of terms) {
 								if (post.title.toLowerCase().includes(term))

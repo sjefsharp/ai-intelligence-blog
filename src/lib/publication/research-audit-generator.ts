@@ -8,9 +8,7 @@
  * to editorial decisions, enabling independent verification.
  */
 
-import { readFileSync, readdirSync } from "fs";
-import { join } from "path";
-import { randomBytes, createHash } from "crypto";
+import { readdirSync } from "fs";
 import {
 	type CanonicalReferences,
 	type PublicationMetadata,
@@ -19,7 +17,6 @@ import type { CanonicalFactDossier } from "../fact-dossier/schema.js";
 import type { EditorialSelectionManifest } from "../editorial-selection/schema.js";
 import type { HistoricalRegressionReport } from "../historical-regression/schema.js";
 import {
-	generateArtifactId,
 	createCanonicalPublicationMetadata,
 	computeContentHash,
 } from "./metadata.js";
@@ -48,17 +45,6 @@ export interface ResearchAuditGenerationResult {
 function formatDateNL(dateStr: string): string {
 	const date = new Date(`${dateStr}T00:00:00`);
 	return date.toLocaleDateString("nl-NL", {
-		weekday: "long",
-		year: "numeric",
-		month: "long",
-		day: "numeric",
-		timeZone: "Europe/Amsterdam",
-	});
-}
-
-function formatDateEN(dateStr: string): string {
-	const date = new Date(`${dateStr}T00:00:00`);
-	return date.toLocaleDateString("en-US", {
 		weekday: "long",
 		year: "numeric",
 		month: "long",
@@ -365,8 +351,6 @@ export async function generateResearchAuditMarkdown(
 		factDossier,
 		editorialManifest,
 		historicalRegression,
-		dataDir = "data",
-		now = new Date().toISOString(),
 		generatedBy = "research-audit-generator",
 	} = input;
 

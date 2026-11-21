@@ -8,20 +8,8 @@
 
 import {
 	type BookDeltaProposal,
-	type BookDeltaArtifact,
 	type BookDeltaEvaluationResult,
 	type BookDeltaKnowledgeContinuityResult,
-	type BookDeltaCategory,
-	type BookDeltaLifecycle,
-	type EvidenceClassification,
-	type VerificationStatus,
-	type VerificationLevel,
-	type TargetAudience,
-	type KnowledgeDomain,
-	type EducationalValue,
-	type MaterialUncertainty,
-	type TargetDocumentAccess,
-	type UniquenessStatus,
 	type BilingualString,
 	type AuthoritativeSourceReference,
 	type ResearchDateRange,
@@ -34,17 +22,9 @@ import {
 	type DurabilityAssessment,
 	type MethodologicalCaveats,
 	BOOK_DELTA_SCHEMA_VERSION,
-	BOOK_DELTA_ID_PATTERNS,
-	BookDeltaProposalSchema,
-	BookDeltaArtifactSchema,
-	BookDeltaEvaluationResultSchema,
-	BookDeltaKnowledgeContinuityResultSchema,
 } from "./schema.js";
 import {
-	computeObjectHash,
-	canonicalStringify,
 	validateBookDeltaProposal,
-	validateBookDeltaArtifact,
 	validateBookDeltaEvaluationResult,
 	validateBookDeltaKnowledgeContinuityResult,
 } from "./validate.js";

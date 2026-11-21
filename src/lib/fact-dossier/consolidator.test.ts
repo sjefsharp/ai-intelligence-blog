@@ -45,7 +45,6 @@ import {
 } from "./canonical.js";
 import { enrichDossier, type EnrichmentProvider } from "./enrichment.js";
 import {
-	CanonicalFactDossierSchema,
 	FACT_DOSSIER_SCHEMA_VERSION,
 	ID_PATTERNS,
 	type CanonicalFactDossier,
@@ -58,7 +57,6 @@ import {
 	createMockClaim,
 	createMockDiscovery,
 	createMockEvidence,
-	createSourceRegistry,
 	type RepresentativeFixture,
 } from "./fixtures.js";
 

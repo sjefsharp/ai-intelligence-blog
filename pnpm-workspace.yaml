@@ -12,3 +12,9 @@ overrides:
   # Astro's language server uses the astro2tsx WASM bridge. 0.1.3 resolved a
   # beta @emnapi/runtime that crashes on Node 26; 0.1.4 pins the stable runtime.
   "@astrojs/astro2tsx": 0.1.4
+  # jsonlint is abandoned and pulls the deprecated nomnom -> underscore@1.6.0.
+  # Dependabot reports CVE-2021-23337 (arbitrary code execution) for
+  # underscore < 1.12.1; pin a patched release.
+  underscore: ^1.13.8
+  katex: ^0.18.2
+  minimatch: ^11.0.1

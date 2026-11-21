@@ -2,8 +2,9 @@ import { Temporal } from "@js-temporal/polyfill";
 import { randomBytes } from "node:crypto";
 import { hostname } from "node:os";
 import { promises as fs } from "node:fs";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { setTimeout } from "node:timers/promises";
+import { z } from "astro/zod";
 import {
 	WorkflowLockSchema,
 	type WorkflowLock,
@@ -20,6 +21,14 @@ const PersistedEditionLockSchema = WorkflowLockSchema.extend({
 	releasedBy: WorkflowLockSchema.shape.acquiredBy.shape.user.optional(),
 });
 
+// Older H05 wrote this record when it had no readable owner artifact.
+const LegacyEditionReleaseSchema = z.strictObject({
+	editionId: WorkflowLockSchema.shape.editionId,
+	state: z.literal("FREE"),
+	releasedAt: z.iso.datetime(),
+	releasedBy: z.literal("lock-releaser"),
+});
+
 export function editionLockPath(editionId: string): string {
 	if (!WORKFLOW_ID_PATTERNS.edition.test(editionId))
 		throw new Error("Invalid edition lock ID");
@@ -30,13 +39,22 @@ function hasCode(error: unknown, code: string): boolean {
 	return error instanceof Error && "code" in error && error.code === code;
 }
 
+/** Read the owner record, if any. A matching legacy release has no owner. */
 export async function readEditionLock(
 	path: string,
 ): Promise<WorkflowLock | null> {
 	try {
-		return PersistedEditionLockSchema.parse(
-			JSON.parse(await fs.readFile(path, "utf8")),
-		);
+		const record: unknown = JSON.parse(await fs.readFile(path, "utf8"));
+		const lock = PersistedEditionLockSchema.safeParse(record);
+		if (lock.success) return lock.data;
+		const release = LegacyEditionReleaseSchema.safeParse(record);
+		if (!release.success) throw lock.error;
+		if (
+			basename(path) !== basename(editionLockPath(release.data.editionId))
+		) {
+			throw new Error("Legacy release belongs to another edition");
+		}
+		return null;
 	} catch (error) {
 		if (hasCode(error, "ENOENT")) return null;
 		throw new Error(`Cannot read edition lock ${path}`, { cause: error });

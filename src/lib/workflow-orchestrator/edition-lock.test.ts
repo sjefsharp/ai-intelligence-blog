@@ -30,6 +30,41 @@ afterEach(() => {
 });
 
 describe("edition lock ownership", () => {
+	const legacyRelease = {
+		editionId,
+		state: "FREE",
+		releasedAt: "2026-11-20T08:00:00.000Z",
+		releasedBy: "lock-releaser",
+	};
+
+	it("claims an edition after H05 wrote only the legacy release record", async () => {
+		const path = editionLockPath(editionId);
+		mkdirSync(join("data", "locks"), { recursive: true });
+		writeFileSync(path, JSON.stringify(legacyRelease));
+
+		const owner = await claimEditionLock(editionId, false);
+
+		expect(owner).toMatchObject({ editionId, state: "HELD" });
+		expect(JSON.parse(readFileSync(path, "utf8"))).toEqual(owner);
+	});
+
+	it.each([
+		["another edition", { editionId: "edition_2026-11-21" }],
+		["a partial held lock", { state: "HELD" }],
+		["an unknown field", { unexpected: true }],
+		["a malformed release time", { releasedAt: "not a timestamp" }],
+	])("does not overwrite a legacy record with %s", async (_, fields) => {
+		const path = editionLockPath(editionId);
+		mkdirSync(join("data", "locks"), { recursive: true });
+		const original = JSON.stringify({ ...legacyRelease, ...fields });
+		writeFileSync(path, original);
+
+		await expect(claimEditionLock(editionId, true)).rejects.toThrow(
+			"Cannot read edition lock",
+		);
+		expect(readFileSync(path, "utf8")).toBe(original);
+	});
+
 	it("acquires after a legacy stage H05 release", async () => {
 		const owner = await claimEditionLock(editionId, false);
 		writeFileSync(

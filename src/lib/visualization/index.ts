@@ -155,7 +155,7 @@ export async function generateVisualizations(input: any): Promise<any> {
 		for (const opportunity of opportunities) {
 			try {
 				let svg = "";
-				let type = "diagram";
+				let type: string;
 
 				// Generate artifactId early for spec creation
 				const artifactId = `vis_${editionDate}_${story.candidateId || story.id}_${opportunity.type || "diagram"}`;

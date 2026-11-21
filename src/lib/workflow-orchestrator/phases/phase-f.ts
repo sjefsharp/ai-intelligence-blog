@@ -98,23 +98,6 @@ export async function executeBoundedRepairs(input: PhaseFInput): Promise<any> {
 	const q1q10Report = loadReport(input["q1q10-evaluation"]);
 	const audioAgReport = loadReport(input["audio-ag-evaluation"]);
 	const readableReport = loadReport(input["readable-quality-evaluation"]);
-	const factDossierArtifact = input["canonical-fact-dossier"];
-	const editorialManifestArtifact = input["resolved-editorial-manifest"];
-
-	// Load fact dossier and editorial manifest
-	let factDossier = loadReport(factDossierArtifact);
-	let editorialManifest = loadReport(editorialManifestArtifact);
-
-	if (!factDossier) {
-		factDossier = {
-			candidates: [],
-			editionDate,
-			editionWindow: { start: "", end: "", timezone: "Europe/Amsterdam" },
-		};
-	}
-	if (!editorialManifest) {
-		editorialManifest = { stories: [], candidates: [], editionDate };
-	}
 
 	// Identify failed criteria from evaluation reports
 	const failedCriteria: Array<{

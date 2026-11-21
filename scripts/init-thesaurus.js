@@ -14,10 +14,6 @@ function generateId(prefix) {
 	return `${prefix}_${random}`;
 }
 
-function computeContentHash(content) {
-	return `sha256:${crypto.createHash("sha256").update(content, "utf8").digest("hex")}`;
-}
-
 function computeObjectHash(obj) {
 	const json = JSON.stringify(obj, Object.keys(obj).sort());
 	return `sha256:${crypto.createHash("sha256").update(json, "utf8").digest("hex")}`;
@@ -440,7 +436,6 @@ async function main() {
 
 	const artifactId = generateId("thesart");
 	const now = new Date().toISOString();
-	const stats = computeThesaurusStats(seedTerms);
 
 	const artifact = {
 		artifactId,

@@ -39,7 +39,9 @@ export async function executeHistoricalRegression(input: any): Promise<any> {
 		factDossierArtifact,
 	);
 
-	let canonicalDossier = factDossierArtifact;
+	// The stage input is untyped at its boundary and the fallbacks below are
+	// partial, so this local stays `any` rather than being given a narrower type.
+	let canonicalDossier: any;
 	// If artifact is a path string, load the dossier from file
 	if (typeof factDossierArtifact === "string") {
 		// Substitute edition template if present

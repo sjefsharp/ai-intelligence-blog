@@ -1636,7 +1636,7 @@ async function main() {
 
 	// Validate inputs
 	editionIdentity = EditionIdentitySchema.parse(editionIdentity);
-	canonicalReferences = CanonicalReferencesSchema.parse(canonicalReferences);
+	CanonicalReferencesSchema.parse(canonicalReferences);
 
 	// Prepare evaluation input
 	const evaluationInput = {

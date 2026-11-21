@@ -482,7 +482,7 @@ function evaluateFactualIntegrity(
 ): QualityEvaluationResult {
 	const findings: string[] = [];
 	const traceableTo: string[] = [];
-	let score = 1.0;
+	let score: number;
 
 	// Check all claims have evidence links
 	const data = spec.data.data as any;

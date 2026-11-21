@@ -625,10 +625,20 @@ When an agent works in this repo:
 
 ---
 
-## 12. Change Log
+## 12. Content language quality — Humanizer
+
+**Mandatory:** use the `humanizer` skill relentlessly for all reader-facing content — articles, daily editions, essays, UI copy, documentation, README, and human-directed commit messages. Apply it to model-generated text and to pre-existing prose alike.
+
+- Run the full pass: mark the tells, draft, verify that no fact, name, number, date, quote or claim was dropped or changed, then finalise.
+- Do **not** apply it to code, identifiers, schemas, configuration, commands, paths, YAML frontmatter, or other machine-facing text.
+- Preserve the writer's voice and every supported claim; humanizing must never remove or invent evidence.
+- Report a partial pass as partial.
+
+## 13. Change Log
 
 | Date       | Change                                                                                                                                                                                                                                                                                      | Author |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 2026-11-21 | Added §12 "Content language quality — Humanizer": the `humanizer` skill must be used relentlessly for reader-facing content (code excluded); installed upstream `blader/humanizer` v4.0.0 and resolved the duplicate-skill collision                                                        | Agent  |
 | 2026-11-20 | Added explicit git protection rules to §5.1 and §5.8: never commit to main locally/remote, never merge to main without PR; GitHub ruleset enforces PR + required status checks + 1 approval + squash merge                                                                                  | Agent  |
 | 2026-11-08 | Initial AGENTS.md created from repo inspection                                                                                                                                                                                                                                              | Agent  |
 | 2026-11-11 | Added the Seven-Day Historical Regression stage (`src/lib/historical-regression/`, `scripts/run-historical-regression.ts`, `data/schemas/historical-regression.json`, `docs/historical-regression.md`) between Omission Review and Editorial Selection; see `docs/historical-regression.md` | Agent  |

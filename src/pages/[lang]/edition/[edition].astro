@@ -166,7 +166,7 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 						{formatEditionWindow(edition.editionIdentity, locale)}
 					</span>
 					{!isPublic && (
-						<span style="background: var(--valley-light); color: var(--valley); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+						<span style="background: var(--valley-light); color: var(--gold); padding: 2px 8px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
 							{editionStatus}
 						</span>
 					)}
@@ -484,63 +484,80 @@ const isPublic = editionStatus === "VALIDATED" || editionStatus === "PUBLISHED";
 							{editionStatus}
 						</dd>
 
-						<dt>Fact Dossier</dt>
-						<dd style="margin: 0; font-family: var(--font-structural);">
-							{edition.canonicalReferences.factDossier.dossierId}{" "}
-							(
-							{edition.canonicalReferences.factDossier.contentHash.slice(
-								0,
-								16,
-							)}
-							…)
-						</dd>
-
-						<dt>Editoriële Selectie</dt>
-						<dd style="margin: 0; font-family: var(--font-structural);">
-							{
-								edition.canonicalReferences.editorialSelection
-									.manifestId
-							}{" "}
-							(
-							{edition.canonicalReferences.editorialSelection.contentHash.slice(
-								0,
-								16,
-							)}
-							…)
-						</dd>
-
-						{edition.canonicalReferences.historicalRegression
-							.referenced && (
+						{edition.canonicalReferences && (
 							<>
-								<dt>Historische Regressie</dt>
+								<dt>Fact Dossier</dt>
 								<dd style="margin: 0; font-family: var(--font-structural);">
 									{
-										edition.canonicalReferences
-											.historicalRegression.reportId
+										edition.canonicalReferences.factDossier
+											.dossierId
 									}{" "}
 									(
-									{edition.canonicalReferences.historicalRegression.contentHash.slice(
+									{edition.canonicalReferences.factDossier.contentHash.slice(
 										0,
 										16,
 									)}
 									…)
 								</dd>
-							</>
-						)}
 
-						{edition.canonicalReferences.omissionReview
-							.referenced && (
-							<>
-								<dt>Omissie Review</dt>
+								<dt>Editoriële Selectie</dt>
 								<dd style="margin: 0; font-family: var(--font-structural);">
 									{
 										edition.canonicalReferences
-											.omissionReview.reportId
-									}
+											.editorialSelection.manifestId
+									}{" "}
+									(
+									{edition.canonicalReferences.editorialSelection.contentHash.slice(
+										0,
+										16,
+									)}
+									…)
+								</dd>
+
+								{edition.canonicalReferences
+									.historicalRegression.referenced && (
+									<>
+										<dt>Historische Regressie</dt>
+										<dd style="margin: 0; font-family: var(--font-structural);">
+											{
+												edition.canonicalReferences
+													.historicalRegression
+													.reportId
+											}{" "}
+											(
+											{edition.canonicalReferences.historicalRegression.contentHash.slice(
+												0,
+												16,
+											)}
+											…)
+										</dd>
+									</>
+								)}
+
+								{edition.canonicalReferences.omissionReview
+									.referenced && (
+									<>
+										<dt>Omissie Review</dt>
+										<dd style="margin: 0; font-family: var(--font-structural);">
+											{
+												edition.canonicalReferences
+													.omissionReview.reportId
+											}
+										</dd>
+									</>
+								)}
+							</>
+						)}
+						{!edition.canonicalReferences && (
+							<>
+								<dt>Publicatiepakket</dt>
+								<dd style="margin: 0;">
+									Niet beschikbaar voor deze editie; de
+									canonieke referenties kunnen niet worden
+									getoond.
 								</dd>
 							</>
 						)}
-
 						<dt>Canonieke publicaties</dt>
 						<dd style="margin: 0;">
 							3 (newsletter, research-audit, listening-narrative)

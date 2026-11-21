@@ -21,6 +21,8 @@ test.describe("Visual Regression - Production", () => {
 		{ path: "/nl/topics/", name: "nl-topics" },
 		{ path: "/en/editions/", name: "en-editions" },
 		{ path: "/nl/editions/", name: "nl-editions" },
+		{ path: "/en/edition/2026-11-17/", name: "en-edition-detail" },
+		{ path: "/nl/edition/2026-11-17/", name: "nl-edition-detail" },
 	];
 
 	for (const route of testRoutes) {

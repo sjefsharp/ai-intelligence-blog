@@ -16,6 +16,10 @@ const testRoutes = [
 	{ path: "/nl/search/", name: "Dutch Search Page" },
 	{ path: "/en/topics/", name: "English Topics Page" },
 	{ path: "/nl/topics/", name: "Dutch Topics Page" },
+	{ path: "/en/editions/", name: "English Editions" },
+	{ path: "/nl/editions/", name: "Dutch Editions" },
+	{ path: "/en/edition/2026-11-17/", name: "English Edition Detail" },
+	{ path: "/nl/edition/2026-11-17/", name: "Dutch Edition Detail" },
 ];
 
 test.describe("WCAG 2.2 AA Automated Accessibility Tests (axe-core)", () => {

@@ -111,8 +111,9 @@ const { locale, t, articleSelector = ".article-content" } = Astro.props;
 	></progress>
 </div>
 
-<script is:inline>
-	// ReadAloud component logic — inline so Astro variables (locale, t, articleSelector) are available
+<script define:vars={{ locale, t, articleSelector }}>
+	// ReadAloud component logic — define:vars serialises the Astro props the
+	// script reads (locale, t, articleSelector) into the emitted script.
 	(() => {
 		// Configuration - use Astro-injected values
 		const STORAGE_KEY = "read-aloud-preferences";

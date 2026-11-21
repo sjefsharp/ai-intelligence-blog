@@ -61,9 +61,9 @@ interface AgentBounding {
 Use pipes for alignment. Header row required. Right-align numeric columns:
 
 | Criterion    | Weight | Schema | Sandbox | Tokens |
-| :----------- | -----: | :----: | :-----: | :----: |
-| Traceability |   0.30 | ★★★★★  |  ★★☆☆☆  | ★★★★☆  |
-| Cost Control |   0.25 | ★★★☆☆  |  ★★★★☆  | ★★★★★  |
+| :----------- | -----: | -----: | ------: | -----: |
+| Traceability |   0.30 |    5/5 |     2/5 |    4/5 |
+| Cost Control |   0.25 |    3/5 |     4/5 |    5/5 |
 
 ## Callouts (Admonitions)
 

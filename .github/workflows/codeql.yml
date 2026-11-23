@@ -37,7 +37,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@3ea37a44b6e4e6847c46edae209410d258d548d1 # main (2025-11-15)
+        uses: github/codeql-action/init@38112626f97ac1fd7acf3df7ebca51f4677c1b38 # main (2025-11-15)
         with:
           languages: ${{ matrix.language }}
           queries: +security-and-quality

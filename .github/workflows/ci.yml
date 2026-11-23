@@ -323,7 +323,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Validate branch name (Conventional Branch spec)
-        uses: commit-check/commit-check-action@d68e05baf9511853193e2749f8a64bf2a221619a # v2.22.0
+        uses: commit-check/commit-check-action@3d46238970102271c989e85c58f22748a923384c # v2.24.1
         with:
           branch: true
           message: false

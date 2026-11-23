@@ -61,7 +61,7 @@
     "@eslint/js": "^10.0.1",
     "@gitmoji/commit-types": "^1.1.5",
     "@gitmoji/parser-opts": "^1.4.0",
-    "@playwright/test": "^1.65.0",
+    "@playwright/test": "^1.65.1",
     "@vitest/coverage-v8": "^5.1.1",
     "ajv": "^8.20.0",
     "astro-eslint-parser": "^3.2.0",
@@ -78,7 +78,7 @@
     "supabase": "^3.1.0",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3",
-    "vitest": "^5.1.0",
+    "vitest": "^5.1.1",
     "yaml": "^2.9.1"
   }
 }

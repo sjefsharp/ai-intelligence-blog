@@ -13,6 +13,10 @@
  */
 
 import { Temporal } from "@js-temporal/polyfill";
+import {
+	editionLockPath,
+	readEditionLock,
+} from "./workflow-orchestrator/edition-lock.js";
 
 /** IANA timezone identifier for Amsterdam (handles DST automatically) */
 export const EDITORIAL_TIMEZONE = "Europe/Amsterdam";
@@ -483,78 +487,28 @@ export async function initExecutionManifest(input: {
 	};
 }
 
-/**
- * Acquire edition execution lock.
- * Entry point for workflow stage A05_ACQUIRE_LOCK.
- */
+/** Return the lock already acquired by the workflow engine (A05). */
 export async function acquireLock(input: {
 	editionDate: string;
-	editionContext?: any;
-	cliOptions?: any;
-	llmClient?: any;
-}): Promise<{
-	"workflow-lock": any;
-}> {
-	const { writeFileSync, mkdirSync, readFileSync, existsSync } =
-		await import("fs");
-	const { join } = await import("path");
-	const crypto = await import("crypto");
-	const os = await import("os");
-
-	const editionDate = input.editionDate;
+	ownedLockId?: string;
+}) {
+	const editionDate = getEditorialWindow(input.editionDate).editionDate;
 	const editionId = `edition_${editionDate}`;
-	const lockDir = join(process.cwd(), "data", "locks");
-	mkdirSync(lockDir, { recursive: true });
-	const lockPath = join(lockDir, `${editionId}.lock`);
-
-	// Check existing lock
-	if (existsSync(lockPath)) {
-		try {
-			const existingContent = readFileSync(lockPath, "utf-8");
-			const existingLock = JSON.parse(existingContent);
-			if (existingLock.state === "HELD") {
-				// Check if it's held by the same process (engine already acquired it)
-				if (existingLock.acquiredBy?.processId === process.pid) {
-					// Same process - lock already acquired by engine, return it
-					return {
-						"workflow-lock": existingLock,
-					};
-				}
-				throw new Error(
-					`CONCURRENT_EXECUTION: Edition ${editionId} already locked`,
-				);
-			}
-		} catch (e) {
-			if ((e as Error).message.includes("CONCURRENT_EXECUTION")) {
-				throw e;
-			}
-			// Stale or corrupted lock, proceed
-		}
+	const path = editionLockPath(editionId);
+	const lock = await readEditionLock(path);
+	if (
+		lock?.state !== "HELD" ||
+		lock.editionId !== editionId ||
+		lock.lockId !== input.ownedLockId
+	) {
+		throw new Error(
+			`CONCURRENT_EXECUTION: This run does not own the lock for ${editionId}`,
+		);
 	}
-
-	const workflowRunId = `wfr_${crypto.randomBytes(8).toString("hex")}`;
-	const acquiredAt = new Date().toISOString();
-	const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-
-	const lock = {
-		lockId: `lock_${crypto.randomBytes(8).toString("hex")}`,
-		editionId,
-		workflowRunId,
-		state: "HELD",
-		acquiredAt,
-		acquiredBy: {
-			processId: process.pid,
-			hostname: os.hostname(),
-			user: process.env.USER || "unknown",
-		},
-		expiresAt,
-		lastHeartbeat: acquiredAt,
-		forceReleased: false,
-	};
-
-	writeFileSync(lockPath, JSON.stringify(lock, null, 2), "utf-8");
-
 	return {
 		"workflow-lock": lock,
+		outputArtifacts: [
+			{ artifactId: "workflow-lock", path, required: true },
+		],
 	};
 }

@@ -228,6 +228,18 @@ pnpm exec tsx scripts/validate-scheduler.ts
 - Stale lock detection and recovery
 - `CONFLICT` state prevents duplicate execution
 
+If a run reports `Edition lock update is busy` and does not recover, a crashed
+process may have left `data/locks/edition_<date>.lock.update` behind. The guard
+is separate from the edition lock. Even `--force-resume` will not take over a
+guard while it exists.
+
+1. Pause launchers using this checkout and confirm no process is running an
+   edition or updating its lock. Do not use the guard's age alone as proof.
+2. Move the abandoned `.lock.update` directory aside for inspection. Leave
+   the `.lock` record in place. Do not promote the guard's temporary JSON.
+3. Resume using the existing workflow CLI. A `HELD` lock is still subject to
+   the usual heartbeat timeout or the operator's explicit `--force-resume`.
+
 ### 8.2 Missed Run Policy
 
 | Policy                | Setting                              |

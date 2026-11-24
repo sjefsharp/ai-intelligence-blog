@@ -354,16 +354,19 @@ export class WorkflowOrchestrator {
 						f.startsWith(`${editionId}_${runId.slice(0, 8)}`),
 					) || null;
 			} else {
-				// Find latest for this edition
-				const editionFiles = files
-					.filter(
-						(f) =>
-							f.startsWith(`${editionId}_`) &&
-							f.endsWith(".json"),
-					)
-					.sort()
-					.reverse();
-				targetFile = editionFiles[0] || null;
+				// Preserve the locale-independent order of persisted identifiers.
+				targetFile =
+					files
+						.filter(
+							(f) =>
+								f.startsWith(`${editionId}_`) &&
+								f.endsWith(".json"),
+						)
+						.reduce(
+							(last, filename) =>
+								filename > last ? filename : last,
+							"",
+						) || null;
 			}
 
 			if (!targetFile) return null;

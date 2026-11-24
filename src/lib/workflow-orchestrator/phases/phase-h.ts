@@ -120,15 +120,16 @@ export async function aggregateEvidence(input: PhaseHInput): Promise<any> {
 		pattern: string,
 	): string | null => {
 		try {
-			const files = readdirSync(dir)
+			const filename = readdirSync(dir)
 				.filter(
 					(f: string) =>
 						f.startsWith(`${editionDate}_`) && f.endsWith(".json"),
 				)
-				.sort();
-			if (files.length > 0) {
-				return join(dir, files[files.length - 1]);
-			}
+				.reduce(
+					(last, filename) => (filename > last ? filename : last),
+					"",
+				);
+			if (filename) return join(dir, filename);
 		} catch {}
 		return null;
 	};
